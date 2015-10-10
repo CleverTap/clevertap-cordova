@@ -1,0 +1,1 @@
+CleverTap Cordova Plugin
