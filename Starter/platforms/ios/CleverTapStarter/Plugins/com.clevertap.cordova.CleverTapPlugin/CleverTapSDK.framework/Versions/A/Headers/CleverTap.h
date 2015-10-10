@@ -26,7 +26,6 @@
 + (void)setDebugLevel:(int)level;
 
 + (void)setPushToken:(NSData *)pushToken;
-+ (void)setPushTokenFromString:(NSString *)deviceTokenString;
 
 + (void)notifyApplicationLaunchedWithOptions:(NSDictionary *)launchOptions;
 + (void)showInAppNotificationIfAny;

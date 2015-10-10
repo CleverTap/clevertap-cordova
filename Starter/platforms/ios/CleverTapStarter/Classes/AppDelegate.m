@@ -29,6 +29,7 @@
 #import "MainViewController.h"
 
 #import <Cordova/CDVPlugin.h>
+#import "CleverTapPlugin.h"
 
 @implementation AppDelegate
 
@@ -98,19 +99,38 @@
     if (!url) {
         return NO;
     }
-
+    
+    
     // all plugins will get the notification, and their handlers will be called
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CDVPluginHandleOpenURLNotification object:url]];
+    
+    // optionally inspect and pass a deep link url to your Javascript
+     NSLog(@"Handle url %@", url);
+   
 
     return YES;
 }
 
 // repost all remote and local notification using the default NSNotificationCenter so multiple plugins may respond
-- (void)            application:(UIApplication*)application
+- (void) application:(UIApplication*)application
     didReceiveLocalNotification:(UILocalNotification*)notification
 {
     // re-post ( broadcast )
     [[NSNotificationCenter defaultCenter] postNotificationName:CDVLocalNotification object:notification];
+    
+    // pass to the CleverTapPlugin for handling
+    CleverTapPlugin *CleverTap = [self.viewController getCommandInstance:@"CleverTapPlugin"];
+    [CleverTap handleNotification:notification];
+}
+
+
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    NSLog(@"didReceiveNotification");
+    
+    // pass to the CleverTapPlugin for handling
+    CleverTapPlugin *CleverTap = [self.viewController getCommandInstance:@"CleverTapPlugin"];
+    [CleverTap handleNotification:userInfo];
 }
 
 #ifndef DISABLE_PUSH_NOTIFICATIONS
@@ -118,6 +138,12 @@
     - (void)                                 application:(UIApplication*)application
         didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
     {
+        // replace default Cordova token handling; sent raw token to CleverTap Plugin directly
+        
+        CleverTapPlugin *CleverTap = [self.viewController getCommandInstance:@"CleverTapPlugin"];
+        [CleverTap setPushToken:deviceToken];
+        
+        /*
         // re-post ( broadcast )
         NSString* token = [[[[deviceToken description]
             stringByReplacingOccurrencesOfString:@"<" withString:@""]
@@ -125,6 +151,9 @@
             stringByReplacingOccurrencesOfString:@" " withString:@""];
 
         [[NSNotificationCenter defaultCenter] postNotificationName:CDVRemoteNotification object:token];
+        */
+        
+        
     }
 
     - (void)                                 application:(UIApplication*)application
@@ -135,10 +164,10 @@
     }
 #endif
 
-- (NSUInteger)application:(UIApplication*)application supportedInterfaceOrientationsForWindow:(UIWindow*)window
+- (UIInterfaceOrientationMask)application:(UIApplication*)application supportedInterfaceOrientationsForWindow:(UIWindow*)window
 {
     // iPhone doesn't support upside down by default, while the iPad does.  Override to allow all orientations always, and let the root view controller decide what's allowed (the supported orientations mask gets intersected).
-    NSUInteger supportedInterfaceOrientations = (1 << UIInterfaceOrientationPortrait) | (1 << UIInterfaceOrientationLandscapeLeft) | (1 << UIInterfaceOrientationLandscapeRight) | (1 << UIInterfaceOrientationPortraitUpsideDown);
+    UIInterfaceOrientationMask supportedInterfaceOrientations = (1 << UIInterfaceOrientationPortrait) | (1 << UIInterfaceOrientationLandscapeLeft) | (1 << UIInterfaceOrientationLandscapeRight) | (1 << UIInterfaceOrientationPortraitUpsideDown);
 
     return supportedInterfaceOrientations;
 }

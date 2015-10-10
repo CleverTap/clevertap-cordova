@@ -13,16 +13,6 @@
 
 static NSDateFormatter *dateFormatter;
 
-@interface CleverTapPlugin() {
-    
-}
-+ (CleverTap *)push;
-+ (CleverTap *)event;
-+ (CleverTap *)profile;
-+ (CleverTap *)session;
-
-@end
-
 @implementation CleverTapPlugin
 
 #pragma mark Private
@@ -32,7 +22,6 @@ static NSDateFormatter *dateFormatter;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onDidFinishLaunchingNotification:) name:UIApplicationDidFinishLaunchingNotification object:nil];
     
     // Listen to re-broadcast events from Cordova's AppDelegate
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onDidRegisterForRemoteNotificationWithDeviceToken:) name:CDVRemoteNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onDidFailToRegisterForRemoteNotificationsWithError:) name:CDVRemoteNotificationError object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onHandleOpenURLNotification:) name:CDVPluginHandleOpenURLNotification object:nil];
    
@@ -43,13 +32,8 @@ static NSDateFormatter *dateFormatter;
     if (launchOptions && launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]) {
         [CleverTap handleNotificationWithData:launchOptions];
     }
-    NSLog(@"launchOptions %@", launchOptions);
+    
     [CleverTap notifyApplicationLaunchedWithOptions:launchOptions];
-}
-
-+ (void)onDidRegisterForRemoteNotificationWithDeviceToken:(NSNotification *)notification {
-    NSLog(@"onRemoteRegister: %@", notification.object);
-    [CleverTap setPushTokenFromString:notification.object];
 }
 
 + (void)onDidFailToRegisterForRemoteNotificationsWithError:(NSNotification *)notification {
@@ -58,23 +42,7 @@ static NSDateFormatter *dateFormatter;
 }
 
 + (void)onHandleOpenURLNotification:(NSNotification *)notification {
-    [CleverTap handleNotificationWithData:notification];
-}
-
-+ (CleverTap *)push {
-    return [CleverTap push];
-}
-
-+ (CleverTap *)event {
-    return [CleverTap event];
-}
-
-+ (CleverTap *)profile {
-    return [CleverTap profile];
-}
-
-+ (CleverTap *)session {
-    return [CleverTap session];
+    [CleverTap handleOpenURL:notification.object sourceApplication:nil];
 }
 
 -(NSDictionary*)_eventDetailToDict:(CleverTapEventDetail*)detail {
@@ -134,6 +102,14 @@ static NSDateFormatter *dateFormatter;
     } else {
         [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound)];
     }
+}
+
+- (void) setPushToken:(NSData*)pushToken {
+    [CleverTap setPushToken:pushToken];
+}
+
+- (void) handleNotification:(id)notification {
+    [CleverTap handleNotificationWithData:notification];
 }
 
 #pragma mark Developer Options

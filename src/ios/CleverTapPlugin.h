@@ -13,9 +13,16 @@
 
 @interface CleverTapPlugin : CDVPlugin
 
+# pragma mark Developer Options
 - (void) setDebugLevel:(CDVInvokedUrlCommand *)command;
-- (void) registerPush:(CDVInvokedUrlCommand *)command;
+
+# pragma mark enable Personalization API
 - (void) enablePersonalization:(CDVInvokedUrlCommand *)command;
+
+#pragma mark Push Notifications
+- (void) registerPush:(CDVInvokedUrlCommand *)command;
+- (void) setPushToken:(NSData*)pushToken;
+- (void) handleNotification:(id)notification;
 
 #pragma mark Event API
 - (void) recordEventWithName:(CDVInvokedUrlCommand *)command;
