@@ -1,3 +1,4 @@
+cordova.define("com.clevertap.cordova.CleverTapPlugin.CleverTap", function(require, exports, module) {
 //  CleverTap.js
 //  Copyright (C) 2015 CleverTap 
 //
@@ -169,3 +170,5 @@ CleverTap.prototype.setDebugLevel= function (level) {
 
 
 module.exports = new CleverTap();
+
+});
