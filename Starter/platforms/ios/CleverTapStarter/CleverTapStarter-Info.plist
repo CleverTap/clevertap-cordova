@@ -188,5 +188,9 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>clevertapstarter</string>
+	</array>
 </dict>
 </plist>
