@@ -135,10 +135,9 @@
 
 #ifndef DISABLE_PUSH_NOTIFICATIONS
 
-    - (void)                                 application:(UIApplication*)application
-        didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
+    - (void) application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
     {
-        // replace default Cordova token handling; sent raw token to CleverTap Plugin directly
+        // replace default Cordova token handling; send raw token to CleverTap Plugin directly
         
         CleverTapPlugin *CleverTap = [self.viewController getCommandInstance:@"CleverTapPlugin"];
         [CleverTap setPushToken:deviceToken];
