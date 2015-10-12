@@ -34,6 +34,7 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
+        /*
         CleverTap.setDebugLevel(1);
         CleverTap.enablePersonalization();
         
@@ -45,6 +46,11 @@ var app = {
         CleverTap.eventGetOccurrences("foo", function (num) {console.log("foo event occurrences "+num);});
         CleverTap.eventGetDetails("Charged", function (res) {console.log(res);});
         CleverTap.getEventHistory(function (history) {console.log(history);});
+        
+        CleverTap.eventGetFirstTime("noevent", function (time) {console.log("noevent event first time is "+time);});
+        CleverTap.eventGetLastTime("noevent", function (time) {console.log("noevent last time is "+time);});
+        CleverTap.eventGetOccurrences("noevent", function (num) {console.log("noevent occurrences "+num);});
+        CleverTap.eventGetDetails("noevent", function (res) {console.log(res);});
         
         CleverTap.profileSet({"Identity":123456, "DOB":"1950-10-15", "custom":1.44556});
         
@@ -61,6 +67,7 @@ var app = {
         CleverTap.sessionGetScreenCount(function(val) {console.log("session screen count is "+val);});
         CleverTap.sessionGetPreviousVisitTime(function(val) {console.log("session previous visit time is "+val);});
         CleverTap.sessionGetUTMDetails(function(val) {console.log(val);});
+        */
         
     },
     // Update DOM on a Received Event

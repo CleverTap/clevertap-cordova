@@ -1,5 +1,4 @@
-cordova.define("com.clevertap.cordova.CleverTapPlugin.CleverTap", function(require, exports, module) {
-//  CleverTap.js
+cordova.define("com.clevertap.cordova.CleverTapPlugin.CleverTap", function(require, exports, module) { //  CleverTap.js
 //  Copyright (C) 2015 CleverTap 
 //
 //  This code is provided under a commercial License.

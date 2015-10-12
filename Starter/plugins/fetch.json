@@ -9,8 +9,9 @@
     },
     "com.clevertap.cordova.CleverTapPlugin": {
         "source": {
-            "type": "local",
-            "path": "../../cordova-plugin"
+            "type": "git",
+            "url": "https://github.com/CleverTap/clevertap-cordova.git",
+            "subdir": "."
         },
         "is_top_level": true,
         "variables": {}

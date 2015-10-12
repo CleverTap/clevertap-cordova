@@ -14,9 +14,6 @@
     <feature name="LocalStorage">
         <param name="ios-package" value="CDVLocalStorage" />
     </feature>
-    <feature name="CleverTapPlugin">
-        <param name="ios-package" value="CleverTapPlugin" />
-    </feature>
     <allow-intent href="itms:*" />
     <allow-intent href="itms-apps:*" />
     <name>CleverTapStarter</name>
@@ -34,4 +31,7 @@
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
+    <feature name="CleverTapPlugin">
+        <param name="ios-package" value="CleverTapPlugin" />
+    </feature>
 </widget>
