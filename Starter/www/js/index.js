@@ -34,42 +34,6 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
-
-        /*
-        CleverTap.setDebugLevel(1);
-        CleverTap.enablePersonalization();
-        
-        CleverTap.recordEventWithName("foo");
-        CleverTap.recordEventWithNameAndProps("boo", {"bar":"zoo"});
-        CleverTap.recordChargedEventWithDetailsAndItems({"amount":300, "Charged ID":1234}, [{"Category":"Books", "Quantity":1, "Title":"Book Title"}]);
-        CleverTap.eventGetFirstTime("foo", function (time) {console.log("foo event first time is "+time);});
-        CleverTap.eventGetLastTime("App Launched", function (time) {console.log("app launched last time is "+time);});
-        CleverTap.eventGetOccurrences("foo", function (num) {console.log("foo event occurrences "+num);});
-        CleverTap.eventGetDetails("Charged", function (res) {console.log(res);});
-        CleverTap.getEventHistory(function (history) {console.log(history);});
-        
-        CleverTap.eventGetFirstTime("noevent", function (time) {console.log("noevent event first time is "+time);});
-        CleverTap.eventGetLastTime("noevent", function (time) {console.log("noevent last time is "+time);});
-        CleverTap.eventGetOccurrences("noevent", function (num) {console.log("noevent occurrences "+num);});
-        CleverTap.eventGetDetails("noevent", function (res) {console.log(res);});
-        
-        CleverTap.profileSet({"Identity":123456, "DOB":"1950-10-15", "custom":1.44556});
-        
-        CleverTap.profileGetProperty("DOB", function(val) {console.log("DOB profile value is "+val);});
-        
-        CleverTap.profileGetProperty("Identity", function(val) {console.log("Identity profile value is "+val);});
-        
-        CleverTap.profileGetProperty("custom", function(val) {console.log("custom profile value is "+val);});
-        
-        CleverTap.registerPush();
-        
-        CleverTap.sessionGetTimeElapsed(function(val) {console.log("session elapsed time is "+val);});
-        CleverTap.sessionGetTotalVisits(function(val) {console.log("session total visits is "+val);});
-        CleverTap.sessionGetScreenCount(function(val) {console.log("session screen count is "+val);});
-        CleverTap.sessionGetPreviousVisitTime(function(val) {console.log("session previous visit time is "+val);});
-        CleverTap.sessionGetUTMDetails(function(val) {console.log(val);});
-        */
-        
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {

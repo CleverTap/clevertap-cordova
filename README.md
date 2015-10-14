@@ -104,4 +104,7 @@ Start by adding the following listener to your Javascript:
 
     document.addEventListener('deviceready', this.onDeviceReady, false);
 
-Then [see the included Starter Cordova project for example usage](https://github.com/CleverTap/clevertap-cordova/blob/master/Starter/platforms/ios/www/js/index.js).
+Then:  
+- [see the included iOS Starter Cordova project for example usage](https://github.com/CleverTap/clevertap-cordova/blob/master/Starter/platforms/ios/www/js/index.js).
+- [see the included Android Starter Cordova project for example usage](https://github.com/CleverTap/clevertap-cordova/blob/master/Starter/platforms/android/assets/www/js/index.js).
+
