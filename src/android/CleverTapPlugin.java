@@ -321,6 +321,7 @@ public class CleverTapPlugin extends CordovaPlugin {
             return true;
         }
 
+        // TODO Handle DOB
         else if (action.equals("profileSet")) {
             JSONObject jsonProfile;
             HashMap<String, Object> _profile = null;
@@ -358,20 +359,12 @@ public class CleverTapPlugin extends CordovaPlugin {
             }
         }
 
-        // // TODO handle FacebookGraphUser Object
         else if (action.equals("profileSetGraphUser")) {
-            JSONObject jsonProfile;
-            HashMap<String, Object> _profile = null;
+            JSONObject jsonGraphUser = null;
 
             if (args.length() == 1) {
                 if (!args.isNull(0)) {
-                    jsonProfile = args.getJSONObject(0);
-                    try {
-                        _profile = toMap(jsonProfile);
-                    } catch (JSONException e) {
-                        haveError = true;
-                        errorMsg = "Error parsing arg " + e.getLocalizedMessage();
-                    }
+                    jsonGraphUser = args.getJSONObject(0);
                 } else {
                     haveError = true;
                     errorMsg = "profile cannot be null";
@@ -383,10 +376,10 @@ public class CleverTapPlugin extends CordovaPlugin {
             }
 
             if (!haveError) {
-                final HashMap<String, Object> profile = _profile;
+                final JSONObject _jsonGraphUser = jsonGraphUser;
                 cordova.getThreadPool().execute(new Runnable() {
                     public void run() {
-                        //cleverTap.profile.pushGraphUser(profile);
+                        cleverTap.profile.pushFacebookUser(_jsonGraphUser);
                         PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
                         _result.setKeepCallback(true);
                         callbackContext.sendPluginResult(_result);
@@ -395,7 +388,7 @@ public class CleverTapPlugin extends CordovaPlugin {
                 return true;
             }
         }
-        // TODO handle GooglePlus Object
+        // TODO fix this
         else if (action.equals("profileSetGooglePlusUser")) {
             JSONObject jsonProfile;
             HashMap<String, Object> _profile = null;
