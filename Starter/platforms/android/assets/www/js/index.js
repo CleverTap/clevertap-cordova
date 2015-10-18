@@ -34,7 +34,8 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
-        CleverTap.setDebugLevel(1277182231);
+        /*
+        CleverTap.setDebugLevel(1);
         CleverTap.enablePersonalization();
         CleverTap.recordEventWithName("foo");
         CleverTap.recordEventWithNameAndProps("androidFoo", {"bar":"foo"});
@@ -60,6 +61,7 @@ var app = {
         CleverTap.sessionGetScreenCount(function(val) {console.log("session screen count is "+val);});
         CleverTap.sessionGetPreviousVisitTime(function(val) {console.log("session previous visit time is "+val);});
         CleverTap.sessionGetUTMDetails(function(val) {console.log('utm details campaign ' + val['campaign']);});
+        */
     },
 
     // Update DOM on a Received Event

@@ -339,7 +339,7 @@ public class CleverTapPlugin extends CordovaPlugin {
                             try {
                                 Date date = format.parse(dob);
                                 _profile.put("DOB", date);
-                            } catch ( ParseException e) {
+                            } catch (ParseException e) {
                                 _profile.remove("DOB");
                                 Log.d(LOG_TAG, "invalid DOB format in profileSet");
                             }
@@ -401,16 +401,16 @@ public class CleverTapPlugin extends CordovaPlugin {
                 return true;
             }
         }
-        // TODO fix this
+
         else if (action.equals("profileSetGooglePlusUser")) {
-            JSONObject jsonProfile;
+            JSONObject jsonGooglePlusUser;
             HashMap<String, Object> _profile = null;
 
             if (args.length() == 1) {
                 if (!args.isNull(0)) {
-                    jsonProfile = args.getJSONObject(0);
+                    jsonGooglePlusUser = args.getJSONObject(0);
                     try {
-                        _profile = toMap(jsonProfile);
+                        _profile = toMapFromGooglePlusUser(jsonGooglePlusUser);
                     } catch (JSONException e) {
                         haveError = true;
                         errorMsg = "Error parsing arg " + e.getLocalizedMessage();
@@ -429,7 +429,7 @@ public class CleverTapPlugin extends CordovaPlugin {
                 final HashMap<String, Object> profile = _profile;
                 cordova.getThreadPool().execute(new Runnable() {
                     public void run() {
-                        //cleverTap.profile.pushGooglePlusPerson(profile);
+                        cleverTap.profile.push(profile);
                         PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
                         _result.setKeepCallback(true);
                         callbackContext.sendPluginResult(_result);
@@ -438,6 +438,7 @@ public class CleverTapPlugin extends CordovaPlugin {
                 return true;
             }
         }
+
         else if (action.equals("profileGetProperty")) {
             final String propertyName = (args.length() == 1 ? args.getString(0) : null);
             if (propertyName != null) {
@@ -467,6 +468,7 @@ public class CleverTapPlugin extends CordovaPlugin {
             });
             return true;
         }
+
         else if (action.equals("sessionGetTotalVisits")) {
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
@@ -478,6 +480,7 @@ public class CleverTapPlugin extends CordovaPlugin {
             });
             return true;
         }
+
         else if (action.equals("sessionGetScreenCount")) {
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
@@ -489,6 +492,7 @@ public class CleverTapPlugin extends CordovaPlugin {
             });
             return true;
         }
+
         else if (action.equals("sessionGetPreviousVisitTime")) {
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
@@ -500,6 +504,7 @@ public class CleverTapPlugin extends CordovaPlugin {
             });
             return true;
         }
+
         else if (action.equals("sessionGetUTMDetails")) {
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
@@ -519,7 +524,6 @@ public class CleverTapPlugin extends CordovaPlugin {
             return true;
         }
 
-
         result = new PluginResult(PluginResult.Status.ERROR, errorMsg);
         result.setKeepCallback(true);
         callbackContext.sendPluginResult(result);
@@ -537,7 +541,6 @@ public class CleverTapPlugin extends CordovaPlugin {
         }
         return initialized;
     }
-
 
     private static Object fromJson(Object json) throws JSONException {
         if (json == JSONObject.NULL) {
@@ -559,12 +562,79 @@ public class CleverTapPlugin extends CordovaPlugin {
         return map;
     }
 
+    private static HashMap<String, Object> toMapFromGooglePlusUser(JSONObject object) throws JSONException {
+
+        HashMap<String, Object> map = new HashMap<String, Object>();
+
+        JSONObject nameObj = (JSONObject)object.get("name");
+        if(nameObj != null) {
+            String name = (String)nameObj.get("formatted");
+            if(name != null) {
+                map.put("gpName", name);
+            }
+        }
+
+        String id1 = (String)object.get("id");
+        if(id1 != null) {
+            map.put("gpID", id1);
+        }
+
+        String gender1 = (String)object.get("gender");
+        if(gender1 != null) {
+            if (gender1.toLowerCase().startsWith("m")) {
+                gender1 = "M";
+            } else if (gender1.toLowerCase().startsWith("f")) {
+                gender1 = "F";
+            } else {
+                gender1 = "";
+            }
+            map.put("gpGender", gender1);
+        }
+
+        JSONArray organizations = (JSONArray)object.get("organizations");
+        if(organizations != null) {
+            String work1 = "N";
+            for(int i=0; i < organizations.length(); i++) {
+                JSONObject org = organizations.getJSONObject(i);
+                String type = (String)org.get("type");
+                if(type.equals("work")) {
+                    work1 = "Y";
+                    break;
+                }
+            }
+            map.put("gpEmployed", work1);
+        }
+
+        String birthday = (String)object.get("birthday");
+        if(birthday != null) {
+            Date DOB = null;
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+            try {
+                DOB = format.parse(birthday);
+            } catch (ParseException e) {
+                Log.d(LOG_TAG, "invalid DOB format");
+            }
+            if(DOB != null) {
+                map.put("gpDOB", DOB);
+            }
+        }
+
+        String relationshipStatus = (String)object.get("relationshipStatus");
+        if(relationshipStatus != null) {
+            String married1 = relationshipStatus.equals("married") ? "Y" : "N";
+            map.put("gpRS", married1);
+        }
+
+        return map;
+    }
+
     private static ArrayList<HashMap<String, Object>> toArrayListOfStringObjectMaps(JSONArray array) throws JSONException {
         ArrayList<HashMap<String, Object>> aList = new ArrayList<HashMap<String, Object>>();
 
         for (int i = 0; i < array.length(); i++) {
             aList.add(toMap((JSONObject) array.get(i)));
         }
+
         return aList;
     }
 
