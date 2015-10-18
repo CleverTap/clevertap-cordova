@@ -108,7 +108,7 @@ Make sure your build.gradle file includes the play-services dependency:
 
 ### 3. Integrate Javascript with the Plugin
 
-After integrating, all calls to to the CleverTap SDK should be made from your Javascript.
+After integrating, all calls to the CleverTap SDK should be made from your Javascript.
 
 Start by adding the following listener to your Javascript:
 
