@@ -10,12 +10,6 @@
 
 package com.clevertap.cordova;
 
-
-import android.app.Application;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.location.Location;
-import android.os.Bundle;
 import android.util.Log;
 
 import org.apache.cordova.CordovaInterface;
@@ -30,11 +24,11 @@ import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 import java.util.Date;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.ArrayList;
 
 import com.clevertap.android.sdk.CleverTapAPI;
@@ -43,6 +37,7 @@ import com.clevertap.android.sdk.UTMDetail;
 import com.clevertap.android.sdk.exceptions.CleverTapMetaDataNotFoundException;
 import com.clevertap.android.sdk.exceptions.CleverTapPermissionsNotSatisfied;
 import com.clevertap.android.sdk.exceptions.InvalidEventNameException;
+
 
 public class CleverTapPlugin extends CordovaPlugin {
 
@@ -78,6 +73,14 @@ public class CleverTapPlugin extends CordovaPlugin {
 
         if (!checkCleverTapInitialized()) {
             result = new PluginResult(PluginResult.Status.ERROR, "CleverTap API not initialized");
+            result.setKeepCallback(true);
+            callbackContext.sendPluginResult(result);
+            return true;
+        }
+
+        // not required for Android here but handle as its in the JS interface
+        else if (action.equals("registerPush")) {
+            result = new PluginResult(PluginResult.Status.NO_RESULT);
             result.setKeepCallback(true);
             callbackContext.sendPluginResult(result);
             return true;
@@ -321,7 +324,6 @@ public class CleverTapPlugin extends CordovaPlugin {
             return true;
         }
 
-        // TODO Handle DOB
         else if (action.equals("profileSet")) {
             JSONObject jsonProfile;
             HashMap<String, Object> _profile = null;
@@ -331,6 +333,17 @@ public class CleverTapPlugin extends CordovaPlugin {
                     jsonProfile = args.getJSONObject(0);
                     try {
                         _profile = toMap(jsonProfile);
+                        String dob = (String)_profile.get("DOB");
+                        if(dob != null) {
+                            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+                            try {
+                                Date date = format.parse(dob);
+                                _profile.put("DOB", date);
+                            } catch ( ParseException e) {
+                                _profile.remove("DOB");
+                                Log.d(LOG_TAG, "invalid DOB format in profileSet");
+                            }
+                        }
                     } catch (JSONException e) {
                         haveError = true;
                         errorMsg = "Error parsing arg " + e.getLocalizedMessage();
@@ -439,7 +452,7 @@ public class CleverTapPlugin extends CordovaPlugin {
                 return true;
 
             } else {
-                errorMsg = "propertName cannot be null";
+                errorMsg = "propertyName cannot be null";
             }
         }
 
@@ -525,21 +538,12 @@ public class CleverTapPlugin extends CordovaPlugin {
         return initialized;
     }
 
-    private static List toList(JSONArray array) throws JSONException {
-        List list = new ArrayList();
-        for (int i = 0; i < array.length(); i++) {
-            list.add(fromJson(array.get(i)));
-        }
-        return list;
-    }
 
     private static Object fromJson(Object json) throws JSONException {
         if (json == JSONObject.NULL) {
             return null;
         } else if (json instanceof JSONObject) {
             return toMap((JSONObject) json);
-        } else if (json instanceof JSONArray) {
-            return toList((JSONArray) json);
         } else {
             return json;
         }
@@ -597,7 +601,7 @@ public class CleverTapPlugin extends CordovaPlugin {
 
         if(history != null) {
             for (Object key : history.keySet()) {
-                json.put(key.toString(), eventDetailsToJSON(history.get(key)));
+                json.put(key.toString(), eventDetailsToJSON(history.get((String)key)));
             }
         }
 

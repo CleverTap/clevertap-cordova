@@ -91,9 +91,19 @@ To register the user push token please replace the default Cordova behavior in t
 
 [Follow these instructions to set up push notifications for your app.](https://support.clevertap.com/messaging/push-notifications/#android)
 
-Afterwards, call the following from your Javascript.
+Then, make sure Google Play Services are added as a dependency in your project:   
 
-    CleverTap.registerPush();
+Add an extra line to YOUR_PROJECT/platforms/android/project.properties: `cordova.system.library.1=com.google.android.gms:play-services:8.1.0`  
+ 
+Make sure your build.gradle file includes the play-services dependency:
+
+    dependencies {
+        compile fileTree(dir: 'libs', include: '*.jar'  )
+        // SUB-PROJECT DEPENDENCIES START  
+        debugCompile project(path: "CordovaLib", configuration: "debug")  
+        releaseCompile project(path: "CordovaLib", configuration: "release")  
+        compile "com.google.android.gms:play-services:8.1.0"  
+        // SUB-PROJECT DEPENDENCIES END   
 
 
 ### 3. Integrate Javascript with the Plugin
@@ -105,6 +115,8 @@ Start by adding the following listener to your Javascript:
     document.addEventListener('deviceready', this.onDeviceReady, false);
 
 Then:  
-- [see the included iOS Starter Cordova project for example usage](https://github.com/CleverTap/clevertap-cordova/blob/master/Starter/platforms/ios/www/js/index.js).
+
+- [see the included iOS Starter Cordova project for example usage](https://github.com/CleverTap/clevertap-cordova/blob/master/Starter/platforms/ios/www/js/index.js).   
+
 - [see the included Android Starter Cordova project for example usage](https://github.com/CleverTap/clevertap-cordova/blob/master/Starter/platforms/android/assets/www/js/index.js).
 

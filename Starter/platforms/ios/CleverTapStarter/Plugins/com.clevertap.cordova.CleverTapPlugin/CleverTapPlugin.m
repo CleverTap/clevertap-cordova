@@ -53,9 +53,11 @@ static NSDateFormatter *dateFormatter;
         if(detail.eventName) {
             [_dict setObject:detail.eventName forKey:@"eventName"];
         }
+        
         if(detail.firstTime){
             [_dict setObject:@(detail.firstTime) forKey:@"firstTime"];
         }
+        
         if(detail.lastTime){
             [_dict setObject:@(detail.lastTime) forKey:@"lastTime"];
         }

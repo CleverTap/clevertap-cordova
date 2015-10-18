@@ -4,32 +4,38 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-
-    <application
-        android:hardwareAccelerated="true"
-        android:icon="@drawable/icon" android:label="@string/app_name"
-        android:supportsRtl="true"
-        android:name="com.clevertap.android.sdk.Application">
-
-        <meta-data
-            android:name="CLEVERTAP_ACCOUNT_ID"
-            android:value="948-4KK-444Z"/>;
-        <meta-data
-            android:name="CLEVERTAP_TOKEN"
-            android:value="334-b4c"/>
-
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <permission android:name="com.clevertap.starter.permission.C2D_MESSAGE" android:protectionLevel="signature" />
+    <uses-permission android:name="com.clevertap.starter.permission.C2D_MESSAGE" />
+    <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="22" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_WRITE_EXTERNAL_STORAGE" />
+    <application android:hardwareAccelerated="true" android:icon="@drawable/icon" android:label="@string/app_name" android:name="com.clevertap.android.sdk.Application" android:supportsRtl="true">
+        <meta-data android:name="CLEVERTAP_ACCOUNT_ID" android:value="948-4KK-444Z" />
+        <meta-data android:name="CLEVERTAP_TOKEN" android:value="334-b4c" />
         <activity android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale" android:label="@string/activity_name" android:launchMode="singleTop" android:name="MainActivity" android:theme="@android:style/Theme.Black.NoTitleBar" android:windowSoftInputMode="adjustResize">
             <intent-filter android:label="@string/launcher_name">
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <meta-data android:name="GCM_SENDER_ID" android:value="id:712576374406" />
+        <receiver android:name="com.clevertap.android.sdk.GcmBroadcastReceiver" android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+                <category android:name="com.clevertap.starter" />
+            </intent-filter>
+        </receiver>
+        <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
+        <activity android:configChanges="orientation|keyboardHidden" android:name="com.clevertap.android.sdk.InAppNotificationActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <meta-data android:name="CLEVERTAP_INAPP_EXCLUDE" android:value="SplashActivity" />
+        <receiver android:exported="true" android:name="com.clevertap.android.sdk.InstallReferrerBroadcastReceiver">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
+            </intent-filter>
+        </receiver>
     </application>
-
-    <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="22" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_WRITE_EXTERNAL_STORAGE" />
-
 </manifest>

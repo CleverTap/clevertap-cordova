@@ -36,8 +36,8 @@ var app = {
         app.receivedEvent('deviceready');
         CleverTap.setDebugLevel(1277182231);
         CleverTap.enablePersonalization();
-        CleverTap.recordEventWithName("androidFoo");
-        CleverTap.recordEventWithNameAndProps("androidBoo", {"bar":"zoo"});
+        CleverTap.recordEventWithName("foo");
+        CleverTap.recordEventWithNameAndProps("androidFoo", {"bar":"foo"});
         CleverTap.eventGetFirstTime("androidFoo", function (time) {console.log("androidFoo event first time is "+time);});
         CleverTap.eventGetLastTime("androidFoo", function (time) {console.log("androidFoo event last time is "+time);});
         CleverTap.eventGetOccurrences("androidFoo", function (count) {console.log("androidFoo event count is "+count);});
@@ -51,7 +51,7 @@ var app = {
         CleverTap.eventGetDetails("Charged", function (details) {console.log("details for Charged " + details['name'] + " " + details['count']);});
         CleverTap.getEventHistory(function (history) {console.log("history charged count is "+ history["Charged"]["count"]);});
 
-        CleverTap.profileSet({"Identity":123456, "DOB":"1990-10-15", "custom1":1.245599});
+        CleverTap.profileSet({"Identity":123456, "DOB":"1995-01-15", "custom3":2.445599});
 
         CleverTap.profileGetProperty("custom1",function (val) {console.log("custom1 profile prop value is "+val);});
 
