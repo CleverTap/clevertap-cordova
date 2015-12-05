@@ -54,6 +54,36 @@ Add the following inside the `<application></application>` tags of your AndroidM
 
 Replace "Your CleverTap Account ID" and "Your CleverTap Account Token" with actual values from your CleverTap [Dashboard](https://dashboard.clevertap.com) -> Settings -> Integration -> Account ID, SDK's.
 
+**Set the Lifecycle Callback** 
+
+IMPORTANT!
+
+Add the `android:name` property to the `<application>` tag of our AndroidManifest.xml:
+
+    <application
+        android:name="com.clevertap.android.sdk.Application">
+
+**Note:** The above step is **extremely important** and enables CleverTap to track notification opens, display in-app notifications, track deep links, and other important **user behaviour**.
+
+**Add Permissions**
+
+Please ensure that you're requesting the following permissions for your app:
+
+    <!-- Required to retrieve a unique identifier for the device, see note below -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <!-- Required to allow the app to send events -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <!-- Recommended so that we can be smart about when to send the data -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <!-- Recommended so that we can get the user's primary e-mail address -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <!-- Recommended so that we can get the user's location -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <!-- Recommended -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+[Please see the example AndroidManifest.xml here](https://github.com/CleverTap/clevertap-cordova/blob/master/Starter/platforms/android/AndroidManifest.xml).
+
 ### 2. Set up and register for push notifications
 
 #### iOS
