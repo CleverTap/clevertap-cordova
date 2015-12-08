@@ -10,8 +10,13 @@ Tested on Cordova 5.3.3
 
 ## Install
 
+Using cordova
 ```
 cordova plugin add https://github.com/CleverTap/clevertap-cordova.git
+```
+Using ionic
+```
+ionic plugin add https://github.com/CleverTap/clevertap-cordova.git
 ```
 
 ## Integration
@@ -145,9 +150,10 @@ Once CleverTap is available in your cordova / ionic app, call the following.
     CleverTap.registerPush();
 
 This will register your device with CleverTap for sending push notification.
-        
+
     document.addEventListener('deviceready',onDeviceReady, false);
     function onDeviceReady(e){
+        //for Ionic application
         $rootScope.CleverTap= CleverTap;
         CleverTap && CleverTap.registerPush();
     }
