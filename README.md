@@ -92,10 +92,6 @@ Please ensure that you're requesting the following permissions for your app:
 
 Please note that The CleverTapPlugin relies on "CDVRemoteNotification", "CDVRemoteNotificationError" and "CDVPluginHandleOpenURLNotification" broadcasted by Cordova's AppDelegate.m class to handle user push notification permissioning. If you change the AppDelegate, ensure to re-broadcast these events from the appropriate handlers. [See the included example Starter Project](https://github.com/CleverTap/clevertap-cordova/blob/master/Starter/platforms/ios/CleverTapStarter/Classes/AppDelegate.m).
 
-Afterwards, call the following from your Javascript.
-
-    CleverTap.registerPush();
-
 
 To register the user push token please replace the default Cordova behavior in the AppDelegate.m in the `application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken` as follows:
 
@@ -144,7 +140,19 @@ Start by adding the following listener to your Javascript:
 
     document.addEventListener('deviceready', this.onDeviceReady, false);
 
-Then:  
+Once CleverTap is available in your cordova / ionic app, call the following.
+
+    CleverTap.registerPush();
+
+This will register your device with CleverTap for sending push notification.
+        
+    document.addEventListener('deviceready',onDeviceReady, false);
+    function onDeviceReady(e){
+        $rootScope.CleverTap= CleverTap;
+        CleverTap && CleverTap.registerPush();
+    }
+
+Checkout Starter project for more:  
 
 - [see the included iOS Starter Cordova project for example usage](https://github.com/CleverTap/clevertap-cordova/blob/master/Starter/platforms/ios/www/js/index.js).   
 
