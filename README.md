@@ -138,7 +138,8 @@ Make sure your build.gradle file includes the play-services dependency:
         // SUB-PROJECT DEPENDENCIES START  
         debugCompile project(path: "CordovaLib", configuration: "debug")  
         releaseCompile project(path: "CordovaLib", configuration: "release")  
-        compile "com.google.android.gms:play-services:8.1.0"  
+        compile 'com.google.android.gms:play-services:8.3.0'
+        compile 'com.android.support:support-v4:23.1.1'
         // SUB-PROJECT DEPENDENCIES END   
 
 
@@ -149,7 +150,7 @@ After integrating, all calls to the CleverTap SDK should be made from your Javas
 Start by adding the following listeners to your Javascript:
 
     document.addEventListener('deviceready', this.onDeviceReady, false);
-    document.addEventListener('onCleverTapProfileSync', this.onCleverTapProfileSync, false); // to be notified of CleverTap user profile synchronization updates 
+    document.addEventListener('onCleverTapProfileSync', this.onCleverTapProfileSync, false); // optional:  to be notified of CleverTap user profile synchronization updates 
 
 Then:  
 
