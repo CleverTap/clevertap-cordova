@@ -155,13 +155,14 @@ Then:
 
 - [see the included iOS Starter Cordova project for example usage](https://github.com/CleverTap/clevertap-cordova/blob/master/Starter/platforms/ios/www/js/index.js).   
 
-- [see the included Android Starter Cordova project for example usage](https://github.com/CleverTap/clevertap-cordova/blob/master/Starter/platforms/android/assets/www/js/index.js).  
-
-
-Example Ionic onDeviceReady:
+- Example Ionic iOS onDeviceReady:
 
     function onDeviceReady(e){
+        //for Ionic application
         $rootScope.CleverTap= CleverTap;
         CleverTap && CleverTap.registerPush();
     }
+
+- [see the included Android Starter Cordova project for example usage](https://github.com/CleverTap/clevertap-cordova/blob/master/Starter/platforms/android/assets/www/js/index.js).  
+
 
