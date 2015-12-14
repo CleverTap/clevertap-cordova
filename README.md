@@ -127,11 +127,11 @@ To register the user push token please replace the default Cordova behavior in t
 
 [Follow these instructions to set up push notifications for your app.](https://support.clevertap.com/messaging/push-notifications/#android)
 
-Then, make sure Google Play Services are added as a dependency in your project.   
+Then, make sure Google Play Services and Android v4 support library, minimum revision 23.1.1 are added as dependencies in your project.   
 
-Add an extra line to YOUR_PROJECT/platforms/android/project.properties: `cordova.system.library.1=com.google.android.gms:play-services:8.1.0`  
+Add an extra line to YOUR_PROJECT/platforms/android/project.properties: `cordova.system.library.1=com.google.android.gms:play-services:8.3.0`  
  
-Make sure your build.gradle file includes the play-services dependency:
+Make sure your build.gradle file includes the play-services and support library dependencies:
 
     dependencies {
         compile fileTree(dir: 'libs', include: '*.jar'  )
