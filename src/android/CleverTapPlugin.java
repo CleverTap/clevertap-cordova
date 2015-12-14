@@ -32,6 +32,7 @@ import java.util.Iterator;
 import java.util.ArrayList;
 
 import com.clevertap.android.sdk.CleverTapAPI;
+import com.clevertap.android.sdk.SyncListener;
 import com.clevertap.android.sdk.EventDetail;
 import com.clevertap.android.sdk.UTMDetail;
 import com.clevertap.android.sdk.exceptions.CleverTapMetaDataNotFoundException;
@@ -39,7 +40,7 @@ import com.clevertap.android.sdk.exceptions.CleverTapPermissionsNotSatisfied;
 import com.clevertap.android.sdk.exceptions.InvalidEventNameException;
 
 
-public class CleverTapPlugin extends CordovaPlugin {
+public class CleverTapPlugin extends CordovaPlugin implements SyncListener {
 
     private static final String LOG_TAG = "CLEVERTAP_PLUGIN";
     private static String CLEVERTAP_API_ERROR;
@@ -52,6 +53,7 @@ public class CleverTapPlugin extends CordovaPlugin {
 
         try {
             cleverTap = CleverTapAPI.getInstance(cordova.getActivity().getApplicationContext());
+            cleverTap.setSyncListener(this);
         } catch (CleverTapMetaDataNotFoundException e) {
             CLEVERTAP_API_ERROR = e.getLocalizedMessage();
             //Log.d(LOG_TAG, e.getLocalizedMessage());
@@ -99,10 +101,14 @@ public class CleverTapPlugin extends CordovaPlugin {
         }
 
         else if (action.equals("enablePersonalization")) {
-            cleverTap.enablePersonalization();
-            result = new PluginResult(PluginResult.Status.NO_RESULT);
-            result.setKeepCallback(true);
-            callbackContext.sendPluginResult(result);
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    cleverTap.enablePersonalization();
+                    PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
+                    _result.setKeepCallback(true);
+                    callbackContext.sendPluginResult(_result);
+                }
+            });
             return true;
 
         }
@@ -325,29 +331,11 @@ public class CleverTapPlugin extends CordovaPlugin {
         }
 
         else if (action.equals("profileSet")) {
-            JSONObject jsonProfile;
-            HashMap<String, Object> _profile = null;
+            JSONObject jsonProfile = null;
 
             if (args.length() == 1) {
                 if (!args.isNull(0)) {
                     jsonProfile = args.getJSONObject(0);
-                    try {
-                        _profile = toMap(jsonProfile);
-                        String dob = (String)_profile.get("DOB");
-                        if(dob != null) {
-                            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-                            try {
-                                Date date = format.parse(dob);
-                                _profile.put("DOB", date);
-                            } catch (ParseException e) {
-                                _profile.remove("DOB");
-                                Log.d(LOG_TAG, "invalid DOB format in profileSet");
-                            }
-                        }
-                    } catch (JSONException e) {
-                        haveError = true;
-                        errorMsg = "Error parsing arg " + e.getLocalizedMessage();
-                    }
                 } else {
                     haveError = true;
                     errorMsg = "profile cannot be null";
@@ -359,15 +347,35 @@ public class CleverTapPlugin extends CordovaPlugin {
             }
 
             if (!haveError) {
-                final HashMap<String, Object> profile = _profile;
+                final JSONObject _jsonProfile = jsonProfile;
                 cordova.getThreadPool().execute(new Runnable() {
                     public void run() {
-                        cleverTap.profile.push(profile);
+                        try {
+                            HashMap<String, Object> profile = toMap(_jsonProfile);
+                            String dob = (String)profile.get("DOB");
+                            if(dob != null) {
+                                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+                                try {
+                                    Date date = format.parse(dob);
+                                    profile.put("DOB", date);
+                                } catch (ParseException e) {
+                                    profile.remove("DOB");
+                                    Log.d(LOG_TAG, "invalid DOB format in profileSet");
+                                }
+                            }
+
+                            cleverTap.profile.push(profile);
+
+                        } catch (Exception e) {
+                            Log.d(LOG_TAG, "Error setting profile " + e.getLocalizedMessage());
+                        }
+
                         PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
                         _result.setKeepCallback(true);
                         callbackContext.sendPluginResult(_result);
                     }
                 });
+
                 return true;
             }
         }
@@ -533,6 +541,21 @@ public class CleverTapPlugin extends CordovaPlugin {
     /*******************
      * Private Methods
      ******************/
+
+    // SyncListener
+    public void profileDataUpdated(JSONObject updates) {
+
+        if(updates == null) {
+            return ;
+        }
+        
+        final String json = "{updates:"+updates.toString()+"}";
+        webView.getView().post(new Runnable() {
+            public void run() {
+                webView.loadUrl("javascript:cordova.fireDocumentEvent('onCleverTapProfileSync',"+json+");");
+            }
+        });
+    }
 
     private static boolean checkCleverTapInitialized() {
         boolean initialized = (cleverTap != null);

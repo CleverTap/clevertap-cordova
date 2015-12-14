@@ -27,6 +27,7 @@ var app = {
     // 'load', 'deviceready', 'offline', and 'online'.
     bindEvents: function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
+        document.addEventListener('onCleverTapProfileSync', this.onCleverTapProfileSync, false);
     },
     // deviceready Event Handler
     //
@@ -34,10 +35,11 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
-        /*
         CleverTap.setDebugLevel(1);
         CleverTap.enablePersonalization();
+        CleverTap.registerPush();
         
+        /*
         CleverTap.recordEventWithName("foo");
         CleverTap.recordEventWithNameAndProps("boo", {"bar":"zoo"});
         CleverTap.recordChargedEventWithDetailsAndItems({"amount":300, "Charged ID":1234}, [{"Category":"Books", "Quantity":1, "Title":"Book Title"}]);
@@ -52,15 +54,13 @@ var app = {
         CleverTap.eventGetOccurrences("noevent", function (num) {console.log("noevent occurrences "+num);});
         CleverTap.eventGetDetails("noevent", function (res) {console.log(res);});
         
-        CleverTap.profileSet({"Identity":123456, "DOB":"1950-10-15", "custom":1.44556});
+        CleverTap.profileSet({"Identity":123456, "DOB":"1950-10-15", "custom":1.3});
         
         CleverTap.profileGetProperty("DOB", function(val) {console.log("DOB profile value is "+val);});
         
         CleverTap.profileGetProperty("Identity", function(val) {console.log("Identity profile value is "+val);});
         
         CleverTap.profileGetProperty("custom", function(val) {console.log("custom profile value is "+val);});
-        
-        CleverTap.registerPush();
         
         CleverTap.sessionGetTimeElapsed(function(val) {console.log("session elapsed time is "+val);});
         CleverTap.sessionGetTotalVisits(function(val) {console.log("session total visits is "+val);});
@@ -70,6 +70,30 @@ var app = {
         */
         
     },
+    
+    // onCleverTapProfileSync Event Handler
+    // CleverTap provides a mechanism for notifying your application about synchronization-related changes to the User Profile/Event History.
+    // You can subscribe to these notifications by listening for the onCleverTapProfile Sync event,
+    // i.e. document.addEventListener('onCleverTapProfileSync', this.onCleverTapProfileSync, false);
+    // the updates property of the onCleverTapProfileSync event represents the changed data and is of the form:
+    //      {
+    //          "profile":{"<property1>":{"oldValue":<value>, "newValue":<value>}, ...},
+    //          "events:{"<eventName>":
+    //              {"count":
+    //                  {"oldValue":(int)<old count>, "newValue":<new count>},
+    //              "firstTime":
+    //                  {"oldValue":(double)<old first time event occurred>, "newValue":<new first time event occurred>},
+    //              "lastTime":
+    //                  {"oldValue":(double)<old last time event occurred>, "newValue":<new last time event occurred>},
+    //              }, ...
+    //          }
+    //      }
+    //
+    //
+    onCleverTapProfileSync: function(e) {
+        console.log(e.updates);
+    },
+    
     // Update DOM on a Received Event
     receivedEvent: function(id) {
         var parentElement = document.getElementById(id);

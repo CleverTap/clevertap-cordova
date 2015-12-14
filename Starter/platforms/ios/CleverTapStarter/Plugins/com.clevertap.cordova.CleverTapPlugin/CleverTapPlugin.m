@@ -10,8 +10,17 @@
 
 #import "CleverTapPlugin.h"
 #import <CleverTapSDK/CleverTap.h>
+#import <CleverTapSDK/CleverTapSyncDelegate.h>
 
 static NSDateFormatter *dateFormatter;
+
+static CleverTap *clevertap;
+
+@interface CleverTapPlugin () <CleverTapSyncDelegate> {
+    
+}
+
+@end
 
 @implementation CleverTapPlugin
 
@@ -24,16 +33,16 @@ static NSDateFormatter *dateFormatter;
     // Listen to re-broadcast events from Cordova's AppDelegate
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onDidFailToRegisterForRemoteNotificationsWithError:) name:CDVRemoteNotificationError object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onHandleOpenURLNotification:) name:CDVPluginHandleOpenURLNotification object:nil];
+    
+    clevertap = [CleverTap sharedInstance];
    
 }
 
 + (void)onDidFinishLaunchingNotification:(NSNotification *)notification {
     NSDictionary *launchOptions = notification.userInfo;
     if (launchOptions && launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]) {
-        [CleverTap handleNotificationWithData:launchOptions];
+        [clevertap handleNotificationWithData:launchOptions];
     }
-    
-    [CleverTap notifyApplicationLaunchedWithOptions:launchOptions];
 }
 
 + (void)onDidFailToRegisterForRemoteNotificationsWithError:(NSNotification *)notification {
@@ -42,7 +51,12 @@ static NSDateFormatter *dateFormatter;
 }
 
 + (void)onHandleOpenURLNotification:(NSNotification *)notification {
-    [CleverTap handleOpenURL:notification.object sourceApplication:nil];
+    [clevertap handleOpenURL:notification.object sourceApplication:nil];
+}
+
+-(void)pluginInitialize {
+    [super pluginInitialize];
+    [clevertap setSyncDelegate:self];
 }
 
 -(NSDictionary*)_eventDetailToDict:(CleverTapEventDetail*)detail {
@@ -91,6 +105,29 @@ static NSDateFormatter *dateFormatter;
     return _dict;
 }
 
+#pragma mark CleverTapSyncDelegate
+
+-(void)profileDataUpdated:(NSDictionary *)updates {
+    
+    if(!updates) {
+        return ;
+    }
+    
+    NSError *error;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:@{@"updates":updates}
+                                                       options:0
+                                                         error:&error];
+    
+    if (!jsonData) {
+        NSLog(@"Error serializing profile updates dictionary: %@", error);
+        return ;
+    }
+    
+    NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onCleverTapProfileSync', %@);", jsonString];
+    [self.commandDelegate evalJs:js];
+}
+
 #pragma mark Public
 
 #pragma mark Push
@@ -106,12 +143,13 @@ static NSDateFormatter *dateFormatter;
     }
 }
 
+
 - (void) setPushToken:(NSData*)pushToken {
-    [CleverTap setPushToken:pushToken];
+    [clevertap setPushToken:pushToken];
 }
 
 - (void) handleNotification:(id)notification {
-    [CleverTap handleNotificationWithData:notification];
+    [clevertap handleNotificationWithData:notification];
 }
 
 #pragma mark Developer Options
@@ -135,7 +173,7 @@ static NSDateFormatter *dateFormatter;
     [self.commandDelegate runInBackground:^{
         NSString *eventName = [command argumentAtIndex:0];
         if (eventName != nil && [eventName isKindOfClass:[NSString class]]) {
-            [[CleverTap push] eventName:eventName];
+            [clevertap recordEvent:eventName];
         }
     }];
 }
@@ -146,7 +184,7 @@ static NSDateFormatter *dateFormatter;
         NSString *eventName = [command argumentAtIndex:0];
         NSDictionary *eventProps = [command argumentAtIndex:1];
         if (eventName != nil && [eventName isKindOfClass:[NSString class]] && eventProps != nil && [eventProps isKindOfClass:[NSDictionary class]]) {
-            [[CleverTap push] eventName:eventName eventProps:eventProps];
+            [clevertap recordEvent:eventName withProps:eventProps];
         }
     }];
 }
@@ -158,7 +196,7 @@ static NSDateFormatter *dateFormatter;
         NSArray *items = [command argumentAtIndex:1];
         
         if (details != nil && [details isKindOfClass:[NSDictionary class]] && items != nil && [items isKindOfClass:[NSArray class]]) {
-            [[CleverTap push] chargedEventWithDetails:details andItems:items];
+            [clevertap recordChargedEventWithDetails:details andItems:items];
         }
     }];
 }
@@ -167,7 +205,7 @@ static NSDateFormatter *dateFormatter;
     [self.commandDelegate runInBackground:^{
         NSString *eventName = [command argumentAtIndex:0];
         if (eventName != nil && [eventName isKindOfClass:[NSString class]]) {
-            NSTimeInterval first = [[CleverTap event] getFirstTime:eventName];
+            NSTimeInterval first = [clevertap eventGetFirstTime:eventName];
             CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDouble:first];
             [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
         }
@@ -178,7 +216,7 @@ static NSDateFormatter *dateFormatter;
     [self.commandDelegate runInBackground:^{
         NSString *eventName = [command argumentAtIndex:0];
         if (eventName != nil && [eventName isKindOfClass:[NSString class]]) {
-            NSTimeInterval last = [[CleverTap event] getLastTime:eventName];
+            NSTimeInterval last = [clevertap eventGetLastTime:eventName];
             CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDouble:last];
             [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
         }
@@ -190,7 +228,7 @@ static NSDateFormatter *dateFormatter;
     [self.commandDelegate runInBackground:^{
         NSString *eventName = [command argumentAtIndex:0];
         if (eventName != nil && [eventName isKindOfClass:[NSString class]]) {
-            int num = [[CleverTap event] getOccurrences:eventName];
+            int num = [clevertap eventGetOccurrences:eventName];
             CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:num];
             [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
         }
@@ -202,7 +240,7 @@ static NSDateFormatter *dateFormatter;
     [self.commandDelegate runInBackground:^{
         NSString *eventName = [command argumentAtIndex:0];
         if (eventName != nil && [eventName isKindOfClass:[NSString class]]) {
-            CleverTapEventDetail *detail = [[CleverTap event] getEventDetail:eventName];
+            CleverTapEventDetail *detail = [clevertap eventGetDetail:eventName];
             NSDictionary * res = [self _eventDetailToDict:detail];
             CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:res];
             [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
@@ -213,7 +251,8 @@ static NSDateFormatter *dateFormatter;
 - (void) getEventHistory:(CDVInvokedUrlCommand *)command {
     
     [self.commandDelegate runInBackground:^{
-        NSDictionary *history = [[CleverTap event] getHistory];
+        NSDictionary *history = [clevertap userGetEventHistory];
+        
         NSMutableDictionary *_history = [NSMutableDictionary new];
         
         for (NSString *eventName in [history keyEnumerator]) {
@@ -264,7 +303,7 @@ static NSDateFormatter *dateFormatter;
                 [_profile setObject:value forKey:key];
             }
             
-            [[CleverTap push] profile:_profile];
+            [clevertap profilePush:_profile];
         }
     }];
 }
@@ -273,7 +312,7 @@ static NSDateFormatter *dateFormatter;
     [self.commandDelegate runInBackground:^{
         NSDictionary *profile = [command argumentAtIndex:0];
         if (profile != nil && [profile isKindOfClass:[NSDictionary class]]) {
-            [[CleverTap push] graphUser:profile];
+            [clevertap profilePushGraphUser:profile];
         }
     }];
 }
@@ -282,7 +321,7 @@ static NSDateFormatter *dateFormatter;
     [self.commandDelegate runInBackground:^{
         NSDictionary *profile = [command argumentAtIndex:0];
         if (profile != nil && [profile isKindOfClass:[NSDictionary class]]) {
-            [[CleverTap push] googlePlusUser:profile];
+            [clevertap profilePushGooglePlusUser:profile];
         }
     }];
 }
@@ -293,7 +332,7 @@ static NSDateFormatter *dateFormatter;
         CDVPluginResult *pluginResult;
         
         if (propertyName != nil && [propertyName isKindOfClass:[NSString class]]) {
-            id prop = [[CleverTap profile] getProperty:propertyName];
+            id prop = [clevertap profileGet:propertyName];
             
             if(prop == nil) {
                 pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:NO];
@@ -339,7 +378,7 @@ static NSDateFormatter *dateFormatter;
 #pragma mark Session API
 - (void) sessionGetTimeElapsed:(CDVInvokedUrlCommand *)command {
     [self.commandDelegate runInBackground:^{
-        NSTimeInterval elapsed = [[CleverTap session] getTimeElapsed];
+        NSTimeInterval elapsed = [clevertap sessionGetTimeElapsed];
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDouble:elapsed];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
@@ -347,7 +386,7 @@ static NSDateFormatter *dateFormatter;
 
 - (void) sessionGetTotalVisits:(CDVInvokedUrlCommand *)command {
     [self.commandDelegate runInBackground:^{
-        int total = [[CleverTap session] getTotalVisits];
+        int total = [clevertap userGetTotalVisits];
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:total];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
@@ -355,7 +394,7 @@ static NSDateFormatter *dateFormatter;
 
 - (void) sessionGetScreenCount:(CDVInvokedUrlCommand *)command {
     [self.commandDelegate runInBackground:^{
-        int count = [[CleverTap session] getScreenCount];
+        int count = [clevertap userGetScreenCount];
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:count];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
@@ -363,7 +402,7 @@ static NSDateFormatter *dateFormatter;
 
 - (void) sessionGetPreviousVisitTime:(CDVInvokedUrlCommand *)command {
     [self.commandDelegate runInBackground:^{
-        NSTimeInterval previous = [[CleverTap session] getPreviousVisitTime];
+        NSTimeInterval previous = [clevertap userGetPreviousVisitTime];
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDouble:previous];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
@@ -371,9 +410,8 @@ static NSDateFormatter *dateFormatter;
 
 - (void) sessionGetUTMDetails:(CDVInvokedUrlCommand *)command {
     [self.commandDelegate runInBackground:^{
-        CleverTapUTMDetail *detail = [[CleverTap session] getUTMDetails];
+        CleverTapUTMDetail *detail = [clevertap sessionGetUTMDetails];
         NSDictionary * _detail = [self _utmDetailToDict:detail];
-        
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:_detail];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
         

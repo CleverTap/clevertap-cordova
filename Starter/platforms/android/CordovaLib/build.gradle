@@ -15,9 +15,6 @@
    specific language governing permissions and limitations
    under the License.
 */
-
-
-
 buildscript {
     repositories {
         mavenCentral()
@@ -41,12 +38,10 @@ buildscript {
         }
     }
 }
-
 apply plugin: 'android-library'
-
 android {
-    compileSdkVersion cdvCompileSdkVersion
-    buildToolsVersion cdvBuildToolsVersion
+    compileSdkVersion 23
+    buildToolsVersion '23.0.2'
     publishNonDefault true
 
     compileOptions {
@@ -65,4 +60,7 @@ android {
             assets.srcDirs = ['assets']
         }
     }
+}
+
+dependencies {
 }

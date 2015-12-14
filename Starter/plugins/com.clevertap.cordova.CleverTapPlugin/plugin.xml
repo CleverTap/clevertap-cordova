@@ -27,6 +27,7 @@
         <framework src="SystemConfiguration.framework" />
         <framework src="CoreTelephony.framework" />
         <framework src="UIKit.framework" />
+        <framework src="Security.framework" />
         <framework src="CoreLocation.framework" />
         
     </platform>

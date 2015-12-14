@@ -5,14 +5,20 @@ CleverTap Cordova Plugin
 
 Tested on Cordova 5.3.3
 
-- [CleverTap Android SDK version 2.0.1](https://github.com/CleverTap/clevertap-android-sdk/releases/tag/2.0.1)
-- [CleverTap iOS SDK version 2.0.2, Xcode 7 only](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/2.0.2)
+- [CleverTap Android SDK version 2.0.3](https://github.com/CleverTap/clevertap-android-sdk/releases/tag/2.0.3)
+- [CleverTap iOS SDK version 2.0.4, Xcode 7 only](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/2.0.4)
 
 ## Install
 
+Using Cordova  
 ```
 cordova plugin add https://github.com/CleverTap/clevertap-cordova.git
 ```
+
++Using Ionic  
++```
++ionic plugin add https://github.com/CleverTap/clevertap-cordova.git
++```
 
 ## Integration
 
@@ -140,13 +146,22 @@ Make sure your build.gradle file includes the play-services dependency:
 
 After integrating, all calls to the CleverTap SDK should be made from your Javascript.
 
-Start by adding the following listener to your Javascript:
+Start by adding the following listeners to your Javascript:
 
     document.addEventListener('deviceready', this.onDeviceReady, false);
+    document.addEventListener('onCleverTapProfileSync', this.onCleverTapProfileSync, false); // to be notified of CleverTap user profile synchronization updates 
 
 Then:  
 
 - [see the included iOS Starter Cordova project for example usage](https://github.com/CleverTap/clevertap-cordova/blob/master/Starter/platforms/ios/www/js/index.js).   
 
-- [see the included Android Starter Cordova project for example usage](https://github.com/CleverTap/clevertap-cordova/blob/master/Starter/platforms/android/assets/www/js/index.js).
+- [see the included Android Starter Cordova project for example usage](https://github.com/CleverTap/clevertap-cordova/blob/master/Starter/platforms/android/assets/www/js/index.js).  
+
+
+Example Ionic onDeviceReady:
+
+    function onDeviceReady(e){
+        $rootScope.CleverTap= CleverTap;
+        CleverTap && CleverTap.registerPush();
+    }
 

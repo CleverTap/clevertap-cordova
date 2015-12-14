@@ -129,4 +129,5 @@
  */
 - (void) sessionGetUTMDetails:(CDVInvokedUrlCommand *)command;
 
+
 @end
