@@ -35,8 +35,17 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
+
+        /*
+        //Ionic example usage
+        $rootScope.CleverTap = CleverTap;
+        CleverTap && CleverTap.setDebugLevel(1);
+        */
+
         CleverTap.setDebugLevel(1);
         CleverTap.enablePersonalization();
+
+
         /*
         CleverTap.recordEventWithName("foo");
         CleverTap.recordEventWithNameAndProps("androidFoo", {"bar":"foo"});
