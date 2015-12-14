@@ -35,6 +35,13 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
+        
+        /*
+         // Ionic example usage
+         $rootScope.CleverTap = CleverTap;
+         CleverTap && CleverTap.registerPush();
+        */
+        
         CleverTap.setDebugLevel(1);
         CleverTap.enablePersonalization();
         CleverTap.registerPush();
