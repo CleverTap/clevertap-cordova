@@ -15,10 +15,10 @@ Using Cordova
 cordova plugin add https://github.com/CleverTap/clevertap-cordova.git
 ```
 
-+Using Ionic  
-+```
-+ionic plugin add https://github.com/CleverTap/clevertap-cordova.git
-+```
+Using Ionic  
+```
+ionic plugin add https://github.com/CleverTap/clevertap-cordova.git
+```
 
 ## Integration
 
