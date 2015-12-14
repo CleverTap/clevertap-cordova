@@ -150,19 +150,11 @@ After integrating, all calls to the CleverTap SDK should be made from your Javas
 Start by adding the following listeners to your Javascript:
 
     document.addEventListener('deviceready', this.onDeviceReady, false);
-    document.addEventListener('onCleverTapProfileSync', this.onCleverTapProfileSync, false); // optional:  to be notified of CleverTap user profile synchronization updates 
+    document.addEventListener('onCleverTapProfileSync', this.onCleverTapProfileSync, false); // optional: to be notified of CleverTap user profile synchronization updates 
 
 Then:  
 
 - [see the included iOS Starter Cordova project for example usage](https://github.com/CleverTap/clevertap-cordova/blob/master/Starter/platforms/ios/www/js/index.js).   
-
-- Example Ionic iOS onDeviceReady:
-
-    function onDeviceReady(e){
-        //for Ionic application
-        $rootScope.CleverTap= CleverTap;
-        CleverTap && CleverTap.registerPush();
-    }
 
 - [see the included Android Starter Cordova project for example usage](https://github.com/CleverTap/clevertap-cordova/blob/master/Starter/platforms/android/assets/www/js/index.js).  
 
