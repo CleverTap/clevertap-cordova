@@ -549,7 +549,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener {
             return ;
         }
 
-        final String json = "{updates:"+updates.toString()+"}";
+        final String json = "{'updates':"+updates.toString()+"}";
         webView.getView().post(new Runnable() {
             public void run() {
                 webView.loadUrl("javascript:cordova.fireDocumentEvent('onCleverTapProfileSync',"+json+");");
