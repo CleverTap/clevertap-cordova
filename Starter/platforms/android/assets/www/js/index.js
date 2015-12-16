@@ -28,6 +28,8 @@ var app = {
     bindEvents: function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
         document.addEventListener('onCleverTapProfileSync', this.onCleverTapProfileSync, false);
+        //example deeplink handling
+        document.addEventListener('onDeepLink', this.onDeepLink, false);
     },
     // deviceready Event Handler
     //
@@ -42,7 +44,7 @@ var app = {
         CleverTap && CleverTap.setDebugLevel(1);
         */
 
-        CleverTap.setDebugLevel(1);
+        CleverTap.setDebugLevel(1277182231);
         CleverTap.enablePersonalization();
 
 
@@ -96,6 +98,11 @@ var app = {
      //
     onCleverTapProfileSync: function(e) {
         console.log(e.updates);
+    },
+
+    // example deep link handling
+    onDeepLink: function(e) {
+            console.log(e.deeplink);
     },
 
 
