@@ -90,13 +90,31 @@ Please ensure that you're requesting the following permissions for your app:
 
 [Please see the example AndroidManifest.xml here](https://github.com/CleverTap/clevertap-cordova/blob/master/Starter/platforms/android/AndroidManifest.xml).
 
+**Add Dependencies**
+
+Make sure Google Play Services and Android v4 support library, minimum revision 23.1.1 are added as dependencies in your project.   
+
+Add an extra line to YOUR_PROJECT/platforms/android/project.properties: `cordova.system.library.1=com.google.android.gms:play-services:8.3.0`  
+ 
+Make sure your build.gradle file includes the play-services and support library dependencies:
+
+    dependencies {
+        compile fileTree(dir: 'libs', include: '*.jar'  )
+        // SUB-PROJECT DEPENDENCIES START  
+        debugCompile project(path: "CordovaLib", configuration: "debug")  
+        releaseCompile project(path: "CordovaLib", configuration: "release")  
+        compile 'com.google.android.gms:play-services:8.3.0'
+        compile 'com.android.support:support-v4:23.1.1'
+        // SUB-PROJECT DEPENDENCIES END   
+
+
 ### 2. Set up and register for push notifications
 
 #### iOS
 
 [Follow Steps 1 and 2 in these instructions to set up push notifications for your app.](https://support.clevertap.com/messaging/push-notifications/#ios)
 
-Please note that The CleverTapPlugin relies on "CDVRemoteNotification", "CDVRemoteNotificationError" and "CDVPluginHandleOpenURLNotification" broadcasted by Cordova's AppDelegate.m class to handle user push notification permissioning. If you change the AppDelegate, ensure to re-broadcast these events from the appropriate handlers. [See the included example Starter Project](https://github.com/CleverTap/clevertap-cordova/blob/master/Starter/platforms/ios/CleverTapStarter/Classes/AppDelegate.m).
+If you plan on including deep links in your push notifications, [please register your custom url scheme as described here](https://support.clevertap.com/messaging/deep-linking/#step-1-register-your-custom-scheme).  
 
 Afterwards, call the following from your Javascript.
 
@@ -120,6 +138,27 @@ To register the user push token please replace the default Cordova behavior in t
     */
     
 
+To handle deep links contained in push notifications, you can pass the deep link url to your javascript by firing a custom document event from your AppDelegate application:openURL:sourceApplication: method.  See the example below:   
+     
+    - (BOOL)application:(UIApplication*)application openURL:(NSURL*)url sourceApplication:(NSString*)sourceApplication annotation:(id)annotation
+    {
+        if (!url) {
+            return NO;
+        }
+
+        // all plugins will get the notification, and their handlers will be called
+        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CDVPluginHandleOpenURLNotification object:url]];
+        
+        // example Deep Link Handling
+        NSString *scheme = [url scheme];
+        if([scheme isEqualToString:@"<your custom url scheme>"]) {
+            NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onDeepLink', {'deeplink':'%@'});", url.description];
+            [self.viewController.commandDelegate evalJs:js];
+        }
+
+        return YES;
+    }
+
 [See the included example Starter Cordova project](https://github.com/CleverTap/clevertap-cordova/blob/master/Starter/platforms/ios/CleverTapStarter/Classes/AppDelegate.m).
 
 
@@ -127,22 +166,37 @@ To register the user push token please replace the default Cordova behavior in t
 
 [Follow these instructions to set up push notifications for your app.](https://support.clevertap.com/messaging/push-notifications/#android)
 
-Then, make sure Google Play Services and Android v4 support library, minimum revision 23.1.1 are added as dependencies in your project.   
+To handle deep links contained in push notifications, you can pass the deep link url to your javascript by firing a custom document event from your MainActivity.  See the example below:   
 
-Add an extra line to YOUR_PROJECT/platforms/android/project.properties: `cordova.system.library.1=com.google.android.gms:play-services:8.3.0`  
- 
-Make sure your build.gradle file includes the play-services and support library dependencies:
+Add the required intent filter to your MainActivity tag in AndroidManifest.xml:
 
-    dependencies {
-        compile fileTree(dir: 'libs', include: '*.jar'  )
-        // SUB-PROJECT DEPENDENCIES START  
-        debugCompile project(path: "CordovaLib", configuration: "debug")  
-        releaseCompile project(path: "CordovaLib", configuration: "release")  
-        compile 'com.google.android.gms:play-services:8.3.0'
-        compile 'com.android.support:support-v4:23.1.1'
-        // SUB-PROJECT DEPENDENCIES END   
+    <!-- Example Deep Link Handling, substitute your deeplink scheme for clevertapstarter -->
+            <intent-filter android:label="@string/app_name">
+                <action android:name="android.intent.action.VIEW" />
 
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
 
+                <data android:scheme="clevertapstarter" />
+            </intent-filter>
+
+Handle the intent in your MainActivity.java:  
+
+    // example deeplink handling
+    @Override
+    public void onNewIntent(Intent intent) {
+
+        super.onNewIntent(intent);
+
+        if (intent.getAction().equals(Intent.ACTION_VIEW)) {
+            Uri data = intent.getData();
+            if (data != null) {
+                final String json = "{'deeplink':'"+data.toString()+"'}";
+                loadUrl("javascript:cordova.fireDocumentEvent('onDeepLink'," + json + ");");
+            }
+        }
+    }
+     
 ### 3. Integrate Javascript with the Plugin
 
 After integrating, all calls to the CleverTap SDK should be made from your Javascript.
@@ -151,6 +205,7 @@ Start by adding the following listeners to your Javascript:
 
     document.addEventListener('deviceready', this.onDeviceReady, false);
     document.addEventListener('onCleverTapProfileSync', this.onCleverTapProfileSync, false); // optional: to be notified of CleverTap user profile synchronization updates 
+    document.addEventListener('onDeepLink', this.onDeepLink, false); // example: optional, register your own custom listener to handle deep links passed from your native code.
 
 Then:  
 
