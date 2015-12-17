@@ -28,6 +28,8 @@ var app = {
     bindEvents: function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
         document.addEventListener('onCleverTapProfileSync', this.onCleverTapProfileSync, false);
+        //example deeplink handling
+        document.addEventListener('onDeepLink', this.onDeepLink, false);
     },
     // deviceready Event Handler
     //
@@ -99,6 +101,11 @@ var app = {
     //
     onCleverTapProfileSync: function(e) {
         console.log(e.updates);
+    },
+    
+    // example deep link handling
+    onDeepLink: function(e) {
+        console.log(e.deeplink);
     },
     
     // Update DOM on a Received Event

@@ -103,6 +103,13 @@
 
     // all plugins will get the notification, and their handlers will be called
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CDVPluginHandleOpenURLNotification object:url]];
+    
+    // example Deep Link Handling
+    NSString *scheme = [url scheme];
+    if([scheme isEqualToString:@"clevertapstarter"]) {
+        NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onDeepLink', {'deeplink':'%@'});", url.description];
+        [self.viewController.commandDelegate evalJs:js];
+    }
 
     return YES;
 }
@@ -153,6 +160,8 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:CDVRemoteNotificationError object:error];
 }
 #endif
+
+
 
 - (UIInterfaceOrientationMask)application:(UIApplication*)application supportedInterfaceOrientationsForWindow:(UIWindow*)window
 {

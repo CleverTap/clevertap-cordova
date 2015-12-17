@@ -459,7 +459,7 @@
 					"-weak-lSystem",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.clevertap.evaluator;
+				PRODUCT_BUNDLE_IDENTIFIER = com.clevertap.starter;
 				PRODUCT_NAME = CleverTapStarter;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -493,7 +493,7 @@
 					"-weak-lSystem",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.clevertap.evaluator;
+				PRODUCT_BUNDLE_IDENTIFIER = com.clevertap.starter;
 				PRODUCT_NAME = CleverTapStarter;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
