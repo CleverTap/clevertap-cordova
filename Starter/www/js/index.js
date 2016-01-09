@@ -49,6 +49,7 @@ var app = {
         CleverTap.registerPush();
         
         /*
+        CleverTap.setLocation(34.1410, -118.1607);
         CleverTap.recordEventWithName("foo");
         CleverTap.recordEventWithNameAndProps("boo", {"bar":"zoo"});
         CleverTap.recordChargedEventWithDetailsAndItems({"amount":300, "Charged ID":1234}, [{"Category":"Books", "Quantity":1, "Title":"Book Title"}]);

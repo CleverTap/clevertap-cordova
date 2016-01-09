@@ -11,6 +11,7 @@
 package com.clevertap.cordova;
 
 import android.util.Log;
+import android.location.Location;
 
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaWebView;
@@ -328,6 +329,44 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener {
                 }
             });
             return true;
+        }
+
+        else if (action.equals("setLocation")) {
+            Double lat = null;
+            Double lon = null;
+
+            if (args.length() == 2) {
+                if (!args.isNull(0)) {
+                    lat = args.getDouble(0);
+                } else {
+                    haveError = true;
+                    errorMsg = "lat cannot be null";
+                }
+                if (!args.isNull(1)) {
+                    lon = args.getDouble(1);
+                } else {
+                    haveError = true;
+                    errorMsg = "lon cannot be null";
+                }
+            } else {
+                haveError = true;
+                errorMsg = "Expected 2 arguments";
+            }
+
+            if (!haveError) {
+                final Location location = new Location("CleverTapPlugin");
+                location.setLatitude(lat);
+                location.setLongitude(lon);
+                cordova.getThreadPool().execute(new Runnable() {
+                    public void run() {
+                        cleverTap.updateLocation(location);
+                        PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
+                        _result.setKeepCallback(true);
+                        callbackContext.sendPluginResult(_result);
+                    }
+                });
+                return true;
+            }
         }
 
         else if (action.equals("profileSet")) {

@@ -44,11 +44,11 @@ var app = {
         CleverTap && CleverTap.setDebugLevel(1);
         */
 
-        CleverTap.setDebugLevel(1277182231);
+        CleverTap.setDebugLevel(1);
         CleverTap.enablePersonalization();
 
-
         /*
+        CleverTap.setLocation(34.1410, -118.1607);
         CleverTap.recordEventWithName("foo");
         CleverTap.recordEventWithNameAndProps("androidFoo", {"bar":"foo"});
         CleverTap.eventGetFirstTime("androidFoo", function (time) {console.log("androidFoo event first time is "+time);});

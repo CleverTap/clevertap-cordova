@@ -92,6 +92,13 @@ CleverTap.prototype.getEventHistory = function (successCallback) {
  * Profiles
  ******************/
 
+// Set location
+// lat = float
+// lon = float
+CleverTap.prototype.setLocation = function (lat, lon) {
+    cordova.exec(null, null, "CleverTapPlugin", "setLocation", [lat, lon]);
+}
+               
 // Set profile attributes
 // profile = object
 CleverTap.prototype.profileSet = function (profile) {

@@ -88,6 +88,10 @@
 
 #pragma mark Profile API
 
+/** Set location
+ */
+- (void) setLocation:(CDVInvokedUrlCommand *)command;
+
 /** Set properties on the CleverTap device user profile
  */
 - (void) profileSet:(CDVInvokedUrlCommand *)command;

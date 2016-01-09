@@ -11,6 +11,7 @@
 #import "CleverTapPlugin.h"
 #import <CleverTapSDK/CleverTap.h>
 #import <CleverTapSDK/CleverTapSyncDelegate.h>
+#import <CoreLocation/CoreLocation.h>
 
 static NSDateFormatter *dateFormatter;
 
@@ -268,6 +269,23 @@ static CleverTap *clevertap;
 }
 
 #pragma mark Profile API
+
+- (void) setLocation:(CDVInvokedUrlCommand *)command {
+    [self.commandDelegate runInBackground:^{
+        @try {
+            double lat = [[command argumentAtIndex:0] doubleValue];
+            double lon = [[command argumentAtIndex:1] doubleValue];
+            CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(lat,lon);
+            [CleverTap setLocation:coordinate];
+        }
+        @catch (NSException *exception) {
+            NSLog(@"error setting location %@", exception.reason);
+            return ;
+        }
+    }];
+}
+
+
 - (void)profileSet:(CDVInvokedUrlCommand *)command {
     [self.commandDelegate runInBackground:^{
         NSDictionary *profile = [command argumentAtIndex:0];
