@@ -1,1 +1,3 @@
 *.xcuserstate
+Starter/platforms/android/.idea/
+Starter/platforms/android/.gradle/

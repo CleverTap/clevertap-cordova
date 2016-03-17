@@ -108,6 +108,26 @@ static CleverTap *clevertap;
 
 #pragma mark CleverTapSyncDelegate
 
+- (void)profileDidInitialize:(NSString*)CleverTapID {
+    if(!CleverTapID) {
+        return ;
+    }
+    
+    NSError *error;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:@{@"CleverTapID":CleverTapID}
+                                                       options:0
+                                                         error:&error];
+    
+    if (!jsonData) {
+        NSLog(@"Error serializing profile initialized dictionary: %@", error);
+        return ;
+    }
+    
+    NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onCleverTapProfileDidInitialize', %@);", jsonString];
+    [self.commandDelegate evalJs:js];
+}
+
 -(void)profileDataUpdated:(NSDictionary *)updates {
     
     if(!updates) {
@@ -390,6 +410,85 @@ static CleverTap *clevertap;
         }
         
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
+}
+
+-(void)profileGetCleverTapID:(CDVInvokedUrlCommand *)command {
+    [self.commandDelegate runInBackground:^{
+        CDVPluginResult *pluginResult;
+        
+        NSString *cleverTapID = [clevertap profileGetCleverTapID];
+        
+        if(cleverTapID == nil) {
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:NO];
+        }
+        
+        else  {
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:cleverTapID];
+        }
+        
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
+}
+
+- (void)profileRemoveValueForKey:(CDVInvokedUrlCommand *)command {
+    [self.commandDelegate runInBackground:^{
+        NSString *key = [command argumentAtIndex:0];
+        if (key != nil && [key isKindOfClass:[NSString class]]) {
+            [clevertap profileRemoveValueForKey:key];
+        }
+    }];
+    
+}
+
+- (void)profileSetMultiValues:(CDVInvokedUrlCommand *)command {
+    [self.commandDelegate runInBackground:^{
+        NSString *key = [command argumentAtIndex:0];
+        NSArray *values = [command argumentAtIndex:1];
+        if (key != nil && [key isKindOfClass:[NSString class]] && values != nil && [values isKindOfClass:[NSArray class]]) {
+            [clevertap profileSetMultiValues:values forKey:key];
+        }
+    }];
+    
+}
+
+- (void)profileAddMultiValue:(CDVInvokedUrlCommand *)command {
+    [self.commandDelegate runInBackground:^{
+        NSString *key = [command argumentAtIndex:0];
+        NSString *value = [command argumentAtIndex:1];
+        if (key != nil && [key isKindOfClass:[NSString class]] && value != nil && [value isKindOfClass:[NSString class]]) {
+            [clevertap profileAddMultiValue:value forKey:key];
+        }
+    }];
+}
+
+- (void)profileAddMultiValues:(CDVInvokedUrlCommand *)command {
+    [self.commandDelegate runInBackground:^{
+        NSString *key = [command argumentAtIndex:0];
+        NSArray *values = [command argumentAtIndex:1];
+        if (key != nil && [key isKindOfClass:[NSString class]] && values != nil && [values isKindOfClass:[NSArray class]]) {
+            [clevertap profileAddMultiValues:values forKey:key];
+        }
+    }];
+}
+
+- (void)profileRemoveMultiValue:(CDVInvokedUrlCommand *)command {
+    [self.commandDelegate runInBackground:^{
+        NSString *key = [command argumentAtIndex:0];
+        NSString *value = [command argumentAtIndex:1];
+        if (key != nil && [key isKindOfClass:[NSString class]] && value != nil && [value isKindOfClass:[NSString class]]) {
+            [clevertap profileRemoveMultiValue:value forKey:key];
+        }
+    }];
+}
+
+- (void)profileRemoveMultiValues:(CDVInvokedUrlCommand *)command {
+    [self.commandDelegate runInBackground:^{
+        NSString *key = [command argumentAtIndex:0];
+        NSArray *values = [command argumentAtIndex:1];
+        if (key != nil && [key isKindOfClass:[NSString class]] && values != nil && [values isKindOfClass:[NSArray class]]) {
+            [clevertap profileRemoveMultiValues:values forKey:key];
+        }
     }];
 }
 

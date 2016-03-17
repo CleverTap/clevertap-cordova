@@ -28,6 +28,7 @@ var app = {
     bindEvents: function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
         document.addEventListener('onCleverTapProfileSync', this.onCleverTapProfileSync, false);
+        document.addEventListener('onCleverTapProfileDidInitialize', this.onCleverTapProfileDidInitialize, false);
         //example deeplink handling
         document.addEventListener('onDeepLink', this.onDeepLink, false);
     },
@@ -48,6 +49,8 @@ var app = {
         CleverTap.enablePersonalization();
 
         /*
+        CleverTap.profileSetMultiValues("multiValue", ["one", "two", "three", "four"]);
+
         CleverTap.setLocation(34.1410, -118.1607);
         CleverTap.recordEventWithName("foo");
         CleverTap.recordEventWithNameAndProps("androidFoo", {"bar":"foo"});
@@ -73,7 +76,19 @@ var app = {
         CleverTap.sessionGetScreenCount(function(val) {console.log("session screen count is "+val);});
         CleverTap.sessionGetPreviousVisitTime(function(val) {console.log("session previous visit time is "+val);});
         CleverTap.sessionGetUTMDetails(function(val) {console.log('utm details campaign ' + val['campaign']);});
+
+
+        CleverTap.profileGetCleverTapID(function(val) {console.log("CleverTapID is "+val);});
+
+        CleverTap.profileAddMultiValue("multiValue", "five");
+        CleverTap.profileRemoveMultiValues("multiValue", ["one", "two"]);
+        CleverTap.profileRemoveMultiValue("multiValue", "three");
+        CleverTap.profileAddMultiValues("multiValue", [6, 7]);
+        CleverTap.profileRemoveValueForKey("custom");
+        CleverTap.profileGetProperty("multiValue", function(val) {console.log("multiValue profile value is "+val);});
+        CleverTap.profileGetProperty("custom",function (val) {console.log("custom profile prop value is "+val);});
         */
+
 
     },
 
@@ -98,6 +113,10 @@ var app = {
      //
     onCleverTapProfileSync: function(e) {
         console.log(e.updates);
+    },
+
+    onCleverTapProfileDidInitialize: function(e) {
+        console.log(e.CleverTapID);
     },
 
     // example deep link handling

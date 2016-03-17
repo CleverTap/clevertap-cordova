@@ -109,6 +109,52 @@
  */
 - (void) profileGetProperty:(CDVInvokedUrlCommand *)command;
 
+/** Get the CleverTap ID of the User Profile. The CleverTap ID is the unique identifier assigned to the User Profile by CleverTap.
+ */
+-(void)profileGetCleverTapID:(CDVInvokedUrlCommand *)command;
+
+/** Remove the property specified by key from the user profile.
+ */
+- (void)profileRemoveValueForKey:(CDVInvokedUrlCommand *)command;
+
+/** Method for setting a multi-value user profile property.
+ Any existing value(s) for the key will be overwritten.
+ Key must be String.
+ Values must be Strings, max 40 bytes.  Longer will be truncated.
+ Max 100 values, on reaching 100 cap, oldest value(s) will be removed.
+ */
+- (void)profileSetMultiValues:(CDVInvokedUrlCommand *)command;
+
+/** Method for adding a unique value to a multi-value profile property (or creating if not already existing).
+ If the key currently contains a scalar value, the key will be promoted to a multi-value property
+ with the current value cast to a string and the new value(s) added.
+ Key must be String.
+ Values must be Strings, max 40 bytes. Longer will be truncated.
+ Max 100 values, on reaching 100 cap, oldest value(s) will be removed.
+ */
+- (void)profileAddMultiValue:(CDVInvokedUrlCommand *)command;
+
+/**  Method for adding multiple unique values to a multi-value profile property (or creating if not already existing).
+ If the key currently contains a scalar value, the key will be promoted to a multi-value property
+ with the current value cast to a string and the new value(s) added.
+ Key must be String.
+ Values must be Strings, max 40 bytes. Longer will be truncated.
+ Max 100 values, on reaching 100 cap, oldest value(s) will be removed.
+ */
+- (void)profileAddMultiValues:(CDVInvokedUrlCommand *)command;
+
+/**  Method for removing a unique value from a multi-value profile property.
+ If the key currently contains a scalar value, prior to performing the remove operation the key will be promoted to a multi-value property with the current value cast to a string.
+ If the multi-value property is empty after the remove operation, the key will be removed.
+ */
+- (void)profileRemoveMultiValue:(CDVInvokedUrlCommand *)command;
+
+/**   Method for removing multiple unique values from a multi-value profile property.
+ If the key currently contains a scalar value, prior to performing the remove operation the key will be promoted to a multi-value property with the current value cast to a string.
+ If the multi-value property is empty after the remove operation, the key will be removed.
+ */
+- (void)profileRemoveMultiValues:(CDVInvokedUrlCommand *)command;
+
 #pragma mark Session API
 
 /** Get CleverTap session time in seconds

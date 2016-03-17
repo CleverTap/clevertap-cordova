@@ -491,8 +491,23 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener {
             if (propertyName != null) {
                 cordova.getThreadPool().execute(new Runnable() {
                     public void run() {
-                        String prop = cleverTap.profile.getProperty(propertyName);
-                        PluginResult _result = new PluginResult(PluginResult.Status.OK, prop);
+                        PluginResult _result;
+                        Object prop = cleverTap.profile.getProperty(propertyName);
+
+                        if (prop instanceof JSONArray) {
+                            JSONArray _prop = (JSONArray) prop;
+                            _result = new PluginResult(PluginResult.Status.OK, _prop);
+
+                        } else {
+                            String _prop;
+                            if (prop != null) {
+                                 _prop = prop.toString();
+                            } else {
+                                _prop = null;
+                            }
+                            _result = new PluginResult(PluginResult.Status.OK, _prop);
+                        }
+
                         _result.setKeepCallback(true);
                         callbackContext.sendPluginResult(_result);
                     }
@@ -501,6 +516,264 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener {
 
             } else {
                 errorMsg = "propertyName cannot be null";
+            }
+        }
+
+        else if (action.equals("profileGetCleverTapID")) {
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    String CleverTapID = cleverTap.getCleverTapID();
+                    PluginResult _result = new PluginResult(PluginResult.Status.OK, CleverTapID);
+                    _result.setKeepCallback(true);
+                    callbackContext.sendPluginResult(_result);
+                }
+            });
+            return true;
+        }
+
+        else if (action.equals("profileRemoveValueForKey")) {
+            final String key = (args.length() == 1 ? args.getString(0) : null);
+            if (key != null) {
+                cordova.getThreadPool().execute(new Runnable() {
+                    public void run() {
+                        cleverTap.profile.removeValueForKey(key);
+                        PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
+                        _result.setKeepCallback(true);
+                        callbackContext.sendPluginResult(_result);
+                    }
+                });
+                return true;
+
+            } else {
+                errorMsg = "property key cannot be null";
+            }
+        }
+
+        else if (action.equals("profileSetMultiValues")) {
+            String key = null;
+            JSONArray values = null;
+
+            if (args.length() == 2) {
+                if (!args.isNull(0)) {
+                    key = args.getString(0);
+                } else {
+                    haveError = true;
+                    errorMsg = "key cannot be null";
+                }
+                if (!args.isNull(1)) {
+                    values = args.getJSONArray(1);
+                    if (values == null) {
+                        haveError = true;
+                        errorMsg = "values cannot be null";
+                    }
+                } else {
+                    haveError = true;
+                    errorMsg = "values cannot be null";
+                }
+            } else {
+                haveError = true;
+                errorMsg = "Expected 2 arguments";
+            }
+
+            if (!haveError) {
+                final String _key = key;
+                final ArrayList<String> _values = new ArrayList<String>();
+                try {
+                    for (int i = 0; i < values.length(); i++) {
+                        _values.add(values.get(i).toString());
+                    }
+
+                    cordova.getThreadPool().execute(new Runnable() {
+                        public void run() {
+                            cleverTap.profile.setMultiValuesForKey(_key, _values);
+                            PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
+                            _result.setKeepCallback(true);
+                            callbackContext.sendPluginResult(_result);
+                        }
+                    });
+
+                    return true;
+
+                } catch (Exception e) {
+                    // no-op
+                }
+            }
+        }
+
+        else if (action.equals("profileAddMultiValues")) {
+            String key = null;
+            JSONArray values = null;
+
+            if (args.length() == 2) {
+                if (!args.isNull(0)) {
+                    key = args.getString(0);
+                } else {
+                    haveError = true;
+                    errorMsg = "key cannot be null";
+                }
+                if (!args.isNull(1)) {
+                    values = args.getJSONArray(1);
+                    if (values == null) {
+                        haveError = true;
+                        errorMsg = "values cannot be null";
+                    }
+                } else {
+                    haveError = true;
+                    errorMsg = "values cannot be null";
+                }
+            } else {
+                haveError = true;
+                errorMsg = "Expected 2 arguments";
+            }
+
+            if (!haveError) {
+                final String _key = key;
+                final ArrayList<String> _values = new ArrayList<String>();
+                try {
+                    for (int i = 0; i < values.length(); i++) {
+                        _values.add(values.get(i).toString());
+                    }
+
+                    cordova.getThreadPool().execute(new Runnable() {
+                        public void run() {
+                            cleverTap.profile.addMultiValuesForKey(_key, _values);
+                            PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
+                            _result.setKeepCallback(true);
+                            callbackContext.sendPluginResult(_result);
+                        }
+                    });
+
+                    return true;
+
+                } catch (Exception e) {
+                    // no-op
+                }
+            }
+        }
+        else if (action.equals("profileRemoveMultiValues")) {
+            String key = null;
+            JSONArray values = null;
+
+            if (args.length() == 2) {
+                if (!args.isNull(0)) {
+                    key = args.getString(0);
+                } else {
+                    haveError = true;
+                    errorMsg = "key cannot be null";
+                }
+                if (!args.isNull(1)) {
+                    values = args.getJSONArray(1);
+                    if (values == null) {
+                        haveError = true;
+                        errorMsg = "values cannot be null";
+                    }
+                } else {
+                    haveError = true;
+                    errorMsg = "values cannot be null";
+                }
+            } else {
+                haveError = true;
+                errorMsg = "Expected 2 arguments";
+            }
+
+            if (!haveError) {
+                final String _key = key;
+                final ArrayList<String> _values = new ArrayList<String>();
+                try {
+                    for (int i = 0; i < values.length(); i++) {
+                        _values.add(values.get(i).toString());
+                    }
+
+                    cordova.getThreadPool().execute(new Runnable() {
+                        public void run() {
+                            cleverTap.profile.removeMultiValuesForKey(_key, _values);
+                            PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
+                            _result.setKeepCallback(true);
+                            callbackContext.sendPluginResult(_result);
+                        }
+                    });
+
+                    return true;
+
+                } catch (Exception e) {
+                    // no-op
+                }
+            }
+        }
+
+        else if (action.equals("profileAddMultiValue")) {
+            String key = null;
+            String value = null;
+
+            if (args.length() == 2) {
+                if (!args.isNull(0)) {
+                    key = args.getString(0);
+                } else {
+                    haveError = true;
+                    errorMsg = "key cannot be null";
+                }
+                if (!args.isNull(1)) {
+                    value = args.getString(1);
+                } else {
+                    haveError = true;
+                    errorMsg = "value cannot be null";
+                }
+            } else {
+                haveError = true;
+                errorMsg = "Expected 2 arguments";
+            }
+
+            if (!haveError) {
+                final String _key = key;
+                final String _value = value;
+
+                cordova.getThreadPool().execute(new Runnable() {
+                    public void run() {
+                        cleverTap.profile.addMultiValueForKey(_key, _value);
+                        PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
+                        _result.setKeepCallback(true);
+                        callbackContext.sendPluginResult(_result);
+                    }
+                });
+                return true;
+            }
+        }
+
+        else if (action.equals("profileRemoveMultiValue")) {
+            String key = null;
+            String value = null;
+
+            if (args.length() == 2) {
+                if (!args.isNull(0)) {
+                    key = args.getString(0);
+                } else {
+                    haveError = true;
+                    errorMsg = "key cannot be null";
+                }
+                if (!args.isNull(1)) {
+                    value = args.getString(1);
+                } else {
+                    haveError = true;
+                    errorMsg = "value cannot be null";
+                }
+            } else {
+                haveError = true;
+                errorMsg = "Expected 2 arguments";
+            }
+
+            if (!haveError) {
+                final String _key = key;
+                final String _value = value;
+
+                cordova.getThreadPool().execute(new Runnable() {
+                    public void run() {
+                        cleverTap.profile.removeMultiValueForKey(_key, _value);
+                        PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
+                        _result.setKeepCallback(true);
+                        callbackContext.sendPluginResult(_result);
+                    }
+                });
+                return true;
             }
         }
 
@@ -591,7 +864,21 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener {
         final String json = "{'updates':"+updates.toString()+"}";
         webView.getView().post(new Runnable() {
             public void run() {
-                webView.loadUrl("javascript:cordova.fireDocumentEvent('onCleverTapProfileSync',"+json+");");
+                webView.loadUrl("javascript:cordova.fireDocumentEvent('onCleverTapProfileSync'," + json + ");");
+            }
+        });
+    }
+
+    public void profileDidInitialize (String CleverTapID) {
+
+        if (CleverTapID == null) {
+            return;
+        }
+
+        final String json = "{'CleverTapID':"+CleverTapID+"}";
+        webView.getView().post(new Runnable() {
+            public void run() {
+                webView.loadUrl("javascript:cordova.fireDocumentEvent('onCleverTapProfileDidInitialize',"+json+");");
             }
         });
     }
