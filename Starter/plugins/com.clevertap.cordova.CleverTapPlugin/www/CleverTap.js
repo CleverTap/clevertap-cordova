@@ -1,4 +1,3 @@
-//  CleverTap.js
 //  Copyright (C) 2015 CleverTap 
 //
 //  This code is provided under a commercial License.
@@ -23,6 +22,11 @@ CleverTap.prototype.enablePersonalization = function () {
 // Registers for push notifications
 CleverTap.prototype.registerPush = function () {
     cordova.exec(null, null, "CleverTapPlugin", "registerPush", []);
+}
+               
+// Sets the devices push token
+CleverTap.prototype.setPushToken = function (token) {
+    cordova.exec(null, null, "CleverTapPlugin", "setPushTokenAsString", [token]);
 }
                
                
@@ -116,7 +120,6 @@ CleverTap.prototype.profileSetGraphUser = function (profile) {
 CleverTap.prototype.profileGooglePlusUser = function (profile) {
     cordova.exec(null, null, "CleverTapPlugin", "profileSetGooglePlusUser", [profile]);
 }
-               
 
 // Get User Profile Property
 // propertyName = string
@@ -124,6 +127,54 @@ CleverTap.prototype.profileGooglePlusUser = function (profile) {
 // success calls back with value of propertyName or false
 CleverTap.prototype.profileGetProperty = function (propertyName, successCallback) {
     cordova.exec(successCallback, null, "CleverTapPlugin", "profileGetProperty", [propertyName]);
+}
+
+// Get User Profile CleverTapID
+// successCallback = callback function for result
+// success calls back with CleverTapID or false
+CleverTap.prototype.profileGetCleverTapID = function (successCallback) {
+    cordova.exec(successCallback, null, "CleverTapPlugin", "profileGetCleverTapID", []);
+}
+
+// Remove the property specified by key from the user profile
+// key = string
+CleverTap.prototype.profileRemoveValueForKey = function (key) {
+    cordova.exec(null, null, "CleverTapPlugin", "profileRemoveValueForKey", [key]);
+}
+
+// Method for setting a multi-value user profile property.
+// key = string
+// values = array of strings
+CleverTap.prototype.profileSetMultiValues = function (key, values) {
+    cordova.exec(null, null, "CleverTapPlugin", "profileSetMultiValues", [key, values]);
+}
+
+// Method for adding a value to a multi-value user profile property.
+// key = string
+// value = string
+CleverTap.prototype.profileAddMultiValue = function (key, value) {
+    cordova.exec(null, null, "CleverTapPlugin", "profileAddMultiValue", [key, value]);
+}
+
+// Method for adding values to a multi-value user profile property.
+// key = string
+// values = array of strings
+CleverTap.prototype.profileAddMultiValues = function (key, values) {
+    cordova.exec(null, null, "CleverTapPlugin", "profileAddMultiValues", [key, values]);
+}
+
+// Method for removing a value from a multi-value user profile property.
+// key = string
+// value = string
+CleverTap.prototype.profileRemoveMultiValue = function (key, value) {
+    cordova.exec(null, null, "CleverTapPlugin", "profileRemoveMultiValue", [key, value]);
+}
+
+// Method for removing values from a multi-value user profile property.
+// key = string
+// values = array of strings
+CleverTap.prototype.profileRemoveMultiValues = function (key, values) {
+    cordova.exec(null, null, "CleverTapPlugin", "profileRemoveMultiValues", [key, values]);
 }
                
 /*******************

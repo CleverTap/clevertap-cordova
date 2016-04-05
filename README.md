@@ -6,7 +6,7 @@ CleverTap Cordova Plugin
 Tested on Cordova 5.3.3
 
 - [CleverTap Android SDK version 2.0.9](https://github.com/CleverTap/clevertap-android-sdk/releases/tag/2.0.9)
-- [CleverTap iOS SDK version 2.0.9, Xcode 7 only](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/2.0.9)
+- [CleverTap iOS SDK version 2.0.10, Xcode 7 only](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/2.0.10)
 
 ## Install
 
@@ -120,23 +120,6 @@ Afterwards, call the following from your Javascript.
 
     CleverTap.registerPush();
 
-
-To register the user push token please replace the default Cordova behavior in the AppDelegate.m in the `application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken` as follows:
-
-    // replace default Cordova token handling; send raw token to CleverTap Plugin directly
-    
-    CleverTapPlugin *CleverTap = [self.viewController getCommandInstance:@"CleverTapPlugin"];
-    [CleverTap setPushToken:deviceToken];
-    
-    /*
-    // re-post ( broadcast )
-    NSString* token = [[[[deviceToken description]
-        stringByReplacingOccurrencesOfString:@"<" withString:@""]
-        stringByReplacingOccurrencesOfString:@">" withString:@""]
-        stringByReplacingOccurrencesOfString:@" " withString:@""];
-    [[NSNotificationCenter defaultCenter] postNotificationName:CDVRemoteNotification object:token];
-    */
-    
 
 To handle deep links contained in push notifications, you can pass the deep link url to your javascript by firing a custom document event from your AppDelegate application:openURL:sourceApplication: method.  See the example below:   
      

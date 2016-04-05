@@ -50,6 +50,8 @@ var app = {
         CleverTap.enablePersonalization();
         CleverTap.registerPush();
         
+        CleverTap.setPushToken("foo");
+        
         CleverTap.profileSetMultiValues("multiValue", ["one", "two", "three", "four"]);
         
         CleverTap.setLocation(34.1410, -118.1607);

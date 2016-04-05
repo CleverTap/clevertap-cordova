@@ -37,6 +37,7 @@
 
 /** Set the user push token
  */
+- (void) setPushTokenAsString:(CDVInvokedUrlCommand *)command;
 - (void) setPushToken:(NSData*)pushToken;
 
 /** Let CleverTap handle the push notification

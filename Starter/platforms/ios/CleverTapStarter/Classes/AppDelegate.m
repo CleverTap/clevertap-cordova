@@ -123,8 +123,8 @@
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-    NSLog(@"didReceiveNotification");
     
+    NSLog(@"didReceiveNotification");
     // pass to the CleverTapPlugin for handling
     CleverTapPlugin *CleverTap = [self.viewController getCommandInstance:@"CleverTapPlugin"];
     [CleverTap handleNotification:userInfo];
@@ -135,12 +135,7 @@
 - (void)                                 application:(UIApplication*)application
     didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
 {
-    // replace default Cordova token handling; sent raw token to CleverTap Plugin directly
-    
-    CleverTapPlugin *CleverTap = [self.viewController getCommandInstance:@"CleverTapPlugin"];
-    [CleverTap setPushToken:deviceToken];
-    
-    /*
+   
      // re-post ( broadcast )
      NSString* token = [[[[deviceToken description]
      stringByReplacingOccurrencesOfString:@"<" withString:@""]
@@ -148,9 +143,6 @@
      stringByReplacingOccurrencesOfString:@" " withString:@""];
      
      [[NSNotificationCenter defaultCenter] postNotificationName:CDVRemoteNotification object:token];
-     */
-    
-    
 }
 
 - (void)                                 application:(UIApplication*)application

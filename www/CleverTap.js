@@ -24,6 +24,11 @@ CleverTap.prototype.registerPush = function () {
     cordova.exec(null, null, "CleverTapPlugin", "registerPush", []);
 }
                
+// Sets the devices push token
+CleverTap.prototype.setPushToken = function (token) {
+    cordova.exec(null, null, "CleverTapPlugin", "setPushTokenAsString", [token]);
+}
+               
                
 /*******************
  * Events

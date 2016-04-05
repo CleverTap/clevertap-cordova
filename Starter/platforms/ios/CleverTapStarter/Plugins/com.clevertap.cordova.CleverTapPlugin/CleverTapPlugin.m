@@ -33,7 +33,12 @@ static CleverTap *clevertap;
     
     // Listen to re-broadcast events from Cordova's AppDelegate
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onDidFailToRegisterForRemoteNotificationsWithError:) name:CDVRemoteNotificationError object:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onHandleOpenURLNotification:) name:CDVPluginHandleOpenURLNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onHandleRegisterForRemoteNotification:) name:CDVRemoteNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onHandleLocalNotification:) name:CDVLocalNotification object:nil];
     
     clevertap = [CleverTap sharedInstance];
    
@@ -53,6 +58,14 @@ static CleverTap *clevertap;
 
 + (void)onHandleOpenURLNotification:(NSNotification *)notification {
     [clevertap handleOpenURL:notification.object sourceApplication:nil];
+}
+
++ (void)onHandleRegisterForRemoteNotification:(NSNotification *)notification {
+    [clevertap setPushTokenAsString:notification.object];
+}
+
++ (void)onHandleLocalNotification:(NSNotification *)notification {
+    [clevertap handleNotificationWithData:notification.object];
 }
 
 -(void)pluginInitialize {
@@ -164,6 +177,15 @@ static CleverTap *clevertap;
     }
 }
 
+
+- (void) setPushTokenAsString:(CDVInvokedUrlCommand *)command {
+    [self.commandDelegate runInBackground:^{
+        NSString *token = [command argumentAtIndex:0];
+        if (token != nil && [token isKindOfClass:[NSString class]]) {
+            [clevertap setPushTokenAsString:token];
+        }
+    }];
+}
 
 - (void) setPushToken:(NSData*)pushToken {
     [clevertap setPushToken:pushToken];
