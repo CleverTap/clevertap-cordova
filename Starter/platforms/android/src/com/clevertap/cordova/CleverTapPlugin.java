@@ -89,6 +89,14 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener {
             return true;
         }
 
+        // not required for Android here but handle as its in the JS interface
+        else if (action.equals("setPushTokenAsString")) {
+            result = new PluginResult(PluginResult.Status.NO_RESULT);
+            result.setKeepCallback(true);
+            callbackContext.sendPluginResult(result);
+            return true;
+        }
+
         else if (action.equals("setDebugLevel")) {
             int level = (args.length() == 1 ? args.getInt(0) : -1);
             if (level >= 0) {
