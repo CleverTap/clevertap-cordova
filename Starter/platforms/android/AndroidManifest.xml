@@ -2,17 +2,9 @@
 <manifest android:hardwareAccelerated="true" android:versionCode="1" android:versionName="0.0.1" package="com.clevertap.starter" xmlns:android="http://schemas.android.com/apk/res/android">
     <supports-screens android:anyDensity="true" android:largeScreens="true" android:normalScreens="true" android:resizeable="true" android:smallScreens="true" android:xlargeScreens="true" />
     <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="23" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="com.clevertap.starter.permission.C2D_MESSAGE" />
-
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_WRITE_EXTERNAL_STORAGE" />
-
     <application android:hardwareAccelerated="true" android:icon="@drawable/icon" android:label="@string/app_name" android:name="com.clevertap.android.sdk.Application" android:supportsRtl="true">
         <meta-data android:name="CLEVERTAP_ACCOUNT_ID" android:value="Your CleverTap Account ID" />
         <meta-data android:name="CLEVERTAP_TOKEN" android:value="Your CleverTap Account Token" />
@@ -21,17 +13,12 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
-            <!-- Example Deep Link Handling, substitute your deeplink scheme for clevertapstarter -->
             <intent-filter android:label="@string/app_name">
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-
                 <data android:scheme="clevertapstarter" />
             </intent-filter>
-
         </activity>
         <meta-data android:name="GCM_SENDER_ID" android:value="id:YOUR GCM PROJECT NUMBER" />
         <receiver android:name="com.clevertap.android.sdk.GcmBroadcastReceiver" android:permission="com.google.android.c2dm.permission.SEND">
@@ -50,5 +37,10 @@
             </intent-filter>
         </receiver>
     </application>
-
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_WRITE_EXTERNAL_STORAGE" />
 </manifest>

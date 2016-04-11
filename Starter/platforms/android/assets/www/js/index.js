@@ -28,7 +28,6 @@ var app = {
     bindEvents: function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
         document.addEventListener('onCleverTapProfileSync', this.onCleverTapProfileSync, false);
-        document.addEventListener('onCleverTapProfileDidInitialize', this.onCleverTapProfileDidInitialize, false);
         //example deeplink handling
         document.addEventListener('onDeepLink', this.onDeepLink, false);
     },
@@ -38,93 +37,78 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
-
+        
         /*
-        //Ionic example usage
-        $rootScope.CleverTap = CleverTap;
-        CleverTap && CleverTap.setDebugLevel(1);
+         // Ionic example usage
+         $rootScope.CleverTap = CleverTap;
+         CleverTap && CleverTap.registerPush();
         */
-
+        
         CleverTap.setDebugLevel(1);
         CleverTap.enablePersonalization();
-
+        CleverTap.registerPush();
+        
         /*
-        CleverTap.profileSetMultiValues("multiValue", ["one", "two", "three", "four"]);
-
         CleverTap.setLocation(34.1410, -118.1607);
         CleverTap.recordEventWithName("foo");
-        CleverTap.recordEventWithNameAndProps("androidFoo", {"bar":"foo"});
-        CleverTap.eventGetFirstTime("androidFoo", function (time) {console.log("androidFoo event first time is "+time);});
-        CleverTap.eventGetLastTime("androidFoo", function (time) {console.log("androidFoo event last time is "+time);});
-        CleverTap.eventGetOccurrences("androidFoo", function (count) {console.log("androidFoo event count is "+count);});
-
-        CleverTap.eventGetFirstTime("noevent", function (time) {console.log("noevent first time is "+time);});
+        CleverTap.recordEventWithNameAndProps("boo", {"bar":"zoo"});
+        CleverTap.recordChargedEventWithDetailsAndItems({"amount":300, "Charged ID":1234}, [{"Category":"Books", "Quantity":1, "Title":"Book Title"}]);
+        CleverTap.eventGetFirstTime("foo", function (time) {console.log("foo event first time is "+time);});
+        CleverTap.eventGetLastTime("App Launched", function (time) {console.log("app launched last time is "+time);});
+        CleverTap.eventGetOccurrences("foo", function (num) {console.log("foo event occurrences "+num);});
+        CleverTap.eventGetDetails("Charged", function (res) {console.log(res);});
+        CleverTap.getEventHistory(function (history) {console.log(history);});
+        
+        CleverTap.eventGetFirstTime("noevent", function (time) {console.log("noevent event first time is "+time);});
         CleverTap.eventGetLastTime("noevent", function (time) {console.log("noevent last time is "+time);});
-        CleverTap.eventGetOccurrences("noevent", function (count) {console.log("noevent count is "+count);});
-
-        CleverTap.recordChargedEventWithDetailsAndItems({"amount":300, "Charged ID":12345}, [{"Category":"Books", "Quantity":1, "Title":"Book Title"}]);
-        CleverTap.eventGetDetails("charged", function (details) {console.log("details for charged " + details['name'] + " " + details['count']);});
-        CleverTap.eventGetDetails("Charged", function (details) {console.log("details for Charged " + details['name'] + " " + details['count']);});
-        CleverTap.getEventHistory(function (history) {console.log("history charged count is "+ history["Charged"]["count"]);});
-
-        CleverTap.profileSet({"Identity":123456, "DOB":"1995-01-15", "custom3":2.445599, "custom4":"foobar"});
-
-        CleverTap.profileGetProperty("custom3",function (val) {console.log("custom3 profile prop value is "+val);});
-
+        CleverTap.eventGetOccurrences("noevent", function (num) {console.log("noevent occurrences "+num);});
+        CleverTap.eventGetDetails("noevent", function (res) {console.log(res);});
+        
+        CleverTap.profileSet({"Identity":123456, "DOB":"1950-10-15", "custom":1.3});
+        
+        CleverTap.profileGetProperty("DOB", function(val) {console.log("DOB profile value is "+val);});
+        
+        CleverTap.profileGetProperty("Identity", function(val) {console.log("Identity profile value is "+val);});
+        
+        CleverTap.profileGetProperty("custom", function(val) {console.log("custom profile value is "+val);});
+        
         CleverTap.sessionGetTimeElapsed(function(val) {console.log("session elapsed time is "+val);});
         CleverTap.sessionGetTotalVisits(function(val) {console.log("session total visits is "+val);});
         CleverTap.sessionGetScreenCount(function(val) {console.log("session screen count is "+val);});
         CleverTap.sessionGetPreviousVisitTime(function(val) {console.log("session previous visit time is "+val);});
-        CleverTap.sessionGetUTMDetails(function(val) {console.log('utm details campaign ' + val['campaign']);});
-
-
-        CleverTap.profileGetCleverTapID(function(val) {console.log("CleverTapID is "+val);});
-
-        CleverTap.profileAddMultiValue("multiValue", "five");
-        CleverTap.profileRemoveMultiValues("multiValue", ["one", "two"]);
-        CleverTap.profileRemoveMultiValue("multiValue", "three");
-        CleverTap.profileAddMultiValues("multiValue", [6, 7]);
-        CleverTap.profileRemoveValueForKey("custom");
-        CleverTap.profileGetProperty("multiValue", function(val) {console.log("multiValue profile value is "+val);});
-        CleverTap.profileGetProperty("custom",function (val) {console.log("custom profile prop value is "+val);});
+        CleverTap.sessionGetUTMDetails(function(val) {console.log(val);});
         */
-
-
+        
     },
-
-     // onCleverTapProfileSync Event Handler
-     // CleverTap provides a mechanism for notifying your application about synchronization-related changes to the User Profile/Event History.
-     // You can subscribe to these notifications by listening for the onCleverTapProfile Sync event,
-     // i.e. document.addEventListener('onCleverTapProfileSync', this.onCleverTapProfileSync, false);
-     // the updates property of the onCleverTapProfileSync event represents the changed data and is of the form:
-     //      {
-     //          "profile":{"<property1>":{"oldValue":<value>, "newValue":<value>}, ...},
-     //          "events:{"<eventName>":
-     //              {"count":
-     //                  {"oldValue":(int)<old count>, "newValue":<new count>},
-     //              "firstTime":
-     //                  {"oldValue":(double)<old first time event occurred>, "newValue":<new first time event occurred>},
-     //              "lastTime":
-     //                  {"oldValue":(double)<old last time event occurred>, "newValue":<new last time event occurred>},
-     //              }, ...
-     //          }
-     //      }
-     //
-     //
+    
+    // onCleverTapProfileSync Event Handler
+    // CleverTap provides a mechanism for notifying your application about synchronization-related changes to the User Profile/Event History.
+    // You can subscribe to these notifications by listening for the onCleverTapProfile Sync event,
+    // i.e. document.addEventListener('onCleverTapProfileSync', this.onCleverTapProfileSync, false);
+    // the updates property of the onCleverTapProfileSync event represents the changed data and is of the form:
+    //      {
+    //          "profile":{"<property1>":{"oldValue":<value>, "newValue":<value>}, ...},
+    //          "events:{"<eventName>":
+    //              {"count":
+    //                  {"oldValue":(int)<old count>, "newValue":<new count>},
+    //              "firstTime":
+    //                  {"oldValue":(double)<old first time event occurred>, "newValue":<new first time event occurred>},
+    //              "lastTime":
+    //                  {"oldValue":(double)<old last time event occurred>, "newValue":<new last time event occurred>},
+    //              }, ...
+    //          }
+    //      }
+    //
+    //
     onCleverTapProfileSync: function(e) {
         console.log(e.updates);
     },
-
-    onCleverTapProfileDidInitialize: function(e) {
-        console.log(e.CleverTapID);
-    },
-
+    
     // example deep link handling
     onDeepLink: function(e) {
-            console.log(e.deeplink);
+        console.log(e.deeplink);
     },
-
-
+    
     // Update DOM on a Received Event
     receivedEvent: function(id) {
         var parentElement = document.getElementById(id);
