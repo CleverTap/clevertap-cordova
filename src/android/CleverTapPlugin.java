@@ -32,6 +32,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.ArrayList;
 
+import com.clevertap.android.sdk.ActivityLifecycleCallback;
 import com.clevertap.android.sdk.CleverTapAPI;
 import com.clevertap.android.sdk.SyncListener;
 import com.clevertap.android.sdk.EventDetail;
@@ -78,6 +79,22 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener {
             result = new PluginResult(PluginResult.Status.ERROR, "CleverTap API not initialized");
             result.setKeepCallback(true);
             callbackContext.sendPluginResult(result);
+            return true;
+        }
+
+        // manually start application life cycle
+        else if (action.equals("notifyDeviceReady")) {
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    ActivityLifecycleCallback.register(cordova.getActivity().getApplication());
+                    CleverTapAPI.setAppForeground(true);
+                    cleverTap.activityResumed(cordova.getActivity());
+                    PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
+                    _result.setKeepCallback(true);
+                    callbackContext.sendPluginResult(_result);
+                }
+            });
+
             return true;
         }
 

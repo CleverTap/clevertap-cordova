@@ -204,7 +204,6 @@ static CleverTap *clevertap;
     }
 }
 
-
 #pragma mark Personalization
 
 -(void) enablePersonalization:(CDVInvokedUrlCommand *)command {
@@ -555,6 +554,10 @@ static CleverTap *clevertap;
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
         
     }];
+}
+
+-(void) notifyDeviceReady:(CDVInvokedUrlCommand *)command {
+    // no-op only used in Android
 }
 
 @end

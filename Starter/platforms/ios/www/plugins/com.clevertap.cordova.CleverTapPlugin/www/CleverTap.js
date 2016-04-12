@@ -8,6 +8,14 @@ cordova.define("com.clevertap.cordova.CleverTapPlugin.CleverTap", function(requi
 
 var CleverTap = function () {
 }
+               
+/*******************
+ * manually notify device ready
+ * NOTE: only use in android phonegap build projects
+ ******************/
+CleverTap.prototype.notifyDeviceReady = function () {
+    cordova.exec(null, null, "CleverTapPlugin", "notifyDeviceReady", []);
+}
 
 /*******************
  * Personalization
