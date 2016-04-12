@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="com.clevertap.starter.permission.C2D_MESSAGE" />
-    <application android:hardwareAccelerated="true" android:icon="@drawable/icon" android:label="@string/app_name" android:name="com.clevertap.android.sdk.Application" android:supportsRtl="true">
+    <application android:hardwareAccelerated="true" android:icon="@drawable/icon" android:label="@string/app_name" android:supportsRtl="true" android:name="com.clevertap.android.sdk.Application">
         <meta-data android:name="CLEVERTAP_ACCOUNT_ID" android:value="Your CleverTap Account ID" />
         <meta-data android:name="CLEVERTAP_TOKEN" android:value="Your CleverTap Account Token" />
         <activity android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale" android:label="@string/activity_name" android:launchMode="singleTop" android:name="MainActivity" android:theme="@android:style/Theme.Black.NoTitleBar" android:windowSoftInputMode="adjustResize">
