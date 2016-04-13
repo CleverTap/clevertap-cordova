@@ -66,7 +66,7 @@ Add the following to your `www/config.xml` file:
 </gap:plugin>
 ```            
 
-*For PhoneGap Build projects only*:  **Extremely Important**:  add `CleverTap.notifyDeviceReady();` to your onDeviceReady callback in `www/js/index.js`:
+*For PhoneGap Build Android projects only*:  **Extremely Important**:  add `CleverTap.notifyDeviceReady();` to your onDeviceReady callback in `www/js/index.js`:
 
 ```
 onDeviceReady: function() {
