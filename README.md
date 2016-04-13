@@ -52,6 +52,30 @@ ionic plugin add https://github.com/CleverTap/clevertap-cordova.git --variable C
 ionic plugin add https://github.com/CleverTap/clevertap-cordova.git --variable CLEVERTAP_ACCOUNT_ID=YOUR CLEVERTAP ACCOUNT ID --variable CLEVERTAP_TOKEN=YOUR CELVERTAP ACCOUNT TOKEN --variable GCM_PROJECT_NUMBER=YOUR GCM PROJECT NUMBER
 ```
 
+#### Using PhoneGap Build
+
+Add the following to your `www/config.xml` file:
+
+```
+<preference name="android-build-tool" value="gradle" />
+
+<gap:plugin name="clevertap-cordova" source="npm">
+    <param name="CLEVERTAP_ACCOUNT_ID" value="YOUR CLEVERTAP ACCOUNT ID" />
+    <param name="CLEVERTAP_TOKEN" value="YOUR CLEVERTAP ACCOUNT TOKEN" />
+    <param name="GCM_PROJECT_NUMBER" value="YOUR GCM PROJECT NUMBER" />
+</gap:plugin>
+```            
+
+**Extremely Important**:  add `CleverTap.notifyDeviceReady();` to your onDeviceReady callback in `www/js/index.js`:
+
+```
+onDeviceReady: function() {
+    app.receivedEvent('deviceready');
+    CleverTap.notifyDeviceReady();
+    ...
+},
+```
+
 #### iOS
 
 Check your .plist file:
