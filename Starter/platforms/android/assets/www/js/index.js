@@ -28,6 +28,9 @@ var app = {
     bindEvents: function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
         document.addEventListener('onCleverTapProfileSync', this.onCleverTapProfileSync, false);
+        document.addEventListener('onCleverTapProfileDidInitialize', this.onCleverTapProfileDidInitialize, false);
+        document.addEventListener('onCleverTapInAppNotificationDismissed', this.onCleverTapInAppNotificationDismissed, false);
+        
         //example deeplink handling
         document.addEventListener('onDeepLink', this.onDeepLink, false);
     },
@@ -41,14 +44,12 @@ var app = {
         /*
          // Ionic example usage
          $rootScope.CleverTap = CleverTap;
-         CleverTap && CleverTap.registerPush();
         */
-        
+
+        /*
         CleverTap.setDebugLevel(1);
         CleverTap.enablePersonalization();
-        CleverTap.registerPush();
-        
-        /*
+
         CleverTap.setLocation(34.1410, -118.1607);
         CleverTap.recordEventWithName("foo");
         CleverTap.recordEventWithNameAndProps("boo", {"bar":"zoo"});
@@ -102,6 +103,15 @@ var app = {
     //
     onCleverTapProfileSync: function(e) {
         console.log(e.updates);
+    },
+    
+    onCleverTapProfileDidInitialize: function(e) {
+        console.log(e.CleverTapID);
+    },
+    
+    onCleverTapInAppNotificationDismissed: function(e) {
+        console.log(e.extras);
+        console.log(e.actionExtras);
     },
     
     // example deep link handling

@@ -10,6 +10,7 @@
 
 package com.clevertap.cordova;
 
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.location.Location;
 
@@ -35,6 +36,7 @@ import java.util.ArrayList;
 import com.clevertap.android.sdk.ActivityLifecycleCallback;
 import com.clevertap.android.sdk.CleverTapAPI;
 import com.clevertap.android.sdk.SyncListener;
+import com.clevertap.android.sdk.InAppNotificationListener;
 import com.clevertap.android.sdk.EventDetail;
 import com.clevertap.android.sdk.UTMDetail;
 import com.clevertap.android.sdk.exceptions.CleverTapMetaDataNotFoundException;
@@ -42,7 +44,7 @@ import com.clevertap.android.sdk.exceptions.CleverTapPermissionsNotSatisfied;
 import com.clevertap.android.sdk.exceptions.InvalidEventNameException;
 
 
-public class CleverTapPlugin extends CordovaPlugin implements SyncListener {
+public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAppNotificationListener {
 
     private static final String LOG_TAG = "CLEVERTAP_PLUGIN";
     private static String CLEVERTAP_API_ERROR;
@@ -56,6 +58,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener {
         try {
             cleverTap = CleverTapAPI.getInstance(cordova.getActivity().getApplicationContext());
             cleverTap.setSyncListener(this);
+            cleverTap.setInAppNotificationListener(this);
         } catch (CleverTapMetaDataNotFoundException e) {
             CLEVERTAP_API_ERROR = e.getLocalizedMessage();
             //Log.d(LOG_TAG, e.getLocalizedMessage());
@@ -875,9 +878,31 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener {
         return true;
     }
 
-    /*******************
-     * Private Methods
-     ******************/
+
+    // InAppNotificationListener
+
+    public boolean beforeShow(Map<String, Object> var1) {
+        return true;
+    }
+
+    public void onDismissed(Map<String, Object> var1, @Nullable Map<String, Object> var2) {
+        if(var1 == null && var2 == null) {
+            return ;
+        }
+
+        JSONObject extras = var1 != null ? new JSONObject(var1) : new JSONObject();
+        String _json = "{'extras':"+extras.toString()+",";
+
+        JSONObject actionExtras = var2 != null ? new JSONObject(var2) : new JSONObject();
+        _json += "'actionExtras':"+actionExtras.toString()+"}";
+
+        final String json = _json;
+        webView.getView().post(new Runnable() {
+            public void run() {
+                webView.loadUrl("javascript:cordova.fireDocumentEvent('onCleverTapInAppNotificationDismissed'," + json + ");");
+            }
+        });
+    }
 
     // SyncListener
     public void profileDataUpdated(JSONObject updates) {
@@ -900,13 +925,17 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener {
             return;
         }
 
-        final String json = "{'CleverTapID':"+CleverTapID+"}";
+        final String json = "{'CleverTapID':"+ "'"+CleverTapID+"'"+"}";
         webView.getView().post(new Runnable() {
             public void run() {
                 webView.loadUrl("javascript:cordova.fireDocumentEvent('onCleverTapProfileDidInitialize',"+json+");");
             }
         });
     }
+
+    /*******************
+     * Private Methods
+     ******************/
 
     private static boolean checkCleverTapInitialized() {
         boolean initialized = (cleverTap != null);
