@@ -29,6 +29,8 @@ var app = {
         document.addEventListener('deviceready', this.onDeviceReady, false);
         document.addEventListener('onCleverTapProfileSync', this.onCleverTapProfileSync, false);
         document.addEventListener('onCleverTapProfileDidInitialize', this.onCleverTapProfileDidInitialize, false);
+        document.addEventListener('onCleverTapInAppNotificationDismissed', this.onCleverTapInAppNotificationDismissed, false);
+        
         //example deeplink handling
         document.addEventListener('onDeepLink', this.onDeepLink, false);
     },
@@ -112,12 +114,18 @@ var app = {
     //      }
     //
     //
+    
     onCleverTapProfileSync: function(e) {
         console.log(e.updates);
     },
     
     onCleverTapProfileDidInitialize: function(e) {
         console.log(e.CleverTapID);
+    },
+    
+    onCleverTapInAppNotificationDismissed: function(e) {
+        console.log(e.extras);
+        console.log(e.actionExtras);
     },
     
     // example deep link handling

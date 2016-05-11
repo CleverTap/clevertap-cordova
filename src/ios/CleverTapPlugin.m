@@ -11,14 +11,14 @@
 #import "CleverTapPlugin.h"
 #import <CleverTapSDK/CleverTap.h>
 #import <CleverTapSDK/CleverTapSyncDelegate.h>
+#import <CleverTapSDK/CleverTapInAppNotificationDelegate.h>
 #import <CoreLocation/CoreLocation.h>
 
 static NSDateFormatter *dateFormatter;
 
 static CleverTap *clevertap;
 
-@interface CleverTapPlugin () <CleverTapSyncDelegate> {
-    
+@interface CleverTapPlugin () <CleverTapSyncDelegate, CleverTapInAppNotificationDelegate> {
 }
 
 @end
@@ -71,6 +71,7 @@ static CleverTap *clevertap;
 -(void)pluginInitialize {
     [super pluginInitialize];
     [clevertap setSyncDelegate:self];
+    [clevertap setInAppNotificationDelegate:self];
 }
 
 -(NSDictionary*)_eventDetailToDict:(CleverTapEventDetail*)detail {
@@ -119,6 +120,39 @@ static CleverTap *clevertap;
     return _dict;
 }
 
+-(NSString *)_dictToJson:(NSDictionary *)dict {
+    NSError *err;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict options:0 error:&err];
+    
+    if(err != nil) {
+        return nil;
+    }
+    
+    return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+}
+
+#pragma mark CleverTapInAppNotificationDelegate
+
+- (void)inAppNotificationDismissedWithExtras:(NSDictionary *)extras andActionExtras:(NSDictionary *)actionExtras {
+    NSMutableDictionary *jsonDict = [NSMutableDictionary new];
+    
+    if (extras != nil) {
+        jsonDict[@"extras"] = extras;
+    }
+    
+    if (actionExtras != nil) {
+        jsonDict[@"actionExtras"] = actionExtras;
+    }
+    
+    NSString *jsonString = [self _dictToJson:jsonDict];
+    
+    if (jsonString != nil) {
+        NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onCleverTapInAppNotificationDismissed', %@);", jsonString];
+        [self.commandDelegate evalJs:js];
+    }
+}
+
+
 #pragma mark CleverTapSyncDelegate
 
 - (void)profileDidInitialize:(NSString*)CleverTapID {
@@ -126,19 +160,13 @@ static CleverTap *clevertap;
         return ;
     }
     
-    NSError *error;
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:@{@"CleverTapID":CleverTapID}
-                                                       options:0
-                                                         error:&error];
+    NSString *jsonString = [self _dictToJson:@{@"CleverTapID":CleverTapID}];
     
-    if (!jsonData) {
-        NSLog(@"Error serializing profile initialized dictionary: %@", error);
-        return ;
+    if (jsonString != nil) {
+        NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onCleverTapProfileDidInitialize', %@);", jsonString];
+        [self.commandDelegate evalJs:js];
     }
-    
-    NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-    NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onCleverTapProfileDidInitialize', %@);", jsonString];
-    [self.commandDelegate evalJs:js];
+   
 }
 
 -(void)profileDataUpdated:(NSDictionary *)updates {
@@ -147,19 +175,12 @@ static CleverTap *clevertap;
         return ;
     }
     
-    NSError *error;
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:@{@"updates":updates}
-                                                       options:0
-                                                         error:&error];
+    NSString *jsonString = [self _dictToJson:@{@"updates":updates}];
     
-    if (!jsonData) {
-        NSLog(@"Error serializing profile updates dictionary: %@", error);
-        return ;
+    if (jsonString != nil) {
+        NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onCleverTapProfileSync', %@);", jsonString];
+        [self.commandDelegate evalJs:js];
     }
-    
-    NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-    NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onCleverTapProfileSync', %@);", jsonString];
-    [self.commandDelegate evalJs:js];
 }
 
 #pragma mark Public
