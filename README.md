@@ -152,7 +152,7 @@ If you plan on using deep links, [please register your custom url scheme as desc
 
 Afterwards, call the following from your Javascript.
 
-    CleverTap.notifyDeviceReady(); // to be notified on push notifications and deep links that launch your app.
+    CleverTap.notifyDeviceReady(); // to be notified of push notifications and deep links that launch your app.
     CleverTap.registerPush();
 
 
