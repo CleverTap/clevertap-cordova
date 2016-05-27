@@ -178,8 +178,8 @@ Start by adding the following listeners to your Javascript:
     document.addEventListener('onPushNotification', this.onPushNotification, false); // optional, register to receive push notification payloads.
 
 
-   // deep link handling  
-    onDeepLink: function(e) {  
+    // deep link handling  
+    onDeepLink: function(e) {
         console.log(e.deeplink);  
     },  
 
