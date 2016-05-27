@@ -66,7 +66,7 @@ Add the following to your `www/config.xml` file:
 </gap:plugin>
 ```            
 
-*For PhoneGap Build Android projects only*:  **Extremely Important**:  add `CleverTap.notifyDeviceReady();` to your onDeviceReady callback in `www/js/index.js`:
+*For PhoneGap Build Android projects*:  **Extremely Important**:  add `CleverTap.notifyDeviceReady();` to your onDeviceReady callback in `www/js/index.js`:
 
 ```
 onDeviceReady: function() {
@@ -134,47 +134,27 @@ Make sure your build.gradle file includes the play-services and support library 
         // SUB-PROJECT DEPENDENCIES START  
         debugCompile project(path: "CordovaLib", configuration: "debug")  
         releaseCompile project(path: "CordovaLib", configuration: "release")  
-        compile "com.google.android.gms:play-services-base:+"
-        compile "com.google.android.gms:play-services-basement:+"
-        compile "com.google.android.gms:play-services-gcm:+"
-        compile "com.google.android.gms:play-services-location:+"
-        compile "com.android.support:support-v4:+"
+        compile "com.google.android.gms:play-services-base:9.0.0"
+        compile "com.google.android.gms:play-services-basement:9.0.0"
+        compile "com.google.android.gms:play-services-gcm:9.0.0"
+        compile "com.google.android.gms:play-services-location:9.0.0"
+        compile "com.android.support:support-v4:23.4.0"
         // SUB-PROJECT DEPENDENCIES END   
 
 
-### 2. Set up and register for push notifications
+### 2. Set up and register for push notifications and deep links
 
 #### iOS
 
 [Follow Steps 1 and 2 in these instructions to set up push notifications for your app.](https://support.clevertap.com/messaging/push-notifications/#ios)
 
-If you plan on including deep links in your push notifications, [please register your custom url scheme as described here](https://support.clevertap.com/messaging/deep-linking/#step-1-register-your-custom-scheme).  
+If you plan on using deep links, [please register your custom url scheme as described here](https://support.clevertap.com/messaging/deep-linking/#step-1-register-your-custom-scheme).  
 
 Afterwards, call the following from your Javascript.
 
+    CleverTap.notifyDeviceReady(); // to be notified on push notifications and deep links that launch your app.
     CleverTap.registerPush();
 
-
-To handle deep links contained in push notifications, you can pass the deep link url to your javascript by firing a custom document event from your AppDelegate application:openURL:sourceApplication: method.  See the example below:   
-     
-    - (BOOL)application:(UIApplication*)application openURL:(NSURL*)url sourceApplication:(NSString*)sourceApplication annotation:(id)annotation
-    {
-        if (!url) {
-            return NO;
-        }
-
-        // all plugins will get the notification, and their handlers will be called
-        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CDVPluginHandleOpenURLNotification object:url]];
-        
-        // example Deep Link Handling
-        NSString *scheme = [url scheme];
-        if([scheme isEqualToString:@"<your custom url scheme>"]) {
-            NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onDeepLink', {'deeplink':'%@'});", url.description];
-            [self.viewController.commandDelegate evalJs:js];
-        }
-
-        return YES;
-    }
 
 [See the included example Starter Cordova project](https://github.com/CleverTap/clevertap-cordova/blob/master/Starter/platforms/ios/CleverTapStarter/Classes/AppDelegate.m).
 
@@ -183,36 +163,6 @@ To handle deep links contained in push notifications, you can pass the deep link
 
 [Follow these instructions to set up push notifications for your app.](https://support.clevertap.com/messaging/push-notifications/#android)
 
-To handle deep links contained in push notifications, you can pass the deep link url to your javascript by firing a custom document event from your MainActivity.  See the example below:   
-
-Add the required intent filter to your MainActivity tag in AndroidManifest.xml:
-
-    <!-- Example Deep Link Handling, substitute your deeplink scheme for clevertapstarter -->
-            <intent-filter android:label="@string/app_name">
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data android:scheme="clevertapstarter" />
-            </intent-filter>
-
-Handle the intent in your MainActivity.java:  
-
-    // example deeplink handling
-    @Override
-    public void onNewIntent(Intent intent) {
-
-        super.onNewIntent(intent);
-
-        if (intent.getAction().equals(Intent.ACTION_VIEW)) {
-            Uri data = intent.getData();
-            if (data != null) {
-                final String json = "{'deeplink':'"+data.toString()+"'}";
-                loadUrl("javascript:cordova.fireDocumentEvent('onDeepLink'," + json + ");");
-            }
-        }
-    }
      
 ### 3. Integrate Javascript with the Plugin
 
@@ -224,7 +174,20 @@ Start by adding the following listeners to your Javascript:
     document.addEventListener('onCleverTapProfileSync', this.onCleverTapProfileSync, false); // optional: to be notified of CleverTap user profile synchronization updates 
     document.addEventListener('onCleverTapProfileDidInitialize', this.onCleverTapProfileDidInitialize, false); // optional, to be notified when the CleverTap user profile is initialized
     document.addEventListener('onCleverTapInAppNotificationDismissed', this.onCleverTapInAppNotificationDismissed, false); // optional, to be receive a callback with custom in-app notification click data
-    document.addEventListener('onDeepLink', this.onDeepLink, false); // example: optional, register your own custom listener to handle deep links passed from your native code.
+    document.addEventListener('onDeepLink', this.onDeepLink, false); // optional, register to receive deep links.
+    document.addEventListener('onPushNotification', this.onPushNotification, false); // optional, register to receive push notification payloads.
+
+
+   // deep link handling
+    onDeepLink: function(e) {
+        console.log(e.deeplink);
+    },
+
+    // push notification data handling
+    onPushNotification: function(e) {
+        console.log(JSON.stringify(e.notification));
+    }, 
+
 
 Then:  
 
