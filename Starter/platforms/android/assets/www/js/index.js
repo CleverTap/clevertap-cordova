@@ -30,9 +30,10 @@ var app = {
         document.addEventListener('onCleverTapProfileSync', this.onCleverTapProfileSync, false);
         document.addEventListener('onCleverTapProfileDidInitialize', this.onCleverTapProfileDidInitialize, false);
         document.addEventListener('onCleverTapInAppNotificationDismissed', this.onCleverTapInAppNotificationDismissed, false);
-        
-        //example deeplink handling
+        //deeplink handling
         document.addEventListener('onDeepLink', this.onDeepLink, false);
+        //push notification payload handling
+        document.addEventListener('onPushNotification', this.onPushNotification, false);
     },
     // deviceready Event Handler
     //
@@ -40,7 +41,7 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
-        
+
         /*
          // Ionic example usage
          $rootScope.CleverTap = CleverTap;
@@ -49,6 +50,8 @@ var app = {
         /*
         CleverTap.setDebugLevel(1);
         CleverTap.enablePersonalization();
+
+        CleverTap.pushInstallReferrer("androidsource", "androidmedium", "androidcampaign");
 
         CleverTap.setLocation(34.1410, -118.1607);
         CleverTap.recordEventWithName("foo");
@@ -114,9 +117,14 @@ var app = {
         console.log(e.actionExtras);
     },
     
-    // example deep link handling
+    // deep link handling
     onDeepLink: function(e) {
         console.log(e.deeplink);
+    },
+
+    // push notification data handling
+    onPushNotification: function(e) {
+        console.log(JSON.stringify(e.notification));
     },
     
     // Update DOM on a Received Event

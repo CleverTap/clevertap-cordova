@@ -28,8 +28,12 @@ var app = {
     bindEvents: function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
         document.addEventListener('onCleverTapProfileSync', this.onCleverTapProfileSync, false);
-        //example deeplink handling
+        document.addEventListener('onCleverTapProfileDidInitialize', this.onCleverTapProfileDidInitialize, false);
+        document.addEventListener('onCleverTapInAppNotificationDismissed', this.onCleverTapInAppNotificationDismissed, false);
+        // deeplink handler
         document.addEventListener('onDeepLink', this.onDeepLink, false);
+        //push notification handler
+        document.addEventListener('onPushNotification', this.onPushNotification, false);
     },
     // deviceready Event Handler
     //
@@ -38,17 +42,23 @@ var app = {
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
         
+        
         /*
          // Ionic example usage
          $rootScope.CleverTap = CleverTap;
          CleverTap && CleverTap.registerPush();
-        */
         
         CleverTap.setDebugLevel(1);
-        CleverTap.enablePersonalization();
+        CleverTap.notifyDeviceReady();
         CleverTap.registerPush();
+        CleverTap.enablePersonalization();
         
-        /*
+        CleverTap.pushInstallReferrer("source", "medium", "campaign");
+        
+        CleverTap.setPushToken("foo");
+        
+        CleverTap.profileSetMultiValues("multiValue", ["one", "two", "three", "four"]);
+        
         CleverTap.setLocation(34.1410, -118.1607);
         CleverTap.recordEventWithName("foo");
         CleverTap.recordEventWithNameAndProps("boo", {"bar":"zoo"});
@@ -77,8 +87,15 @@ var app = {
         CleverTap.sessionGetScreenCount(function(val) {console.log("session screen count is "+val);});
         CleverTap.sessionGetPreviousVisitTime(function(val) {console.log("session previous visit time is "+val);});
         CleverTap.sessionGetUTMDetails(function(val) {console.log(val);});
-        */
         
+        CleverTap.profileGetCleverTapID(function(val) {console.log("CleverTapID is "+val);});
+        
+        CleverTap.profileAddMultiValue("multiValue", "five");
+        CleverTap.profileRemoveMultiValues("multiValue", ["one", "two"]);
+        CleverTap.profileRemoveMultiValue("multiValue", "three");
+        CleverTap.profileRemoveValueForKey("custom");
+        CleverTap.profileGetProperty("multiValue", function(val) {console.log("multiValue profile value is "+val);});
+        */
     },
     
     // onCleverTapProfileSync Event Handler
@@ -100,13 +117,28 @@ var app = {
     //      }
     //
     //
+    
     onCleverTapProfileSync: function(e) {
         console.log(e.updates);
     },
     
-    // example deep link handling
+    onCleverTapProfileDidInitialize: function(e) {
+        console.log(e.CleverTapID);
+    },
+    
+    onCleverTapInAppNotificationDismissed: function(e) {
+        console.log(e.extras);
+        console.log(e.actionExtras);
+    },
+    
+    // deep link handling
     onDeepLink: function(e) {
         console.log(e.deeplink);
+    },
+    
+    // push notification payload handling
+    onPushNotification: function(e) {
+        console.log(e.notification);
     },
     
     // Update DOM on a Received Event

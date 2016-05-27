@@ -10,8 +10,9 @@ var CleverTap = function () {
 }
                
 /*******************
- * manually notify device ready
- * NOTE: only use in android phonegap build projects
+ * notify device ready
+ * NOTE: in iOS use to be notified of launch Push Notification or Deep Link
+    in Android use only in android phonegap build projects
  ******************/
 CleverTap.prototype.notifyDeviceReady = function () {
     cordova.exec(null, null, "CleverTapPlugin", "notifyDeviceReady", []);
@@ -223,6 +224,14 @@ CleverTap.prototype.sessionGetPreviousVisitTime = function (successCallback) {
 // success calls back with  object {"source": <string>, "medium": <string>, "campaign": <string>} or empty object
 CleverTap.prototype.sessionGetUTMDetails = function (successCallback) {
     cordova.exec(successCallback, null, "CleverTapPlugin", "sessionGetUTMDetails", []);
+}
+
+// Call this to manually track the utm details for an incoming install referrer.
+// source = string               the utm source
+// medium = string               the utm medium
+// campaign = string             the utm campaign
+CleverTap.prototype.pushInstallReferrer = function (source, medium, campaign) {
+    cordova.exec(null, null, "CleverTapPlugin", "pushInstallReferrer", [source, medium, campaign]);
 }
                
 /*******************

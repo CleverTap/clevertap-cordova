@@ -30,9 +30,10 @@ var app = {
         document.addEventListener('onCleverTapProfileSync', this.onCleverTapProfileSync, false);
         document.addEventListener('onCleverTapProfileDidInitialize', this.onCleverTapProfileDidInitialize, false);
         document.addEventListener('onCleverTapInAppNotificationDismissed', this.onCleverTapInAppNotificationDismissed, false);
-        
-        //example deeplink handling
+        // deeplink handler
         document.addEventListener('onDeepLink', this.onDeepLink, false);
+        //push notification handler
+        document.addEventListener('onPushNotification', this.onPushNotification, false);
     },
     // deviceready Event Handler
     //
@@ -41,16 +42,18 @@ var app = {
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
         
+        
         /*
          // Ionic example usage
          $rootScope.CleverTap = CleverTap;
          CleverTap && CleverTap.registerPush();
-        */
         
-        /*
         CleverTap.setDebugLevel(1);
-        CleverTap.enablePersonalization();
+        CleverTap.notifyDeviceReady();
         CleverTap.registerPush();
+        CleverTap.enablePersonalization();
+        
+        CleverTap.pushInstallReferrer("source", "medium", "campaign");
         
         CleverTap.setPushToken("foo");
         
@@ -128,9 +131,14 @@ var app = {
         console.log(e.actionExtras);
     },
     
-    // example deep link handling
+    // deep link handling
     onDeepLink: function(e) {
         console.log(e.deeplink);
+    },
+    
+    // push notification payload handling
+    onPushNotification: function(e) {
+        console.log(e.notification);
     },
     
     // Update DOM on a Received Event

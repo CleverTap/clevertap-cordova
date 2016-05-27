@@ -20,10 +20,17 @@
 package com.clevertap.starter;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 import org.apache.cordova.*;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends CordovaActivity
 {
@@ -34,20 +41,4 @@ public class MainActivity extends CordovaActivity
         // Set by <content src="index.html" /> in config.xml
         loadUrl(launchUrl);
     }
-
-    // example deeplink handling
-    @Override
-    public void onNewIntent(Intent intent) {
-
-        super.onNewIntent(intent);
-
-        if (intent.getAction().equals(Intent.ACTION_VIEW)) {
-            Uri data = intent.getData();
-            if (data != null) {
-                final String json = "{'deeplink':'"+data.toString()+"'}";
-                loadUrl("javascript:cordova.fireDocumentEvent('onDeepLink'," + json + ");");
-            }
-        }
-    }
-
 }

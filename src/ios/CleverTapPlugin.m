@@ -18,6 +18,10 @@ static NSDateFormatter *dateFormatter;
 
 static CleverTap *clevertap;
 
+static NSDictionary *launchNotification;
+
+static NSURL *launchDeepLink;
+
 @interface CleverTapPlugin () <CleverTapSyncDelegate, CleverTapInAppNotificationDelegate> {
 }
 
@@ -34,11 +38,7 @@ static CleverTap *clevertap;
     // Listen to re-broadcast events from Cordova's AppDelegate
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onDidFailToRegisterForRemoteNotificationsWithError:) name:CDVRemoteNotificationError object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onHandleOpenURLNotification:) name:CDVPluginHandleOpenURLNotification object:nil];
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onHandleRegisterForRemoteNotification:) name:CDVRemoteNotification object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onHandleLocalNotification:) name:CDVLocalNotification object:nil];
     
     clevertap = [CleverTap sharedInstance];
    
@@ -46,8 +46,15 @@ static CleverTap *clevertap;
 
 + (void)onDidFinishLaunchingNotification:(NSNotification *)notification {
     NSDictionary *launchOptions = notification.userInfo;
-    if (launchOptions && launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]) {
+    if (!launchOptions) return;
+    
+    if (launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]) {
         [clevertap handleNotificationWithData:launchOptions];
+        launchNotification = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
+    }
+    
+    if (launchOptions[UIApplicationLaunchOptionsURLKey]) {
+        launchDeepLink = launchOptions[UIApplicationLaunchOptionsURLKey];
     }
 }
 
@@ -56,21 +63,29 @@ static CleverTap *clevertap;
     NSLog(@"onRemoteRegisterFail: %@", notification.object);
 }
 
-+ (void)onHandleOpenURLNotification:(NSNotification *)notification {
-    [clevertap handleOpenURL:notification.object sourceApplication:nil];
-}
-
 + (void)onHandleRegisterForRemoteNotification:(NSNotification *)notification {
     [clevertap setPushTokenAsString:notification.object];
 }
 
-+ (void)onHandleLocalNotification:(NSNotification *)notification {
+- (void)onHandleOpenURLNotification:(NSNotification *)notification {
+    [clevertap handleOpenURL:notification.object sourceApplication:nil];
+    [self handleDeepLink:notification.object];
+}
+
+- (void)onHandleLocalNotification:(NSNotification *)notification {
     [clevertap handleNotificationWithData:notification.object];
+    [self notifyPushNotification:notification.object];
 }
 
 -(void)pluginInitialize {
     [super pluginInitialize];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onHandleOpenURLNotification:) name:CDVPluginHandleOpenURLNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onHandleLocalNotification:) name:CDVLocalNotification object:nil];
+    
     [clevertap setSyncDelegate:self];
+    
     [clevertap setInAppNotificationDelegate:self];
 }
 
@@ -131,6 +146,25 @@ static CleverTap *clevertap;
     return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
 }
 
+// custom helper method to fire push data into the Cordova WebView
+- (void) notifyPushNotification:(id)notification {
+    NSDictionary * _notification;
+    if ([notification isKindOfClass:[UILocalNotification class]]) {
+        _notification = [((UILocalNotification *) notification) userInfo];
+    } else if ([notification isKindOfClass:[NSDictionary class]]) {
+        _notification = notification;
+    }
+    
+    NSError *err;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:_notification options:0 error:&err];
+    
+    if(err == nil) {
+        NSString *json = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+        NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onPushNotification', {'notification':%@})", json];
+        [self.commandDelegate evalJs:js];
+    }
+}
+
 #pragma mark CleverTapInAppNotificationDelegate
 
 - (void)inAppNotificationDismissedWithExtras:(NSDictionary *)extras andActionExtras:(NSDictionary *)actionExtras {
@@ -185,6 +219,20 @@ static CleverTap *clevertap;
 
 #pragma mark Public
 
+# pragma mark launch
+
+-(void) notifyDeviceReady:(CDVInvokedUrlCommand *)command {
+    if (launchNotification) {
+        [self notifyPushNotification:[launchNotification copy]];
+        launchNotification = nil;
+    }
+    
+    if (launchDeepLink) {
+        [self handleDeepLink:[launchDeepLink copy]];
+        launchDeepLink = nil;
+    }
+}
+
 #pragma mark Push
 
 - (void)registerPush:(CDVInvokedUrlCommand *)command {
@@ -214,6 +262,12 @@ static CleverTap *clevertap;
 
 - (void) handleNotification:(id)notification {
     [clevertap handleNotificationWithData:notification];
+    [self notifyPushNotification:notification];
+}
+
+- (void) handleDeepLink:(NSURL *)url {
+    NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onDeepLink', {'deeplink':'%@'});", url.description];
+    [self.commandDelegate evalJs:js];
 }
 
 #pragma mark Developer Options
@@ -577,8 +631,13 @@ static CleverTap *clevertap;
     }];
 }
 
--(void) notifyDeviceReady:(CDVInvokedUrlCommand *)command {
-    // no-op only used in Android
+- (void) pushInstallReferrer:(CDVInvokedUrlCommand *)command {
+    [self.commandDelegate runInBackground:^{
+        NSString *source = [command argumentAtIndex:0];
+        NSString *medium = [command argumentAtIndex:1];
+        NSString *campaign = [command argumentAtIndex:2];
+        [clevertap pushInstallReferrerSource:source medium:medium campaign:campaign];
+    }];
 }
 
 @end

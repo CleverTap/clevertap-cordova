@@ -89,12 +89,10 @@
 
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
-
+    
     return YES;
 }
 
-// this happens while we are running ( in the background, or from within our own app )
-// only valid if CleverTapStarter-Info.plist specifies a protocol to handle
 - (BOOL)application:(UIApplication*)application openURL:(NSURL*)url sourceApplication:(NSString*)sourceApplication annotation:(id)annotation
 {
     if (!url) {
@@ -103,13 +101,6 @@
 
     // all plugins will get the notification, and their handlers will be called
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CDVPluginHandleOpenURLNotification object:url]];
-    
-    // example Deep Link Handling
-    NSString *scheme = [url scheme];
-    if([scheme isEqualToString:@"clevertapstarter"]) {
-        NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onDeepLink', {'deeplink':'%@'});", url.description];
-        [self.viewController.commandDelegate evalJs:js];
-    }
 
     return YES;
 }
@@ -123,11 +114,8 @@
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-    
-    NSLog(@"didReceiveNotification");
-    // pass to the CleverTapPlugin for handling
-    CleverTapPlugin *CleverTap = [self.viewController getCommandInstance:@"CleverTapPlugin"];
-    [CleverTap handleNotification:userInfo];
+    // re-post ( broadcast )
+    [[NSNotificationCenter defaultCenter] postNotificationName:CDVLocalNotification object:userInfo];
 }
 
 #ifndef DISABLE_PUSH_NOTIFICATIONS

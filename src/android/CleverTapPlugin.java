@@ -10,6 +10,9 @@
 
 package com.clevertap.cordova;
 
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.location.Location;
@@ -26,6 +29,7 @@ import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Locale;
 import java.util.Date;
 import java.util.Map;
@@ -65,6 +69,67 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         } catch (CleverTapPermissionsNotSatisfied e) {
             CLEVERTAP_API_ERROR = e.getLocalizedMessage();
             //Log.d(LOG_TAG, e.getLocalizedMessage());
+        }
+
+        onNewIntent(cordova.getActivity().getIntent());
+
+    }
+
+    /**
+     * Called when the activity receives a new intent.
+     */
+    public void onNewIntent(Intent intent) {
+        if (intent == null) return;
+
+        // deeplink
+        if (intent.getAction().equals(Intent.ACTION_VIEW)) {
+            Uri data = intent.getData();
+            if (data != null) {
+                final String json = "{'deeplink':'"+data.toString()+"'}";
+
+                cordova.getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        webView.loadUrl("javascript:cordova.fireDocumentEvent('onDeepLink'," + json + ");");
+                    }
+                });
+
+            }
+        }
+
+        // push notification
+        else {
+            Bundle extras = intent.getExtras();
+            Boolean isPushNotification = (extras != null && extras.get("wzrk_pn") != null);
+            if (isPushNotification) {
+                JSONObject data = new JSONObject();
+
+                for (String key : extras.keySet()) {
+                    try {
+                        Object value = extras.get(key);
+                        if (value instanceof Map) {
+                            JSONObject jsonObject = new JSONObject((Map) value);
+                            data.put(key, jsonObject);
+                        } else if (value instanceof List) {
+                            JSONArray jsonArray = new JSONArray((List) value);
+                            data.put(key, jsonArray);
+                        } else {
+                            data.put(key, extras.get(key));
+                        }
+                    } catch (Throwable t) {
+                        // no-op
+                    }
+                }
+
+                final String json = "{'notification':" + data.toString() + "}";
+                cordova.getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        webView.loadUrl("javascript:cordova.fireDocumentEvent('onPushNotification'," + json + ");");
+                    }
+                });
+
+            }
         }
     }
 
@@ -255,6 +320,51 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                             _result.setKeepCallback(true);
                             callbackContext.sendPluginResult(_result);
                         }
+                    }
+                });
+                return true;
+            }
+        }
+
+        else if (action.equals("pushInstallReferrer")) {
+            String source = null;
+            String campaign = null;
+            String medium = null;
+
+            if (args.length() == 3) {
+                if (!args.isNull(0)) {
+                    source = args.getString(0);
+                } else {
+                    haveError = true;
+                    errorMsg = "source cannot be null";
+                }
+                if (!args.isNull(1)) {
+                    medium = args.getString(1);
+                } else {
+                    haveError = true;
+                    errorMsg = "medium cannot be null";
+                }
+                if (!args.isNull(2)) {
+                    campaign = args.getString(2);
+                } else {
+                    haveError = true;
+                    errorMsg = "campaign cannot be null";
+                }
+            } else {
+                haveError = true;
+                errorMsg = "Expected 3 arguments";
+            }
+
+            if (!haveError) {
+                final String _source = source;
+                final String _medium = medium;
+                final String _campaign = campaign;
+                cordova.getThreadPool().execute(new Runnable() {
+                    public void run() {
+                        cleverTap.pushInstallReferrer(_source, _medium, _campaign);
+                        PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
+                        _result.setKeepCallback(true);
+                        callbackContext.sendPluginResult(_result);
                     }
                 });
                 return true;

@@ -4,8 +4,8 @@
     <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="23" />
     <uses-permission android:name="android.permission.INTERNET" />
     <application android:hardwareAccelerated="true" android:icon="@drawable/icon" android:label="@string/app_name" android:supportsRtl="true" android:name="com.clevertap.android.sdk.Application">
-        <meta-data android:name="CLEVERTAP_ACCOUNT_ID" android:value="Your CleverTap Account ID" />
-        <meta-data android:name="CLEVERTAP_TOKEN" android:value="Your CleverTap Account Token" />
+        <meta-data android:name="CLEVERTAP_ACCOUNT_ID" android:value="YOUR CLEVERTAP ACCOUNT ID" />
+        <meta-data android:name="CLEVERTAP_TOKEN" android:value="YOUR CLEVERTAP TOKEN" />
         <activity android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale" android:label="@string/activity_name" android:launchMode="singleTop" android:name="MainActivity" android:theme="@android:style/Theme.Black.NoTitleBar" android:windowSoftInputMode="adjustResize">
             <intent-filter android:label="@string/launcher_name">
                 <action android:name="android.intent.action.MAIN" />
@@ -18,7 +18,7 @@
                 <data android:scheme="clevertapstarter" />
             </intent-filter>
         </activity>
-        <meta-data android:name="GCM_SENDER_ID" android:value="id:302668826981" />
+        <meta-data android:name="GCM_SENDER_ID" android:value="id:YOUR GCM SENDER ID" />
         <receiver android:name="com.clevertap.android.sdk.GcmBroadcastReceiver" android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />

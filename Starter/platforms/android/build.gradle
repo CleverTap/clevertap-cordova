@@ -241,11 +241,11 @@ dependencies {
     // SUB-PROJECT DEPENDENCIES START
     debugCompile project(path: "CordovaLib", configuration: "debug")
     releaseCompile project(path: "CordovaLib", configuration: "release")
-    compile "com.google.android.gms:play-services-base:+"
-    compile "com.google.android.gms:play-services-basement:+"
-    compile "com.google.android.gms:play-services-gcm:+"
-    compile "com.google.android.gms:play-services-location:+"
-    compile "com.android.support:support-v4:+"
+    compile "com.google.android.gms:play-services-base:9.0.0"
+    compile "com.google.android.gms:play-services-basement:9.0.0"
+    compile "com.google.android.gms:play-services-gcm:9.0.0"
+    compile "com.google.android.gms:play-services-location:9.0.0"
+    compile 'com.android.support:support-v4:23.4.0'
     // SUB-PROJECT DEPENDENCIES END
 }
 

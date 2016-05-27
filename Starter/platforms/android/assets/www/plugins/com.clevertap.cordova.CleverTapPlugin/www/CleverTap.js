@@ -224,6 +224,14 @@ CleverTap.prototype.sessionGetPreviousVisitTime = function (successCallback) {
 CleverTap.prototype.sessionGetUTMDetails = function (successCallback) {
     cordova.exec(successCallback, null, "CleverTapPlugin", "sessionGetUTMDetails", []);
 }
+
+// Call this to manually track the utm details for an incoming install referrer.
+// source = string               the utm source
+// medium = string               the utm medium
+// campaign = string             the utm campaign
+CleverTap.prototype.pushInstallReferrer = function (source, medium, campaign) {
+    cordova.exec(null, null, "CleverTapPlugin", "pushInstallReferrer", [source, medium, campaign]);
+}
                
 /*******************
  * Developer Options

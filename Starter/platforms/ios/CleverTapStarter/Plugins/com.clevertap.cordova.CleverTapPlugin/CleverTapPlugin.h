@@ -20,6 +20,12 @@
  */
 - (void) setDebugLevel:(CDVInvokedUrlCommand *)command;
 
+# pragma mark launch
+/**
+ call to be notified of launch Push Notification or Deep Link
+*/
+-(void) notifyDeviceReady:(CDVInvokedUrlCommand *)command;
+
 
 # pragma mark enable Personalization API
 
@@ -44,6 +50,11 @@
  CleverTap will insure your AppDelege OpenUrl: sourceApplication: is called with a deep link, if included in notification
  */
 - (void) handleNotification:(id)notification;
+
+
+/** Let CleverTap handle sending the deep link into the Cordova WebView
+ */
+- (void) handleDeepLink:(NSURL *)url;
 
 
 #pragma mark Event API
