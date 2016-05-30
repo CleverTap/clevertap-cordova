@@ -163,6 +163,10 @@ Afterwards, call the following from your Javascript.
 
 [Follow these instructions to set up push notifications for your app.](https://support.clevertap.com/messaging/push-notifications/#android)
 
+Afterwards, call the following from your Javascript.
+
+    CleverTap.registerPush();
+
      
 ### 3. Integrate Javascript with the Plugin
 

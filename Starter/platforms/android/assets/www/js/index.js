@@ -42,6 +42,9 @@ var app = {
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
 
+        CleverTap.registerPush();
+        CleverTap.setDebugLevel(1);
+
         /*
          // Ionic example usage
          $rootScope.CleverTap = CleverTap;
