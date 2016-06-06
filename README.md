@@ -5,7 +5,7 @@ CleverTap Cordova Plugin
 
 Tested on Cordova 6.1.1
 
-- [CleverTap Android SDK version 2.1.0](https://github.com/CleverTap/clevertap-android-sdk/releases/tag/2.1.0)
+- [CleverTap Android SDK version 2.1.1](https://github.com/CleverTap/clevertap-android-sdk/releases/tag/2.1.1)
 - [CleverTap iOS SDK version 2.1.0, Xcode 7 only](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/2.1.0)
 
 ## Install
@@ -134,10 +134,7 @@ Make sure your build.gradle file includes the play-services and support library 
         // SUB-PROJECT DEPENDENCIES START  
         debugCompile project(path: "CordovaLib", configuration: "debug")  
         releaseCompile project(path: "CordovaLib", configuration: "release")  
-        compile "com.google.android.gms:play-services-base:9.0.0"
-        compile "com.google.android.gms:play-services-basement:9.0.0"
-        compile "com.google.android.gms:play-services-gcm:9.0.0"
-        compile "com.google.android.gms:play-services-location:9.0.0"
+        compile "com.google.android.gms:play-services-gcm:9.0.2"
         compile "com.android.support:support-v4:23.4.0"
         // SUB-PROJECT DEPENDENCIES END   
 

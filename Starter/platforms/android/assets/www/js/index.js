@@ -43,7 +43,7 @@ var app = {
         app.receivedEvent('deviceready');
 
         CleverTap.registerPush();
-        CleverTap.setDebugLevel(1);
+        CleverTap.setDebugLevel(1277182231);
 
         /*
          // Ionic example usage
