@@ -155,6 +155,51 @@ Afterwards, call the following from your Javascript.
 
 [See the included example Starter Cordova project](https://github.com/CleverTap/clevertap-cordova/blob/master/Starter/platforms/ios/CleverTapStarter/Classes/AppDelegate.m).
 
+In particular, make sure that your AppDelegate.m (or, depending on your Cordova version, its super class CDVAppDelegate.m) contains the follow methods:
+
+    - (BOOL)application:(UIApplication*)application openURL:(NSURL*)url sourceApplication:(NSString*)sourceApplication annotation:(id)annotation
+    {
+        if (!url) {
+            return NO;
+        }
+
+        // all plugins will get the notification, and their handlers will be called
+        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CDVPluginHandleOpenURLNotification object:url]];
+
+        return YES;
+    }
+
+    // repost all remote and local notification using the default NSNotificationCenter so multiple plugins may respond
+    - (void) application:(UIApplication*)application
+        didReceiveLocalNotification:(UILocalNotification*)notification
+    {
+        // re-post ( broadcast )
+        [[NSNotificationCenter defaultCenter] postNotificationName:CDVLocalNotification object:notification];
+    }
+
+    - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+        // re-post ( broadcast )
+        [[NSNotificationCenter defaultCenter] postNotificationName:CDVLocalNotification object:userInfo];
+    }
+
+    - (void) application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
+    {
+       
+         // re-post ( broadcast )
+         NSString* token = [[[[deviceToken description]
+         stringByReplacingOccurrencesOfString:@"<" withString:@""]
+         stringByReplacingOccurrencesOfString:@">" withString:@""]
+         stringByReplacingOccurrencesOfString:@" " withString:@""];
+         
+         [[NSNotificationCenter defaultCenter] postNotificationName:CDVRemoteNotification object:token];
+    }
+
+    - (void) application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
+    {
+        // re-post ( broadcast )
+        [[NSNotificationCenter defaultCenter] postNotificationName:CDVRemoteNotificationError object:error];
+    }
+
 
 #### Android
 
