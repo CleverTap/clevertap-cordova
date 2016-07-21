@@ -106,19 +106,26 @@ CleverTap.prototype.getEventHistory = function (successCallback) {
  ******************/
 
 /** 
-Get the device location if available.  Calling this will prompt the user location permissions dialog.
+Get the device location if available.
+
+On iOS:
+Calling this will prompt the user location permissions dialog.
 Please be sure to include the NSLocationWhenInUseUsageDescription key in your Info.plist.
 Uses desired accuracy of kCLLocationAccuracyHundredMeters. 
 If you need background location updates or finer accuracy please implement your own location handling.
+
+On Anroid:
+Requires Location Permission in AndroidManifest e.g. "android.permission.ACCESS_COARSE_LOCATION"
+
 You can use location to pass it to CleverTap via the setLocation API
 for, among other things, more fine-grained geo-targeting and segmentation purposes.
- 
+
 successCallback = callback function for result
 errorCallback = callback funtion in case of error
 success returns {lat:lat, lon:lon} lat and lon are floats
 error returns a reason string
  
-Note: the call to CleverTapSDK must be made on the main thread due to LocationManager restrictions, but the CleverTapSDK method itself is non-blocking.
+Note: on iOS the call to CleverTapSDK must be made on the main thread due to LocationManager restrictions, but the CleverTapSDK method itself is non-blocking.
 */
 CleverTap.prototype.getLocation = function (successCallback, errorCallback) {
     cordova.exec(successCallback, errorCallback, "CleverTapPlugin", "getLocation", []);
