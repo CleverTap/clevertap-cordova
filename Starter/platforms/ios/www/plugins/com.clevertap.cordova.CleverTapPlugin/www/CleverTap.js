@@ -106,11 +106,60 @@ CleverTap.prototype.getEventHistory = function (successCallback) {
  * Profiles
  ******************/
 
+/** 
+Get the device location if available.  Calling this will prompt the user location permissions dialog.
+Please be sure to include the NSLocationWhenInUseUsageDescription key in your Info.plist.
+Uses desired accuracy of kCLLocationAccuracyHundredMeters. 
+If you need background location updates or finer accuracy please implement your own location handling.
+You can use location to pass it to CleverTap via the setLocation API
+for, among other things, more fine-grained geo-targeting and segmentation purposes.
+ 
+successCallback = callback function for result
+errorCallback = callback funtion in case of error
+success returns {lat:lat, lon:lon} lat and lon are floats
+error returns a reason string
+ 
+Note: the call to CleverTapSDK must be made on the main thread due to LocationManager restrictions, but the CleverTapSDK method itself is non-blocking.
+*/
+CleverTap.prototype.getLocation = function (successCallback, errorCallback) {
+    cordova.exec(successCallback, errorCallback, "CleverTapPlugin", "getLocation", []);
+}
+               
 // Set location
 // lat = float
 // lon = float
 CleverTap.prototype.setLocation = function (lat, lon) {
     cordova.exec(null, null, "CleverTapPlugin", "setLocation", [lat, lon]);
+}
+
+/**
+ Creates a separate and distinct user profile identified by one or more of Identity, Email, FBID or GPID values,
+ and populated with the key-values included in the profile dictionary.
+ 
+ If your app is used by multiple users, you can use this method to assign them each a unique profile to track them separately.
+ 
+ If instead you wish to assign multiple Identity, Email, FBID and/or GPID values to the same user profile,
+ use profileSet rather than this method.
+ 
+ If none of Identity, Email, FBID or GPID is included in the profile dictionary,
+ all properties values will be associated with the current user profile.
+ 
+ When initially installed on this device, your app is assigned an "anonymous" profile.
+ The first time you identify a user on this device (whether via onUserLogin or profileSet),
+ the "anonymous" history on the device will be associated with the newly identified user.
+ 
+ Then, use this method to switch between subsequent separate identified users.
+ 
+ Please note that switching from one identified user to another is a costly operation
+ in that the current session for the previous user is automatically closed
+ and data relating to the old user removed, and a new session is started
+ for the new user and data for that user refreshed via a network call to CleverTap.
+ In addition, any global frequency caps are reset as part of the switch.
+ 
+ profile = object
+ */
+CleverTap.prototype.onUserLogin = function (profile) {
+    cordova.exec(null, null, "CleverTapPlugin", "onUserLogin", [profile]);
 }
                
 // Set profile attributes
@@ -139,6 +188,13 @@ CleverTap.prototype.profileGetProperty = function (propertyName, successCallback
     cordova.exec(successCallback, null, "CleverTapPlugin", "profileGetProperty", [propertyName]);
 }
 
+// Get a unique CleverTap identifier suitable for use with install attribution providers.
+// successCallback = callback function for result
+// success returns the unique CleverTap attribution identifier.
+CleverTap.prototype.profileGetCleverTapAttributionIdentifier = function (successCallback) {
+    cordova.exec(successCallback, null, "CleverTapPlugin", "profileGetCleverTapAttributionIdentifier", []);
+}
+               
 // Get User Profile CleverTapID
 // successCallback = callback function for result
 // success calls back with CleverTapID or false

@@ -180,5 +180,7 @@
 			<string>{768, 1024}</string>
 		</dict>
 	</array>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Just testing</string>
 </dict>
 </plist>

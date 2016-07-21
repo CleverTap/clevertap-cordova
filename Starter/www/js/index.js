@@ -42,60 +42,70 @@ var app = {
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
         
+        // Ionic example usage
+        //$rootScope.CleverTap = CleverTap;
+        //CleverTap && CleverTap.registerPush();
         
         /*
-         // Ionic example usage
-         $rootScope.CleverTap = CleverTap;
-         CleverTap && CleverTap.registerPush();
-        
-        CleverTap.setDebugLevel(1);
-        CleverTap.notifyDeviceReady();
-        CleverTap.registerPush();
-        CleverTap.enablePersonalization();
-        
-        CleverTap.pushInstallReferrer("source", "medium", "campaign");
-        
-        CleverTap.setPushToken("foo");
-        
-        CleverTap.profileSetMultiValues("multiValue", ["one", "two", "three", "four"]);
-        
-        CleverTap.setLocation(34.1410, -118.1607);
-        CleverTap.recordEventWithName("foo");
-        CleverTap.recordEventWithNameAndProps("boo", {"bar":"zoo"});
-        CleverTap.recordChargedEventWithDetailsAndItems({"amount":300, "Charged ID":1234}, [{"Category":"Books", "Quantity":1, "Title":"Book Title"}]);
-        CleverTap.eventGetFirstTime("foo", function (time) {console.log("foo event first time is "+time);});
-        CleverTap.eventGetLastTime("App Launched", function (time) {console.log("app launched last time is "+time);});
-        CleverTap.eventGetOccurrences("foo", function (num) {console.log("foo event occurrences "+num);});
-        CleverTap.eventGetDetails("Charged", function (res) {console.log(res);});
-        CleverTap.getEventHistory(function (history) {console.log(history);});
-        
-        CleverTap.eventGetFirstTime("noevent", function (time) {console.log("noevent event first time is "+time);});
-        CleverTap.eventGetLastTime("noevent", function (time) {console.log("noevent last time is "+time);});
-        CleverTap.eventGetOccurrences("noevent", function (num) {console.log("noevent occurrences "+num);});
-        CleverTap.eventGetDetails("noevent", function (res) {console.log(res);});
-        
-        CleverTap.profileSet({"Identity":123456, "DOB":"1950-10-15", "custom":1.3});
-        
-        CleverTap.profileGetProperty("DOB", function(val) {console.log("DOB profile value is "+val);});
-        
-        CleverTap.profileGetProperty("Identity", function(val) {console.log("Identity profile value is "+val);});
-        
-        CleverTap.profileGetProperty("custom", function(val) {console.log("custom profile value is "+val);});
-        
-        CleverTap.sessionGetTimeElapsed(function(val) {console.log("session elapsed time is "+val);});
-        CleverTap.sessionGetTotalVisits(function(val) {console.log("session total visits is "+val);});
-        CleverTap.sessionGetScreenCount(function(val) {console.log("session screen count is "+val);});
-        CleverTap.sessionGetPreviousVisitTime(function(val) {console.log("session previous visit time is "+val);});
-        CleverTap.sessionGetUTMDetails(function(val) {console.log(val);});
-        
-        CleverTap.profileGetCleverTapID(function(val) {console.log("CleverTapID is "+val);});
-        
-        CleverTap.profileAddMultiValue("multiValue", "five");
-        CleverTap.profileRemoveMultiValues("multiValue", ["one", "two"]);
-        CleverTap.profileRemoveMultiValue("multiValue", "three");
-        CleverTap.profileRemoveValueForKey("custom");
-        CleverTap.profileGetProperty("multiValue", function(val) {console.log("multiValue profile value is "+val);});
-        */
+         CleverTap.setDebugLevel(1);
+         CleverTap.notifyDeviceReady();
+         CleverTap.registerPush();
+         CleverTap.enablePersonalization();
+         
+         CleverTap.pushInstallReferrer("source", "medium", "campaign");
+         
+         CleverTap.setPushToken("foo");
+         
+         CleverTap.onUserLogin({"Identity":098767, "custom":1.3});
+         
+         CleverTap.profileSet({"Identity":123456, "DOB":"1950-10-15", "custom":1.3});
+         
+         CleverTap.profileSetMultiValues("multiValue", ["one", "two", "three", "four"]);
+         
+         CleverTap.getLocation(function(loc) {
+         console.log("CleverTapLocation is " + loc.lat + loc.lon);
+         CleverTap.setLocation(loc.lat, loc.lon);
+         },
+         function(error) {
+         console.log("CleverTapLocation error is "+error);
+         });
+         
+         CleverTap.recordEventWithName("foo");
+         CleverTap.recordEventWithNameAndProps("boo", {"bar":"zoo"});
+         CleverTap.recordChargedEventWithDetailsAndItems({"amount":300, "Charged ID":1234}, [{"Category":"Books", "Quantity":1, "Title":"Book Title"}]);
+         CleverTap.eventGetFirstTime("foo", function (time) {console.log("foo event first time is "+time);});
+         CleverTap.eventGetLastTime("App Launched", function (time) {console.log("app launched last time is "+time);});
+         CleverTap.eventGetOccurrences("foo", function (num) {console.log("foo event occurrences "+num);});
+         CleverTap.eventGetDetails("Charged", function (res) {console.log(res);});
+         CleverTap.getEventHistory(function (history) {console.log(history);});
+         
+         CleverTap.eventGetFirstTime("noevent", function (time) {console.log("noevent event first time is "+time);});
+         CleverTap.eventGetLastTime("noevent", function (time) {console.log("noevent last time is "+time);});
+         CleverTap.eventGetOccurrences("noevent", function (num) {console.log("noevent occurrences "+num);});
+         CleverTap.eventGetDetails("noevent", function (res) {console.log(res);});
+         
+         CleverTap.profileGetProperty("DOB", function(val) {console.log("DOB profile value is "+val);});
+         
+         CleverTap.profileGetProperty("Identity", function(val) {console.log("Identity profile value is "+val);});
+         
+         CleverTap.profileGetProperty("custom", function(val) {console.log("custom profile value is "+val);});
+         
+         CleverTap.sessionGetTimeElapsed(function(val) {console.log("session elapsed time is "+val);});
+         CleverTap.sessionGetTotalVisits(function(val) {console.log("session total visits is "+val);});
+         CleverTap.sessionGetScreenCount(function(val) {console.log("session screen count is "+val);});
+         CleverTap.sessionGetPreviousVisitTime(function(val) {console.log("session previous visit time is "+val);});
+         CleverTap.sessionGetUTMDetails(function(val) {console.log(val);});
+         
+         CleverTap.profileGetCleverTapID(function(val) {console.log("CleverTapID is "+val);});
+         
+         CleverTap.profileGetCleverTapAttributionIdentifier(function(val) {console.log("CleverTapAttributionIdentifier is "+val);});
+         
+         CleverTap.profileAddMultiValue("multiValue", "five");
+         CleverTap.profileRemoveMultiValues("multiValue", ["one", "two"]);
+         CleverTap.profileRemoveMultiValue("multiValue", "three");
+         CleverTap.profileRemoveValueForKey("custom");
+         CleverTap.profileGetProperty("multiValue", function(val) {console.log("multiValue profile value is "+val);});
+         */
     },
     
     // onCleverTapProfileSync Event Handler
