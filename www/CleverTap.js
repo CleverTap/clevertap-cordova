@@ -114,7 +114,7 @@ Please be sure to include the NSLocationWhenInUseUsageDescription key in your In
 Uses desired accuracy of kCLLocationAccuracyHundredMeters. 
 If you need background location updates or finer accuracy please implement your own location handling.
 
-On Anroid:
+On Android:
 Requires Location Permission in AndroidManifest e.g. "android.permission.ACCESS_COARSE_LOCATION"
 
 You can use location to pass it to CleverTap via the setLocation API
