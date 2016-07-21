@@ -5,8 +5,8 @@ CleverTap Cordova Plugin
 
 Tested on Cordova 6.1.1
 
-- [CleverTap Android SDK version 2.1.3](https://github.com/CleverTap/clevertap-android-sdk/releases/tag/2.1.3)
-- [CleverTap iOS SDK version 2.1.2](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/2.1.2)
+- [CleverTap Android SDK version 2.2.0](https://github.com/CleverTap/clevertap-android-sdk/releases/tag/2.2.0)
+- [CleverTap iOS SDK version 2.2.0](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/2.2.0)
 
 ## Install
 
@@ -110,18 +110,10 @@ Check the `android:name` property of the `<application>` tag of our AndroidManif
 
 Please ensure that you're requesting the following permissions for your app:
 
-    <!-- Required to retrieve a unique identifier for the device, see note below -->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <!-- Required to allow the app to send events -->
     <uses-permission android:name="android.permission.INTERNET"/>
     <!-- Recommended so that we can be smart about when to send the data -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <!-- Recommended so that we can get the user's primary e-mail address -->
-    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
-    <!-- Recommended so that we can get the user's location -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <!-- Recommended -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
 [Please see the example AndroidManifest.xml here](https://github.com/CleverTap/clevertap-cordova/blob/master/Starter/platforms/android/AndroidManifest.xml).
 
