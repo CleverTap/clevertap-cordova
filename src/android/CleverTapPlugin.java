@@ -497,7 +497,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 location.setLongitude(lon);
                 cordova.getThreadPool().execute(new Runnable() {
                     public void run() {
-                        cleverTap.updateLocation(location);
+                        cleverTap.setLocation(location);
                         PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
                         _result.setKeepCallback(true);
                         callbackContext.sendPluginResult(_result);
@@ -505,6 +505,32 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 });
                 return true;
             }
+        }
+
+        else if (action.equals("getLocation")) {
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    Location location = cleverTap.getLocation();
+                    PluginResult _result = null;
+                    try {
+                        if (location != null) {
+                            JSONObject jsonLoc = new JSONObject();
+                            jsonLoc.put("lat", location.getLatitude());
+                            jsonLoc.put("lon", location.getLongitude());
+                            _result = new PluginResult(PluginResult.Status.OK, jsonLoc);
+                        }
+                    } catch (Throwable t) {
+                        // no-op
+                    }
+
+                    if (_result == null) {
+                        _result = new PluginResult(PluginResult.Status.ERROR, "Unable to get location");
+                    }
+                    _result.setKeepCallback(true);
+                    callbackContext.sendPluginResult(_result);
+                }
+            });
+            return true;
         }
 
         else if (action.equals("profileSet")) {
@@ -528,25 +554,47 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 cordova.getThreadPool().execute(new Runnable() {
                     public void run() {
                         try {
-                            HashMap<String, Object> profile = toMap(_jsonProfile);
-                            String dob = (String)profile.get("DOB");
-                            if(dob != null) {
-                                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-                                try {
-                                    Date date = format.parse(dob);
-                                    profile.put("DOB", date);
-                                } catch (ParseException e) {
-                                    profile.remove("DOB");
-                                    Log.d(LOG_TAG, "invalid DOB format in profileSet");
-                                }
-                            }
-
+                            HashMap<String, Object> profile = formatProfile(_jsonProfile);
                             cleverTap.profile.push(profile);
-
                         } catch (Exception e) {
                             Log.d(LOG_TAG, "Error setting profile " + e.getLocalizedMessage());
                         }
+                        PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
+                        _result.setKeepCallback(true);
+                        callbackContext.sendPluginResult(_result);
+                    }
+                });
 
+                return true;
+            }
+        }
+
+        else if (action.equals("onUserLogin")) {
+            JSONObject jsonProfile = null;
+
+            if (args.length() == 1) {
+                if (!args.isNull(0)) {
+                    jsonProfile = args.getJSONObject(0);
+                } else {
+                    haveError = true;
+                    errorMsg = "profile cannot be null";
+                }
+
+            } else {
+                haveError = true;
+                errorMsg = "Expected 1 argument";
+            }
+
+            if (!haveError) {
+                final JSONObject _jsonProfile = jsonProfile;
+                cordova.getThreadPool().execute(new Runnable() {
+                    public void run() {
+                        try {
+                            HashMap<String, Object> profile = formatProfile(_jsonProfile);
+                            cleverTap.onUserLogin(profile);
+                        } catch (Exception e) {
+                            Log.d(LOG_TAG, "Error in onUserLogin " + e.getLocalizedMessage());
+                        }
                         PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
                         _result.setKeepCallback(true);
                         callbackContext.sendPluginResult(_result);
@@ -662,6 +710,18 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 public void run() {
                     String CleverTapID = cleverTap.getCleverTapID();
                     PluginResult _result = new PluginResult(PluginResult.Status.OK, CleverTapID);
+                    _result.setKeepCallback(true);
+                    callbackContext.sendPluginResult(_result);
+                }
+            });
+            return true;
+        }
+
+        else if (action.equals("profileGetCleverTapAttributionIdentifier")) {
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    String attributionID = cleverTap.getCleverTapAttributionIdentifier();
+                    PluginResult _result = new PluginResult(PluginResult.Status.OK, attributionID);
                     _result.setKeepCallback(true);
                     callbackContext.sendPluginResult(_result);
                 }
@@ -1053,6 +1113,28 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             Log.d(LOG_TAG, "CleverTap API not initialized: " + CLEVERTAP_API_ERROR);
         }
         return initialized;
+    }
+
+    private static HashMap<String, Object> formatProfile(JSONObject jsonProfile) {
+        try {
+            HashMap<String, Object> profile = toMap(jsonProfile);
+            String dob = (String)profile.get("DOB");
+            if(dob != null) {
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+                try {
+                    Date date = format.parse(dob);
+                    profile.put("DOB", date);
+                } catch (ParseException e) {
+                    profile.remove("DOB");
+                    Log.d(LOG_TAG, "invalid DOB format in profileSet");
+                }
+            }
+
+            return profile;
+
+        } catch (Throwable t) {
+            return null;
+        }
     }
 
     private static Object fromJson(Object json) throws JSONException {

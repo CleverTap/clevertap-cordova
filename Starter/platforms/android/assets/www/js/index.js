@@ -42,21 +42,30 @@ var app = {
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
 
-        CleverTap.registerPush();
-        CleverTap.setDebugLevel(1277182231);
-
         /*
          // Ionic example usage
          $rootScope.CleverTap = CleverTap;
         */
 
         /*
+        CleverTap.registerPush();
         CleverTap.setDebugLevel(1);
         CleverTap.enablePersonalization();
 
         CleverTap.pushInstallReferrer("androidsource", "androidmedium", "androidcampaign");
 
-        CleverTap.setLocation(34.1410, -118.1607);
+        CleverTap.getLocation(function(loc) {
+                                console.log("CleverTapLocation is " + loc.lat + loc.lon);
+                                CleverTap.setLocation(loc.lat, loc.lon);
+                              },
+                              function(error) {
+                                console.log("CleverTapLocation error is "+error);
+                              });
+
+        CleverTap.profileGetCleverTapID(function(val) {console.log("CleverTapID is "+val);});
+
+        CleverTap.profileGetCleverTapAttributionIdentifier(function(val) {console.log("CleverTapAttributionIdentifier is "+val);});
+
         CleverTap.recordEventWithName("foo");
         CleverTap.recordEventWithNameAndProps("boo", {"bar":"zoo"});
         CleverTap.recordChargedEventWithDetailsAndItems({"amount":300, "Charged ID":1234}, [{"Category":"Books", "Quantity":1, "Title":"Book Title"}]);
@@ -70,8 +79,10 @@ var app = {
         CleverTap.eventGetLastTime("noevent", function (time) {console.log("noevent last time is "+time);});
         CleverTap.eventGetOccurrences("noevent", function (num) {console.log("noevent occurrences "+num);});
         CleverTap.eventGetDetails("noevent", function (res) {console.log(res);});
-        
-        CleverTap.profileSet({"Identity":123456, "DOB":"1950-10-15", "custom":1.3});
+
+        CleverTap.onUserLogin({"Identity":"android098768", "DOB":"1950-10-16", "custom":122211});
+
+        CleverTap.profileSet({"Identity":"a12345678","custom12":1.311});
         
         CleverTap.profileGetProperty("DOB", function(val) {console.log("DOB profile value is "+val);});
         
