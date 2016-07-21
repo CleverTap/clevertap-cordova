@@ -121,7 +121,7 @@ You can use location to pass it to CleverTap via the setLocation API
 for, among other things, more fine-grained geo-targeting and segmentation purposes.
 
 successCallback = callback function for result
-errorCallback = callback funtion in case of error
+errorCallback = callback function in case of error
 success returns {lat:lat, lon:lon} lat and lon are floats
 error returns a reason string
  
