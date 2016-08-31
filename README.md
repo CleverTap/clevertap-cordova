@@ -5,7 +5,7 @@ CleverTap Cordova Plugin
 
 Tested on Cordova 6.1.1
 
-- [CleverTap Android SDK version 2.2.0](https://github.com/CleverTap/clevertap-android-sdk/releases/tag/2.2.0)
+- [CleverTap Android SDK version 3.0.0](https://github.com/CleverTap/clevertap-android-sdk/releases/tag/3.0.0)
 - [CleverTap iOS SDK version 2.2.2](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/2.2.2)
 
 ## Install
@@ -114,6 +114,7 @@ Please ensure that you're requesting the following permissions for your app:
     <uses-permission android:name="android.permission.INTERNET"/>
     <!-- Recommended so that we can be smart about when to send the data -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
 [Please see the example AndroidManifest.xml here](https://github.com/CleverTap/clevertap-cordova/blob/master/Starter/platforms/android/AndroidManifest.xml).
 
@@ -135,11 +136,11 @@ Make sure your build.gradle file includes the play-services and support library 
 
 #### iOS
 
-[Follow Steps 1 and 2 in these instructions to set up push notifications for your app.](https://support.clevertap.com/messaging/push-notifications/#ios)
+[Set up push notifications for your app.](https://developer.apple.com/library/mac/documentation/IDEs/Conceptual/AppDistributionGuide/AddingCapabilities/AddingCapabilities.html#//apple_ref/doc/uid/TP40012582-CH26-SW6)
 
-If you plan on using deep links, [please register your custom url scheme as described here](https://support.clevertap.com/messaging/deep-linking/#step-1-register-your-custom-scheme).  
+If you plan on using deep links, [please register your custom url scheme as described here](https://developer.apple.com/library/ios/documentation/iPhone/Conceptual/iPhoneOSProgrammingGuide/Inter-AppCommunication/Inter-AppCommunication.html#//apple_ref/doc/uid/TP40007072-CH6-SW1)
 
-Afterwards, call the following from your Javascript.
+Call the following from your Javascript.
 
     CleverTap.notifyDeviceReady(); // to be notified of push notifications and deep links that launch your app.
     CleverTap.registerPush();
@@ -195,9 +196,7 @@ In particular, make sure that your AppDelegate.m (or, depending on your Cordova 
 
 #### Android
 
-[Follow these instructions to set up push notifications for your app.](https://support.clevertap.com/messaging/push-notifications/#android)
-
-Afterwards, call the following from your Javascript.
+Call the following from your Javascript.
 
     CleverTap.registerPush();
 

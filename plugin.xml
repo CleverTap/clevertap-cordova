@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" id="com.clevertap.cordova.CleverTapPlugin" version="1.0.2">
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" id="com.clevertap.cordova.CleverTapPlugin" version="1.1.3">
     <name>CleverTap</name>
     <description>CleverTap Plugin for Cordova/PhoneGap</description>
     <license>Commercial</license>
@@ -64,6 +64,7 @@
         <config-file target="AndroidManifest.xml" parent="/manifest">
             <uses-permission android:name="android.permission.INTERNET" />
             <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+            <uses-permission android:name="android.permission.WAKE_LOCK" />
 			<permission
 				android:name="$PACKAGE_NAME.permission.C2D_MESSAGE"
 				android:protectionLevel="signature"/>
@@ -73,8 +74,13 @@
         </config-file>
 
 		<config-file target="AndroidManifest.xml" parent="/manifest/application">
+
             <meta-data android:name="GCM_SENDER_ID" android:value="id:$GCM_PROJECT_NUMBER" />
-            <receiver android:name="com.clevertap.android.sdk.GcmBroadcastReceiver" android:permission="com.google.android.c2dm.permission.SEND">
+
+            <receiver
+                android:name="com.google.android.gms.gcm.GcmReceiver"
+                android:exported="true"
+                android:permission="com.google.android.c2dm.permission.SEND" >
                 <intent-filter>
                     <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                     <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
@@ -82,7 +88,23 @@
                 </intent-filter>
             </receiver>
 
+            <service
+                android:name="com.clevertap.android.sdk.GcmMessageListenerService"
+                android:exported="false" >
+                <intent-filter>
+                    <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                </intent-filter>
+            </service>
+
+            <service android:name="com.clevertap.android.sdk.GcmTokenListenerService"
+                android:exported="false">
+                <intent-filter>
+                    <action android:name="com.google.android.gms.iid.InstanceID"/>
+                </intent-filter>
+            </service>
+
 			<meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
+
             <meta-data android:name="CLEVERTAP_ACCOUNT_ID" android:value="$CLEVERTAP_ACCOUNT_ID" />
             <meta-data android:name="CLEVERTAP_TOKEN" android:value="$CLEVERTAP_TOKEN" />
             <activity android:configChanges="orientation|keyboardHidden" android:name="com.clevertap.android.sdk.InAppNotificationActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar" />
