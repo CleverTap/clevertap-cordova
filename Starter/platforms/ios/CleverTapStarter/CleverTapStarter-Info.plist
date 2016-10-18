@@ -182,5 +182,9 @@
 	</array>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Just testing</string>
+	<key>CleverTapAccountID</key>
+	<string>69R-Z7W-W54Z</string>
+	<key>CleverTapToken</key>
+	<string>0a1-2c6</string>
 </dict>
 </plist>

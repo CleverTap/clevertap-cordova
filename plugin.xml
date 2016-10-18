@@ -118,7 +118,7 @@
         <source-file src="src/android/CleverTapAndroidSDK.jar" target-dir="libs/" />
         <source-file src="src/android/CleverTapPlugin.java" target-dir="src/com/clevertap/cordova/" />
 
-		<framework src="com.google.android.gms:play-services-gcm:+" />
+		<framework src="com.google.android.gms:play-services-gcm:9.0.2" />
 		<framework src="com.android.support:support-v4:+" />
     </platform>
 </plugin>
