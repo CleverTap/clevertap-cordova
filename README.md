@@ -5,8 +5,8 @@ CleverTap Cordova Plugin
 
 Tested on Cordova 6.1.1
 
-- [CleverTap Android SDK version 3.1.0](https://github.com/CleverTap/clevertap-android-sdk/releases/tag/3.1.0)
-- [CleverTap iOS SDK version 3.1.0](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/3.1.0)
+- [CleverTap Android SDK version 3.1.2](https://github.com/CleverTap/clevertap-android-sdk/releases/tag/3.1.2)
+- [CleverTap iOS SDK version 3.1.2](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/3.1.2)
 
 ## Install
 
