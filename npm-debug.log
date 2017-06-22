@@ -1,0 +1,118 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node', '/usr/local/bin/npm', 'publish' ]
+2 info using npm@4.1.2
+3 info using node@v4.4.0
+4 verbose publish [ '.' ]
+5 silly cache add args [ '.', null ]
+6 verbose cache add spec .
+7 silly cache add parsed spec Result {
+7 silly cache add   raw: '.',
+7 silly cache add   scope: null,
+7 silly cache add   escapedName: null,
+7 silly cache add   name: null,
+7 silly cache add   rawSpec: '.',
+7 silly cache add   spec: '/Users/pwilkniss/CleverTap/clevertap-cordova',
+7 silly cache add   type: 'directory' }
+8 verbose addLocalDirectory /Users/pwilkniss/.npm/clevertap-cordova/1.2.1/package.tgz not in flight; packing
+9 verbose correctMkdir /Users/pwilkniss/.npm correctMkdir not in flight; initializing
+10 info lifecycle clevertap-cordova@1.2.1~prepublish: clevertap-cordova@1.2.1
+11 silly lifecycle clevertap-cordova@1.2.1~prepublish: no script for prepublish, continuing
+12 info lifecycle clevertap-cordova@1.2.1~prepare: clevertap-cordova@1.2.1
+13 silly lifecycle clevertap-cordova@1.2.1~prepare: no script for prepare, continuing
+14 verbose tar pack [ '/Users/pwilkniss/.npm/clevertap-cordova/1.2.1/package.tgz',
+14 verbose tar pack   '/Users/pwilkniss/CleverTap/clevertap-cordova' ]
+15 verbose tarball /Users/pwilkniss/.npm/clevertap-cordova/1.2.1/package.tgz
+16 verbose folder /Users/pwilkniss/CleverTap/clevertap-cordova
+17 verbose addLocalTarball adding from inside cache /Users/pwilkniss/.npm/clevertap-cordova/1.2.1/package.tgz
+18 verbose correctMkdir /Users/pwilkniss/.npm correctMkdir not in flight; initializing
+19 silly cache afterAdd clevertap-cordova@1.2.1
+20 verbose afterAdd /Users/pwilkniss/.npm/clevertap-cordova/1.2.1/package/package.json not in flight; writing
+21 verbose correctMkdir /Users/pwilkniss/.npm correctMkdir not in flight; initializing
+22 verbose afterAdd /Users/pwilkniss/.npm/clevertap-cordova/1.2.1/package/package.json written
+23 silly publish { name: 'clevertap-cordova',
+23 silly publish   version: '1.2.1',
+23 silly publish   description: 'CleverTap Plugin for Cordova/PhoneGap',
+23 silly publish   cordova:
+23 silly publish    { id: 'com.clevertap.cordova.CleverTapPlugin',
+23 silly publish      platforms: [ 'ios', 'android' ] },
+23 silly publish   repository:
+23 silly publish    { type: 'git',
+23 silly publish      url: 'git+https://github.com/CleverTap/clevertap-cordova.git' },
+23 silly publish   keywords:
+23 silly publish    [ 'CleverTap',
+23 silly publish      'ecosystem:cordova',
+23 silly publish      'cordova-ios',
+23 silly publish      'cordova-android' ],
+23 silly publish   engines: [ { name: 'cordova', version: '>=3.0.0' } ],
+23 silly publish   author: { name: 'CleverTap' },
+23 silly publish   license: 'Commercial',
+23 silly publish   bugs: { url: 'https://github.com/CleverTap/clevertap-cordova/issues' },
+23 silly publish   homepage: 'https://github.com/CleverTap/clevertap-cordova#readme',
+23 silly publish   readme: 'CleverTap Cordova Plugin\n========\n\n## Supported Versions\n\nTested on Cordova 6.1.1\n\n- [CleverTap Android SDK version 3.1.2](https://github.com/CleverTap/clevertap-android-sdk/releases/tag/3.1.2)\n- [CleverTap iOS SDK version 3.1.2](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/3.1.2)\n\n## Install\n\nTo integrate CleverTap for Cordova:\n\n1. Sign up \n\n2. Set up and register for Push notifications, if required.\n\n3. Integrate your Javascript with the CleverTap Plugin.\n\n### 1. Sign up\n\n[Sign up](http://www.clevertap.com/sign-up/) for a free account.  \n\nWhen you create your CleverTap account, you will also automatically get a -Test account.  Use the -Test account for development and the main account for production.\n\n### Install the Plugin\n\nGrab the Account ID and Token values from your CleverTap [Dashboard](https://dashboard.clevertap.com) -> Settings.\n\n#### Using Cordova  \n\n- iOS:\n```\ncordova plugin add https://github.com/CleverTap/clevertap-cordova.git --variable CLEVERTAP_ACCOUNT_ID=YOUR CLEVERTAP ACCOUNT ID --variable CLEVERTAP_TOKEN=YOUR CELVERTAP ACCOUNT TOKEN \n```\n\n- Android:\n```\ncordova plugin add https://github.com/CleverTap/clevertap-cordova.git --variable CLEVERTAP_ACCOUNT_ID=YOUR CLEVERTAP ACCOUNT ID --variable CLEVERTAP_TOKEN=YOUR CELVERTAP ACCOUNT TOKEN --variable GCM_PROJECT_NUMBER=YOUR GCM PROJECT NUMBER\n```\n\n#### Using Ionic  \n\n- iOS:\n```\nionic plugin add https://github.com/CleverTap/clevertap-cordova.git --variable CLEVERTAP_ACCOUNT_ID=YOUR CLEVERTAP ACCOUNT ID --variable CLEVERTAP_TOKEN=YOUR CELVERTAP ACCOUNT TOKEN \n```\n\n- Android:\n```\nionic plugin add https://github.com/CleverTap/clevertap-cordova.git --variable CLEVERTAP_ACCOUNT_ID=YOUR CLEVERTAP ACCOUNT ID --variable CLEVERTAP_TOKEN=YOUR CELVERTAP ACCOUNT TOKEN --variable GCM_PROJECT_NUMBER=YOUR GCM PROJECT NUMBER\n```\n\n#### Using PhoneGap Build\n\nAdd the following to your `www/config.xml` file:\n\n```\n<preference name="android-build-tool" value="gradle" />\n\n<gap:plugin name="clevertap-cordova" source="npm">\n    <param name="CLEVERTAP_ACCOUNT_ID" value="YOUR CLEVERTAP ACCOUNT ID" />\n    <param name="CLEVERTAP_TOKEN" value="YOUR CLEVERTAP ACCOUNT TOKEN" />\n    <param name="GCM_PROJECT_NUMBER" value="YOUR GCM PROJECT NUMBER" />\n</gap:plugin>\n```            \n\n*For PhoneGap Build Android projects*:  **Extremely Important**:  add `CleverTap.notifyDeviceReady();` to your onDeviceReady callback in `www/js/index.js`:\n\n```\nonDeviceReady: function() {\n    app.receivedEvent(\'deviceready\');\n    CleverTap.notifyDeviceReady();\n    ...\n},\n```\n\n#### iOS\n\nCheck your .plist file:\n\n![plist account values](http://staging.support.wizrocket.com.s3-website-eu-west-1.amazonaws.com/images/integration/plist-account.png)\n\n#### Android\n\nCheck that the following is inside the `<application></application>` tags of your AndroidManifest.xml:  \n\n    <meta-data  \n        android:name="CLEVERTAP_ACCOUNT_ID"  \n        android:value="Your CleverTap Account ID"/>  \n    <meta-data  \n        android:name="CLEVERTAP_TOKEN"  \n        android:value="Your CleverTap Account Token"/>\n\nReplace "Your CleverTap Account ID" and "Your CleverTap Account Token" with actual values from your CleverTap [Dashboard](https://dashboard.clevertap.com) -> Settings.\n\n**Set the Lifecycle Callback** \n\nIMPORTANT!\n\nCheck the `android:name` property of the `<application>` tag of our AndroidManifest.xml:\n\n    <application\n        android:name="com.clevertap.android.sdk.Application">\n\n**Note:** The above step is **extremely important** and enables CleverTap to track notification opens, display in-app notifications, track deep links, and other important **user behaviour**.\n\n**Add Permissions**\n\nPlease ensure that you\'re requesting the following permissions for your app:\n\n    <!-- Required to allow the app to send events -->\n    <uses-permission android:name="android.permission.INTERNET"/>\n    <!-- Recommended so that we can be smart about when to send the data -->\n    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>\n    <uses-permission android:name="android.permission.WAKE_LOCK" />\n\n[Please see the example AndroidManifest.xml here](https://github.com/CleverTap/clevertap-cordova/blob/master/Starter/platforms/android/AndroidManifest.xml).\n\n**Add Dependencies**\n\nMake sure your build.gradle file includes the play-services and support library dependencies:\n\n    dependencies {\n        compile fileTree(dir: \'libs\', include: \'*.jar\'  )\n        // SUB-PROJECT DEPENDENCIES START  \n        debugCompile project(path: "CordovaLib", configuration: "debug")  \n        releaseCompile project(path: "CordovaLib", configuration: "release")  \n        compile "com.google.android.gms:play-services-gcm:9.0.2"\n        compile "com.android.support:support-v4:23.4.0"\n        // SUB-PROJECT DEPENDENCIES END   \n\n\n### 2. Set up and register for push notifications and deep links\n\n#### iOS\n\n[Set up push notifications for your app](https://developer.apple.com/library/mac/documentation/IDEs/Conceptual/AppDistributionGuide/AddingCapabilities/AddingCapabilities.html#//apple_ref/doc/uid/TP40012582-CH26-SW6).\n\nIf you plan on using deep links, [please register your custom url scheme as described here](https://developer.apple.com/library/ios/documentation/iPhone/Conceptual/iPhoneOSProgrammingGuide/Inter-AppCommunication/Inter-AppCommunication.html#//apple_ref/doc/uid/TP40007072-CH6-SW1).\n\nCall the following from your Javascript.\n\n    CleverTap.notifyDeviceReady(); // to be notified of push notifications and deep links that launch your app.\n    CleverTap.registerPush();\n\n\n[See the included example Starter Cordova project](https://github.com/CleverTap/clevertap-cordova/blob/master/Starter/platforms/ios/CleverTapStarter/Classes/AppDelegate.m).\n\nIn particular, make sure that your AppDelegate.m (or, depending on your Cordova version, its super class CDVAppDelegate.m) contains the follow methods:\n\n    - (BOOL)application:(UIApplication*)application openURL:(NSURL*)url sourceApplication:(NSString*)sourceApplication annotation:(id)annotation\n    {\n        if (!url) {\n            return NO;\n        }\n\n        // all plugins will get the notification, and their handlers will be called\n        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CDVPluginHandleOpenURLNotification object:url]];\n\n        return YES;\n    }\n\n    // repost all remote and local notification using the default NSNotificationCenter so multiple plugins may respond\n    - (void) application:(UIApplication*)application\n        didReceiveLocalNotification:(UILocalNotification*)notification\n    {\n        // re-post ( broadcast )\n        [[NSNotificationCenter defaultCenter] postNotificationName:CDVLocalNotification object:notification];\n    }\n\n    - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {\n        // re-post ( broadcast )\n        [[NSNotificationCenter defaultCenter] postNotificationName:CDVLocalNotification object:userInfo];\n    }\n\n    - (void) application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken\n    {\n       \n         // re-post ( broadcast )\n         NSString* token = [[[[deviceToken description]\n         stringByReplacingOccurrencesOfString:@"<" withString:@""]\n         stringByReplacingOccurrencesOfString:@">" withString:@""]\n         stringByReplacingOccurrencesOfString:@" " withString:@""];\n         \n         [[NSNotificationCenter defaultCenter] postNotificationName:CDVRemoteNotification object:token];\n    }\n\n    - (void) application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error\n    {\n        // re-post ( broadcast )\n        [[NSNotificationCenter defaultCenter] postNotificationName:CDVRemoteNotificationError object:error];\n    }\n\n\n#### Android\n\nCall the following from your Javascript.\n\n    CleverTap.registerPush();\n\n     \n### 3. Integrate Javascript with the Plugin\n\nAfter integrating, all calls to the CleverTap SDK should be made from your Javascript.\n\nStart by adding the following listeners to your Javascript:\n\n    document.addEventListener(\'deviceready\', this.onDeviceReady, false);\n    document.addEventListener(\'onCleverTapProfileSync\', this.onCleverTapProfileSync, false); // optional: to be notified of CleverTap user profile synchronization updates \n    document.addEventListener(\'onCleverTapProfileDidInitialize\', this.onCleverTapProfileDidInitialize, false); // optional, to be notified when the CleverTap user profile is initialized\n    document.addEventListener(\'onCleverTapInAppNotificationDismissed\', this.onCleverTapInAppNotificationDismissed, false); // optional, to be receive a callback with custom in-app notification click data\n    document.addEventListener(\'onDeepLink\', this.onDeepLink, false); // optional, register to receive deep links.\n    document.addEventListener(\'onPushNotification\', this.onPushNotification, false); // optional, register to receive push notification payloads.\n\n\n    // deep link handling  \n    onDeepLink: function(e) {\n        console.log(e.deeplink);  \n    },  \n\n    // push notification data handling\n    onPushNotification: function(e) {\n        console.log(JSON.stringify(e.notification));\n    }, \n\n\nThen:  \n\n- [see the included iOS Starter Cordova project for example usage](https://github.com/CleverTap/clevertap-cordova/blob/master/Starter/platforms/ios/www/js/index.js).   \n\n- [see the included Android Starter Cordova project for example usage](https://github.com/CleverTap/clevertap-cordova/blob/master/Starter/platforms/android/assets/www/js/index.js).  \n\n',
+23 silly publish   readmeFilename: 'README.md',
+23 silly publish   gitHead: 'ba89ed3b10f71744c70c84c77140d74ae19f005e',
+23 silly publish   _id: 'clevertap-cordova@1.2.1',
+23 silly publish   scripts: {},
+23 silly publish   _shasum: '61045ecc57fb28823140ace04f32eec35109e5e0',
+23 silly publish   _from: '.' }
+24 info lifecycle clevertap-cordova@1.2.1~prepublishOnly: clevertap-cordova@1.2.1
+25 silly lifecycle clevertap-cordova@1.2.1~prepublishOnly: no script for prepublishOnly, continuing
+26 verbose getPublishConfig undefined
+27 silly mapToRegistry name clevertap-cordova
+28 silly mapToRegistry using default registry
+29 silly mapToRegistry registry https://registry.npmjs.org/
+30 silly mapToRegistry data Result {
+30 silly mapToRegistry   raw: 'clevertap-cordova',
+30 silly mapToRegistry   scope: null,
+30 silly mapToRegistry   escapedName: 'clevertap-cordova',
+30 silly mapToRegistry   name: 'clevertap-cordova',
+30 silly mapToRegistry   rawSpec: '',
+30 silly mapToRegistry   spec: 'latest',
+30 silly mapToRegistry   type: 'tag' }
+31 silly mapToRegistry uri https://registry.npmjs.org/clevertap-cordova
+32 verbose publish registryBase https://registry.npmjs.org/
+33 silly publish uploading /Users/pwilkniss/.npm/clevertap-cordova/1.2.1/package.tgz
+34 verbose request uri https://registry.npmjs.org/clevertap-cordova
+35 verbose request sending authorization for write operation
+36 info attempt registry request try #1 at 10:50:20 AM
+37 verbose request using bearer token for auth
+38 verbose request id 3bc6a456db8bbb82
+39 http request PUT https://registry.npmjs.org/clevertap-cordova
+40 http 403 https://registry.npmjs.org/clevertap-cordova
+41 verbose headers { 'content-type': 'application/json',
+41 verbose headers   'cache-control': 'max-age=300',
+41 verbose headers   'content-length': '95',
+41 verbose headers   'accept-ranges': 'bytes',
+41 verbose headers   date: 'Mon, 06 Feb 2017 18:52:16 GMT',
+41 verbose headers   via: '1.1 varnish',
+41 verbose headers   connection: 'keep-alive',
+41 verbose headers   'x-served-by': 'cache-lax8646-LAX',
+41 verbose headers   'x-cache': 'MISS',
+41 verbose headers   'x-cache-hits': '0',
+41 verbose headers   'x-timer': 'S1486407021.704780,VS0,VE115193',
+41 verbose headers   vary: 'Accept-Encoding' }
+42 verbose request invalidating /Users/pwilkniss/.npm/registry.npmjs.org/clevertap-cordova on PUT
+43 error publish Failed PUT 403
+44 verbose stack Error: "You cannot publish over the previously published version 1.2.1." : clevertap-cordova
+44 verbose stack     at makeError (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:304:12)
+44 verbose stack     at CachingRegistryClient.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:292:14)
+44 verbose stack     at Request._callback (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:212:14)
+44 verbose stack     at Request.self.callback (/usr/local/lib/node_modules/npm/node_modules/request/request.js:186:22)
+44 verbose stack     at emitTwo (events.js:87:13)
+44 verbose stack     at Request.emit (events.js:172:7)
+44 verbose stack     at Request.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:1081:10)
+44 verbose stack     at emitOne (events.js:77:13)
+44 verbose stack     at Request.emit (events.js:169:7)
+44 verbose stack     at IncomingMessage.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:1001:12)
+45 verbose statusCode 403
+46 verbose pkgid clevertap-cordova
+47 verbose cwd /Users/pwilkniss/CleverTap/clevertap-cordova
+48 error Darwin 16.4.0
+49 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "publish"
+50 error node v4.4.0
+51 error npm  v4.1.2
+52 error code E403
+53 error "You cannot publish over the previously published version 1.2.1." : clevertap-cordova
+54 error If you need help, you may report this error at:
+54 error     <https://github.com/npm/npm/issues>
+55 verbose exit [ 1, true ]
