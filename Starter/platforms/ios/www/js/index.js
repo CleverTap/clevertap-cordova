@@ -51,6 +51,7 @@ var app = {
         CleverTap.notifyDeviceReady();
         CleverTap.registerPush();
         CleverTap.enablePersonalization();
+        CleverTap.recordScreenView("HomeView");
         
         CleverTap.pushInstallReferrer("source", "medium", "campaign");
         

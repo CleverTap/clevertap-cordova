@@ -59,6 +59,10 @@
 
 #pragma mark Event API
 
+/** Record a Screen View
+ */
+-(void)recordScreenView:(CDVInvokedUrlCommand *)command;
+
 /** Record an event
  */
 -(void)recordEventWithName:(CDVInvokedUrlCommand *)command;

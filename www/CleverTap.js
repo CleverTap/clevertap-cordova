@@ -43,6 +43,12 @@ CleverTap.prototype.setPushToken = function (token) {
  * Events
  ******************/
 
+// Record Screen View, iOS only
+// screenName = string
+CleverTap.prototype.recordScreenView = function (screenName) {
+    cordova.exec(null, null, "CleverTapPlugin", "recordScreenView", [screenName]);
+}
+               
 // Record Event with Name
 // eventName = string
 CleverTap.prototype.recordEventWithName = function (eventName) {

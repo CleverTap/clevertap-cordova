@@ -320,6 +320,16 @@ static NSURL *launchDeepLink;
 }
 
 #pragma mark Event API
+
+-(void)recordScreenView:(CDVInvokedUrlCommand *)command {
+    [self.commandDelegate runInBackground:^{
+        NSString *screenName = [command argumentAtIndex:0];
+        if (screenName != nil && [screenName isKindOfClass:[NSString class]]) {
+            [clevertap recordScreenView:screenName];
+        }
+    }];
+}
+
 -(void)recordEventWithName:(CDVInvokedUrlCommand *)command {
     [self.commandDelegate runInBackground:^{
         NSString *eventName = [command argumentAtIndex:0];

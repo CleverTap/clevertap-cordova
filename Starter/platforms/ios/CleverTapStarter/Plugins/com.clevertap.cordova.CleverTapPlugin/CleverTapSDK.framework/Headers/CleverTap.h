@@ -2,8 +2,21 @@
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
 
+#if defined(CLEVERTAP_HOST_WATCHOS)
+#import <WatchConnectivity/WatchConnectivity.h>
+#endif
+
+#if TARGET_OS_TV
+#define CLEVERTAP_TVOS_EXTENSION 1
+#endif
+
+#define CLEVERTAP_NO_INAPP_SUPPORT (defined(CLEVERTAP_APP_EXTENSION) || defined(CLEVERTAP_TVOS_EXTENSION))
+#define CLEVERTAP_NO_LOCATION_SUPPORT (defined(CLEVERTAP_APP_EXTENSION) || defined(CLEVERTAP_TVOS_EXTENSION))
+
 @protocol CleverTapSyncDelegate;
+#if !CLEVERTAP_NO_INAPP_SUPPORT
 @protocol CleverTapInAppNotificationDelegate;
+#endif
 
 @class CleverTapEventDetail;
 @class CleverTapUTMDetail;
@@ -12,6 +25,7 @@
 #pragma ide diagnostic ignored "OCUnusedMethodInspection"
 
 @interface CleverTap : NSObject
+
 
 /* ------------------------------------------------------------------------------------------------------
  * Initialization
@@ -30,7 +44,7 @@ elsewhere in your code, you can use this singleton or call sharedInstance.
  */
 + (instancetype)sharedInstance;
 
-
+#if !defined(CLEVERTAP_APP_EXTENSION)
 /*!
  @method
  
@@ -47,6 +61,7 @@ elsewhere in your code, you can use this singleton or call sharedInstance.
  
  */
 + (instancetype)autoIntegrate;
+#endif
 
 
 /*!
@@ -65,6 +80,7 @@ elsewhere in your code, you can use this singleton or call sharedInstance.
  */
 + (void)changeCredentialsWithAccountID:(NSString *)accountID andToken:(NSString *)token;
 
+#if !defined(CLEVERTAP_APP_EXTENSION)
 /*!
  @method
  
@@ -73,7 +89,7 @@ elsewhere in your code, you can use this singleton or call sharedInstance.
  
  */
 - (void)notifyApplicationLaunchedWithOptions:launchOptions;
-
+#endif
 
 /* ------------------------------------------------------------------------------------------------------
  * User Profile/Action Events/Session API
@@ -101,6 +117,7 @@ elsewhere in your code, you can use this singleton or call sharedInstance.
 + (void)disablePersonalization;
 
 
+#if !CLEVERTAP_NO_LOCATION_SUPPORT
 /*!
  @method
  
@@ -114,7 +131,6 @@ elsewhere in your code, you can use this singleton or call sharedInstance.
  @param location       CLLocationCoordiate2D
  */
 + (void)setLocation:(CLLocationCoordinate2D)location;
-
 
 /*!
  @method
@@ -133,6 +149,7 @@ elsewhere in your code, you can use this singleton or call sharedInstance.
  for, among other things, more fine-grained geo-targeting and segmentation purposes.
 */
 + (void)getLocationWithSuccess:(void (^)(CLLocationCoordinate2D location))success andError:(void (^)(NSString *reason))error;
+#endif // !CLEVERTAP_NO_LOCATION_SUPPORT
 
 /*!
  @method
@@ -434,6 +451,19 @@ elsewhere in your code, you can use this singleton or call sharedInstance.
 
 - (void)recordErrorWithMessage:(NSString *)message andErrorCode:(int)code;
 
+#if !defined(CLEVERTAP_APP_EXTENSION)
+/*!
+ @method
+ 
+ @abstract
+ Record a screen view.
+ 
+ @param screenName           the screen name
+ */
+- (void)recordScreenView:(NSString *)screenName;
+
+#endif
+
 /*!
  @method
  
@@ -624,6 +654,7 @@ extern NSString *const CleverTapProfileDidInitializeNotification;
  */
 - (void)setSyncDelegate:(id <CleverTapSyncDelegate>)delegate;
 
+#if !CLEVERTAP_NO_INAPP_SUPPORT
 /*!
 
  @method
@@ -640,10 +671,9 @@ extern NSString *const CleverTapProfileDidInitializeNotification;
  @param delegate     an object conforming to the CleverTapInAppNotificationDelegate Protocol
  */
 - (void)setInAppNotificationDelegate:(id <CleverTapInAppNotificationDelegate>)delegate;
+#endif
 
-
-
-
+#if !defined(CLEVERTAP_APP_EXTENSION)
 /* ------------------------------------------------------------------------------------------------------
  * Notifications
  */
@@ -688,6 +718,9 @@ extern NSString *const CleverTapProfileDidInitializeNotification;
  */
 - (void)handleNotificationWithData:(id)data;
 
+#endif
+
+#if !CLEVERTAP_NO_INAPP_SUPPORT
 /*!
  @method
  
@@ -697,7 +730,9 @@ extern NSString *const CleverTapProfileDidInitializeNotification;
  */
 - (void)showInAppNotificationIfAny;
 
+#endif
 
+#if !defined(CLEVERTAP_APP_EXTENSION)
 /* ------------------------------------------------------------------------------------------------------
  * Referrer tracking
  */
@@ -735,8 +770,7 @@ extern NSString *const CleverTapProfileDidInitializeNotification;
                            medium:(NSString *)medium
                          campaign:(NSString *)campaign;
 
-
-
+#endif
 
 /* ------------------------------------------------------------------------------------------------------
  * Admin
@@ -755,6 +789,14 @@ extern NSString *const CleverTapProfileDidInitializeNotification;
  
  */
 + (void)setDebugLevel:(int)level;
+
+
+#if defined(CLEVERTAP_HOST_WATCHOS)
+/** HostWatchOS
+ */
+
+- (BOOL)handleMessage:(NSDictionary<NSString *, id> *)message forWatchSession:(WCSession *)session;
+#endif
 
 
 #pragma mark deprecations as of version 2.0.3
@@ -778,7 +820,7 @@ extern NSString *const CleverTapProfileDidInitializeNotification;
 - (void)graphUser:(id)fbGraphUser __attribute__((deprecated("Deprecated as of version 2.0.3, use profilePushGraphUser: instead")));
 
 - (void)googlePlusUser:(id)googleUser __attribute__((deprecated("Deprecated as of version 2.0.3, use profilePushGooglePlusUser: instead")));
-
+#if !defined(CLEVERTAP_APP_EXTENSION)
 + (void)setPushToken:(NSData *)pushToken __attribute__((deprecated("Deprecated as of version 2.0.3, use [[CleverTap sharedInstance] setPushToken:] instead")));
 
 + (void)notifyApplicationLaunchedWithOptions:(NSDictionary *)launchOptions __attribute__((deprecated));
@@ -788,13 +830,14 @@ extern NSString *const CleverTapProfileDidInitializeNotification;
 + (void)handleNotificationWithData:(id)data __attribute__((deprecated("Deprecated as of version 2.0.3, use [[CleverTap sharedInstance] handleNotificationWithData:] instead")));
 
 + (void)handleOpenURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication __attribute__((deprecated("Deprecated as of version 2.0.3, use [[CleverTap sharedInstance] handleOpenUrl:sourceApplication:] instead")));
-
+#endif
 + (void)notifyViewLoaded:(UIViewController *)viewController __attribute__((deprecated));
 
+#if !defined(CLEVERTAP_APP_EXTENSION)
 + (void)pushInstallReferrerSource:(NSString *)source
                            medium:(NSString *)medium
                          campaign:(NSString *)campaign __attribute__((deprecated("Deprecated as of version 2.0.3, use [[CleverTap sharedInstance] pushInstallReferrerSource:medium:campaign] instead")));
-
+#endif
 #pragma mark Event API messages
 
 - (NSTimeInterval)getFirstTime:(NSString *)event __attribute__((deprecated("Deprecated as of version 2.0.3, use eventGetFirstTime: instead")));

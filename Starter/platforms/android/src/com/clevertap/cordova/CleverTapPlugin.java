@@ -82,18 +82,20 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         if (intent == null) return;
 
         // deeplink
-        if (intent.getAction().equals(Intent.ACTION_VIEW)) {
-            Uri data = intent.getData();
-            if (data != null) {
-                final String json = "{'deeplink':'"+data.toString()+"'}";
+        if(intent.getAction() !=null) {
+            if (intent.getAction().equals(Intent.ACTION_VIEW)) {
+                Uri data = intent.getData();
+                if (data != null) {
+                    final String json = "{'deeplink':'" + data.toString() + "'}";
 
-                cordova.getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        webView.loadUrl("javascript:cordova.fireDocumentEvent('onDeepLink'," + json + ");");
-                    }
-                });
+                    cordova.getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            webView.loadUrl("javascript:cordova.fireDocumentEvent('onDeepLink'," + json + ");");
+                        }
+                    });
 
+                }
             }
         }
 
@@ -176,6 +178,14 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
         // not required for Android here but handle as its in the JS interface
         else if (action.equals("setPushTokenAsString")) {
+            result = new PluginResult(PluginResult.Status.NO_RESULT);
+            result.setKeepCallback(true);
+            callbackContext.sendPluginResult(result);
+            return true;
+        }
+
+        // not required for Android here but handle as its in the JS interface
+        else if (action.equals("recordScreenView")) {
             result = new PluginResult(PluginResult.Status.NO_RESULT);
             result.setKeepCallback(true);
             callbackContext.sendPluginResult(result);

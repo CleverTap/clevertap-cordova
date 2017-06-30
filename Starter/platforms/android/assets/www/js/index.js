@@ -52,6 +52,7 @@ var app = {
         CleverTap.setDebugLevel(1);
         CleverTap.enablePersonalization();
 
+
         CleverTap.pushInstallReferrer("androidsource", "androidmedium", "androidcampaign");
 
         CleverTap.getLocation(function(loc) {
