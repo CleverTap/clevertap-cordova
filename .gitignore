@@ -3,3 +3,4 @@ Starter/platforms/android/.idea/
 Starter/platforms/android/.gradle/
 Starter/platforms/android/build/
 Starter/platforms/android/CordovaLib/build/
+npm-debug.log
