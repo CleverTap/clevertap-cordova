@@ -28,9 +28,10 @@ When you create your CleverTap account, you will also automatically get a -Test 
 
 Grab the Account ID and Token values from your CleverTap [Dashboard](https://dashboard.clevertap.com) -> Settings.
 
-#### For Android *Important*
-Starting with v2.0.0, the plugin uses FCM rather than GCM.  To configure FCM, add your google-services.json to the root of your cordova project *before you add the plugin*.  The plugin uses an `after plugin add` hook script to configure your project for FCM.  
-If the google-services.json file is not present in your project when the script runs FCM will not be configured properly and will not work. 
+#### For Android **Important**
+Starting with v2.0.0, the plugin uses FCM rather than GCM.  To configure FCM, add your google-services.json to the root of your cordova project **before you add the plugin**.  
+The plugin uses an `after plugin add` hook script to configure your project for FCM.  
+If the google-services.json file is not present in your project when the script runs, FCM will not be configured properly and will not work. 
 
 #### Using Cordova  
 
@@ -48,7 +49,8 @@ ionic plugin add https://github.com/CleverTap/clevertap-cordova.git --variable C
 
 #### Using PhoneGap Build
 
-*Starting with v2.0.0, the plugin drops official support for PhoneGap Build.*  This is because PhoneGap Build does not support install hooks and a hook is required to configure FCM.
+**Starting with v2.0.0, the plugin drops official support for PhoneGap Build.**
+This is because PhoneGap Build does not support install hooks and a hook is required to configure FCM.
 It might be possible by forking this plugin and replacing the placeholder google-services.json in src/android with yours, and then hard coding your google app id and api key in plugin.xml, but you're on your own there.
 
 When using the plugin with PhoneGap Build: 
