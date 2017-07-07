@@ -3,7 +3,7 @@ CleverTap Cordova Plugin
 
 ## Supported Versions
 
-Tested on Cordova 6.1.1
+Tested on Cordova 7.0.1
 
 - [CleverTap Android SDK version 3.1.4](https://github.com/CleverTap/clevertap-android-sdk/releases/tag/3.1.4)
 - [CleverTap iOS SDK version 3.1.4](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/3.1.4)
@@ -28,31 +28,32 @@ When you create your CleverTap account, you will also automatically get a -Test 
 
 Grab the Account ID and Token values from your CleverTap [Dashboard](https://dashboard.clevertap.com) -> Settings.
 
+#### For Android *Important*
+Starting with v2.0.0, the plugin uses FCM rather than GCM.  To configure FCM, add your google-services.json to the root of your cordova project **before you add the plugin**.  
+The plugin uses an `after plugin add` hook script to configure your project for FCM.  
+If the google-services.json file is not present in your project when the script runs, FCM will not be configured properly and will not work. 
+
 #### Using Cordova  
 
-- iOS:
 ```
-cordova plugin add https://github.com/CleverTap/clevertap-cordova.git --variable CLEVERTAP_ACCOUNT_ID=YOUR CLEVERTAP ACCOUNT ID --variable CLEVERTAP_TOKEN=YOUR CELVERTAP ACCOUNT TOKEN 
+cordova plugin add https://github.com/CleverTap/clevertap-cordova.git --variable CLEVERTAP_ACCOUNT_ID="YOUR CLEVERTAP ACCOUNT ID" --variable CLEVERTAP_TOKEN="YOUR CELVERTAP ACCOUNT TOKEN" 
 ```
 
-- Android:
-```
-cordova plugin add https://github.com/CleverTap/clevertap-cordova.git --variable CLEVERTAP_ACCOUNT_ID=YOUR CLEVERTAP ACCOUNT ID --variable CLEVERTAP_TOKEN=YOUR CELVERTAP ACCOUNT TOKEN --variable GCM_PROJECT_NUMBER=YOUR GCM PROJECT NUMBER
-```
 
 #### Using Ionic  
 
 - iOS:
 ```
-ionic plugin add https://github.com/CleverTap/clevertap-cordova.git --variable CLEVERTAP_ACCOUNT_ID=YOUR CLEVERTAP ACCOUNT ID --variable CLEVERTAP_TOKEN=YOUR CELVERTAP ACCOUNT TOKEN 
-```
-
-- Android:
-```
-ionic plugin add https://github.com/CleverTap/clevertap-cordova.git --variable CLEVERTAP_ACCOUNT_ID=YOUR CLEVERTAP ACCOUNT ID --variable CLEVERTAP_TOKEN=YOUR CELVERTAP ACCOUNT TOKEN --variable GCM_PROJECT_NUMBER=YOUR GCM PROJECT NUMBER
+ionic plugin add https://github.com/CleverTap/clevertap-cordova.git --variable CLEVERTAP_ACCOUNT_ID="YOUR CLEVERTAP ACCOUNT ID" --variable CLEVERTAP_TOKEN="YOUR CELVERTAP ACCOUNT TOKEN" 
 ```
 
 #### Using PhoneGap Build
+
+**Starting with v2.0.0, the plugin drops official support for PhoneGap Build.**
+This is because PhoneGap Build does not support install hooks and a hook is required to configure FCM.
+It might be possible by forking this plugin and replacing the placeholder google-services.json in src/android with yours, and then hard coding your google app id and api key in plugin.xml, but you're on your own there.
+
+When using the plugin with PhoneGap Build: 
 
 Add the following to your `www/config.xml` file:
 
@@ -62,7 +63,7 @@ Add the following to your `www/config.xml` file:
 <gap:plugin name="clevertap-cordova" source="npm">
     <param name="CLEVERTAP_ACCOUNT_ID" value="YOUR CLEVERTAP ACCOUNT ID" />
     <param name="CLEVERTAP_TOKEN" value="YOUR CLEVERTAP ACCOUNT TOKEN" />
-    <param name="GCM_PROJECT_NUMBER" value="YOUR GCM PROJECT NUMBER" />
+    <param name="GCM_PROJECT_NUMBER" value="YOUR GCM PROJECT NUMBER" /> // for v1.2.5 and lower of the plugin
 </gap:plugin>
 ```            
 
@@ -124,11 +125,13 @@ Make sure your build.gradle file includes the play-services and support library 
 
     dependencies {
         compile fileTree(dir: 'libs', include: '*.jar'  )
-        // SUB-PROJECT DEPENDENCIES START  
-        debugCompile project(path: "CordovaLib", configuration: "debug")  
-        releaseCompile project(path: "CordovaLib", configuration: "release")  
-        compile "com.google.android.gms:play-services-gcm:9.0.2"
-        compile "com.android.support:support-v4:23.4.0"
+        debugCompile(project(path: "CordovaLib", configuration: "debug"))
+        releaseCompile(project(path: "CordovaLib", configuration: "release"))
+        // SUB-PROJECT DEPENDENCIES START
+        compile "com.google.firebase:firebase-core:+"
+        compile "com.google.firebase:firebase-messaging:+"
+        compile "com.google.android.gms:play-services-base:+"
+        compile "com.android.support:support-v4:+"
         // SUB-PROJECT DEPENDENCIES END   
 
 
@@ -142,65 +145,23 @@ If you plan on using deep links, [please register your custom url scheme as desc
 
 Call the following from your Javascript.
 
-    CleverTap.notifyDeviceReady(); // to be notified of push notifications and deep links that launch your app.
     CleverTap.registerPush();
-
-
-[See the included example Starter Cordova project](https://github.com/CleverTap/clevertap-cordova/blob/master/Starter/platforms/ios/CleverTapStarter/Classes/AppDelegate.m).
-
-In particular, make sure that your AppDelegate.m (or, depending on your Cordova version, its super class CDVAppDelegate.m) contains the follow methods:
-
-    - (BOOL)application:(UIApplication*)application openURL:(NSURL*)url sourceApplication:(NSString*)sourceApplication annotation:(id)annotation
-    {
-        if (!url) {
-            return NO;
-        }
-
-        // all plugins will get the notification, and their handlers will be called
-        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CDVPluginHandleOpenURLNotification object:url]];
-
-        return YES;
-    }
-
-    // repost all remote and local notification using the default NSNotificationCenter so multiple plugins may respond
-    - (void) application:(UIApplication*)application
-        didReceiveLocalNotification:(UILocalNotification*)notification
-    {
-        // re-post ( broadcast )
-        [[NSNotificationCenter defaultCenter] postNotificationName:CDVLocalNotification object:notification];
-    }
-
-    - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-        // re-post ( broadcast )
-        [[NSNotificationCenter defaultCenter] postNotificationName:CDVLocalNotification object:userInfo];
-    }
-
-    - (void) application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
-    {
-       
-         // re-post ( broadcast )
-         NSString* token = [[[[deviceToken description]
-         stringByReplacingOccurrencesOfString:@"<" withString:@""]
-         stringByReplacingOccurrencesOfString:@">" withString:@""]
-         stringByReplacingOccurrencesOfString:@" " withString:@""];
-         
-         [[NSNotificationCenter defaultCenter] postNotificationName:CDVRemoteNotification object:token];
-    }
-
-    - (void) application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
-    {
-        // re-post ( broadcast )
-        [[NSNotificationCenter defaultCenter] postNotificationName:CDVRemoteNotificationError object:error];
-    }
 
 
 #### Android
 
-Call the following from your Javascript.
+Add your custom url scheme to the AndroidManifest.xml.
 
-    CleverTap.registerPush();
+	 <intent-filter android:label="@string/app_name">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="clevertapstarter" />
+     </intent-filter>
 
-     
+
+See [example AndroidManifest.xml](ihttps://github.com/CleverTap/clevertap-cordova/blob/master/Starter/platforms/android/AndroidManifest.xml).
+
 ### 3. Integrate Javascript with the Plugin
 
 After integrating, all calls to the CleverTap SDK should be made from your Javascript.

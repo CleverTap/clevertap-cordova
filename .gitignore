@@ -4,3 +4,4 @@ Starter/platforms/android/.gradle/
 Starter/platforms/android/build/
 Starter/platforms/android/CordovaLib/build/
 npm-debug.log
+node_modules

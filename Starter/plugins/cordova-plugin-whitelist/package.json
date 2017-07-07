@@ -22,7 +22,7 @@
   "_resolved": "https://registry.npmjs.org/cordova-plugin-whitelist/-/cordova-plugin-whitelist-1.3.2.tgz",
   "_shasum": "5b6335feb9f5301f3c013b9096cb8885bdbd5076",
   "_spec": "cordova-plugin-whitelist@1",
-  "_where": "/Users/peter/CleverTap/Starter/node_modules",
+  "_where": "/Users/peter/CleverTap/clevertap-cordova/Starter/node_modules",
   "author": {
     "name": "Apache Software Foundation"
   },
