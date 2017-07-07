@@ -10,6 +10,10 @@
 
 package com.clevertap.cordova;
 
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.location.Location;
 
@@ -25,6 +29,7 @@ import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Locale;
 import java.util.Date;
 import java.util.Map;
@@ -32,8 +37,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.ArrayList;
 
+import com.clevertap.android.sdk.ActivityLifecycleCallback;
 import com.clevertap.android.sdk.CleverTapAPI;
 import com.clevertap.android.sdk.SyncListener;
+import com.clevertap.android.sdk.InAppNotificationListener;
 import com.clevertap.android.sdk.EventDetail;
 import com.clevertap.android.sdk.UTMDetail;
 import com.clevertap.android.sdk.exceptions.CleverTapMetaDataNotFoundException;
@@ -41,7 +48,7 @@ import com.clevertap.android.sdk.exceptions.CleverTapPermissionsNotSatisfied;
 import com.clevertap.android.sdk.exceptions.InvalidEventNameException;
 
 
-public class CleverTapPlugin extends CordovaPlugin implements SyncListener {
+public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAppNotificationListener {
 
     private static final String LOG_TAG = "CLEVERTAP_PLUGIN";
     private static String CLEVERTAP_API_ERROR;
@@ -55,12 +62,73 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener {
         try {
             cleverTap = CleverTapAPI.getInstance(cordova.getActivity().getApplicationContext());
             cleverTap.setSyncListener(this);
+            cleverTap.setInAppNotificationListener(this);
         } catch (CleverTapMetaDataNotFoundException e) {
             CLEVERTAP_API_ERROR = e.getLocalizedMessage();
             //Log.d(LOG_TAG, e.getLocalizedMessage());
         } catch (CleverTapPermissionsNotSatisfied e) {
             CLEVERTAP_API_ERROR = e.getLocalizedMessage();
             //Log.d(LOG_TAG, e.getLocalizedMessage());
+        }
+
+        onNewIntent(cordova.getActivity().getIntent());
+
+    }
+
+    /**
+     * Called when the activity receives a new intent.
+     */
+    public void onNewIntent(Intent intent) {
+        if (intent == null) return;
+
+        // deeplink
+        if(intent.getAction() != null && intent.getAction().equals(Intent.ACTION_VIEW)) {
+            Uri data = intent.getData();
+            if (data != null) {
+                final String json = "{'deeplink':'" + data.toString() + "'}";
+
+                cordova.getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        webView.loadUrl("javascript:cordova.fireDocumentEvent('onDeepLink'," + json + ");");
+                    }
+                });
+
+            }
+        }
+        // push notification
+        else {
+            Bundle extras = intent.getExtras();
+            Boolean isPushNotification = (extras != null && extras.get("wzrk_pn") != null);
+            if (isPushNotification) {
+                JSONObject data = new JSONObject();
+
+                for (String key : extras.keySet()) {
+                    try {
+                        Object value = extras.get(key);
+                        if (value instanceof Map) {
+                            JSONObject jsonObject = new JSONObject((Map) value);
+                            data.put(key, jsonObject);
+                        } else if (value instanceof List) {
+                            JSONArray jsonArray = new JSONArray((List) value);
+                            data.put(key, jsonArray);
+                        } else {
+                            data.put(key, extras.get(key));
+                        }
+                    } catch (Throwable t) {
+                        // no-op
+                    }
+                }
+
+                final String json = "{'notification':" + data.toString() + "}";
+                cordova.getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        webView.loadUrl("javascript:cordova.fireDocumentEvent('onPushNotification'," + json + ");");
+                    }
+                });
+
+            }
         }
     }
 
@@ -81,6 +149,22 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener {
             return true;
         }
 
+        // manually start application life cycle
+        else if (action.equals("notifyDeviceReady")) {
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    ActivityLifecycleCallback.register(cordova.getActivity().getApplication());
+                    CleverTapAPI.setAppForeground(true);
+                    cleverTap.activityResumed(cordova.getActivity());
+                    PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
+                    _result.setKeepCallback(true);
+                    callbackContext.sendPluginResult(_result);
+                }
+            });
+
+            return true;
+        }
+
         // not required for Android here but handle as its in the JS interface
         else if (action.equals("registerPush")) {
             result = new PluginResult(PluginResult.Status.NO_RESULT);
@@ -91,6 +175,14 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener {
 
         // not required for Android here but handle as its in the JS interface
         else if (action.equals("setPushTokenAsString")) {
+            result = new PluginResult(PluginResult.Status.NO_RESULT);
+            result.setKeepCallback(true);
+            callbackContext.sendPluginResult(result);
+            return true;
+        }
+
+        // not required for Android here but handle as its in the JS interface
+        else if (action.equals("recordScreenView")) {
             result = new PluginResult(PluginResult.Status.NO_RESULT);
             result.setKeepCallback(true);
             callbackContext.sendPluginResult(result);
@@ -241,6 +333,51 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener {
             }
         }
 
+        else if (action.equals("pushInstallReferrer")) {
+            String source = null;
+            String campaign = null;
+            String medium = null;
+
+            if (args.length() == 3) {
+                if (!args.isNull(0)) {
+                    source = args.getString(0);
+                } else {
+                    haveError = true;
+                    errorMsg = "source cannot be null";
+                }
+                if (!args.isNull(1)) {
+                    medium = args.getString(1);
+                } else {
+                    haveError = true;
+                    errorMsg = "medium cannot be null";
+                }
+                if (!args.isNull(2)) {
+                    campaign = args.getString(2);
+                } else {
+                    haveError = true;
+                    errorMsg = "campaign cannot be null";
+                }
+            } else {
+                haveError = true;
+                errorMsg = "Expected 3 arguments";
+            }
+
+            if (!haveError) {
+                final String _source = source;
+                final String _medium = medium;
+                final String _campaign = campaign;
+                cordova.getThreadPool().execute(new Runnable() {
+                    public void run() {
+                        cleverTap.pushInstallReferrer(_source, _medium, _campaign);
+                        PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
+                        _result.setKeepCallback(true);
+                        callbackContext.sendPluginResult(_result);
+                    }
+                });
+                return true;
+            }
+        }
+
         else if (action.equals("eventGetFirstTime")) {
             final String eventName = (args.length() == 1 ? args.getString(0) : null);
             if (eventName != null) {
@@ -367,7 +504,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener {
                 location.setLongitude(lon);
                 cordova.getThreadPool().execute(new Runnable() {
                     public void run() {
-                        cleverTap.updateLocation(location);
+                        cleverTap.setLocation(location);
                         PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
                         _result.setKeepCallback(true);
                         callbackContext.sendPluginResult(_result);
@@ -375,6 +512,32 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener {
                 });
                 return true;
             }
+        }
+
+        else if (action.equals("getLocation")) {
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    Location location = cleverTap.getLocation();
+                    PluginResult _result = null;
+                    try {
+                        if (location != null) {
+                            JSONObject jsonLoc = new JSONObject();
+                            jsonLoc.put("lat", location.getLatitude());
+                            jsonLoc.put("lon", location.getLongitude());
+                            _result = new PluginResult(PluginResult.Status.OK, jsonLoc);
+                        }
+                    } catch (Throwable t) {
+                        // no-op
+                    }
+
+                    if (_result == null) {
+                        _result = new PluginResult(PluginResult.Status.ERROR, "Unable to get location");
+                    }
+                    _result.setKeepCallback(true);
+                    callbackContext.sendPluginResult(_result);
+                }
+            });
+            return true;
         }
 
         else if (action.equals("profileSet")) {
@@ -398,25 +561,47 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener {
                 cordova.getThreadPool().execute(new Runnable() {
                     public void run() {
                         try {
-                            HashMap<String, Object> profile = toMap(_jsonProfile);
-                            String dob = (String)profile.get("DOB");
-                            if(dob != null) {
-                                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-                                try {
-                                    Date date = format.parse(dob);
-                                    profile.put("DOB", date);
-                                } catch (ParseException e) {
-                                    profile.remove("DOB");
-                                    Log.d(LOG_TAG, "invalid DOB format in profileSet");
-                                }
-                            }
-
+                            HashMap<String, Object> profile = formatProfile(_jsonProfile);
                             cleverTap.profile.push(profile);
-
                         } catch (Exception e) {
                             Log.d(LOG_TAG, "Error setting profile " + e.getLocalizedMessage());
                         }
+                        PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
+                        _result.setKeepCallback(true);
+                        callbackContext.sendPluginResult(_result);
+                    }
+                });
 
+                return true;
+            }
+        }
+
+        else if (action.equals("onUserLogin")) {
+            JSONObject jsonProfile = null;
+
+            if (args.length() == 1) {
+                if (!args.isNull(0)) {
+                    jsonProfile = args.getJSONObject(0);
+                } else {
+                    haveError = true;
+                    errorMsg = "profile cannot be null";
+                }
+
+            } else {
+                haveError = true;
+                errorMsg = "Expected 1 argument";
+            }
+
+            if (!haveError) {
+                final JSONObject _jsonProfile = jsonProfile;
+                cordova.getThreadPool().execute(new Runnable() {
+                    public void run() {
+                        try {
+                            HashMap<String, Object> profile = formatProfile(_jsonProfile);
+                            cleverTap.onUserLogin(profile);
+                        } catch (Exception e) {
+                            Log.d(LOG_TAG, "Error in onUserLogin " + e.getLocalizedMessage());
+                        }
                         PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
                         _result.setKeepCallback(true);
                         callbackContext.sendPluginResult(_result);
@@ -532,6 +717,18 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener {
                 public void run() {
                     String CleverTapID = cleverTap.getCleverTapID();
                     PluginResult _result = new PluginResult(PluginResult.Status.OK, CleverTapID);
+                    _result.setKeepCallback(true);
+                    callbackContext.sendPluginResult(_result);
+                }
+            });
+            return true;
+        }
+
+        else if (action.equals("profileGetCleverTapAttributionIdentifier")) {
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    String attributionID = cleverTap.getCleverTapAttributionIdentifier();
+                    PluginResult _result = new PluginResult(PluginResult.Status.OK, attributionID);
                     _result.setKeepCallback(true);
                     callbackContext.sendPluginResult(_result);
                 }
@@ -858,9 +1055,31 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener {
         return true;
     }
 
-    /*******************
-     * Private Methods
-     ******************/
+
+    // InAppNotificationListener
+
+    public boolean beforeShow(Map<String, Object> var1) {
+        return true;
+    }
+
+    public void onDismissed(Map<String, Object> var1, @Nullable Map<String, Object> var2) {
+        if(var1 == null && var2 == null) {
+            return ;
+        }
+
+        JSONObject extras = var1 != null ? new JSONObject(var1) : new JSONObject();
+        String _json = "{'extras':"+extras.toString()+",";
+
+        JSONObject actionExtras = var2 != null ? new JSONObject(var2) : new JSONObject();
+        _json += "'actionExtras':"+actionExtras.toString()+"}";
+
+        final String json = _json;
+        webView.getView().post(new Runnable() {
+            public void run() {
+                webView.loadUrl("javascript:cordova.fireDocumentEvent('onCleverTapInAppNotificationDismissed'," + json + ");");
+            }
+        });
+    }
 
     // SyncListener
     public void profileDataUpdated(JSONObject updates) {
@@ -883,7 +1102,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener {
             return;
         }
 
-        final String json = "{'CleverTapID':"+CleverTapID+"}";
+        final String json = "{'CleverTapID':"+ "'"+CleverTapID+"'"+"}";
         webView.getView().post(new Runnable() {
             public void run() {
                 webView.loadUrl("javascript:cordova.fireDocumentEvent('onCleverTapProfileDidInitialize',"+json+");");
@@ -891,12 +1110,38 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener {
         });
     }
 
+    /*******************
+     * Private Methods
+     ******************/
+
     private static boolean checkCleverTapInitialized() {
         boolean initialized = (cleverTap != null);
         if(!initialized) {
             Log.d(LOG_TAG, "CleverTap API not initialized: " + CLEVERTAP_API_ERROR);
         }
         return initialized;
+    }
+
+    private static HashMap<String, Object> formatProfile(JSONObject jsonProfile) {
+        try {
+            HashMap<String, Object> profile = toMap(jsonProfile);
+            String dob = (String)profile.get("DOB");
+            if(dob != null) {
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+                try {
+                    Date date = format.parse(dob);
+                    profile.put("DOB", date);
+                } catch (ParseException e) {
+                    profile.remove("DOB");
+                    Log.d(LOG_TAG, "invalid DOB format in profileSet");
+                }
+            }
+
+            return profile;
+
+        } catch (Throwable t) {
+            return null;
+        }
     }
 
     private static Object fromJson(Object json) throws JSONException {

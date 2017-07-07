@@ -9,11 +9,13 @@
     },
     "com.clevertap.cordova.CleverTapPlugin": {
         "source": {
-            "type": "git",
-            "url": "https://github.com/CleverTap/clevertap-cordova.git",
-            "subdir": "."
+            "type": "local",
+            "path": "/Users/peter/CleverTap/Starter/node_modules/clevertap-cordova"
         },
         "is_top_level": true,
-        "variables": {}
+        "variables": {
+            "CLEVERTAP_ACCOUNT_ID": "69R-Z7W-W54Z",
+            "CLEVERTAP_TOKEN": "0a1-2c6"
+        }
     }
 }

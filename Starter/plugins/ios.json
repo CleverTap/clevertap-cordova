@@ -4,53 +4,16 @@
         "uninstalled": []
     },
     "config_munge": {
-        "files": {
-            "framework": {
-                "parents": {
-                    "SystemConfiguration.framework": [
-                        {
-                            "xml": false,
-                            "count": 1
-                        }
-                    ],
-                    "CoreTelephony.framework": [
-                        {
-                            "xml": false,
-                            "count": 1
-                        }
-                    ],
-                    "UIKit.framework": [
-                        {
-                            "xml": false,
-                            "count": 1
-                        }
-                    ],
-                    "CoreLocation.framework": [
-                        {
-                            "xml": false,
-                            "count": 1
-                        }
-                    ]
-                }
-            },
-            "config.xml": {
-                "parents": {
-                    "/*": [
-                        {
-                            "xml": "<feature name=\"CleverTapPlugin\"><param name=\"ios-package\" value=\"CleverTapPlugin\" /></feature>",
-                            "count": 1
-                        }
-                    ]
-                }
-            }
-        }
+        "files": {}
     },
     "installed_plugins": {
         "cordova-plugin-whitelist": {
-            "PACKAGE_NAME": "com.clevertap.starter"
+            "PACKAGE_NAME": "com.clevertap.cordovastarter"
         },
         "com.clevertap.cordova.CleverTapPlugin": {
-            "PACKAGE_NAME": "com.clevertap.starter"
+            "CLEVERTAP_ACCOUNT_ID": "69R-Z7W-W54Z",
+            "CLEVERTAP_TOKEN": "0a1-2c6",
+            "PACKAGE_NAME": "com.clevertap.cordovastarter"
         }
     },
     "dependent_plugins": {}

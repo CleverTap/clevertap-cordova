@@ -1,5 +1,4 @@
 cordova.define("com.clevertap.cordova.CleverTapPlugin.CleverTap", function(require, exports, module) {
-
 //  Copyright (C) 2015 CleverTap 
 //
 //  This code is provided under a commercial License.
@@ -50,7 +49,7 @@ CleverTap.prototype.setPushToken = function (token) {
 CleverTap.prototype.recordScreenView = function (screenName) {
     cordova.exec(null, null, "CleverTapPlugin", "recordScreenView", [screenName]);
 }
-
+               
 // Record Event with Name
 // eventName = string
 CleverTap.prototype.recordEventWithName = function (eventName) {

@@ -4,65 +4,16 @@
         "uninstalled": []
     },
     "config_munge": {
-        "files": {
-            "config.xml": {
-                "parents": {
-                    "/*": [
-                        {
-                            "xml": "<feature name=\"CleverTapPlugin\"><param name=\"android-package\" value=\"com.clevertap.cordova.CleverTapPlugin\" /></feature>",
-                            "count": 1
-                        }
-                    ]
-                }
-            },
-            "AndroidManifest.xml": {
-                "parents": {
-                    "/manifest": [
-                        {
-                            "xml": "<uses-permission android:name=\"android.permission.INTERNET\" />",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<uses-permission android:name=\"android.permission.READ_PHONE_STATE\" />",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\" />",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<uses-permission android:name=\"android.permission.GET_ACCOUNTS\" />",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\" />",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<uses-permission android:name=\"android.permission.ACCESS_COARSE_WRITE_EXTERNAL_STORAGE\" />",
-                            "count": 1
-                        }
-                    ]
-                }
-            },
-            "res/xml/config.xml": {
-                "parents": {
-                    "/*": [
-                        {
-                            "xml": "<feature name=\"Whitelist\"><param name=\"android-package\" value=\"org.apache.cordova.whitelist.WhitelistPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
-                            "count": 1
-                        }
-                    ]
-                }
-            }
-        }
+        "files": {}
     },
     "installed_plugins": {
-        "com.clevertap.cordova.CleverTapPlugin": {
-            "PACKAGE_NAME": "com.clevertap.starter"
-        },
         "cordova-plugin-whitelist": {
-            "PACKAGE_NAME": "com.clevertap.starter"
+            "PACKAGE_NAME": "com.clevertap.cordovastarter"
+        },
+        "com.clevertap.cordova.CleverTapPlugin": {
+            "CLEVERTAP_ACCOUNT_ID": "69R-Z7W-W54Z",
+            "CLEVERTAP_TOKEN": "0a1-2c6",
+            "PACKAGE_NAME": "com.clevertap.cordovastarter"
         }
     },
     "dependent_plugins": {}
