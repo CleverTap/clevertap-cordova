@@ -32,11 +32,11 @@ module.exports = function(context) {
     } catch(err) {
         process.stdout.write(err);
     }
-  } 
+  }
   var gsPaths = ["google-services.json", "platforms/android/assets/www/google-services.json"];
 
   for (var i = 0; i < gsPaths.length; i++) {
-    process.stdout.write(gsPaths[i]);  
+    process.stdout.write(gsPaths[i]);
     if (fs.existsSync(gsPaths[i])) {
       try {
         var fileContents = fs.readFileSync(gsPaths[i]).toString();
@@ -50,9 +50,9 @@ module.exports = function(context) {
 
         s = s.replace(new RegExp('(\r\n|\n|\r)[ \t]*(\r\n|\n|\r)', "gm"), '$1')
 
-        s = s.replace(new RegExp('<string name="google_app_id">([^<]+?)<\/string>', "i"), '<string name="google_app_id">' + jsonContents.client[0].client_info.mobilesdk_app_id + '</string>')
+        s = s.replace(new RegExp('</resources>', "i"), '<string name="google_app_id">' + jsonContents.client[0].client_info.mobilesdk_app_id + '</string>\n</resources>')
 
-        s = s.replace(new RegExp('<string name="google_api_key">([^<]+?)<\/string>', "i"), '<string name="google_api_key">' + jsonContents.client[0].api_key[0].current_key + '</string>')
+        s = s.replace(new RegExp('</resources>', "i"), '<string name="google_api_key">' + jsonContents.client[0].api_key[0].current_key + '</string>\n</resources>')
 
         fs.writeFileSync("platforms/android/res/values/strings.xml", s);
       } catch (err) {
