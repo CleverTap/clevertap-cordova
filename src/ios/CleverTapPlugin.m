@@ -46,11 +46,11 @@ static NSURL *launchDeepLink;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onDidFailToRegisterForRemoteNotificationsWithError:) name:CTRemoteNotificationRegisterError object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onHandleRegisterForRemoteNotification:) name:CTRemoteNotificationDidRegister object:nil];
-    
-    clevertap = [CleverTap sharedInstance];
 }
 
 +(void)onDidFinishLaunchingNotification:(NSNotification *)notification {
+    clevertap = [CleverTap sharedInstance];
+
     NSDictionary *launchOptions = notification.userInfo;
     if (!launchOptions) return;
     

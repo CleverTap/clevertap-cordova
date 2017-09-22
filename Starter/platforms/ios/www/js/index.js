@@ -35,7 +35,6 @@ initialize: function() {
     // 'pause', 'resume', etc.
 onDeviceReady: function() {
     this.receivedEvent('deviceready');
-    
     CleverTap.registerPush();
     
     // Ionic example usage
@@ -162,4 +161,5 @@ receivedEvent: function(id) {
 };
 
 app.initialize();
+
 

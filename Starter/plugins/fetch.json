@@ -9,8 +9,8 @@
     },
     "com.clevertap.cordova.CleverTapPlugin": {
         "source": {
-            "type": "registry",
-            "id": "https://github.com/CleverTap/clevertap-cordova.git"
+            "type": "local",
+            "path": "/Users/pwilkniss/CleverTap/clevertap-cordova/Starter/node_modules/clevertap-cordova"
         },
         "is_top_level": true,
         "variables": {

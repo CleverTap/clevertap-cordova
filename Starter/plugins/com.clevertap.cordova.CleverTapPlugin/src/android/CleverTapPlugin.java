@@ -190,8 +190,8 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         }
 
         else if (action.equals("setDebugLevel")) {
-            int level = (args.length() == 1 ? args.getInt(0) : -1);
-            if (level >= 0) {
+            int level = (args.length() == 1 ? args.getInt(0) : -2);
+            if (level >= -1) {
                 CleverTapAPI.setDebugLevel(level);
                 result = new PluginResult(PluginResult.Status.NO_RESULT);
                 result.setKeepCallback(true);
