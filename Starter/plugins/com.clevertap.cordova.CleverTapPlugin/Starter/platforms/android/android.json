@@ -14,17 +14,105 @@
                         }
                     ]
                 }
+            },
+            "undefined": {
+                "parents": {
+                    "undefined": [
+                        {
+                            "xml": "<access origin=\"*.wzrkt.com\" />",
+                            "count": 1
+                        }
+                    ]
+                }
+            },
+            "config.xml": {
+                "parents": {
+                    "/*": [
+                        {
+                            "xml": "<feature name=\"CleverTapPlugin\"><param name=\"android-package\" value=\"com.clevertap.cordova.CleverTapPlugin\" /></feature>",
+                            "count": 1
+                        }
+                    ]
+                }
+            },
+            "AndroidManifest.xml": {
+                "parents": {
+                    "/manifest": [
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.INTERNET\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.WAKE_LOCK\" />",
+                            "count": 1
+                        }
+                    ],
+                    "/manifest/application": [
+                        {
+                            "xml": "<service android:name=\"com.clevertap.android.sdk.FcmTokenListenerService\"><intent-filter><action android:name=\"com.google.firebase.INSTANCE_ID_EVENT\" /></intent-filter></service>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<service android:name=\"com.clevertap.android.sdk.FcmMessageListenerService\"><intent-filter><action android:name=\"com.google.firebase.MESSAGING_EVENT\" /></intent-filter></service>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<meta-data android:name=\"CLEVERTAP_ACCOUNT_ID\" android:value=\"69R-Z7W-W54Z\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<meta-data android:name=\"CLEVERTAP_TOKEN\" android:value=\"0a1-2c6\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<meta-data android:name=\"CLEVERTAP_REGION\" android:value=\" \" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<activity android:configChanges=\"orientation|keyboardHidden\" android:name=\"com.clevertap.android.sdk.InAppNotificationActivity\" android:theme=\"@android:style/Theme.Translucent.NoTitleBar\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<receiver android:exported=\"true\" android:name=\"com.clevertap.android.sdk.InstallReferrerBroadcastReceiver\"><intent-filter><action android:name=\"com.android.vending.INSTALL_REFERRER\" /></intent-filter></receiver>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<receiver android:enabled=\"true\" android:exported=\"false\" android:name=\"com.clevertap.android.sdk.CTPushNotificationReceiver\"></receiver>",
+                            "count": 1
+                        }
+                    ]
+                }
             }
         }
     },
     "installed_plugins": {
         "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "com.clevertap.cordovastarter"
+        },
+        "com.clevertap.cordova.CleverTapPlugin": {
+            "CLEVERTAP_ACCOUNT_ID": "69R-Z7W-W54Z",
+            "CLEVERTAP_TOKEN": "0a1-2c6",
+            "CLEVERTAP_REGION": " ",
+            "PACKAGE_NAME": "com.clevertap.cordovastarter"
         }
     },
     "dependent_plugins": {},
-    "modules": [],
+    "modules": [
+        {
+            "id": "com.clevertap.cordova.CleverTapPlugin.CleverTap",
+            "file": "plugins/com.clevertap.cordova.CleverTapPlugin/www/CleverTap.js",
+            "pluginId": "com.clevertap.cordova.CleverTapPlugin",
+            "clobbers": [
+                "CleverTap"
+            ]
+        }
+    ],
     "plugin_metadata": {
-        "cordova-plugin-whitelist": "1.3.2"
+        "cordova-plugin-whitelist": "1.3.2",
+        "com.clevertap.cordova.CleverTapPlugin": "2.0.2"
     }
 }

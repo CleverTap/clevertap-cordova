@@ -10,13 +10,19 @@
     "author": "Apache Cordova Team",
     "license": "Apache-2.0",
     "dependencies": {
+        "clevertap-cordova": "file:///Users/pwilkniss/CleverTap/clevertap-cordova",
         "cordova-android": "^6.2.3",
         "cordova-ios": "^4.4.0",
         "cordova-plugin-whitelist": "^1.3.2"
     },
     "cordova": {
         "plugins": {
-            "cordova-plugin-whitelist": {}
+            "cordova-plugin-whitelist": {},
+            "com.clevertap.cordova.CleverTapPlugin": {
+                "CLEVERTAP_ACCOUNT_ID": "69R-Z7W-W54Z",
+                "CLEVERTAP_TOKEN": "0a1-2c6",
+                "CLEVERTAP_REGION": " "
+            }
         },
         "platforms": [
             "android",

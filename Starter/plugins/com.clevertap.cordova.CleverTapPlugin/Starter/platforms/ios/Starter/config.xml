@@ -45,4 +45,7 @@
     <preference name="PageLength" value="0" />
     <preference name="PaginationBreakingMode" value="page" />
     <preference name="PaginationMode" value="unpaginated" />
+    <feature name="CleverTapPlugin">
+        <param name="ios-package" value="CleverTapPlugin" />
+    </feature>
 </widget>

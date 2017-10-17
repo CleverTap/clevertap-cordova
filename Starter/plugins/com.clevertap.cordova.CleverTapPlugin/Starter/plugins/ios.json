@@ -9,6 +9,12 @@
     "installed_plugins": {
         "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "com.clevertap.cordovastarter"
+        },
+        "com.clevertap.cordova.CleverTapPlugin": {
+            "CLEVERTAP_ACCOUNT_ID": "69R-Z7W-W54Z",
+            "CLEVERTAP_TOKEN": "0a1-2c6",
+            "CLEVERTAP_REGION": " ",
+            "PACKAGE_NAME": "com.clevertap.cordovastarter"
         }
     },
     "dependent_plugins": {}

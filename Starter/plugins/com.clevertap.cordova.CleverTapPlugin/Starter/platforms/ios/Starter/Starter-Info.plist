@@ -52,5 +52,11 @@
       <key>NSAllowsArbitraryLoads</key>
       <true/>
     </dict>
+    <key>CleverTapAccountID</key>
+    <string>69R-Z7W-W54Z</string>
+    <key>CleverTapToken</key>
+    <string>0a1-2c6</string>
+    <key>CleverTapRegion</key>
+    <string></string>
   </dict>
 </plist>
