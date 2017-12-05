@@ -5,3 +5,4 @@ Starter/platforms/android/build/
 Starter/platforms/android/CordovaLib/build/
 npm-debug.log
 node_modules
+.DS_Store
