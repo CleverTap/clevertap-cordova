@@ -37,6 +37,31 @@ CleverTap.prototype.registerPush = function () {
 CleverTap.prototype.setPushToken = function (token) {
     cordova.exec(null, null, "CleverTapPlugin", "setPushTokenAsString", [token]);
 }
+
+//Create Notification Channel for Android O
+CleverTap.prototype.createNotificationChannel = function (channelID, channelName, channelDescription, importance, showBadge) {
+    cordova.exec(null,null, "CleverTapPlugin", "createNotificationChannel", [channelID, channelName, channelDescription, importance, showBadge])
+}
+
+//Create Notification Channel with Group ID for Android O
+CleverTap.prototype.createNotificationChannelWithGroupId = function (channelID, channelName, channelDescription, importance, groupId, showBadge) {
+    cordova.exec(null,null, "CleverTapPlugin", "createNotificationChannelWithGroupId", [channelID, channelName, channelDescription, importance, groupId, showBadge])
+}
+
+//Create Notification Channel Group for Android O
+CleverTap.prototype.createNotificationChannelGroup = function (groupId, groupName) {
+    cordova.exec(null,null, "CleverTapPlugin", "createNotificationChannelGroup", [groupId, groupName])
+}
+
+//Delete Notification Channel  for Android O
+CleverTap.prototype.deleteNotificationChannel = function (channelID) {
+    cordova.exec(null,null, "CleverTapPlugin", "deleteNotificationChannel", [channelID])
+}
+
+//Delete Notification Channel Group  for Android O
+CleverTap.prototype.deleteNotificationChannelGroup = function (groupId) {
+    cordova.exec(null,null, "CleverTapPlugin", "deleteNotificationChannelGroup", [groupId])
+}
                
                
 /*******************

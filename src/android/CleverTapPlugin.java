@@ -181,6 +181,83 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             return true;
         }
 
+        /* Android O functions start*/
+        else if (action.equals("createNotificationChannel")){
+            final String channelId = (args.length() == 5 ? args.getString(0) : "");
+            final String channelName = (args.length() == 5 ? args.getString(1) : "");
+            final String channelDescription = (args.length() == 5 ? args.getString(2) : "");
+            final int importance = Integer.parseInt((args.length() == 5 ? args.getString(3) : "0"));
+            final boolean showBadge = Boolean.valueOf((args.length() == 5 ? args.getString(4) : "false"));
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    cleverTap.createNotificationChannel(cordova.getActivity().getApplicationContext(),channelId,channelName,channelDescription,importance,showBadge);
+                    PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
+                    _result.setKeepCallback(true);
+                    callbackContext.sendPluginResult(_result);
+                }
+            });
+            return true;
+        }
+
+        else if (action.equals("createNotificationChannelWithGroupId")){
+            final String channelId = (args.length() == 6 ? args.getString(0) : "");
+            final String channelName = (args.length() == 6 ? args.getString(1) : "");
+            final String channelDescription = (args.length() == 6 ? args.getString(2) : "");
+            final int importance = Integer.parseInt((args.length() == 6 ? args.getString(3) : "0"));
+            final String groupId = (args.length() == 6 ? args.getString(4) : "");
+            final boolean showBadge = Boolean.valueOf((args.length() == 6 ? args.getString(5) : "false"));
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    cleverTap.createNotificationChannel(cordova.getActivity().getApplicationContext(),channelId,channelName,channelDescription,importance,groupId,showBadge);
+                    PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
+                    _result.setKeepCallback(true);
+                    callbackContext.sendPluginResult(_result);
+                }
+            });
+            return true;
+        }
+
+        else if (action.equals("createNotificationChannelGroup")){
+            final String groupId = (args.length() == 2 ? args.getString(0) : "");
+            final String groupName = (args.length() == 2 ? args.getString(1) : "");
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    cleverTap.createNotificationChannelGroup(cordova.getActivity().getApplicationContext(),groupId,groupName);
+                    PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
+                    _result.setKeepCallback(true);
+                    callbackContext.sendPluginResult(_result);
+                }
+            });
+            return true;
+        }
+
+        else if (action.equals("deleteNotificationChannel")){
+            final String channelId = (args.length() == 1 ? args.getString(0) : "");
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    cleverTap.deleteNotificationChannel(cordova.getActivity().getApplicationContext(),channelId);
+                    PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
+                    _result.setKeepCallback(true);
+                    callbackContext.sendPluginResult(_result);
+                }
+            });
+            return true;
+        }
+
+        else if (action.equals("deleteNotificationChannelGroup")){
+            final String groupId = (args.length() == 1 ? args.getString(0) : "");
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    cleverTap.deleteNotificationChannelGroup(cordova.getActivity().getApplicationContext(),groupId);
+                    PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
+                    _result.setKeepCallback(true);
+                    callbackContext.sendPluginResult(_result);
+                }
+            });
+            return true;
+        }
+        /* Android O functions end*/
+
         // not required for Android here but handle as its in the JS interface
         else if (action.equals("recordScreenView")) {
             result = new PluginResult(PluginResult.Status.NO_RESULT);
