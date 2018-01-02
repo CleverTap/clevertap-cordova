@@ -324,6 +324,26 @@ static NSURL *launchDeepLink;
     [self.commandDelegate evalJs:js];
 }
 
+-(void)createNotificationChannel:(CDVInvokedUrlCommand *)command{
+    NSLog(@"createNotificationChannel is no-op in iOS");
+}
+
+-(void)createNotificationChannelWithGroupId:(CDVInvokedUrlCommand *)command{
+    NSLog(@"createNotificationChannelWithGroupId is no-op in iOS");
+}
+
+-(void)createNotificationChannelGroup:(CDVInvokedUrlCommand *)command{
+    NSLog(@"createNotificationChannelGroup is no-op in iOS");
+}
+
+-(void)deleteNotificationChannel:(CDVInvokedUrlCommand *)command{
+    NSLog(@"deleteNotificationChannel is no-op in iOS");
+}
+
+-(void)deleteNotificationChannelGroup:(CDVInvokedUrlCommand *)command{
+    NSLog(@"deleteNotificationChannelGroup is no-op in iOS");
+}
+
 #pragma mark Developer Options
 
 -(void)setDebugLevel:(CDVInvokedUrlCommand *)command {
