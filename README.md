@@ -3,7 +3,7 @@ CleverTap Cordova Plugin
 
 ## Supported Versions
 
-Tested on Cordova 7.0.1
+Tested on Cordova 8.0.0
 
 - [CleverTap Android SDK version 3.1.8](https://github.com/CleverTap/clevertap-android-sdk/releases/tag/3.1.8)
 - [CleverTap iOS SDK version 3.1.6](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/3.1.6)
@@ -28,8 +28,11 @@ When you create your CleverTap account, you will also automatically get a -Test 
 
 Grab the Account ID and Token values from your CleverTap [Dashboard](https://dashboard.clevertap.com) -> Settings.
 
-#### For Android *Important*
-Starting with v2.0.0, the plugin uses FCM rather than GCM.  To configure FCM, add your google-services.json to the root of your cordova project **before you add the plugin**.  
+#### For Android 
+
+*Important*
+
+Starting with v2.0.0, the plugin uses FCM rather than GCM.  To configure FCM, add your google-services.json to the root of your cordova project **BEFORE you add the plugin**.  
 The plugin uses an `after plugin add` hook script to configure your project for FCM.  
 If the google-services.json file is not present in your project when the script runs, FCM will not be configured properly and will not work. 
 
@@ -124,7 +127,6 @@ Please ensure that you're requesting the following permissions for your app:
 Make sure your build.gradle file includes the play-services and support library dependencies:
 
     dependencies {
-        compile fileTree(dir: 'libs', include: '*.jar'  )
         debugCompile(project(path: "CordovaLib", configuration: "debug"))
         releaseCompile(project(path: "CordovaLib", configuration: "release"))
         // SUB-PROJECT DEPENDENCIES START
@@ -132,6 +134,7 @@ Make sure your build.gradle file includes the play-services and support library 
         compile "com.google.firebase:firebase-messaging:+"
         compile "com.google.android.gms:play-services-base:+"
         compile "com.android.support:support-v4:+"
+        compile "com.clevertap.android:clevertap-android-sdk:3.1.8"
         // SUB-PROJECT DEPENDENCIES END   
 
 

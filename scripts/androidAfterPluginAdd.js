@@ -7,7 +7,7 @@ module.exports = function(context) {
 
   var platformRoot = path.join(context.opts.projectRoot, 'platforms/android');
 
-  var manifestFile = path.join(platformRoot, 'AndroidManifest.xml');
+  var manifestFile = path.join(platformRoot, '/app/src/main/AndroidManifest.xml');
 
   if (fs.existsSync(manifestFile)) {
     try {
@@ -42,7 +42,7 @@ module.exports = function(context) {
         var fileContents = fs.readFileSync(gsPaths[i]).toString();
         fs.writeFileSync("platforms/android/google-services.json", fileContents);
         var jsonContents = JSON.parse(fileContents);
-        var s = fs.readFileSync("platforms/android/res/values/strings.xml").toString();
+        var s = fs.readFileSync("platforms/android/app/src/main/res/values/strings.xml").toString();
 
         s = s.replace(new RegExp('<string name="google_app_id">([^\@<]+?)<\/string>', "i"), '')
 
@@ -54,7 +54,7 @@ module.exports = function(context) {
 
         s = s.replace(new RegExp('</resources>', "i"), '<string name="google_api_key">' + jsonContents.client[0].api_key[0].current_key + '</string>\n</resources>')
 
-        fs.writeFileSync("platforms/android/res/values/strings.xml", s);
+        fs.writeFileSync("platforms/android/app/src/main/res/values/strings.xml", s);
       } catch (err) {
         process.stdout.write(err);
       }
