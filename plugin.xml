@@ -118,7 +118,7 @@
 
         <framework src="com.google.firebase:firebase-messaging:+" />
         <framework src="com.google.android.gms:play-services-base:+" />
-		<framework src="com.android.support:support-v4:+" />
+		<framework src="com.android.support:support-v4:27.1.0" />
 
         <hook type="after_plugin_add" src="scripts/androidAfterPluginAdd.js" />
 
