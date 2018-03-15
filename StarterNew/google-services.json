@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "754543735303",
+    "firebase_url": "https://starter-53ee0.firebaseio.com",
+    "project_id": "starter-53ee0",
+    "storage_bucket": "starter-53ee0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:754543735303:android:420d103c72fde46f",
+        "android_client_info": {
+          "package_name": "com.clevertap.starter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "754543735303-q78vc6ce6dld8j51qitt9drkaqsq5dgv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLurJzl43khjNyk9GSXTSkXzOUVKseTec"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

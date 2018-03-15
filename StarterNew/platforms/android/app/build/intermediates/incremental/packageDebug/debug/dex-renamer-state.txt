@@ -1,0 +1,4 @@
+#Thu Mar 15 13:16:16 IST 2018
+base.0=/Users/darshanpania/Desktop/CleverTapApps/Cordova/Starter/platforms/android/app/build/intermediates/transforms/dexMerger/debug/0
+renamed.0=classes.dex
+file.0=/Users/darshanpania/Desktop/CleverTapApps/Cordova/Starter/platforms/android/app/build/intermediates/transforms/dexMerger/debug/0/classes.dex

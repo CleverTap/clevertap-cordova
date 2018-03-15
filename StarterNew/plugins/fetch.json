@@ -1,0 +1,21 @@
+{
+  "cordova-plugin-whitelist": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-whitelist@1"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "com.clevertap.cordova.CleverTapPlugin": {
+    "source": {
+      "type": "local",
+      "path": "/Users/darshanpania/Desktop/CleverTapApps/Cordova/Starter/node_modules/clevertap-cordova"
+    },
+    "is_top_level": true,
+    "variables": {
+      "CLEVERTAP_ACCOUNT_ID": "TEST-R59-947-8W5Z",
+      "CLEVERTAP_TOKEN": "TEST-a4c-c52"
+    }
+  }
+}
