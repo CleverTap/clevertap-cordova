@@ -199,6 +199,24 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             return true;
         }
 
+        else if (action.equals("createNotificationChannelWithSound")){
+            final String channelId = (args.length() == 6 ? args.getString(0) : "");
+            final String channelName = (args.length() == 6 ? args.getString(1) : "");
+            final String channelDescription = (args.length() == 6 ? args.getString(2) : "");
+            final int importance = Integer.parseInt((args.length() == 6 ? args.getString(3) : "0"));
+            final boolean showBadge = Boolean.valueOf((args.length() == 6 ? args.getString(4) : "false"));
+            final String sound = (args.length() == 6 ? args.getString(5) : "");
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    cleverTap.createNotificationChannel(cordova.getActivity().getApplicationContext(),channelId,channelName,channelDescription,importance,showBadge,sound);
+                    PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
+                    _result.setKeepCallback(true);
+                    callbackContext.sendPluginResult(_result);
+                }
+            });
+            return true;
+        }
+
         else if (action.equals("createNotificationChannelWithGroupId")){
             final String channelId = (args.length() == 6 ? args.getString(0) : "");
             final String channelName = (args.length() == 6 ? args.getString(1) : "");
@@ -209,6 +227,25 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
                     cleverTap.createNotificationChannel(cordova.getActivity().getApplicationContext(),channelId,channelName,channelDescription,importance,groupId,showBadge);
+                    PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
+                    _result.setKeepCallback(true);
+                    callbackContext.sendPluginResult(_result);
+                }
+            });
+            return true;
+        }
+
+        else if (action.equals("createNotificationChannelWithGroupIdAndSound")){
+            final String channelId = (args.length() == 7 ? args.getString(0) : "");
+            final String channelName = (args.length() == 7 ? args.getString(1) : "");
+            final String channelDescription = (args.length() == 7 ? args.getString(2) : "");
+            final int importance = Integer.parseInt((args.length() == 7 ? args.getString(3) : "0"));
+            final String groupId = (args.length() == 7 ? args.getString(4) : "");
+            final boolean showBadge = Boolean.valueOf((args.length() == 7 ? args.getString(5) : "false"));
+            final String sound = (args.length() == 7 ? args.getString(6) : "");
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    cleverTap.createNotificationChannel(cordova.getActivity().getApplicationContext(),channelId,channelName,channelDescription,importance,groupId,showBadge,sound);
                     PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
                     _result.setKeepCallback(true);
                     callbackContext.sendPluginResult(_result);
@@ -276,6 +313,34 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 return true;
             }
 
+        }
+
+        //Enables tracking opt out for the currently active user.
+        else if (action.equals("setOptOut")){
+            final boolean value = args.getBoolean(0);
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    cleverTap.setOptOut(value);
+                    PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
+                    _result.setKeepCallback(true);
+                    callbackContext.sendPluginResult(_result);
+                }
+            });
+            return true;
+        }
+
+        //Enables the reporting of device network related information, including IP address.  This reporting is disabled by default.
+        else if (action.equals("enableDeviceNetworkInfoReporting")){
+            final boolean value = args.getBoolean(0);
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    cleverTap.enableDeviceNetworkInfoReporting(value);
+                    PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
+                    _result.setKeepCallback(true);
+                    callbackContext.sendPluginResult(_result);
+                }
+            });
+            return true;
         }
 
         else if (action.equals("enablePersonalization")) {

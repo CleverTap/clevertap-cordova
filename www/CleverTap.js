@@ -24,6 +24,16 @@ CleverTap.prototype.notifyDeviceReady = function () {
 CleverTap.prototype.enablePersonalization = function () {
 	cordova.exec(null, null, "CleverTapPlugin", "enablePersonalization", []);
 }
+
+//Enables tracking opt out for the currently active user.
+CleverTap.prototype.setOptOut = function (value) {
+    cordova.exec(null, null, "CleverTapPlugin", "setOptOut", value);
+}
+
+//Enables the reporting of device network related information, including IP address.  This reporting is disabled by default.
+CleverTap.prototype.enableDeviceNetworkInfoReporting = function (value) {
+    cordova.exec(null, null, "CleverTapPlugin", "enableDeviceNetworkInfoReporting", value);
+}
                
 /*******************
  * Push
@@ -43,9 +53,17 @@ CleverTap.prototype.createNotificationChannel = function (channelID, channelName
     cordova.exec(null,null, "CleverTapPlugin", "createNotificationChannel", [channelID, channelName, channelDescription, importance, showBadge]);
 }
 
+CleverTap.prototype.createNotificationChannelWithSound = function (channelID, channelName, channelDescription, importance, showBadge,sound) {
+    cordova.exec(null,null, "CleverTapPlugin", "createNotificationChannelWithSound", [channelID, channelName, channelDescription, importance, showBadge, sound]);
+}
+
 //Create Notification Channel with Group ID for Android O
 CleverTap.prototype.createNotificationChannelWithGroupId = function (channelID, channelName, channelDescription, importance, groupId, showBadge) {
     cordova.exec(null,null, "CleverTapPlugin", "createNotificationChannelWithGroupId", [channelID, channelName, channelDescription, importance, groupId, showBadge]);
+}
+
+CleverTap.prototype.createNotificationChannelWithGroupIdAndSound = function (channelID, channelName, channelDescription, importance, groupId, showBadge, sound) {
+    cordova.exec(null,null, "CleverTapPlugin", "createNotificationChannelWithGroupIdAndSound", [channelID, channelName, channelDescription, importance, groupId, showBadge, sound]);
 }
 
 //Create Notification Channel Group for Android O

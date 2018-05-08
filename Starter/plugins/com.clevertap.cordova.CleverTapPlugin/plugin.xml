@@ -113,12 +113,13 @@
 		</config-file>
 
         <source-file src="src/android/google-services.json" target-dir="." />
-        <source-file src="src/android/CleverTapAndroidSDK.jar" target-dir="libs/" />
+        <!-- <source-file src="src/android/CleverTapAndroidSDK.jar" target-dir="libs/" /> -->
         <source-file src="src/android/CleverTapPlugin.java" target-dir="src/com/clevertap/cordova/" />
 
         <framework src="com.google.firebase:firebase-messaging:+" />
         <framework src="com.google.android.gms:play-services-base:+" />
-		<framework src="com.android.support:support-v4:27.1.0" />
+        <framework src="com.android.support:support-v4:26.1.0" />
+        <framework src="com.clevertap.android:clevertap-android-sdk:+" />
 
         <hook type="after_plugin_add" src="scripts/androidAfterPluginAdd.js" />
 
