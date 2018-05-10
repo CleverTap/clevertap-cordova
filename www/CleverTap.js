@@ -27,12 +27,12 @@ CleverTap.prototype.enablePersonalization = function () {
 
 //Enables tracking opt out for the currently active user.
 CleverTap.prototype.setOptOut = function (value) {
-    cordova.exec(null, null, "CleverTapPlugin", "setOptOut", value);
+    cordova.exec(null, null, "CleverTapPlugin", "setOptOut", [value]);
 }
 
 //Enables the reporting of device network related information, including IP address.  This reporting is disabled by default.
 CleverTap.prototype.enableDeviceNetworkInfoReporting = function (value) {
-    cordova.exec(null, null, "CleverTapPlugin", "enableDeviceNetworkInfoReporting", value);
+    cordova.exec(null, null, "CleverTapPlugin", "enableDeviceNetworkInfoReporting", [value]);
 }
                
 /*******************

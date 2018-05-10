@@ -359,6 +359,22 @@ static NSURL *launchDeepLink;
     [CleverTap enablePersonalization];
 }
 
+#pragma mark OptOut API
+
+-(void)setOptOut:(CDVInvokedUrlCommand *)command {
+    [self.commandDelegate runInBackground:^{
+        BOOL isOptOut = [[command argumentAtIndex:0] boolValue];
+        [clevertap setOptOut:isOptOut];
+    }];
+}
+
+-(void)enableDeviceNetworkInfoReporting:(CDVInvokedUrlCommand *)command {
+    [self.commandDelegate runInBackground:^{
+        BOOL isNetworkInfoReporting = [[command argumentAtIndex:0] boolValue];
+        [clevertap enableDeviceNetworkInfoReporting:isNetworkInfoReporting];
+    }];
+}
+
 #pragma mark Event API
 
 -(void)recordScreenView:(CDVInvokedUrlCommand *)command {

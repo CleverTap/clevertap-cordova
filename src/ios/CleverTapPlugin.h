@@ -39,6 +39,16 @@ static NSString* const CTHandleOpenURLNotification = @"CTHandleOpenURLNotificati
  */
 -(void)enablePersonalization:(CDVInvokedUrlCommand *)command;
 
+#pragma mark OptOut API
+
+/** Enabling tracking opt out for the currently active user
+ */
+-(void)setOptOut:(CDVInvokedUrlCommand *)command;
+
+/** Enables the reporting of device network-related information, including IP address.  This reporting is disabled by default.
+ */
+-(void)enableDeviceNetworkInfoReporting:(CDVInvokedUrlCommand *)command;
+
 
 #pragma mark Push Notifications
 
