@@ -1,7 +1,7 @@
 Change Log
 ==========
 
-Version 2.0.7 *(10 May, 2018)*
+Version 2.0.7 *(11 May, 2018)*
 -------------------------------------------
 Update for Android support library version
 Update for CleverTap Android SDK v 3.1.9

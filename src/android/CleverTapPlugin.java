@@ -295,11 +295,16 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         }
         /* Android O functions end*/
 
-        // not required for Android here but handle as its in the JS interface
         else if (action.equals("recordScreenView")) {
-            result = new PluginResult(PluginResult.Status.NO_RESULT);
-            result.setKeepCallback(true);
-            callbackContext.sendPluginResult(result);
+            final String screen = (args.length() == 1 ? args.getString(0) : "");
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    cleverTap.recordScreen(screen);
+                    PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
+                    _result.setKeepCallback(true);
+                    callbackContext.sendPluginResult(_result);
+                }
+            });
             return true;
         }
 
