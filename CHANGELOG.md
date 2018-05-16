@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+Version 2.0.7 *(15 May, 2018)*
+-------------------------------------------
+fixes CleverTapSDK.framework install issues (removes symlinks)
+
 Version 2.0.7 *(11 May, 2018)*
 -------------------------------------------
 Update for Android support library version
