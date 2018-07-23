@@ -42,7 +42,6 @@ cordova plugin add https://github.com/CleverTap/clevertap-cordova.git --variable
 
 #### Using Ionic  
 
-- iOS:
 ```
 ionic plugin add https://github.com/CleverTap/clevertap-cordova.git --variable CLEVERTAP_ACCOUNT_ID="YOUR CLEVERTAP ACCOUNT ID" --variable CLEVERTAP_TOKEN="YOUR CELVERTAP ACCOUNT TOKEN" 
 ```
