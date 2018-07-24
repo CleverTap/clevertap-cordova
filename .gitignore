@@ -6,3 +6,5 @@ Starter/platforms/android/CordovaLib/build/
 npm-debug.log
 node_modules
 .DS_Store
+.idea
+.gradle

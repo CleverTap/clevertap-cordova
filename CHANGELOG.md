@@ -1,7 +1,11 @@
 Change Log
 ==========
 
-Version 2.0.7 *(15 May, 2018)*
+Version 2.0.9 *(24 July, 2018)*
+-------------------------------------------
+Update Android post install script for Cordova 8.0.0
+
+Version 2.0.8 *(15 May, 2018)*
 -------------------------------------------
 fixes CleverTapSDK.framework install issues (removes symlinks)
 
