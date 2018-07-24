@@ -12,7 +12,7 @@ Tested on Cordova 8.0.0
 
 To integrate CleverTap for Cordova:
 
-1. Sign up 
+1. Sign up
 
 2. Set up and register for Push notifications, if required.
 
@@ -31,19 +31,57 @@ Grab the Account ID and Token values from your CleverTap [Dashboard](https://das
 #### For Android *Important*
 Starting with v2.0.0, the plugin uses FCM rather than GCM.  To configure FCM, add your google-services.json to the root of your cordova project **before you add the plugin**.  
 The plugin uses an `after plugin add` hook script to configure your project for FCM.  
-If the google-services.json file is not present in your project when the script runs, FCM will not be configured properly and will not work. 
+If the google-services.json file is not present in your project when the script runs, FCM will not be configured properly and will not work.
 
 #### Using Cordova  
 
 ```
-cordova plugin add https://github.com/CleverTap/clevertap-cordova.git --variable CLEVERTAP_ACCOUNT_ID="YOUR CLEVERTAP ACCOUNT ID" --variable CLEVERTAP_TOKEN="YOUR CELVERTAP ACCOUNT TOKEN" 
+cordova plugin add https://github.com/CleverTap/clevertap-cordova.git --variable CLEVERTAP_ACCOUNT_ID="YOUR CLEVERTAP ACCOUNT ID" --variable CLEVERTAP_TOKEN="YOUR CELVERTAP ACCOUNT TOKEN"
 ```
 
 
 #### Using Ionic  
 
 ```
-ionic cordova plugin add clevertap-cordova@latest --variable CLEVERTAP_ACCOUNT_ID="YOUR CLEVERTAP ACCOUNT ID" --variable CLEVERTAP_TOKEN="YOUR CELVERTAP ACCOUNT TOKEN" 
+ionic cordova plugin add clevertap-cordova@latest --variable CLEVERTAP_ACCOUNT_ID="YOUR CLEVERTAP ACCOUNT ID" --variable CLEVERTAP_TOKEN="YOUR CELVERTAP ACCOUNT TOKEN"
+```
+
+##### Workaround For Ionic3
+- [see the included Ionic3 Example project for example usage](https://github.com/CleverTap/clevertap-cordova/blob/master/Ionic3Example/src/app/app.component.ts).
+
+in your typescript:
+```
+declare var CleverTap: any;
+
+export class MyApp {
+  rootPage:any = TabsPage;
+
+  getCleverTap = () => {
+    try {
+      return CleverTap;
+    } catch(e) {
+      console.warn("CleverTap not available in the browser, run in a device/simulator");
+      return null;
+    }
+  };
+
+  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
+    platform.ready().then(() => {
+      // Okay, so the platform is ready and our plugins are available.
+      // Here you can do any higher level native things you might need.
+      statusBar.styleDefault();
+      splashScreen.hide();
+
+      var clevertap = this.getCleverTap();
+      if (clevertap) {
+        clevertap.setDebugLevel(2);
+        clevertap.profileGetCleverTapID((id) => {console.log(id)});
+      }
+    });
+  }
+}
+
+
 ```
 
 #### Using PhoneGap Build
@@ -52,7 +90,7 @@ ionic cordova plugin add clevertap-cordova@latest --variable CLEVERTAP_ACCOUNT_I
 This is because PhoneGap Build does not support install hooks and a hook is required to configure FCM.
 It might be possible by forking this plugin and replacing the placeholder google-services.json in src/android with yours, and then hard coding your google app id and api key in plugin.xml, but you're on your own there.
 
-When using the plugin with PhoneGap Build: 
+When using the plugin with PhoneGap Build:
 
 Add the following to your `www/config.xml` file:
 
@@ -76,12 +114,6 @@ onDeviceReady: function() {
 },
 ```
 
-#### iOS
-
-Check your .plist file:
-
-![plist account values](http://staging.support.wizrocket.com.s3-website-eu-west-1.amazonaws.com/images/integration/plist-account.png)
-
 #### Android
 
 Check that the following is inside the `<application></application>` tags of your AndroidManifest.xml:  
@@ -95,7 +127,7 @@ Check that the following is inside the `<application></application>` tags of you
 
 Replace "Your CleverTap Account ID" and "Your CleverTap Account Token" with actual values from your CleverTap [Dashboard](https://dashboard.clevertap.com) -> Settings.
 
-**Set the Lifecycle Callback** 
+**Set the Lifecycle Callback**
 
 IMPORTANT!
 
@@ -168,7 +200,7 @@ After integrating, all calls to the CleverTap SDK should be made from your Javas
 Start by adding the following listeners to your Javascript:
 
     document.addEventListener('deviceready', this.onDeviceReady, false);
-    document.addEventListener('onCleverTapProfileSync', this.onCleverTapProfileSync, false); // optional: to be notified of CleverTap user profile synchronization updates 
+    document.addEventListener('onCleverTapProfileSync', this.onCleverTapProfileSync, false); // optional: to be notified of CleverTap user profile synchronization updates
     document.addEventListener('onCleverTapProfileDidInitialize', this.onCleverTapProfileDidInitialize, false); // optional, to be notified when the CleverTap user profile is initialized
     document.addEventListener('onCleverTapInAppNotificationDismissed', this.onCleverTapInAppNotificationDismissed, false); // optional, to be receive a callback with custom in-app notification click data
     document.addEventListener('onDeepLink', this.onDeepLink, false); // optional, register to receive deep links.
@@ -183,7 +215,7 @@ Start by adding the following listeners to your Javascript:
     // push notification data handling
     onPushNotification: function(e) {
         console.log(JSON.stringify(e.notification));
-    }, 
+    },
 
 
 Then:  
@@ -192,3 +224,4 @@ Then:
 
 - [see the included Android Starter Cordova project for example usage](https://github.com/CleverTap/clevertap-cordova/blob/master/Starter/platforms/android/assets/www/js/index.js).  
 
+- [see the included Ionic3 Example project for example usage](https://github.com/CleverTap/clevertap-cordova/blob/master/Ionic3Example/src/app/app.component.ts).  

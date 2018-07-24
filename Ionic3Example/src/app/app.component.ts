@@ -29,7 +29,7 @@ export class MyApp {
       statusBar.styleDefault();
       splashScreen.hide();
 
-      var clevertap = this.getCleverTap()
+      var clevertap = this.getCleverTap();
       if (clevertap) {
         clevertap.setDebugLevel(2);
         clevertap.profileGetCleverTapID((id) => {console.log(id)});
