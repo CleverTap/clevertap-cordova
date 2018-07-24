@@ -90,6 +90,14 @@
                     <action android:name="com.google.firebase.MESSAGING_EVENT"/>
                 </intent-filter>
             </service>
+            
+            <service
+                android:name="com.clevertap.android.sdk.CTNotificationIntentService"
+                android:exported="false">
+                <intent-filter>
+                    <action android:name="com.clevertap.PUSH_EVENT"/>
+                </intent-filter>
+            </service>
 
             <meta-data android:name="CLEVERTAP_ACCOUNT_ID" android:value="$CLEVERTAP_ACCOUNT_ID" />
             <meta-data android:name="CLEVERTAP_TOKEN" android:value="$CLEVERTAP_TOKEN" />
@@ -113,7 +121,6 @@
 		</config-file>
 
         <source-file src="src/android/google-services.json" target-dir="." />
-        <!-- <source-file src="src/android/CleverTapAndroidSDK.jar" target-dir="libs/" /> -->
         <source-file src="src/android/CleverTapPlugin.java" target-dir="src/com/clevertap/cordova/" />
 
         <framework src="com.google.firebase:firebase-messaging:+" />
