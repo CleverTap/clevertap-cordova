@@ -82,11 +82,11 @@
     <plugin name="cordova-plugin-ionic-webview" spec="^2.0.0" />
     <plugin name="cordova-plugin-ionic-keyboard" spec="^2.0.5" />
     <plugin name="cordova-plugin-statusbar" spec="^2.4.2" />
-    <plugin name="com.clevertap.cordova.CleverTapPlugin" spec="/Users/peter/CleverTap/clevertap-cordova">
+    <plugin name="clevertap-cordova" spec="^2.0.9">
         <variable name="CLEVERTAP_ACCOUNT_ID" value="69R-Z7W-W54Z" />
         <variable name="CLEVERTAP_TOKEN" value="0a1-2c6" />
         <variable name="CLEVERTAP_REGION" value=" " />
     </plugin>
     <engine name="ios" spec="4.5.4" />
-    <engine name="android" spec="7.0.0" />
+    <engine name="android" spec="~7.0.0" />
 </widget>
