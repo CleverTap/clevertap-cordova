@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+Version 2.0.10 *(25 July, 2018)*
+-------------------------------------------
+Conform plugin id
+
 Version 2.0.9 *(24 July, 2018)*
 -------------------------------------------
 Update Android post install script for Cordova 8.0.0
