@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+Version 2.0.11 *(29 July, 2018)*
+-------------------------------------------
+fix android package name
+
 Version 2.0.10 *(25 July, 2018)*
 -------------------------------------------
 Conform plugin id
