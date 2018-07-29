@@ -66,7 +66,7 @@
 
         <config-file target="config.xml" parent="/*">
             <feature name="CleverTapPlugin" >
-                <param name="android-package" value="clevertap-cordova"/>
+                <param name="android-package" value="com.clevertap.cordova.CleverTapPlugin"/>
             </feature>
         </config-file>
 
