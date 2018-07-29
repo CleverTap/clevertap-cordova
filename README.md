@@ -46,41 +46,28 @@ cordova plugin add https://github.com/CleverTap/clevertap-cordova.git --variable
 ionic cordova plugin add clevertap-cordova@latest --variable CLEVERTAP_ACCOUNT_ID="YOUR CLEVERTAP ACCOUNT ID" --variable CLEVERTAP_TOKEN="YOUR CELVERTAP ACCOUNT TOKEN"
 ```
 
-##### Workaround For Ionic3
-- [see the included Ionic3 Example project for example usage](https://github.com/CleverTap/clevertap-cordova/blob/master/Ionic3Example/src/app/app.component.ts).
-
-in your typescript:
+##### For Ionic3
 ```
-declare var CleverTap: any;
+npm install @ionic-native/clevertap --save 
+```
+- [see the included Ionic3 Example project for usage](https://github.com/CleverTap/clevertap-cordova/blob/master/Ionic3Example/src/app/app.component.ts).
 
-export class MyApp {
-  rootPage:any = TabsPage;
-
-  getCleverTap = () => {
-    try {
-      return CleverTap;
-    } catch(e) {
-      console.warn("CleverTap not available in the browser, run in a device/simulator");
-      return null;
-    }
-  };
-
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
+- be sure to [add CleverTap as a provider in your app module](https://github.com/CleverTap/clevertap-cordova/blob/master/Ionic3Example/src/app/app.module.ts). 
+```
+  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, clevertap: CleverTap) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       statusBar.styleDefault();
       splashScreen.hide();
 
-      var clevertap = this.getCleverTap();
-      if (clevertap) {
-        clevertap.setDebugLevel(2);
-        clevertap.profileGetCleverTapID((id) => {console.log(id)});
-      }
+      ...
+      clevertap.setDebugLevel(2);
+      clevertap.profileGetCleverTapID((id) => {console.log(id)});
+      ...
     });
   }
 }
-
 
 ```
 
