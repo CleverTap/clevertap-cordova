@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+Version 2.0.12 *(5 September, 2018)*
+-------------------------------------------
+fix android sdk version
+
 Version 2.0.11 *(29 July, 2018)*
 -------------------------------------------
 fix android package name
