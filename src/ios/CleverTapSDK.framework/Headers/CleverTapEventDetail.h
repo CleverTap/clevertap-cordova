@@ -5,6 +5,6 @@
 @property (nonatomic, strong) NSString *eventName;
 @property (nonatomic) NSTimeInterval firstTime;
 @property (nonatomic) NSTimeInterval lastTime;
-@property (nonatomic) int count;
+@property (nonatomic) NSUInteger count;
 
 @end

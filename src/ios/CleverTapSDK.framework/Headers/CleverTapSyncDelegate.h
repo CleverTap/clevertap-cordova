@@ -16,11 +16,22 @@
  @discussion
  This method will be called when the User Profile is initialized with the CleverTap ID of the User Profile.
  The CleverTap ID is the unique identifier assigned to the User Profile by CleverTap.
- 
  */
-
 @optional
 - (void)profileDidInitialize:(NSString*)CleverTapID;
+
+/*!
+
+@abstract
+The `CleverTapSyncDelegate` protocol provides additional/alternative methods for
+notifying your application (the adopting delegate) when the User Profile is initialized.
+
+@discussion
+This method will be called when the User Profile is initialized with the CleverTap ID of the User Profile.
+The CleverTap ID is the unique identifier assigned to the User Profile by CleverTap.
+*/
+@optional
+- (void)profileDidInitialize:(NSString*)CleverTapID forAccountId:(NSString*)accountId;
 
 
 /*!

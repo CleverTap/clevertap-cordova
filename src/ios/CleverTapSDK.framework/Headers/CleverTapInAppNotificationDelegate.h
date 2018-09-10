@@ -1,8 +1,3 @@
-//
-// Created by Jude Pereira on 03/05/2016.
-// Copyright (c) 2016 CleverTap. All rights reserved.
-//
-
 #import <Foundation/Foundation.h>
 
 

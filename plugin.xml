@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" id="clevertap-cordova" version="2.0.12">
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" id="clevertap-cordova" version="2.0.13">
     <name>CleverTap</name>
     <description>CleverTap Plugin for Cordova/PhoneGap</description>
     <license>Commercial</license>
@@ -52,11 +52,14 @@
         <header-file src="src/ios/CleverTapPlugin.h" />
         <source-file src="src/ios/CleverTapPlugin.m" />
 
-        <framework src="src/ios/CleverTapSDK.framework" custom="true"/>
+        <framework src="src/ios/CleverTapSDK.framework" custom="true" embed="true"/>
         <framework src="SystemConfiguration.framework" />
         <framework src="CoreTelephony.framework" />
         <framework src="UIKit.framework" />
         <framework src="CoreLocation.framework" />
+        
+        <hook type="after_plugin_add" src="scripts/iosAfterPluginAdd.js" />
+
     </platform>
 
     <platform name="android">

@@ -7,12 +7,11 @@
 #endif
 
 #if TARGET_OS_TV
-#define CLEVERTAP_TVOS_EXTENSION 1
+#define CLEVERTAP_TVOS 1
 #endif
 
-#if defined(CLEVERTAP_APP_EXTENSION) || defined(CLEVERTAP_TVOS_EXTENSION)
+#if defined(CLEVERTAP_TVOS)
 #define CLEVERTAP_NO_INAPP_SUPPORT 1
-#define CLEVERTAP_NO_LOCATION_SUPPORT 1
 #define CLEVERTAP_NO_REACHABILITY_SUPPORT 1
 #endif
 
@@ -21,9 +20,9 @@
 @protocol CleverTapInAppNotificationDelegate;
 #endif
 
-
 @class CleverTapEventDetail;
 @class CleverTapUTMDetail;
+@class CleverTapInstanceConfig;
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "OCUnusedMethodInspection"
@@ -36,25 +35,37 @@ typedef NS_ENUM(int, CleverTapLogLevel) {
 
 @interface CleverTap : NSObject
 
+#pragma mark - Properties
+
+/* -----------------------------------------------------------------------------
+ * Instance Properties
+ */
+
+/**
+ CleverTap Configuration (e.g. the CleverTap accountId, token, region, other configuration properties...) for this instance.
+ */
+
+@property (nonatomic, strong, readonly, nonnull) CleverTapInstanceConfig *config;
 
 /* ------------------------------------------------------------------------------------------------------
  * Initialization
  */
 
 /*!
-@method
-
-@abstract
-Initializes and returns a singleton instance of the API.
-
-@discussion
-This method will set up a singleton instance of the CleverTap class, when you want to make calls to CleverTap
-elsewhere in your code, you can use this singleton or call sharedInstance.
-
+ @method
+ 
+ @abstract
+ Initializes and returns a singleton instance of the API.
+ 
+ @discussion
+ This method will set up a singleton instance of the CleverTap class, when you want to make calls to CleverTap
+ elsewhere in your code, you can use this singleton or call sharedInstance.
+ 
+ Returns nil if the CleverTap Account ID and Token are not provided in apps info.plist
+ 
  */
-+ (instancetype)sharedInstance;
++ (nullable instancetype)sharedInstance;
 
-#if !defined(CLEVERTAP_APP_EXTENSION)
 /*!
  @method
  
@@ -62,59 +73,102 @@ elsewhere in your code, you can use this singleton or call sharedInstance.
  Auto integrates CleverTap and initializes and returns a singleton instance of the API.
  
  @discussion
- This method will auto integrate CleverTap to automatically handle device token registration and 
- push notification/url referrer tracking, and set up a singleton instance of the CleverTap class, 
+ This method will auto integrate CleverTap to automatically handle device token registration and
+ push notification/url referrer tracking, and set up a singleton instance of the CleverTap class,
  when you want to make calls to CleverTap elsewhere in your code, you can use this singleton or call sharedInstance.
  
- This is accomplished by proxying the AppDelegate and "inserting" a CleverTap AppDelegate
- behind the AppDelegate. The proxy will first call the AppDelegate and then call the CleverTap AppDelegate.
+ Returns nil if the CleverTap Account ID and Token are not provided in apps info.plist
  
  */
-+ (instancetype)autoIntegrate;
-#endif
-
++ (nullable instancetype)autoIntegrate;
 
 /*!
  @method
  
  @abstract
- Set the CleverTap accountID and token
+ Returns the CleverTap instance corresponding to the config.accountId param. Use this for multiple instances of the SDK.
  
  @discussion
- Sets the CleverTap account credentials.  Once the SDK is intialized subsequent calls will be ignored
+ Create an instance of CleverTapInstanceConfig with your CleverTap Account Id, Token, Region(if any) and other optional config properties.
+ Passing that into this method will create (if necessary, and on all subsequent calls return) a singleton instance mapped to the config.accountId property.
+ 
+ */
++ (instancetype _Nonnull )instanceWithConfig:(CleverTapInstanceConfig * _Nonnull)config;
+
+/*!
+ @method
+ 
+ @abstract
+ Set the CleverTap AccountID and Token
+ 
+ @discussion
+ Sets the CleverTap account credentials.  Once the default shared instance is intialized subsequent calls will be ignored.
+ Only has effect on the default shared instance.
  
  @param accountID  the CleverTap account id
  @param token      the CleverTap account token
  
  */
-+ (void)changeCredentialsWithAccountID:(NSString *)accountID andToken:(NSString *)token;
++ (void)changeCredentialsWithAccountID:(NSString * _Nonnull)accountID andToken:(NSString * _Nonnull)token __attribute__((deprecated("Deprecated as of version 3.1.7, use setCredentialsWithAccountID:andToken instead")));
 
 /*!
  @method
  
  @abstract
- Set the CleverTap accountID, token and region
+ Set the CleverTap AccountID, Token and Region
  
  @discussion
- Sets the CleverTap account credentials.  Once the SDK is intialized subsequent calls will be ignored
+ Sets the CleverTap account credentials.  Once the default shared instance is intialized subsequent calls will be ignored.
+ Only has effect on the default shared instance.
  
  @param accountID  the CleverTap account id
  @param token      the CleverTap account token
  @param region     the dedicated CleverTap region
  
  */
-+ (void)changeCredentialsWithAccountID:(NSString *)accountID token:(NSString *)token region:(NSString *)region;
++ (void)changeCredentialsWithAccountID:(NSString * _Nonnull)accountID token:(NSString * _Nonnull)token region:(NSString * _Nonnull)region __attribute__((deprecated("Deprecated as of version 3.1.7, use setCredentialsWithAccountID:token:region instead")));
 
-#if !defined(CLEVERTAP_APP_EXTENSION)
 /*!
  @method
  
  @abstract
- notify the SDK of application launch
+ Set the CleverTap AccountID and Token
+ 
+ @discussion
+ Sets the CleverTap account credentials.  Once the default shared instance is intialized subsequent calls will be ignored.
+ Only has effect on the default shared instance.
+ 
+ @param accountID  the CleverTap account id
+ @param token      the CleverTap account token
+ 
+ */
++ (void)setCredentialsWithAccountID:(NSString * _Nonnull)accountID andToken:(NSString * _Nonnull)token;
+
+/*!
+ @method
+ 
+ @abstract
+ Set the CleverTap AccountID, Token and Region
+ 
+ @discussion
+ Sets the CleverTap account credentials.  Once the default shared instance is intialized subsequent calls will be ignored.
+ Only has effect on the default shared instance.
+ 
+ @param accountID  the CleverTap account id
+ @param token      the CleverTap account token
+ @param region     the dedicated CleverTap region
+ 
+ */
++ (void)setCredentialsWithAccountID:(NSString * _Nonnull)accountID token:(NSString * _Nonnull)token region:(NSString * _Nonnull)region;
+
+/*!
+ @method
+ 
+ @abstract
+ notify the SDK instance of application launch
  
  */
 - (void)notifyApplicationLaunchedWithOptions:launchOptions;
-#endif
 
 /* ------------------------------------------------------------------------------------------------------
  * User Profile/Action Events/Session API
@@ -141,12 +195,11 @@ elsewhere in your code, you can use this singleton or call sharedInstance.
  */
 + (void)disablePersonalization;
 
-#if !CLEVERTAP_NO_LOCATION_SUPPORT
 /*!
  @method
  
  @abstract
- Store the users location in CleverTap.
+ Store the users location on the default shared CleverTap instance.
  
  @discussion
  Optional.  If you're application is collection the user location you can pass it to CleverTap
@@ -160,20 +213,33 @@ elsewhere in your code, you can use this singleton or call sharedInstance.
  @method
  
  @abstract
+ Store the users location on a particular CleverTap SDK instance.
+ 
+ @discussion
+ Optional.  If you're application is collection the user location you can pass it to CleverTap
+ for, among other things, more fine-grained geo-targeting and segmentation purposes.
+ 
+ @param location       CLLocationCoordiate2D
+ */
+- (void)setLocation:(CLLocationCoordinate2D)location;
+
+/*!
+ @method
+ 
+ @abstract
  Get the device location if available.  Calling this will prompt the user location permissions dialog.
  
  Please be sure to include the NSLocationWhenInUseUsageDescription key in your Info.plist.  See https://developer.apple.com/library/ios/documentation/General/Reference/InfoPlistKeyReference/Articles/CocoaKeys.html#//apple_ref/doc/uid/TP40009251-SW26
-
+ 
  Uses desired accuracy of kCLLocationAccuracyHundredMeters.
-
+ 
  If you need background location updates or finer accuracy please implement your own location handling.  Please see https://developer.apple.com/library/ios/documentation/CoreLocation/Reference/CLLocationManager_Class/index.html for more info.
  
  @discussion
  Optional.  You can use location to pass it to CleverTap via the setLocation API
  for, among other things, more fine-grained geo-targeting and segmentation purposes.
-*/
-+ (void)getLocationWithSuccess:(void (^)(CLLocationCoordinate2D location))success andError:(void (^)(NSString *reason))error;
-#endif // CLEVERTAP_NO_LOCATION_SUPPORT
+ */
++ (void)getLocationWithSuccess:(void (^ _Nonnull)(CLLocationCoordinate2D location))success andError:(void (^_Nullable)(NSString * _Nullable reason))error;
 
 /*!
  @method
@@ -202,11 +268,11 @@ elsewhere in your code, you can use this singleton or call sharedInstance.
  and data relating to the old user removed, and a new session is started
  for the new user and data for that user refreshed via a network call to CleverTap.
  In addition, any global frequency caps are reset as part of the switch.
-
+ 
  @param properties       properties dictionary
  
  */
-- (void)onUserLogin:(NSDictionary *)properties;
+- (void)onUserLogin:(NSDictionary *_Nonnull)properties;
 
 /*!
  @method
@@ -222,6 +288,19 @@ elsewhere in your code, you can use this singleton or call sharedInstance.
  @param enabled         BOOL Whether tracking opt out should be enabled/disabled.
  */
 - (void)setOptOut:(BOOL)enabled;
+
+/*!
+ @method
+ 
+ @abstract
+ Disables/Enables sending events to the server.
+ 
+ @discussion
+ If you want to stop recorded events from being sent to the server, use this method to set the SDK instance to offline. Once offline, events will be recorded and queued locally but will not be sent to the server until offline is disabled. Calling this method again with offline set to NO will allow events to be sent to server and the SDK instance will immediately attempt to send events that have been queued while offline.
+ 
+ @param offline         BOOL Whether sending events to servers should be disabled(TRUE)/enabled(FALSE).
+ */
+- (void)setOffline:(BOOL)offline;
 
 /*!
  @method
@@ -252,8 +331,7 @@ elsewhere in your code, you can use this singleton or call sharedInstance.
  
  @param properties       properties dictionary
  */
-- (void)profilePush:(NSDictionary *)properties;
-
+- (void)profilePush:(NSDictionary *_Nonnull)properties;
 
 /*!
  @method
@@ -262,9 +340,9 @@ elsewhere in your code, you can use this singleton or call sharedInstance.
  Remove the property specified by key from the user profile.
  
  @param key       key string
-
+ 
  */
-- (void)profileRemoveValueForKey:(NSString *)key;
+- (void)profileRemoveValueForKey:(NSString *_Nonnull)key;
 
 /*!
  @method
@@ -278,13 +356,13 @@ elsewhere in your code, you can use this singleton or call sharedInstance.
  Key must be NSString.
  Values must be NSStrings.
  Max 100 values, on reaching 100 cap, oldest value(s) will be removed.
-
+ 
  
  @param key       key string
  @param values    values NSArray<NSString *>
  
  */
-- (void)profileSetMultiValues:(NSArray<NSString *> *)values forKey:(NSString *)key;
+- (void)profileSetMultiValues:(NSArray<NSString *> *_Nonnull)values forKey:(NSString *_Nonnull)key;
 
 /*!
  @method
@@ -299,12 +377,12 @@ elsewhere in your code, you can use this singleton or call sharedInstance.
  Key must be NSString.
  Values must be NSStrings.
  Max 100 values, on reaching 100 cap, oldest value(s) will be removed.
-
+ 
  
  @param key       key string
  @param value     value string
  */
-- (void)profileAddMultiValue:(NSString *)value forKey:(NSString *)key;
+- (void)profileAddMultiValue:(NSString * _Nonnull)value forKey:(NSString *_Nonnull)key;
 
 /*!
  @method
@@ -324,7 +402,7 @@ elsewhere in your code, you can use this singleton or call sharedInstance.
  @param key       key string
  @param values    values NSArray<NSString *>
  */
-- (void)profileAddMultiValues:(NSArray<NSString *> *)values forKey:(NSString *)key;
+- (void)profileAddMultiValues:(NSArray<NSString *> *_Nonnull)values forKey:(NSString *_Nonnull)key;
 
 /*!
  @method
@@ -339,7 +417,7 @@ elsewhere in your code, you can use this singleton or call sharedInstance.
  @param key       key string
  @param value     value string
  */
-- (void)profileRemoveMultiValue:(NSString *)value forKey:(NSString *)key;
+- (void)profileRemoveMultiValue:(NSString *_Nonnull)value forKey:(NSString *_Nonnull)key;
 
 /*!
  @method
@@ -354,7 +432,7 @@ elsewhere in your code, you can use this singleton or call sharedInstance.
  @param key       key string
  @param values    values NSArray<NSString *>
  */
-- (void)profileRemoveMultiValues:(NSArray<NSString *> *)values forKey:(NSString *)key;
+- (void)profileRemoveMultiValues:(NSArray<NSString *> * _Nonnull)values forKey:(NSString * _Nonnull)key;
 
 /*!
  @method
@@ -370,7 +448,7 @@ elsewhere in your code, you can use this singleton or call sharedInstance.
  @param fbGraphUser       fbGraphUser Facebook Graph User object
  
  */
-- (void)profilePushGraphUser:(id)fbGraphUser;
+- (void)profilePushGraphUser:(id _Nonnull)fbGraphUser;
 
 /*!
  @method
@@ -385,7 +463,7 @@ elsewhere in your code, you can use this singleton or call sharedInstance.
  @param googleUser       GTLPlusPerson object
  
  */
-- (void)profilePushGooglePlusUser:(id)googleUser;
+- (void)profilePushGooglePlusUser:(id _Nonnull )googleUser;
 
 /*!
  @method
@@ -403,7 +481,7 @@ elsewhere in your code, you can use this singleton or call sharedInstance.
  returns NSArray in the case of a multi-value property
  
  */
-- (id)profileGet:(NSString *)propertyName;
+- (id _Nullable )profileGet:(NSString *_Nonnull)propertyName;
 
 /*!
  @method
@@ -415,7 +493,7 @@ elsewhere in your code, you can use this singleton or call sharedInstance.
  The CleverTap ID is the unique identifier assigned to the User Profile by CleverTap.
  
  */
-- (NSString *)profileGetCleverTapID;
+- (NSString *_Nullable)profileGetCleverTapID;
 
 /*!
  @method
@@ -424,7 +502,7 @@ elsewhere in your code, you can use this singleton or call sharedInstance.
  Returns a unique CleverTap identifier suitable for use with install attribution providers.
  
  */
-- (NSString *)profileGetCleverTapAttributionIdentifier;
+- (NSString *_Nullable)profileGetCleverTapAttributionIdentifier;
 
 #pragma mark User Action Events API
 
@@ -440,7 +518,7 @@ elsewhere in your code, you can use this singleton or call sharedInstance.
  
  @param event           event name
  */
-- (void)recordEvent:(NSString *)event;
+- (void)recordEvent:(NSString *_Nonnull)event;
 
 /*!
  @method
@@ -459,7 +537,7 @@ elsewhere in your code, you can use this singleton or call sharedInstance.
  @param event           event name
  @param properties      properties dictionary
  */
-- (void)recordEvent:(NSString *)event withProps:(NSDictionary *)properties;
+- (void)recordEvent:(NSString *_Nonnull)event withProps:(NSDictionary *_Nonnull)properties;
 
 /*!
  @method
@@ -483,7 +561,7 @@ elsewhere in your code, you can use this singleton or call sharedInstance.
  @param chargeDetails   charge transaction details dictionary
  @param items           charged items array
  */
-- (void)recordChargedEventWithDetails:(NSDictionary *)chargeDetails andItems:(NSArray *)items;
+- (void)recordChargedEventWithDetails:(NSDictionary *_Nonnull)chargeDetails andItems:(NSArray *_Nonnull)items;
 
 /*!
  @method
@@ -495,9 +573,8 @@ elsewhere in your code, you can use this singleton or call sharedInstance.
  @param code              int error code
  */
 
-- (void)recordErrorWithMessage:(NSString *)message andErrorCode:(int)code;
+- (void)recordErrorWithMessage:(NSString *_Nonnull)message andErrorCode:(int)code;
 
-#if !defined(CLEVERTAP_APP_EXTENSION)
 /*!
  @method
  
@@ -506,9 +583,7 @@ elsewhere in your code, you can use this singleton or call sharedInstance.
  
  @param screenName           the screen name
  */
-- (void)recordScreenView:(NSString *)screenName;
-
-#endif
+- (void)recordScreenView:(NSString *_Nonnull)screenName;
 
 /*!
  @method
@@ -520,7 +595,7 @@ elsewhere in your code, you can use this singleton or call sharedInstance.
  
  @param event           event name
  */
-- (NSTimeInterval)eventGetFirstTime:(NSString *)event;
+- (NSTimeInterval)eventGetFirstTime:(NSString *_Nonnull)event;
 
 /*!
  @method
@@ -532,7 +607,7 @@ elsewhere in your code, you can use this singleton or call sharedInstance.
  @param event           event name
  */
 
-- (NSTimeInterval)eventGetLastTime:(NSString *)event;
+- (NSTimeInterval)eventGetLastTime:(NSString *_Nonnull)event;
 
 /*!
  @method
@@ -543,7 +618,7 @@ elsewhere in your code, you can use this singleton or call sharedInstance.
  
  @param event           event name
  */
-- (int)eventGetOccurrences:(NSString *)event;
+- (int)eventGetOccurrences:(NSString *_Nonnull)event;
 
 /*!
  @method
@@ -557,7 +632,7 @@ elsewhere in your code, you can use this singleton or call sharedInstance.
  Be sure to call enablePersonalization (typically once at app launch) prior to using this method.
  
  */
-- (NSDictionary *)userGetEventHistory;
+- (NSDictionary *_Nullable)userGetEventHistory;
 
 /*!
  @method
@@ -572,7 +647,7 @@ elsewhere in your code, you can use this singleton or call sharedInstance.
  
  @param event           event name
  */
-- (CleverTapEventDetail *)eventGetDetail:(NSString *)event;
+- (CleverTapEventDetail *_Nullable)eventGetDetail:(NSString *_Nullable)event;
 
 
 #pragma mark Session API
@@ -598,7 +673,7 @@ elsewhere in your code, you can use this singleton or call sharedInstance.
  Be sure to call enablePersonalization (typically once at app launch) prior to using this method.
  
  */
-- (CleverTapUTMDetail *)sessionGetUTMDetails;
+- (CleverTapUTMDetail *_Nullable)sessionGetUTMDetails;
 
 /*!
  @method
@@ -631,15 +706,15 @@ elsewhere in your code, you can use this singleton or call sharedInstance.
 - (NSTimeInterval)userGetPreviousVisitTime;
 
 /* ------------------------------------------------------------------------------------------------------
-* Synchronization
-*/
+ * Synchronization
+ */
 
 
 /*!
- @abstract 
+ @abstract
  Posted when the CleverTap User Profile/Event History has changed in response to a synchronization call to the CleverTap servers.
  
- @discussion 
+ @discussion
  CleverTap provides a flexible notification system for informing applications when changes have occured
  to the CleverTap User Profile/Event History in response to synchronization activities.
  
@@ -648,22 +723,22 @@ elsewhere in your code, you can use this singleton or call sharedInstance.
  
  Be sure to call enablePersonalization (typically once at app launch) to enable synchronization.
  
- Change data will be returned in the userInfo property of the NSNotification, and is of the form: 
+ Change data will be returned in the userInfo property of the NSNotification, and is of the form:
  {
-    "profile":{"<property1>":{"oldValue":<value>, "newValue":<value>}, ...},
-    "events:{"<eventName>":
-                {"count":
-                    {"oldValue":(int)<old count>, "newValue":<new count>},
-                "firstTime":
-                    {"oldValue":(double)<old first time event occurred>, "newValue":<new first time event occurred>},
-                "lastTime":
-                    {"oldValue":(double)<old last time event occurred>, "newValue":<new last time event occurred>},
-            }, ...
-        }
+ "profile":{"<property1>":{"oldValue":<value>, "newValue":<value>}, ...},
+ "events:{"<eventName>":
+ {"count":
+ {"oldValue":(int)<old count>, "newValue":<new count>},
+ "firstTime":
+ {"oldValue":(double)<old first time event occurred>, "newValue":<new first time event occurred>},
+ "lastTime":
+ {"oldValue":(double)<old last time event occurred>, "newValue":<new last time event occurred>},
+ }, ...
+ }
  }
  
  */
-extern NSString *const CleverTapProfileDidChangeNotification;
+extern NSString * _Nonnull const CleverTapProfileDidChangeNotification;
 
 /*!
  
@@ -675,17 +750,17 @@ extern NSString *const CleverTapProfileDidChangeNotification;
  
  The CleverTap ID is the unique identifier assigned to the User Profile by CleverTap.
  
- The CleverTap ID will be returned in the userInfo property of the NSNotifcation in the form: {@"CleverTapID":CleverTapID}.
+ The CleverTap ID and cooresponding CleverTapAccountID will be returned in the userInfo property of the NSNotifcation in the form: {@"CleverTapID":CleverTapID, @"CleverTapAccountID":CleverTapAccountID}.
  
  */
-extern NSString *const CleverTapProfileDidInitializeNotification;
+extern NSString * _Nonnull const CleverTapProfileDidInitializeNotification;
 
 
 /*!
  
  @method
  
- @abstract 
+ @abstract
  The `CleverTapSyncDelegate` protocol provides additional/alternative methods for notifying
  your application (the adopting delegate) about synchronization-related changes to the User Profile/Event History.
  
@@ -698,28 +773,27 @@ extern NSString *const CleverTapProfileDidInitializeNotification;
  
  @param delegate     an object conforming to the CleverTapSyncDelegate Protocol
  */
-- (void)setSyncDelegate:(id <CleverTapSyncDelegate>)delegate;
+- (void)setSyncDelegate:(id <CleverTapSyncDelegate> _Nullable)delegate;
 
 #if !CLEVERTAP_NO_INAPP_SUPPORT
 /*!
-
+ 
  @method
-
+ 
  @abstract
  The `CleverTapInAppNotificationDelegate` protocol provides methods for notifying
  your application (the adopting delegate) about in-app notifications.
-
+ 
  @see CleverTapInAppNotificationDelegate.h
-
+ 
  @discussion
  This sets the CleverTapInAppNotificationDelegate.
-
+ 
  @param delegate     an object conforming to the CleverTapInAppNotificationDelegate Protocol
  */
-- (void)setInAppNotificationDelegate:(id <CleverTapInAppNotificationDelegate>)delegate;
+- (void)setInAppNotificationDelegate:(id  <CleverTapInAppNotificationDelegate> _Nullable)delegate;
 #endif
 
-#if !defined(CLEVERTAP_APP_EXTENSION)
 /* ------------------------------------------------------------------------------------------------------
  * Notifications
  */
@@ -735,7 +809,7 @@ extern NSString *const CleverTapProfileDidInitializeNotification;
  
  @param pushToken     device token as returned from application:didRegisterForRemoteNotificationsWithDeviceToken:
  */
-- (void)setPushToken:(NSData *)pushToken;
+- (void)setPushToken:(NSData *_Nonnull)pushToken;
 
 /*!
  @method
@@ -748,7 +822,7 @@ extern NSString *const CleverTapProfileDidInitializeNotification;
  
  @param pushTokenString     device token as returned from application:didRegisterForRemoteNotificationsWithDeviceToken: converted to an NSString.
  */
-- (void)setPushTokenAsString:(NSString *)pushTokenString;
+- (void)setPushTokenAsString:(NSString *_Nonnull)pushTokenString;
 
 /*!
  @method
@@ -762,7 +836,7 @@ extern NSString *const CleverTapProfileDidInitializeNotification;
  
  @param data         notification payload
  */
-- (void)handleNotificationWithData:(id)data;
+- (void)handleNotificationWithData:(id _Nonnull )data;
 
 /*!
  @method
@@ -777,7 +851,23 @@ extern NSString *const CleverTapProfileDidInitializeNotification;
  @param data                     notification payload
  @param openInForeground         Boolean as to whether the SDK should open any deep link attached to the notification while the application is in the foreground.
  */
-- (void)handleNotificationWithData:(id)data openDeepLinksInForeground:(BOOL)openInForeground;
+- (void)handleNotificationWithData:(id _Nonnull )data openDeepLinksInForeground:(BOOL)openInForeground;
+
+/*!
+ @method
+ 
+ @abstract
+ Convenience method when using multiple SDK instances to track and process a push notification based on its payload.
+ 
+ @discussion
+ By calling this method, CleverTap will automatically track user notification interaction for you; the specific instance of the CleverTap SDK to process the call is determined based on the CleverTap AccountID included in the notification payload and, if not present, will default to the shared instance.
+ 
+ If the push notification contains a deep link, CleverTap will handle the call to application:openUrl: with the deep link, as long as the application is not in the foreground or you pass TRUE in the openInForeground param.
+ 
+ @param notification             notification payload
+ @param openInForeground         Boolean as to whether the SDK should open any deep link attached to the notification while the application is in the foreground.
+ */
++ (void)handlePushNotification:(NSDictionary*_Nonnull)notification openDeepLinksInForeground:(BOOL)openInForeground;
 
 /*!
  @method
@@ -787,9 +877,7 @@ extern NSString *const CleverTapProfileDidInitializeNotification;
  
  @param payload  notification payload
  */
-- (BOOL)isCleverTapNotification:(NSDictionary *)payload;
-
-#endif
+- (BOOL)isCleverTapNotification:(NSDictionary *_Nonnull)payload;
 
 #if !CLEVERTAP_NO_INAPP_SUPPORT
 /*!
@@ -803,7 +891,6 @@ extern NSString *const CleverTapProfileDidInitializeNotification;
 
 #endif
 
-#if !defined(CLEVERTAP_APP_EXTENSION)
 /* ------------------------------------------------------------------------------------------------------
  * Referrer tracking
  */
@@ -812,16 +899,32 @@ extern NSString *const CleverTapProfileDidInitializeNotification;
  @method
  
  @abstract
- Track incoming referrers.
+ Track incoming referrers on a specific SDK instance.
  
  @discussion
- By calling this method, CleverTap will automatically track incoming referrer utm details.
-
+ By calling this method, the specific CleverTap instance will automatically track incoming referrer utm details.
+ When implementing multiple SDK instances, consider using +handleOpenURL: instead.
+ 
  
  @param url                     the incoming NSURL
  @param sourceApplication       the source application
  */
-- (void)handleOpenURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication;
+- (void)handleOpenURL:(NSURL *_Nonnull)url sourceApplication:(NSString *_Nullable)sourceApplication;
+
+/*!
+ @method
+ 
+ @abstract
+ Convenience method to track incoming referrers when using multile SDK instances.
+ 
+ @discussion
+ By calling this method, if the url contains a query parameter with a CleverTap AccountID, the SDK will pass the URL to that specific instance for processing.
+ If no CleverTap AccountID param is present, the SDK will default to passing the URL to the shared instance.
+ 
+ @param url                     the incoming NSURL
+ */
++ (void)handleOpenURL:(NSURL*_Nonnull)url;
+
 
 /*!
  @method
@@ -837,11 +940,9 @@ extern NSString *const CleverTapProfileDidInitializeNotification;
  @param medium                   the utm medium
  @param campaign                 the utm campaign
  */
-- (void)pushInstallReferrerSource:(NSString *)source
-                           medium:(NSString *)medium
-                         campaign:(NSString *)campaign;
-
-#endif
+- (void)pushInstallReferrerSource:(NSString *_Nullable)source
+                           medium:(NSString *_Nullable)medium
+                         campaign:(NSString *_Nullable)campaign;
 
 /* ------------------------------------------------------------------------------------------------------
  * Admin
@@ -867,81 +968,23 @@ extern NSString *const CleverTapProfileDidInitializeNotification;
  */
 + (void)setDebugLevel:(int)level;
 
+/*!
+ @method
+ 
+ @abstract
+ Get the debug logging level
+ 
+ @discussion
+ Returns the currently set debug logging level.
+ */
++ (CleverTapLogLevel)getDebugLevel;
+
+
 #if defined(CLEVERTAP_HOST_WATCHOS)
 /** HostWatchOS
  */
-
-- (BOOL)handleMessage:(NSDictionary<NSString *, id> *)message forWatchSession:(WCSession *)session;
+- (BOOL)handleMessage:(NSDictionary<NSString *, id> *)message forWatchSession:(WCSession *)session API_AVAILABLE(ios(9.0));
 #endif
-
-
-#pragma mark deprecations as of version 2.0.3
-
-+ (CleverTap *)push __attribute__((deprecated("Deprecated as of version 2.0.3, use sharedInstance instead")));
-
-+ (CleverTap *)event __attribute__((deprecated("Deprecated as of version 2.0.3, use sharedInstance instead")));
-
-+ (CleverTap *)profile __attribute__((deprecated("Deprecated as of version 2.0.3, use sharedInstance instead")));
-
-+ (CleverTap *)session  __attribute__((deprecated("Deprecated as of version 2.0.3, use sharedInstance instead")));
-
-- (void)eventName:(NSString *)event __attribute__((deprecated("Deprecated as of version 2.0.3, use recordEvent: instead")));
-
-- (void)eventName:(NSString *)event eventProps:(NSDictionary *)properties __attribute__((deprecated("Deprecated as of version 2.0.3, use recordEvent:withProps: instead")));
-
-- (void)chargedEventWithDetails:(NSDictionary *)chargeDetails andItems:(NSArray *)items __attribute__((deprecated("Deprecated as of version 2.0.3, use recordChargedEventWithDetails:andItems: instead")));
-
-- (void)profile:(NSDictionary *)profileDictionary __attribute__((deprecated("Deprecated as of version 2.0.3, use profilePush: instead")));
-
-- (void)graphUser:(id)fbGraphUser __attribute__((deprecated("Deprecated as of version 2.0.3, use profilePushGraphUser: instead")));
-
-- (void)googlePlusUser:(id)googleUser __attribute__((deprecated("Deprecated as of version 2.0.3, use profilePushGooglePlusUser: instead")));
-#if !defined(CLEVERTAP_APP_EXTENSION)
-+ (void)setPushToken:(NSData *)pushToken __attribute__((deprecated("Deprecated as of version 2.0.3, use [[CleverTap sharedInstance] setPushToken:] instead")));
-
-+ (void)notifyApplicationLaunchedWithOptions:(NSDictionary *)launchOptions __attribute__((deprecated));
-
-+ (void)showInAppNotificationIfAny __attribute__((deprecated("Deprecated as of version 2.0.3, use [[CleverTap sharedInstance] showInAppNotificationIfAny] instead")));
-
-+ (void)handleNotificationWithData:(id)data __attribute__((deprecated("Deprecated as of version 2.0.3, use [[CleverTap sharedInstance] handleNotificationWithData:] instead")));
-
-+ (void)handleOpenURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication __attribute__((deprecated("Deprecated as of version 2.0.3, use [[CleverTap sharedInstance] handleOpenUrl:sourceApplication:] instead")));
-#endif
-+ (void)notifyViewLoaded:(UIViewController *)viewController __attribute__((deprecated));
-
-#if !defined(CLEVERTAP_APP_EXTENSION)
-+ (void)pushInstallReferrerSource:(NSString *)source
-                           medium:(NSString *)medium
-                         campaign:(NSString *)campaign __attribute__((deprecated("Deprecated as of version 2.0.3, use [[CleverTap sharedInstance] pushInstallReferrerSource:medium:campaign] instead")));
-#endif
-#pragma mark Event API messages
-
-- (NSTimeInterval)getFirstTime:(NSString *)event __attribute__((deprecated("Deprecated as of version 2.0.3, use eventGetFirstTime: instead")));
-
-- (NSTimeInterval)getLastTime:(NSString *)event __attribute__((deprecated("Deprecated as of version 2.0.3, use eventGetLastTime: instead")));
-
-- (int)getOccurrences:(NSString *)event __attribute__((deprecated("Deprecated as of version 2.0.3, use eventGetOccurrences: instead")));
-
-- (NSDictionary *)getHistory __attribute__((deprecated("Deprecated as of version 2.0.3, use userGetEventHistory: instead")));
-
-- (CleverTapEventDetail *)getEventDetail:(NSString *)event __attribute__((deprecated("Deprecated as of version 2.0.3, use eventGetDetail: instead")));
-
-#pragma mark Profile API messages
-
-- (id)getProperty:(NSString *)propertyName __attribute__((deprecated("Deprecated as of version 2.0.3, use profileGet: instead")));
-
-#pragma mark Session API messages
-
-- (NSTimeInterval)getTimeElapsed __attribute__((deprecated("Deprecated as of version 2.0.3, use sessionGetTimeElapsed: instead")));
-
-- (int)getTotalVisits __attribute__((deprecated("Deprecated as of version 2.0.3, use userGetTotalVisits: instead")));
-
-- (int)getScreenCount __attribute__((deprecated("Deprecated as of version 2.0.3, use userGetScreenCount: instead")));
-
-- (NSTimeInterval)getPreviousVisitTime __attribute__((deprecated("Deprecated as of version 2.0.3, use userGetPreviousVisitTime: instead")));
-
-- (CleverTapUTMDetail *)getUTMDetails __unused  __attribute__((deprecated("Deprecated as of version 2.0.3, use sessionGetUTMDetails: instead")));
-
 
 @end
 
