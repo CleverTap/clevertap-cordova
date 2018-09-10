@@ -39,6 +39,12 @@ static NSString* const CTHandleOpenURLNotification = @"CTHandleOpenURLNotificati
  */
 -(void)enablePersonalization:(CDVInvokedUrlCommand *)command;
 
+# pragma mark Offline api
+
+/** Disables/Enables sending events to the server.
+ */
+-(void)setOffline:(CDVInvokedUrlCommand *)command;
+
 #pragma mark OptOut API
 
 /** Enabling tracking opt out for the currently active user
