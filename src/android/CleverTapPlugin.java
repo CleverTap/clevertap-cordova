@@ -59,17 +59,9 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
 
-        try {
-            cleverTap = CleverTapAPI.getInstance(cordova.getActivity().getApplicationContext());
-            cleverTap.setSyncListener(this);
-            cleverTap.setInAppNotificationListener(this);
-        } catch (CleverTapMetaDataNotFoundException e) {
-            CLEVERTAP_API_ERROR = e.getLocalizedMessage();
-            //Log.d(LOG_TAG, e.getLocalizedMessage());
-        } catch (CleverTapPermissionsNotSatisfied e) {
-            CLEVERTAP_API_ERROR = e.getLocalizedMessage();
-            //Log.d(LOG_TAG, e.getLocalizedMessage());
-        }
+        cleverTap = CleverTapAPI.getDefaultInstance(cordova.getActivity().getApplicationContext());
+        cleverTap.setSyncListener(this);
+        cleverTap.setInAppNotificationListener(this);
 
         onNewIntent(cordova.getActivity().getIntent());
 
@@ -155,7 +147,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 public void run() {
                     ActivityLifecycleCallback.register(cordova.getActivity().getApplication());
                     CleverTapAPI.setAppForeground(true);
-                    cleverTap.activityResumed(cordova.getActivity());
+                    CleverTapAPI.onActivityResumed(cordova.getActivity());
                     PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
                     _result.setKeepCallback(true);
                     callbackContext.sendPluginResult(_result);
@@ -326,6 +318,19 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
                     cleverTap.setOptOut(value);
+                    PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
+                    _result.setKeepCallback(true);
+                    callbackContext.sendPluginResult(_result);
+                }
+            });
+            return true;
+        }
+        //Sets the SDK to offline mode
+        else if (action.equals("setOffline")){
+            final boolean value = args.getBoolean(0);
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    cleverTap.setOffline(value);
                     PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
                     _result.setKeepCallback(true);
                     callbackContext.sendPluginResult(_result);
