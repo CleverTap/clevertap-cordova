@@ -62,6 +62,8 @@ var app = {
 
                 CleverTap.recordEventWithName("foo");
                 CleverTap.recordEventWithNameAndProps("boo", {"bar":"zoo"});
+                var dateTime = new Date();
+                CleverTap.recordEventWithNameAndProps("boo", {"bar":dateTime});
                 CleverTap.recordChargedEventWithDetailsAndItems({"amount":300, "Charged ID":1234}, [{"Category":"Books", "Quantity":1, "Title":"Book Title"}]);
                 CleverTap.eventGetFirstTime("foo", function (time) {console.log("foo event first time is "+time);});
                 CleverTap.eventGetLastTime("App Launched", function (time) {console.log("app launched last time is "+time);});
