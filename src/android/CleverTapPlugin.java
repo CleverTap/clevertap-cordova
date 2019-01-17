@@ -48,7 +48,7 @@ import com.clevertap.android.sdk.exceptions.CleverTapPermissionsNotSatisfied;
 import com.clevertap.android.sdk.exceptions.InvalidEventNameException;
 
 
-public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAppNotificationListener {
+public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAppNotificationListener, CTInboxListener {
 
     private static final String LOG_TAG = "CLEVERTAP_PLUGIN";
     private static String CLEVERTAP_API_ERROR;
@@ -62,7 +62,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         cleverTap = CleverTapAPI.getDefaultInstance(cordova.getActivity().getApplicationContext());
         cleverTap.setSyncListener(this);
         cleverTap.setInAppNotificationListener(this);
-
+        clevertap.setCTNotificationInboxListener(this);
         onNewIntent(cordova.getActivity().getIntent());
 
     }
@@ -1200,11 +1200,68 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             });
             return true;
         }
+        //Notification Inbox methods
+        else if (action.equals("initializeInbox")){
+            cordova.getThreadPool.execute(new Runnable(){
+                public void run(){
+                    clevertap.initializeInbox();
+                    PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
+                    _result.setKeepCallback(true);
+                    callbackContext.sendPluginResult(_result);
+                }
+            });
+        }
+
+        else if(action.equals("showInbox")){
+            cordova.getThreadPool.execute(new Runnable(){
+                public void run(){
+                    clevertap.showAppInbox();
+                    PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
+                    _result.setKeepCallback(true);
+                    callbackContext.sendPluginResult(_result);
+                }
+            });
+        }
+
+        else if(action.equals("showInboxWithStyleConfig")){
+            cordova.getThreadPool.execute(new Runnable(){
+                public void run(){
+                    JSONObject styleConfigJSON;
+                    CTInboxStyleConfig styleConfig;
+                    if(args.length == 1){
+                        styleConfigJSON = args.getJSONObject(0);
+                        styleConfig = toStyleConfig(styleConfigJSON);
+                    }
+                    clevertap.showAppInbox(styleConfig);
+                    PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
+                    _result.setKeepCallback(true);
+                    callbackContext.sendPluginResult(_result);
+                }
+            });
+        }
 
         result = new PluginResult(PluginResult.Status.ERROR, errorMsg);
         result.setKeepCallback(true);
         callbackContext.sendPluginResult(result);
         return true;
+    }
+
+    //CTInboxListener
+
+    public void inboxDidInitialize(){
+        webView.getView().post(new Runnable() {
+            public void run() {
+                webView.loadUrl("javascript:cordova.fireDocumentEvent('onCleverTapInboxDidInitialize');");
+            }
+        });
+    }
+
+    public void inboxMessagesDidUpdate(){
+        webView.getView().post(new Runnable() {
+            public void run() {
+                webView.loadUrl("javascript:cordova.fireDocumentEvent('onCleverTapInboxMessagesDidUpdate');");
+            }
+        });
     }
 
 
@@ -1304,6 +1361,38 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         } else {
             return json;
         }
+    }
+
+    private static CTInboxStyleConfig toStyleConfig(JSONObject object) throws JSONException{
+        CTInboxStyleConfig styleConfig = new CTInboxStyleConfig();
+        if(object.has("navBarColor")){
+            styleConfig.setNavBarColor(object.getString("navBarColor"));
+        }
+        if(object.has("navBarTitle")){
+            styleConfig.setNavBarTitle(object.getString("navBarTitle"));
+        }
+        if(object.has("navBarTitleColor")){
+            styleConfig.setNavBarTitleColor(object.getString("navBarTitleColor"));
+        }
+        if(object.has("inboxBackgroundColor")){
+            styleConfig.setInboxBackgroundColor(object.getString("inboxBackgroundColor"));
+        }
+        if(object.has("backButtonColor")){
+            styleConfig.setBackButtonColor(object.getString("backButtonColor"));
+        }
+        if(object.has("selectedTabColor")){
+            styleConfig.setSelectedTabColor(object.getString("selectedTabColor"));
+        }
+        if(object.has("unselectedTabColor")){
+            styleConfig.setUnselectedTabColor(object.getString("unselectedTabColor"));
+        }
+        if(object.has("selectedTabIndicatorColor")){
+            styleConfig.setSelectedTabIndicatorColor(object.getString("selectedTabIndicatorColor"));
+        }
+        if(object.has("tabBackgroundColor")){
+            styleConfig.setTabBackgroundColor(object.getString("tabBackgroundColor"));   
+        }
+        return styleConfig;
     }
 
     private static HashMap<String, Object> toMap(JSONObject object) throws JSONException {

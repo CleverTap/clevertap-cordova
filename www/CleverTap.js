@@ -359,5 +359,21 @@ CleverTap.prototype.setDebugLevel= function (level) {
 	cordova.exec(null, null, "CleverTapPlugin", "setDebugLevel", [level]);
 }
 
+/****************************
+ * Notification Inbox methods
+ ****************************/
+// Initializes the app inbox
+CleverTap.prototype.initializeInbox= function () {
+    cordova.exec(null, null, "CleverTapPlugin", "initializeInbox", []);
+}
+
+CleverTap.prototype.showInbox= function () {
+    cordova.exec(null, null, "CleverTapPlugin", "showInbox", []);
+}
+
+CleverTap.prototype.showInboxWithStyleConfig= function (styleConfig) {
+    cordova.exec(null, null, "CleverTapPlugin", "showInboxWithStyleConfig", [styleConfig]);
+}
+
 
 module.exports = new CleverTap();
