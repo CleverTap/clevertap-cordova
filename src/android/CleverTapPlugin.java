@@ -43,6 +43,8 @@ import com.clevertap.android.sdk.SyncListener;
 import com.clevertap.android.sdk.InAppNotificationListener;
 import com.clevertap.android.sdk.EventDetail;
 import com.clevertap.android.sdk.UTMDetail;
+import com.clevertap.android.sdk.CTInboxListener;
+import com.clevertap.android.sdk.CTInboxStyleConfig;
 import com.clevertap.android.sdk.exceptions.CleverTapMetaDataNotFoundException;
 import com.clevertap.android.sdk.exceptions.CleverTapPermissionsNotSatisfied;
 import com.clevertap.android.sdk.exceptions.InvalidEventNameException;
@@ -62,7 +64,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         cleverTap = CleverTapAPI.getDefaultInstance(cordova.getActivity().getApplicationContext());
         cleverTap.setSyncListener(this);
         cleverTap.setInAppNotificationListener(this);
-        clevertap.setCTNotificationInboxListener(this);
+        cleverTap.setCTNotificationInboxListener(this);
         onNewIntent(cordova.getActivity().getIntent());
 
     }
@@ -1202,9 +1204,9 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         }
         //Notification Inbox methods
         else if (action.equals("initializeInbox")){
-            cordova.getThreadPool.execute(new Runnable(){
+            cordova.getThreadPool().execute(new Runnable(){
                 public void run(){
-                    clevertap.initializeInbox();
+                    cleverTap.initializeInbox();
                     PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
                     _result.setKeepCallback(true);
                     callbackContext.sendPluginResult(_result);
@@ -1213,9 +1215,9 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         }
 
         else if(action.equals("showInbox")){
-            cordova.getThreadPool.execute(new Runnable(){
+            cordova.getThreadPool().execute(new Runnable(){
                 public void run(){
-                    clevertap.showAppInbox();
+                    cleverTap.showAppInbox();
                     PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
                     _result.setKeepCallback(true);
                     callbackContext.sendPluginResult(_result);
@@ -1224,18 +1226,24 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         }
 
         else if(action.equals("showInboxWithStyleConfig")){
-            cordova.getThreadPool.execute(new Runnable(){
+            cordova.getThreadPool().execute(new Runnable(){
                 public void run(){
-                    JSONObject styleConfigJSON;
-                    CTInboxStyleConfig styleConfig;
-                    if(args.length == 1){
-                        styleConfigJSON = args.getJSONObject(0);
-                        styleConfig = toStyleConfig(styleConfigJSON);
+                    try{
+                        JSONObject styleConfigJSON;
+                        CTInboxStyleConfig styleConfig = new CTInboxStyleConfig();
+                        if(args.length() == 1){
+                            styleConfigJSON = args.getJSONObject(0);
+                            styleConfig = toStyleConfig(styleConfigJSON);
+                        }
+                        cleverTap.showAppInbox(styleConfig);
+                        PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
+                        _result.setKeepCallback(true);
+                        callbackContext.sendPluginResult(_result);
+                    }catch(JSONException e){
+                        PluginResult _result = new PluginResult(PluginResult.Status.ERROR, e.getLocalizedMessage());
+                        _result.setKeepCallback(true);
+                        callbackContext.sendPluginResult(_result);
                     }
-                    clevertap.showAppInbox(styleConfig);
-                    PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
-                    _result.setKeepCallback(true);
-                    callbackContext.sendPluginResult(_result);
                 }
             });
         }
