@@ -757,4 +757,104 @@ static NSURL *launchDeepLink;
     }];
 }
 
+-(void)initializeInboxWithCallback:(CDVInvokedUrlCommand *)command {
+    [self.commandDelegate runInBackground:^{
+        __block CDVPluginResult* pluginResult = nil;
+        [clevertap initializeInboxWithCallback:^(BOOL success) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSLog(@"Inbox initialized %d", success);
+                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+                [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+            });
+        }];
+    }];
+}
+
+-(void)getInboxMessageUnreadCount:(CDVInvokedUrlCommand *)command {
+    [self.commandDelegate runInBackground:^{
+        NSUInteger unreadMessageCount = [clevertap getInboxMessageUnreadCount];
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:(int)unreadMessageCount];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
+}
+
+-(void)getInboxMessageCount:(CDVInvokedUrlCommand *)command {
+    [self.commandDelegate runInBackground:^{
+        NSUInteger messageCount = [clevertap getInboxMessageCount];
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:(int)messageCount];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
+}
+
+-(void)showInboxWithStyleConfig:(CDVInvokedUrlCommand *)command {
+    NSDictionary *configStyle = [command argumentAtIndex:0];
+    CleverTapInboxViewController *inboxController = [clevertap newInboxViewControllerWithConfig:[self _dictToInboxStyleConfig:configStyle] andDelegate:nil];
+    if (inboxController) {
+        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:inboxController];
+        [self.viewController presentViewController:navigationController animated:YES completion:nil];
+    }
+}
+
+-(CleverTapInboxStyleConfig*)_dictToInboxStyleConfig: (NSDictionary *)dict {
+    CleverTapInboxStyleConfig *_config = [CleverTapInboxStyleConfig new];
+    NSString *title = [dict valueForKey:@"title"];
+    if (title) {
+        _config.title = title;
+    }
+    NSArray *messageTags = [dict valueForKey:@"messageTags"];
+    if (messageTags) {
+        _config.messageTags = messageTags;
+    }
+    NSString *backgroundColor = [dict valueForKey:@"backgroundColor"];
+    if (backgroundColor) {
+        _config.backgroundColor = [self ct_colorWithHexString:backgroundColor alpha:1.0];
+    }
+    NSString *cellBackgroundColor = [dict valueForKey:@"cellBackgroundColor"];
+    if (cellBackgroundColor) {
+        _config.cellBackgroundColor = [self ct_colorWithHexString:cellBackgroundColor alpha:1.0];
+    }
+    NSString *navigationBarTintColor = [dict valueForKey:@"navigationBarTintColor"];
+    if (navigationBarTintColor) {
+        _config.navigationBarTintColor = [self ct_colorWithHexString:navigationBarTintColor alpha:1.0];
+    }
+    NSString *navigationTintColor = [dict valueForKey:@"navigationTintColor"];
+    if (navigationTintColor) {
+        _config.navigationTintColor = [self ct_colorWithHexString:navigationTintColor alpha:1.0];
+    }
+    NSString *tabBackgroundColor = [dict valueForKey:@"tabBackgroundColor"];
+    if (tabBackgroundColor) {
+        _config.tabBackgroundColor = [self ct_colorWithHexString:tabBackgroundColor alpha:1.0];
+    }
+    NSString *tabSelectedBgColor = [dict valueForKey:@"tabSelectedBgColor"];
+    if (tabSelectedBgColor) {
+        _config.tabSelectedBgColor = [self ct_colorWithHexString:tabSelectedBgColor alpha:1.0];
+    }
+    NSString *tabSelectedTextColor = [dict valueForKey:@"tabSelectedTextColor"];
+    if (tabSelectedTextColor) {
+        _config.tabSelectedTextColor = [self ct_colorWithHexString:tabSelectedTextColor alpha:1.0];
+    }
+    NSString *tabUnSelectedTextColor = [dict valueForKey:@"tabUnSelectedTextColor"];
+    if (tabUnSelectedTextColor) {
+        _config.tabUnSelectedTextColor = [self ct_colorWithHexString:tabUnSelectedTextColor alpha:1.0];
+    }
+    return _config;
+}
+
+- (UIColor *)ct_colorWithHexString:(NSString *)string alpha:(CGFloat)alpha{
+    if (![string isKindOfClass:[NSString class]] || [string length] == 0) {
+        return [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:1.0f];
+    }
+    unsigned int hexint = 0;
+    NSScanner *scanner = [NSScanner scannerWithString:string];
+    [scanner setCharactersToBeSkipped:[NSCharacterSet
+                                       characterSetWithCharactersInString:@"#"]];
+    [scanner scanHexInt:&hexint];
+    UIColor *color =
+    [UIColor colorWithRed:((CGFloat) ((hexint & 0xFF0000) >> 16))/255
+                    green:((CGFloat) ((hexint & 0xFF00) >> 8))/255
+                     blue:((CGFloat) (hexint & 0xFF))/255
+                    alpha:alpha];
+    return color;
+}
+
 @end
