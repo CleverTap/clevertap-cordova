@@ -363,13 +363,9 @@ CleverTap.prototype.setDebugLevel= function (level) {
  * Notification Inbox methods
  ****************************/
 // Initializes the app inbox
-CleverTap.prototype.initializeInboxWithCallback = function (successCallback) {
-     cordova.exec(successCallback, null, "CleverTapPlugin", "initializeInboxWithCallback", []);
-}
 
-// Register the app inbox for updates
-CleverTap.prototype.inboxMessagesUpdated = function (successCallback) {
-     cordova.exec(successCallback, null, "CleverTapPlugin", "inboxMessagesUpdated", []);
+CleverTap.prototype.initializeInbox= function () {
+    cordova.exec(null, null, "CleverTapPlugin", "initializeInbox", []);
 }
 
 // Get Unread Inbox Message count for the user
@@ -384,10 +380,6 @@ CleverTap.prototype.getInboxMessageUnreadCount = function (successCallback) {
 // success calls back returns the total number of inbox messages for the user
 CleverTap.prototype.getInboxMessageCount = function (successCallback) {
      cordova.exec(successCallback, null, "CleverTapPlugin", "getInboxMessageCount", []);
-}
-
-CleverTap.prototype.initializeInbox= function () {
-    cordova.exec(null, null, "CleverTapPlugin", "initializeInbox", []);
 }
 
 CleverTap.prototype.showInbox= function () {

@@ -51,8 +51,9 @@
         <source-file src="src/ios/AppDelegate+CleverTapPlugin.m" />
         <header-file src="src/ios/CleverTapPlugin.h" />
         <source-file src="src/ios/CleverTapPlugin.m" />
-
+        
         <framework src="src/ios/CleverTapSDK.framework" custom="true" embed="true"/>
+        <framework src="src/ios/SDWebImage.framework" custom="true" embed="true"/>
         <framework src="SystemConfiguration.framework" />
         <framework src="CoreTelephony.framework" />
         <framework src="UIKit.framework" />

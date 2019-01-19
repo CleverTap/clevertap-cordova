@@ -757,26 +757,22 @@ static NSURL *launchDeepLink;
     }];
 }
 
--(void)initializeInboxWithCallback:(CDVInvokedUrlCommand *)command {
+-(void)initializeInbox:(CDVInvokedUrlCommand *)command {
     [self.commandDelegate runInBackground:^{
-        __block CDVPluginResult* pluginResult = nil;
         [clevertap initializeInboxWithCallback:^(BOOL success) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                NSLog(@"Inbox initialized %d", success);
-                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-                [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-            });
+            NSLog(@"Inbox initialized %d", success);
+            NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onCleverTapInboxDidInitialize')"];
+            [self.commandDelegate evalJs:js];
         }];
     }];
 }
 
 -(void)inboxMessagesUpdated:(CDVInvokedUrlCommand *)command {
     [self.commandDelegate runInBackground:^{
-        __block CDVPluginResult* pluginResult = nil;
         [clevertap registerInboxUpdatedBlock:^{
             NSLog(@"Inbox Messages updated");
-            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+            NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onCleverTapInboxMessagesDidUpdate')"];
+            [self.commandDelegate evalJs:js];
         }];
     }];
 }
@@ -799,7 +795,7 @@ static NSURL *launchDeepLink;
 
 -(void)showInboxWithStyleConfig:(CDVInvokedUrlCommand *)command {
     NSDictionary *configStyle = [command argumentAtIndex:0];
-    CleverTapInboxViewController *inboxController = [clevertap newInboxViewControllerWithConfig:[self _dictToInboxStyleConfig:configStyle] andDelegate:nil];
+    CleverTapInboxViewController *inboxController = [clevertap newInboxViewControllerWithConfig:[self _dictToInboxStyleConfig:configStyle? configStyle : nil] andDelegate:nil];
     if (inboxController) {
         UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:inboxController];
         [self.viewController presentViewController:navigationController animated:YES completion:nil];

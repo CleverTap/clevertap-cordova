@@ -270,16 +270,11 @@ static NSString* const CTHandleOpenURLNotification = @"CTHandleOpenURLNotificati
 # pragma mark App Inbox
 
 /**
- Initialized the inbox controller and sends a callback.
+ Initialized the inbox controller.
  Call this method to initialize the inbox controller.
  You must call this method separately for each instance of CleverTap.
  */
--(void)initializeInboxWithCallback:(CDVInvokedUrlCommand *)command;
-
-/**
- Register a callback block when inbox messages are updated.
- */
--(void)inboxMessagesUpdated:(CDVInvokedUrlCommand *)command;
+-(void)initializeInbox:(CDVInvokedUrlCommand *)command;
 
 /**
  Get the total number of unread inbox messages for the user.
