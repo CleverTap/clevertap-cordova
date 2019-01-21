@@ -1217,17 +1217,6 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         else if(action.equals("showInbox")){
             cordova.getThreadPool().execute(new Runnable(){
                 public void run(){
-                    cleverTap.showAppInbox();
-                    PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
-                    _result.setKeepCallback(true);
-                    callbackContext.sendPluginResult(_result);
-                }
-            });
-        }
-
-        else if(action.equals("showInboxWithStyleConfig")){
-            cordova.getThreadPool().execute(new Runnable(){
-                public void run(){
                     try{
                         JSONObject styleConfigJSON;
                         CTInboxStyleConfig styleConfig = new CTInboxStyleConfig();
@@ -1246,6 +1235,30 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                     }
                 }
             });
+        }
+
+        else if(action.equals("getInboxMessageUnreadCount")){
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    int unreadCount = cleverTap.getInboxMessageUnreadCount();
+                    PluginResult _result = new PluginResult(PluginResult.Status.OK, unreadCount);
+                    _result.setKeepCallback(true);
+                    callbackContext.sendPluginResult(_result);
+                }
+            });
+            return true;
+        }
+
+        else if(action.equals("getInboxMessageCount")){
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    int msgCount = cleverTap.getInboxMessageCount();
+                    PluginResult _result = new PluginResult(PluginResult.Status.OK, msgCount);
+                    _result.setKeepCallback(true);
+                    callbackContext.sendPluginResult(_result);
+                }
+            });
+            return true;
         }
 
         result = new PluginResult(PluginResult.Status.ERROR, errorMsg);

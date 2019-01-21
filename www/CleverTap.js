@@ -382,12 +382,8 @@ CleverTap.prototype.getInboxMessageCount = function (successCallback) {
      cordova.exec(successCallback, null, "CleverTapPlugin", "getInboxMessageCount", []);
 }
 
-CleverTap.prototype.showInbox= function () {
-    cordova.exec(null, null, "CleverTapPlugin", "showInbox", []);
-}
-
-CleverTap.prototype.showInboxWithStyleConfig= function (styleConfig) {
-    cordova.exec(null, null, "CleverTapPlugin", "showInboxWithStyleConfig", [styleConfig]);
+CleverTap.prototype.showInbox = function (styleConfig) {
+    cordova.exec(null, null, "CleverTapPlugin", "showInbox", [styleConfig]);
 }
 
 
