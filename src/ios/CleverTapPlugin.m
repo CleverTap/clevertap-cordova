@@ -14,6 +14,7 @@
 
 #import "CleverTapPlugin.h"
 #import <CleverTapSDK/CleverTap.h>
+#import <CleverTapSDK/CleverTap+Inbox.h>
 #import <CleverTapSDK/CleverTapSyncDelegate.h>
 #import <CleverTapSDK/CleverTapInAppNotificationDelegate.h>
 #import <CleverTapSDK/CleverTapEventDetail.h>
