@@ -289,6 +289,6 @@ static NSString* const CTHandleOpenURLNotification = @"CTHandleOpenURLNotificati
 /**
  This method opens the controller to display the inbox messages.
  */
--(void)showInboxWithStyleConfig:(CDVInvokedUrlCommand *)command;
+-(void)showInbox:(CDVInvokedUrlCommand *)command;
 
 @end

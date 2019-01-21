@@ -767,7 +767,7 @@ static NSURL *launchDeepLink;
     }];
 }
 
--(void)inboxMessagesUpdated:(CDVInvokedUrlCommand *)command {
+-(void)inboxMessagesDidUpdate:(CDVInvokedUrlCommand *)command {
     [self.commandDelegate runInBackground:^{
         [clevertap registerInboxUpdatedBlock:^{
             NSLog(@"Inbox Messages updated");
@@ -793,7 +793,7 @@ static NSURL *launchDeepLink;
     }];
 }
 
--(void)showInboxWithStyleConfig:(CDVInvokedUrlCommand *)command {
+-(void)showInbox:(CDVInvokedUrlCommand *)command {
     NSDictionary *configStyle = [command argumentAtIndex:0];
     CleverTapInboxViewController *inboxController = [clevertap newInboxViewControllerWithConfig:[self _dictToInboxStyleConfig:configStyle? configStyle : nil] andDelegate:nil];
     if (inboxController) {
