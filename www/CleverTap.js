@@ -367,6 +367,11 @@ CleverTap.prototype.initializeInboxWithCallback = function (successCallback) {
      cordova.exec(successCallback, null, "CleverTapPlugin", "initializeInboxWithCallback", []);
 }
 
+// Register the app inbox for updates
+CleverTap.prototype.inboxMessagesUpdated = function (successCallback) {
+     cordova.exec(successCallback, null, "CleverTapPlugin", "inboxMessagesUpdated", []);
+}
+
 // Get Unread Inbox Message count for the user
 // successCallback = callback function for result
 // success calls back returns the total number of unread inbox messages for the user

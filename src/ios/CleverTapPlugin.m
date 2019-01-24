@@ -770,6 +770,17 @@ static NSURL *launchDeepLink;
     }];
 }
 
+-(void)inboxMessagesUpdated:(CDVInvokedUrlCommand *)command {
+    [self.commandDelegate runInBackground:^{
+        __block CDVPluginResult* pluginResult = nil;
+        [clevertap registerInboxUpdatedBlock:^{
+            NSLog(@"Inbox Messages updated");
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        }];
+    }];
+}
+
 -(void)getInboxMessageUnreadCount:(CDVInvokedUrlCommand *)command {
     [self.commandDelegate runInBackground:^{
         NSUInteger unreadMessageCount = [clevertap getInboxMessageUnreadCount];

@@ -277,6 +277,11 @@ static NSString* const CTHandleOpenURLNotification = @"CTHandleOpenURLNotificati
 -(void)initializeInboxWithCallback:(CDVInvokedUrlCommand *)command;
 
 /**
+ Register a callback block when inbox messages are updated.
+ */
+-(void)inboxMessagesUpdated:(CDVInvokedUrlCommand *)command;
+
+/**
  Get the total number of unread inbox messages for the user.
  */
 -(void)getInboxMessageUnreadCount:(CDVInvokedUrlCommand *)command;
