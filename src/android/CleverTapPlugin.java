@@ -1413,6 +1413,14 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         if(object.has("tabBackgroundColor")){
             styleConfig.setTabBackgroundColor(object.getString("tabBackgroundColor"));   
         }
+        if(object.has("tabs")){
+            JSONArray tabsArray = object.getJSONArray("tabs");
+            ArrayList tabs = new ArrayList();
+            for(int i=0;i<tabsArray.length();i++){
+                tabs.add(tabsArray.getString(i));
+            }
+            styleConfig.setTabs(tabs);
+        }
         return styleConfig;
     }
 
