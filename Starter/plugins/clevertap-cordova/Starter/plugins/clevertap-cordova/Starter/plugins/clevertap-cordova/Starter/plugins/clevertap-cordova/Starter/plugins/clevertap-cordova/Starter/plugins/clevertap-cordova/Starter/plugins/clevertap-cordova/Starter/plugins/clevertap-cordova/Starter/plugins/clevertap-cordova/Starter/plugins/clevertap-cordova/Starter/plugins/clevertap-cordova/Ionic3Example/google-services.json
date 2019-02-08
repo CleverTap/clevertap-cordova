@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "418135681026",
+    "firebase_url": "https://clevertapcordovastarter.firebaseio.com",
+    "project_id": "clevertapcordovastarter",
+    "storage_bucket": "clevertapcordovastarter.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:418135681026:android:951821e36f8a7496",
+        "android_client_info": {
+          "package_name": "com.clevertap.cordovastarter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "418135681026-d1eva215v92b1ks553a5geoo3939eva0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCArG72MDNpw09yl3P9rCCUIJQwsQmJ9M"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
