@@ -764,11 +764,12 @@ static NSURL *launchDeepLink;
             NSLog(@"Inbox initialized %d", success);
             NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onCleverTapInboxDidInitialize')"];
             [self.commandDelegate evalJs:js];
+            [self inboxMessagesDidUpdate];
         }];
     }];
 }
 
--(void)inboxMessagesDidUpdate:(CDVInvokedUrlCommand *)command {
+-(void)inboxMessagesDidUpdate {
     [self.commandDelegate runInBackground:^{
         [clevertap registerInboxUpdatedBlock:^{
             NSLog(@"Inbox Messages updated");
