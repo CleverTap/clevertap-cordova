@@ -153,7 +153,7 @@ Make sure your build.gradle file includes the play-services and support library 
         compile "com.android.support:support-v4:+"
         // SUB-PROJECT DEPENDENCIES END   
 
-** NOTE **
+**NOTE**
 
 Cordova Android 7.+ doesn't support Android Pie (28) libraries and hence to use this plugin, you will have to add one more plugin to your app
 
