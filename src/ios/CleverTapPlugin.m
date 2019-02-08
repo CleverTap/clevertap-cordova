@@ -805,27 +805,23 @@ static NSURL *launchDeepLink;
 
 -(CleverTapInboxStyleConfig*)_dictToInboxStyleConfig: (NSDictionary *)dict {
     CleverTapInboxStyleConfig *_config = [CleverTapInboxStyleConfig new];
-    NSString *title = [dict valueForKey:@"title"];
+    NSString *title = [dict valueForKey:@"navBarTitle"];
     if (title) {
         _config.title = title;
     }
-    NSArray *messageTags = [dict valueForKey:@"messageTags"];
+    NSArray *messageTags = [dict valueForKey:@"tabs"];
     if (messageTags) {
         _config.messageTags = messageTags;
     }
-    NSString *backgroundColor = [dict valueForKey:@"backgroundColor"];
+    NSString *backgroundColor = [dict valueForKey:@"inboxBackgroundColor"];
     if (backgroundColor) {
         _config.backgroundColor = [self ct_colorWithHexString:backgroundColor alpha:1.0];
     }
-    NSString *cellBackgroundColor = [dict valueForKey:@"cellBackgroundColor"];
-    if (cellBackgroundColor) {
-        _config.cellBackgroundColor = [self ct_colorWithHexString:cellBackgroundColor alpha:1.0];
-    }
-    NSString *navigationBarTintColor = [dict valueForKey:@"navigationBarTintColor"];
+    NSString *navigationBarTintColor = [dict valueForKey:@"navBarColor"];
     if (navigationBarTintColor) {
         _config.navigationBarTintColor = [self ct_colorWithHexString:navigationBarTintColor alpha:1.0];
     }
-    NSString *navigationTintColor = [dict valueForKey:@"navigationTintColor"];
+    NSString *navigationTintColor = [dict valueForKey:@"navBarTitleColor"];
     if (navigationTintColor) {
         _config.navigationTintColor = [self ct_colorWithHexString:navigationTintColor alpha:1.0];
     }
