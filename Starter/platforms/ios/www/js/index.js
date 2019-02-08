@@ -27,6 +27,8 @@ initialize: function() {
     document.addEventListener('onDeepLink', this.onDeepLink, false);
     //push notification handler
     document.addEventListener('onPushNotification', this.onPushNotification, false);
+    document.addEventListener('onCleverTapInboxDidInitialize', this.onCleverTapInboxDidInitialize, false);
+    document.addEventListener('onCleverTapInboxMessagesDidUpdate', this.onCleverTapInboxMessagesDidUpdate, false);
 },
     
     // deviceready Event Handler
@@ -101,6 +103,9 @@ onDeviceReady: function() {
      CleverTap.profileRemoveMultiValue("multiValue", "three");
      CleverTap.profileRemoveValueForKey("custom");
      CleverTap.profileGetProperty("multiValue", function(val) {console.log("multiValue profile value is "+val);});
+
+     //FOR NOTIFICATION INBOX
+     CleverTap.initializeInbox();
      */
 },
     
@@ -145,6 +150,15 @@ onDeepLink: function(e) {
     // push notification payload handling
 onPushNotification: function(e) {
     console.log(e.notification);
+},
+
+onCleverTapInboxDidInitialize: function() {
+    CleverTap.showInbox({"navBarTitle":"My App Inbox","tabs": ["tag1", "tag2"],"navBarColor":"#FF0000"});
+},
+
+onCleverTapInboxMessagesDidUpdate: function() {
+    CleverTap.getInboxMessageUnreadCount(function(val) {console.log("Inbox unread message count"+val);})
+    CleverTap.getInboxMessageCount(function(val) {console.log("Inbox read message count"+val);});
 },
     
     // Update DOM on a Received Event

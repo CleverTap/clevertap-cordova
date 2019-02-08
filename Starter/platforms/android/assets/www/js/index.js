@@ -27,6 +27,8 @@ var app = {
         document.addEventListener('onDeepLink', this.onDeepLink, false);
         //push notification payload handling
         document.addEventListener('onPushNotification', this.onPushNotification, false);
+        document.addEventListener('onCleverTapInboxDidInitialize', this.onCleverTapInboxDidInitialize, false);
+        document.addEventListener('onCleverTapInboxMessagesDidUpdate', this.onCleverTapInboxMessagesDidUpdate, false);
     },
 
     // deviceready Event Handler
@@ -91,6 +93,9 @@ var app = {
                 CleverTap.sessionGetScreenCount(function(val) {console.log("session screen count is "+val);});
                 CleverTap.sessionGetPreviousVisitTime(function(val) {console.log("session previous visit time is "+val);});
                 CleverTap.sessionGetUTMDetails(function(val) {console.log(val);});
+
+                //FOR NOTIFICATION INBOX
+                CleverTap.initializeInbox();
                 */
     },
 
@@ -135,6 +140,15 @@ var app = {
    // push notification data handling
    onPushNotification: function(e) {
         console.log(JSON.stringify(e.notification));
+   },
+
+   onCleverTapInboxDidInitialize: function() {
+        CleverTap.showInbox({"navBarTitle":"My App Inbox","tabs": ["tag1", "tag2"],"navBarColor":"#FF0000"});
+   },
+
+   onCleverTapInboxMessagesDidUpdate: function() {
+        CleverTap.getInboxMessageUnreadCount(function(val) {console.log("Inbox unread message count"+val);})
+        CleverTap.getInboxMessageCount(function(val) {console.log("Inbox read message count"+val);});
    },
 
    // Update DOM on a Received Event
