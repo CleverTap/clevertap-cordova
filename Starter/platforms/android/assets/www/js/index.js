@@ -93,7 +93,14 @@ var app = {
                 CleverTap.sessionGetScreenCount(function(val) {console.log("session screen count is "+val);});
                 CleverTap.sessionGetPreviousVisitTime(function(val) {console.log("session previous visit time is "+val);});
                 CleverTap.sessionGetUTMDetails(function(val) {console.log(val);});
-
+                CleverTap.createNotificationChannel("YourChannelId","YourChannelName","YourChannelDescription",3,true);
+                CleverTap.createNotificationChannelWithSound("YourChannelId","YourChannelName","YourChannelDescription",3,true,"soundfile.mp3");
+                CleverTap.createNotificationChannelWithGroupId("YourChannelId","YourChannelName","YourChannelDescription",3,"YourGroupId",true);
+                CleverTap.createNotificationChannelWithGroupIdAndSound("YourChannelId","YourChannelName","YourChannelDescription",3,"YourGroupId",true,"soundfile.mp3");
+                CleverTap.createNotificationChannelGroup("YourGroupId","YourGroupName");
+                CleverTap.deleteNotificationChannel("YourChannelId");
+                CleverTap.deleteNotificationChannelGroup("YourGroupId");
+                
                 //FOR NOTIFICATION INBOX
                 CleverTap.initializeInbox();
                 */
