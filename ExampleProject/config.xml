@@ -25,8 +25,8 @@
     </platform>
     <engine name="ios" spec="~4.5.5" />
     <plugin name="clevertap-cordova" spec="https://github.com/CleverTap/clevertap-cordova.git">
-        <variable name="CLEVERTAP_ACCOUNT_ID" value="YOUR CLEVERTAP ACCOUNT ID" />
-        <variable name="CLEVERTAP_TOKEN" value="YOUR CELVERTAP ACCOUNT TOKEN" />
+        <variable name="CLEVERTAP_ACCOUNT_ID" value="69R-Z7W-W54Z" />
+        <variable name="CLEVERTAP_TOKEN" value="0a1-2c6" />
         <variable name="CLEVERTAP_REGION" value=" " />
     </plugin>
 </widget>
