@@ -19,13 +19,13 @@
         "parents": {
           "CleverTapAccountID": [
             {
-              "xml": "<string>YOUR CLEVERTAP ACCOUNT ID</string>",
+              "xml": "<string>69R-Z7W-W54Z</string>",
               "count": 1
             }
           ],
           "CleverTapToken": [
             {
-              "xml": "<string>YOUR CELVERTAP ACCOUNT TOKEN</string>",
+              "xml": "<string>0a1-2c6</string>",
               "count": 1
             }
           ],
@@ -74,8 +74,8 @@
       "PACKAGE_NAME": "com.clevertap.example"
     },
     "clevertap-cordova": {
-      "CLEVERTAP_ACCOUNT_ID": "YOUR CLEVERTAP ACCOUNT ID",
-      "CLEVERTAP_TOKEN": "YOUR CELVERTAP ACCOUNT TOKEN",
+      "CLEVERTAP_ACCOUNT_ID": "69R-Z7W-W54Z",
+      "CLEVERTAP_TOKEN": "0a1-2c6",
       "CLEVERTAP_REGION": " ",
       "PACKAGE_NAME": "com.clevertap.example"
     }
