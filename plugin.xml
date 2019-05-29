@@ -106,11 +106,7 @@
             <meta-data android:name="CLEVERTAP_ACCOUNT_ID" android:value="$CLEVERTAP_ACCOUNT_ID" />
             <meta-data android:name="CLEVERTAP_TOKEN" android:value="$CLEVERTAP_TOKEN" />
             <meta-data android:name="CLEVERTAP_REGION" android:value="$CLEVERTAP_REGION" />
-            <activity 
-                android:configChanges="orientation|keyboardHidden" 
-                android:name="com.clevertap.android.sdk.InAppNotificationActivity" 
-                android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-
+            
             <receiver android:exported="true" android:name="com.clevertap.android.sdk.InstallReferrerBroadcastReceiver">
                 <intent-filter>
                     <action android:name="com.android.vending.INSTALL_REFERRER" />
@@ -130,8 +126,8 @@
         <framework src="com.google.firebase:firebase-messaging:+" />
         <framework src="com.google.android.gms:play-services-base:+" />
 		<framework src="com.android.support:support-v4:28.0.0" />
-        <framework src="com.clevertap.android:clevertap-android-sdk:3.4.2" />
-        <framework src="com.github.bumptech.glide:glide:4.8.0" />
+        <framework src="com.clevertap.android:clevertap-android-sdk:3.5.1" />
+        <framework src="com.github.bumptech.glide:glide:4.9.0" />
         <framework src="com.android.support:design:28.0.0" />
         <framework src="com.android.support:appcompat-v7:28.0.0" />
 
