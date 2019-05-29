@@ -136,7 +136,7 @@ Please ensure that you're requesting the following permissions for your app:
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
-[Please see the example AndroidManifest.xml here](https://github.com/CleverTap/clevertap-cordova/blob/master/Starter/platforms/android/AndroidManifest.xml).
+[Please see the example AndroidManifest.xml here](https://github.com/CleverTap/clevertap-cordova/blob/master/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml).
 
 **Add Dependencies**
 
@@ -215,8 +215,8 @@ Start by adding the following listeners to your Javascript:
 
 Then:  
 
-- [see the included iOS Starter Cordova project for example usage](https://github.com/CleverTap/clevertap-cordova/blob/master/ExampleProject/platforms/ios/www/js/index.js).   
+- [see the included iOS Example Cordova project for usage](https://github.com/CleverTap/clevertap-cordova/blob/master/ExampleProject/platforms/ios/www/js/index.js).   
 
-- [see the included Android Starter Cordova project for example usage](https://github.com/CleverTap/clevertap-cordova/blob/master/ExampleProject/platforms/android/app/src/main/assets/www/js/index.js).  
+- [see the included Android Example Cordova project for usage](https://github.com/CleverTap/clevertap-cordova/blob/master/ExampleProject/platforms/android/app/src/main/assets/www/js/index.js).  
 
-- [see the included Ionic3 Example project for example usage](https://github.com/CleverTap/clevertap-cordova/blob/master/Ionic3Example/src/app/app.component.ts).  
+- [see the included Ionic3 Example project for usage](https://github.com/CleverTap/clevertap-cordova/blob/master/Ionic3Example/src/app/app.component.ts).  
