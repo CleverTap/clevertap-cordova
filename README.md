@@ -176,6 +176,8 @@ Call the following from your Javascript.
 
 #### Android
 
+Registering of push tokens is handled automatically by the `FCMTokenListenerService` of the CleverTap Android SDK and hence no action is required from the Javascript side. `CleverTap.registerPush();` is hence not required for Android.
+
 Add your custom url scheme to the AndroidManifest.xml.
 
 	 <intent-filter android:label="@string/app_name">
