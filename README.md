@@ -176,7 +176,7 @@ Call the following from your Javascript.
 
 #### Android
 
-Registering of push tokens is handled automatically by the `FCMTokenListenerService` of the CleverTap Android SDK and hence no action is required from the Javascript side. Hence, the `CleverTap.registerPush()` method is not required for Android.
+The `FCMTokenListenerService` of the CleverTap Android SDK registers push tokens automatically. No action is required from the Javascript side. Hence, Android does not require the `CleverTap.registerPush()` method.
 
 Add your custom url scheme to the AndroidManifest.xml.
 
