@@ -174,6 +174,26 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             callbackContext.sendPluginResult(result);
             return true;
         }
+        
+        else if (action.equals("createNotification")) {
+           final String extras = args.getString(0);
+           JSONObject json = new JSONObject(extras);
+           Bundle bundle = new Bundle();
+           for (Iterator<String> entry = json.keys(); entry.hasNext(); ) {
+               String key = entry.next();
+               String str = json.optString(key);
+               bundle.putString(key,str);
+           }
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    cleverTap.createNotification(cordova.getActivity().getApplicationContext(), bundle);
+                    PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
+                    _result.setKeepCallback(true);
+                    callbackContext.sendPluginResult(_result);
+                }
+            });
+            return true;
+        }
 
         /* Android O functions start*/
         else if (action.equals("createNotificationChannel")){

@@ -325,6 +325,10 @@ static NSURL *launchDeepLink;
     [self.commandDelegate evalJs:js];
 }
 
+-(void)createNotification:(CDVInvokedUrlCommand *)command{
+    NSLog(@"createNotification is no-op in iOS");
+}
+
 -(void)createNotificationChannel:(CDVInvokedUrlCommand *)command{
     NSLog(@"createNotificationChannel is no-op in iOS");
 }
