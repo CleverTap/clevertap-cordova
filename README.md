@@ -7,7 +7,7 @@ CleverTap Cordova Plugin
 Tested on Cordova 8.0.0
 
 - [CleverTap Android SDK version 3.5.1](https://github.com/CleverTap/clevertap-android-sdk/releases/tag/3.5.1)
-- [CleverTap iOS SDK version 3.5.0](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/3.5.0)
+- [CleverTap iOS SDK version 3.7.1](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/3.7.1)
 
 ## Install
 
@@ -175,6 +175,8 @@ Call the following from your Javascript.
 
 
 #### Android
+
+The `FCMTokenListenerService` of the CleverTap Android SDK registers push tokens automatically. No action is required from the Javascript side. Hence, Android does not require the `CleverTap.registerPush()` method.
 
 Add your custom url scheme to the AndroidManifest.xml.
 

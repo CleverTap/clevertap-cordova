@@ -14,13 +14,13 @@
 @implementation AppDelegate (CleverTapPlugin)
 
 - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken {
-    
-    NSString* token = [[[[deviceToken description]
-                         stringByReplacingOccurrencesOfString:@"<" withString:@""]
-                        stringByReplacingOccurrencesOfString:@">" withString:@""]
-                       stringByReplacingOccurrencesOfString:@" " withString:@""];
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:CTRemoteNotificationDidRegister object:token];
+    const unsigned *tokenBytes = [deviceToken bytes];
+    NSString *token = [NSString stringWithFormat:@"%08x%08x%08x%08x%08x%08x%08x%08x",
+                               ntohl(tokenBytes[0]), ntohl(tokenBytes[1]), ntohl(tokenBytes[2]),
+                               ntohl(tokenBytes[3]), ntohl(tokenBytes[4]), ntohl(tokenBytes[5]),
+                               ntohl(tokenBytes[6]), ntohl(tokenBytes[7])];
+    NSString *deviceTokenString = [NSString stringWithFormat:@"%@", token];
+    [[NSNotificationCenter defaultCenter] postNotificationName:CTRemoteNotificationDidRegister object:deviceTokenString];
 }
 
 - (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error {
