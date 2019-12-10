@@ -4,9 +4,9 @@ CleverTap Cordova Plugin
 
 ## Supported Versions
 
-Tested on Cordova 8.0.0
+Tested on Cordova 9.0.0
 
-- [CleverTap Android SDK version 3.5.1](https://github.com/CleverTap/clevertap-android-sdk/releases/tag/3.5.1)
+- [CleverTap Android SDK version 3.6.1](https://github.com/CleverTap/clevertap-android-sdk/releases/tag/3.6.1)
 - [CleverTap iOS SDK version 3.7.1](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/3.7.1)
 
 ## Install
@@ -152,14 +152,6 @@ Make sure your build.gradle file includes the play-services and support library 
         compile "com.google.android.gms:play-services-base:+"
         compile "com.android.support:support-v4:+"
         // SUB-PROJECT DEPENDENCIES END   
-
-**NOTE**
-
-Cordova Android 7.+ doesn't support Android Pie (28) libraries and hence to use this plugin, you will have to add one more plugin to your app
-
-    cordova plugin add cordova-android-support-gradle-release
-
-This plugin will manage the dependencies to the highest version available in your app and make sure the app builds correctly. CleverTap supports Tabs in the App Inbox but needs the Android design library to be on v28.0.0. Since this is not possible currently on Cordova, Tabs will not be available in this release. Once Cordova starts supporting Android Pie(28), we will be updating our Cordova SDK so that it can support Tabs.
 
 ### 2. Set up and register for push notifications and deep links
 

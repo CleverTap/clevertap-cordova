@@ -2,8 +2,8 @@
 
 module.exports = function(context) {
 
-  var fs = context.requireCordovaModule('fs'),
-    path = context.requireCordovaModule('path');
+  var fs = context.require('fs'),
+    path = context.require('path');
 
   var platformRoot = path.join(context.opts.projectRoot, 'platforms/android/app/src/main');
 
