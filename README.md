@@ -148,8 +148,7 @@ Make sure your build.gradle file includes the play-services and support library 
         releaseCompile(project(path: "CordovaLib", configuration: "release"))
         // SUB-PROJECT DEPENDENCIES START
         compile "com.google.firebase:firebase-core:+"
-        compile "com.google.firebase:firebase-messaging:+"
-        compile "com.google.android.gms:play-services-base:+"
+        compile "com.google.firebase:firebase-messaging:17.3.3"
         compile "com.android.support:support-v4:+"
         // SUB-PROJECT DEPENDENCIES END   
 
