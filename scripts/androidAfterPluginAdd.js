@@ -2,8 +2,8 @@
 
 module.exports = function(context) {
 
-  var fs = context.require('fs'),
-    path = context.require('path');
+  var fs = require('fs'),
+    path = require('path');
 
   var platformRoot = path.join(context.opts.projectRoot, 'platforms/android/app/src/main');
 

@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+Version 2.1.6 *(15 January, 2020)*
+-------------------------------------------
+Fixing after install scripts
+
 Version 2.1.5 *(11 December, 2019)*
 -------------------------------------------
 Update for CleverTap Android v 3.6.1
