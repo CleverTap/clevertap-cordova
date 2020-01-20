@@ -1,7 +1,7 @@
 Change Log
 ==========
 
-Version 2.1.6 *(15 January, 2020)*
+Version 2.1.6 *(20 January, 2020)*
 -------------------------------------------
 Fixing after install scripts
 
