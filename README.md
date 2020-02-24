@@ -6,7 +6,7 @@ CleverTap Cordova Plugin
 
 Tested on Cordova 9.0.0
 
-- [CleverTap Android SDK version 3.6.1](https://github.com/CleverTap/clevertap-android-sdk/releases/tag/3.6.1)
+- [CleverTap Android SDK version 3.6.3](https://github.com/CleverTap/clevertap-android-sdk/releases/tag/3.6.3)
 - [CleverTap iOS SDK version 3.7.1](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/3.7.1)
 
 ## Install
@@ -143,13 +143,14 @@ Please ensure that you're requesting the following permissions for your app:
 Make sure your build.gradle file includes the play-services and support library dependencies:
 
     dependencies {
-        compile fileTree(dir: 'libs', include: '*.jar'  )
+        implementation fileTree(dir: 'libs', include: '*.jar'  )
         debugCompile(project(path: "CordovaLib", configuration: "debug"))
         releaseCompile(project(path: "CordovaLib", configuration: "release"))
         // SUB-PROJECT DEPENDENCIES START
-        compile "com.google.firebase:firebase-core:+"
-        compile "com.google.firebase:firebase-messaging:17.3.3"
-        compile "com.android.support:support-v4:+"
+        implementation "com.google.firebase:firebase-core:+"
+        implementation "com.google.firebase:firebase-messaging:17.3.3"
+        implementation "com.android.support:support-v4:+"
+        implementation "com.android.installreferrer:installreferrer:1.1"
         // SUB-PROJECT DEPENDENCIES END   
 
 ### 2. Set up and register for push notifications and deep links

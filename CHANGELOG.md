@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+Version 2.1.7 *(24 February, 2020)*
+-------------------------------------------
+Adds support for new Google Play Install Referrer API
+Update for CleverTap Android v3.6.3
+
 Version 2.1.6 *(20 January, 2020)*
 -------------------------------------------
 Fixing after install scripts
