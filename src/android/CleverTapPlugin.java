@@ -163,11 +163,16 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             return true;
         }
 
-        // not required for Android here but handle as its in the JS interface
         else if (action.equals("setPushTokenAsString")) {
-            result = new PluginResult(PluginResult.Status.NO_RESULT);
-            result.setKeepCallback(true);
-            callbackContext.sendPluginResult(result);
+            final String token = args.getString(0);
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    cleverTap.pushFcmRegistrationId(token,true);
+                    PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
+                    _result.setKeepCallback(true);
+                    callbackContext.sendPluginResult(_result);
+                }
+            });
             return true;
         }
         
