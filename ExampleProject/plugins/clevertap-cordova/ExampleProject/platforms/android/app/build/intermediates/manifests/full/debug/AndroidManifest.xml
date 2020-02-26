@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.clevertap.example"
+    android:hardwareAccelerated="true"
+    android:versionCode="10000"
+    android:versionName="1.0.0" >
+
+    <uses-sdk
+        android:minSdkVersion="16"
+        android:targetSdkVersion="26" />
+
+    <supports-screens
+        android:anyDensity="true"
+        android:largeScreens="true"
+        android:normalScreens="true"
+        android:resizeable="true"
+        android:smallScreens="true"
+        android:xlargeScreens="true" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!-- Required by older versions of Google Play services to create IID tokens -->
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+
+    <application
+        android:name="com.clevertap.android.sdk.Application"
+        android:debuggable="true"
+        android:hardwareAccelerated="true"
+        android:icon="@mipmap/icon"
+        android:label="@string/app_name"
+        android:supportsRtl="true" >
+        <activity
+            android:name="com.clevertap.example.MainActivity"
+            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale"
+            android:label="@string/activity_name"
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.DeviceDefault.NoActionBar"
+            android:windowSoftInputMode="adjustResize" >
+            <intent-filter android:label="@string/launcher_name" >
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <meta-data
+            android:name="CLEVERTAP_ACCOUNT_ID"
+            android:value="69R-Z7W-W54Z" />
+        <meta-data
+            android:name="CLEVERTAP_TOKEN"
+            android:value="0a1-2c6" />
+
+        <service android:name="com.clevertap.android.sdk.FcmTokenListenerService" >
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name="com.clevertap.android.sdk.FcmMessageListenerService" >
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="com.clevertap.android.sdk.CTNotificationIntentService"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.clevertap.PUSH_EVENT" />
+            </intent-filter>
+        </service>
+
+        <meta-data
+            android:name="CLEVERTAP_REGION"
+            android:value=" " />
+
+        <activity
+            android:name="com.clevertap.android.sdk.InAppNotificationActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <receiver
+            android:name="com.clevertap.android.sdk.InstallReferrerBroadcastReceiver"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.clevertap.android.sdk.CTPushNotificationReceiver"
+            android:enabled="true"
+            android:exported="false" />
+        <!--
+             FirebaseMessagingService performs security checks at runtime,
+             but set to not exported to explicitly avoid allowing another app to call it.
+        -->
+        <service
+            android:name="com.google.firebase.messaging.FirebaseMessagingService"
+            android:exported="false" >
+            <intent-filter android:priority="-500" >
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="com.google.firebase.components.ComponentDiscoveryService"
+            android:exported="false" >
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.iid.Registrar"
+                android:value="com.google.firebase.components.ComponentRegistrar" />
+        </service>
+
+        <receiver
+            android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+            android:exported="false"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <provider
+            android:name="com.google.firebase.provider.FirebaseInitProvider"
+            android:authorities="com.clevertap.example.firebaseinitprovider"
+            android:exported="false"
+            android:initOrder="100" />
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:name="com.clevertap.android.sdk.CTInboxActivity"
+            android:configChanges="keyboardHidden"
+            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
+
+        <service
+            android:name="com.clevertap.android.sdk.CTBackgroundIntentService"
+            android:exported="false"
+            android:permission="android.permission.BIND_JOB_SERVICE" >
+            <intent-filter>
+                <action android:name="com.clevertap.BG_EVENT" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="com.clevertap.android.sdk.CTBackgroundJobService"
+            android:exported="false"
+            android:permission="android.permission.BIND_JOB_SERVICE" >
+        </service>
+    </application>
+
+</manifest>

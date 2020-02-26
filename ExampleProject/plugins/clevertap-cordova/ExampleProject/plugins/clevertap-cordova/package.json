@@ -1,0 +1,59 @@
+{
+  "_from": "git+https://github.com/CleverTap/clevertap-cordova.git",
+  "_id": "clevertap-cordova@2.1.1",
+  "_inBundle": false,
+  "_integrity": "",
+  "_location": "/clevertap-cordova",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "git",
+    "raw": "https://github.com/CleverTap/clevertap-cordova.git",
+    "rawSpec": "https://github.com/CleverTap/clevertap-cordova.git",
+    "saveSpec": "git+https://github.com/CleverTap/clevertap-cordova.git",
+    "fetchSpec": "https://github.com/CleverTap/clevertap-cordova.git",
+    "gitCommittish": null
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "git+https://github.com/CleverTap/clevertap-cordova.git#d2eef9d875246cc35d64197d16bcc065ff1028c6",
+  "_spec": "https://github.com/CleverTap/clevertap-cordova.git",
+  "author": {
+    "name": "CleverTap"
+  },
+  "bugs": {
+    "url": "https://github.com/CleverTap/clevertap-cordova/issues"
+  },
+  "bundleDependencies": false,
+  "cordova": {
+    "id": "clevertap-cordova",
+    "platforms": [
+      "ios",
+      "android"
+    ]
+  },
+  "dependencies": {},
+  "deprecated": false,
+  "description": "CleverTap Plugin for Cordova/PhoneGap",
+  "engines": [
+    {
+      "name": "cordova",
+      "version": ">=3.0.0"
+    }
+  ],
+  "homepage": "https://github.com/CleverTap/clevertap-cordova#readme",
+  "keywords": [
+    "CleverTap",
+    "ecosystem:cordova",
+    "cordova-ios",
+    "cordova-android"
+  ],
+  "license": "Commercial",
+  "name": "clevertap-cordova",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CleverTap/clevertap-cordova.git"
+  },
+  "version": "2.1.1"
+}

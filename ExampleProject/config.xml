@@ -28,6 +28,5 @@
         <variable name="CLEVERTAP_TOKEN" value="0a1-2c6" />
         <variable name="CLEVERTAP_REGION" value=" " />
     </plugin>
-    <engine name="ios" spec="^4.5.5" />
     <engine name="android" spec="^7.0.0" />
 </widget>

@@ -1,6 +1,7 @@
 #import "CTLogger.h"
 
 extern NSString *const kCTApiDomain;
+extern NSString *const kCTNotifViewedApiDomain;
 
 #define CleverTapLogInfo(level, fmt, ...)  if(level >= 0) { NSLog((@"%@" fmt), @"[CleverTap]: ", ##__VA_ARGS__); }
 #define CleverTapLogDebug(level, fmt, ...) if(level > 0) { NSLog((@"%@" fmt), @"[CleverTap]: ", ##__VA_ARGS__); }
@@ -14,6 +15,9 @@ extern NSString *const kCTApiDomain;
 #define CLTAP_TOKEN_LABEL @"CleverTapToken"
 #define CLTAP_REGION_LABEL @"CleverTapRegion"
 #define CLTAP_DISABLE_APP_LAUNCH_LABEL @"CleverTapDisableAppLaunched"
+#define CLTAP_USE_IFA_LABEL @"CleverTapUseIFA"
+#define CLTAP_USE_CUSTOM_CLEVERTAP_ID_LABEL @"CleverTapUseCustomId"
+#define CLTAP_BETA_LABEL @"CleverTapBeta"
 #define CLTAP_SESSION_LENGTH_MINS 20
 #define CLTAP_SESSION_LAST_VC_TRAIL @"last_session_vc_trail"
 #define CLTAP_FB_DOB_DATE_FORMAT @"MM/dd/yyyy"
@@ -45,6 +49,7 @@ extern NSString *const kCTApiDomain;
 #define CLTAP_INAPP_JSON_RESPONSE_KEY @"inapp_notifs"
 #define CLTAP_INBOX_MSG_JSON_RESPONSE_KEY @"inbox_notifs"
 #define CLTAP_PREFS_INAPP_KEY @"inapp_notifs"
+#define CLTAP_AB_EXP_JSON_RESPONSE_KEY @"ab_exps"
 #define CLTAP_INAPP_CLOSE_IV_WIDTH 40
 #define CLTAP_NOTIFICATION_ID_TAG @"wzrk_id"
 #define CLTAP_WZRK_PREFIX @"wzrk_"

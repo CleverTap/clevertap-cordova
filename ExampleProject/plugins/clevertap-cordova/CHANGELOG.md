@@ -1,6 +1,37 @@
 Change Log
 ==========
 
+Version 2.1.8 *(26 February, 2020)*
+-------------------------------------------
+Revert Google Play Install Referrer Library to v1.0
+Update for CleverTap Android v3.6.4
+
+Version 2.1.7 *(24 February, 2020)*
+-------------------------------------------
+Adds support for new Google Play Install Referrer API
+Update for CleverTap Android v3.6.3
+
+Version 2.1.6 *(20 January, 2020)*
+-------------------------------------------
+Fixing after install scripts
+
+Version 2.1.5 *(11 December, 2019)*
+-------------------------------------------
+Update for CleverTap Android v 3.6.1
+
+Version 2.1.4 *(7 November, 2019)*
+-------------------------------------------
+Update for CleverTap Android v 3.5.1
+
+Version 2.1.3 *(4 November, 2019)*
+-------------------------------------------
+Update for CleverTap iOS SDK v 3.7.1
+
+Version 2.1.2 *(29 May, 2019)*
+-------------------------------------------
+Update for CleverTap Android SDK v 3.5.1
+Update for CleverTap iOS SDK v 3.5.0
+
 Version 2.1.1 *(08 February, 2019)*
 -------------------------------------------
 Update for CleverTap Android SDK v 3.4.2

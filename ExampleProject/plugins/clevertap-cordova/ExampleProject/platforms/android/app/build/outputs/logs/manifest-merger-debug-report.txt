@@ -1,0 +1,386 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:2:1-41:12
+INJECTED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:2:1-41:12
+INJECTED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:2:1-41:12
+INJECTED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:2:1-41:12
+MERGED from [com.google.firebase:firebase-messaging:18.0.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/firebase-messaging-18.0.0.aar/a60e165ebfedbd4e9bbb78a627368b01/AndroidManifest.xml:17:1-37:12
+MERGED from [com.google.firebase:firebase-iid:18.0.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/firebase-iid-18.0.0.aar/d4f73013a38182c2440e6d09ca35073b/AndroidManifest.xml:17:1-47:12
+MERGED from [com.google.firebase:firebase-iid-interop:16.0.1] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/firebase-iid-interop-16.0.1.aar/f78a208beeb4fa8c90c6b4ca64c070f4/AndroidManifest.xml:2:1-10:12
+MERGED from [com.google.android.gms:play-services-base:16.1.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/play-services-base-16.1.0.aar/9a9786990cc6b5301257e453c08ad35b/AndroidManifest.xml:17:1-29:12
+MERGED from [com.android.support:design:27.1.1] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/1a002354f79cda04cd3bec21a183bad7/AndroidManifest.xml:17:1-22:12
+MERGED from [com.google.firebase:firebase-common:17.0.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/firebase-common-17.0.0.aar/1d43aab0e0da90c7d73cb24f023ad4ab/AndroidManifest.xml:2:1-19:12
+MERGED from [com.google.android.gms:play-services-tasks:16.0.1] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/play-services-tasks-16.0.1.aar/15170dc18dc3cc18bbab0b4229010a37/AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.firebase:firebase-measurement-connector:17.0.1] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/firebase-measurement-connector-17.0.1.aar/105d340d8f7f2b972de68e8aed4af8de/AndroidManifest.xml:17:1-25:12
+MERGED from [com.google.android.gms:play-services-stats:16.0.1] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/play-services-stats-16.0.1.aar/c6d404346082ce94803fdc985c5d7fbe/AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.android.gms:play-services-basement:16.2.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/play-services-basement-16.2.0.aar/e3984a19f451b8abc6b8251f7b5c8396/AndroidManifest.xml:17:1-28:12
+MERGED from [com.android.support:support-v4:27.1.1] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/support-v4-27.1.1.aar/eb9e28142e2c2789568940075a35fc7e/AndroidManifest.xml:17:1-22:12
+MERGED from [com.clevertap.android:clevertap-android-sdk:3.4.2] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/clevertap-android-sdk-3.4.2.aar/c88e9ed858b7caa7b04e9e883c6ef5ac/AndroidManifest.xml:2:1-50:12
+MERGED from [com.github.bumptech.glide:glide:4.8.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/glide-4.8.0.aar/5d8c7ac10e4d1c527db18ab23b5e9507/AndroidManifest.xml:2:1-12:12
+MERGED from [com.android.support:appcompat-v7:27.1.1] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/592c567429e8c6af64f6ea65f1fde5c0/AndroidManifest.xml:17:1-22:12
+MERGED from [:CordovaLib] /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/CordovaLib/build/intermediates/manifests/full/debug/AndroidManifest.xml:20:1-27:12
+MERGED from [com.android.support:support-media-compat:27.1.1] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/support-media-compat-27.1.1.aar/3aac88e36511905006f5be918fbe3ecb/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-fragment:27.1.1] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/support-fragment-27.1.1.aar/74ed0ef7d51d0d744286305da46b7f5d/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:recyclerview-v7:27.1.1] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/recyclerview-v7-27.1.1.aar/807335eb362b1c537cddb17f102cafeb/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:animated-vector-drawable:27.1.1] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-27.1.1.aar/511276fe7d990bb3e94a32742cb47ddd/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-ui:27.1.1] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/support-core-ui-27.1.1.aar/6b968376eafd680fddad21f2b2b558a9/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-utils:27.1.1] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/support-core-utils-27.1.1.aar/5f5ca37d73ce54e6e7de2030ba09d46a/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:transition:27.1.1] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/transition-27.1.1.aar/654e05edf0a38ba770dcfe04023a998e/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-vector-drawable:27.1.1] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-27.1.1.aar/3db010dc3fbd621b67bc838a028aa32e/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-compat:27.1.1] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/c6136985621552ae6627b2639bfec481/AndroidManifest.xml:17:1-22:12
+MERGED from [com.github.bumptech.glide:gifdecoder:4.8.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/gifdecoder-4.8.0.aar/ee485c7bc961a8b58418918dca526777/AndroidManifest.xml:2:1-11:12
+MERGED from [android.arch.lifecycle:runtime:1.1.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/runtime-1.1.0.aar/f5a0d5f563291c6a062cbe880548d598/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:livedata-core:1.1.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/livedata-core-1.1.0.aar/61aa303d2ce86478d1b84d1e50a41c30/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:viewmodel:1.1.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/viewmodel-1.1.0.aar/8a784b34ec42773b12b7f20a75d624c0/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.core:runtime:1.1.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/runtime-1.1.0.aar/b3af66e4ea790dd3d2a0a5d89f848d60/AndroidManifest.xml:17:1-22:12
+INJECTED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:2:1-41:12
+INJECTED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:2:1-41:12
+INJECTED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:2:1-41:12
+	package
+		ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:2:102-133
+		INJECTED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml
+	android:versionName
+		ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:2:74-101
+		INJECTED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml
+	android:hardwareAccelerated
+		ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:2:11-45
+	xmlns:android
+		ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:2:134-192
+	android:versionCode
+		ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:2:46-73
+		INJECTED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml
+supports-screens
+ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:3:5-191
+	android:largeScreens
+		ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:3:49-76
+	android:smallScreens
+		ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:3:132-159
+	android:normalScreens
+		ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:3:77-105
+	android:xlargeScreens
+		ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:3:160-188
+	android:resizeable
+		ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:3:106-131
+	android:anyDensity
+		ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:3:23-48
+application
+ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:4:5-36:19
+MERGED from [com.google.firebase:firebase-messaging:18.0.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/firebase-messaging-18.0.0.aar/a60e165ebfedbd4e9bbb78a627368b01/AndroidManifest.xml:22:5-35:19
+MERGED from [com.google.firebase:firebase-messaging:18.0.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/firebase-messaging-18.0.0.aar/a60e165ebfedbd4e9bbb78a627368b01/AndroidManifest.xml:22:5-35:19
+MERGED from [com.google.firebase:firebase-iid:18.0.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/firebase-iid-18.0.0.aar/d4f73013a38182c2440e6d09ca35073b/AndroidManifest.xml:28:5-45:19
+MERGED from [com.google.firebase:firebase-iid:18.0.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/firebase-iid-18.0.0.aar/d4f73013a38182c2440e6d09ca35073b/AndroidManifest.xml:28:5-45:19
+MERGED from [com.google.firebase:firebase-iid-interop:16.0.1] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/firebase-iid-interop-16.0.1.aar/f78a208beeb4fa8c90c6b4ca64c070f4/AndroidManifest.xml:7:5-8:19
+MERGED from [com.google.firebase:firebase-iid-interop:16.0.1] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/firebase-iid-interop-16.0.1.aar/f78a208beeb4fa8c90c6b4ca64c070f4/AndroidManifest.xml:7:5-8:19
+MERGED from [com.google.android.gms:play-services-base:16.1.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/play-services-base-16.1.0.aar/9a9786990cc6b5301257e453c08ad35b/AndroidManifest.xml:22:5-27:19
+MERGED from [com.google.android.gms:play-services-base:16.1.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/play-services-base-16.1.0.aar/9a9786990cc6b5301257e453c08ad35b/AndroidManifest.xml:22:5-27:19
+MERGED from [com.google.firebase:firebase-common:17.0.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/firebase-common-17.0.0.aar/1d43aab0e0da90c7d73cb24f023ad4ab/AndroidManifest.xml:11:5-17:19
+MERGED from [com.google.firebase:firebase-common:17.0.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/firebase-common-17.0.0.aar/1d43aab0e0da90c7d73cb24f023ad4ab/AndroidManifest.xml:11:5-17:19
+MERGED from [com.google.android.gms:play-services-tasks:16.0.1] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/play-services-tasks-16.0.1.aar/15170dc18dc3cc18bbab0b4229010a37/AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-tasks:16.0.1] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/play-services-tasks-16.0.1.aar/15170dc18dc3cc18bbab0b4229010a37/AndroidManifest.xml:7:5-20
+MERGED from [com.google.firebase:firebase-measurement-connector:17.0.1] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/firebase-measurement-connector-17.0.1.aar/105d340d8f7f2b972de68e8aed4af8de/AndroidManifest.xml:22:5-23:19
+MERGED from [com.google.firebase:firebase-measurement-connector:17.0.1] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/firebase-measurement-connector-17.0.1.aar/105d340d8f7f2b972de68e8aed4af8de/AndroidManifest.xml:22:5-23:19
+MERGED from [com.google.android.gms:play-services-stats:16.0.1] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/play-services-stats-16.0.1.aar/c6d404346082ce94803fdc985c5d7fbe/AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-stats:16.0.1] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/play-services-stats-16.0.1.aar/c6d404346082ce94803fdc985c5d7fbe/AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-basement:16.2.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/play-services-basement-16.2.0.aar/e3984a19f451b8abc6b8251f7b5c8396/AndroidManifest.xml:22:5-26:19
+MERGED from [com.google.android.gms:play-services-basement:16.2.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/play-services-basement-16.2.0.aar/e3984a19f451b8abc6b8251f7b5c8396/AndroidManifest.xml:22:5-26:19
+MERGED from [com.clevertap.android:clevertap-android-sdk:3.4.2] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/clevertap-android-sdk-3.4.2.aar/c88e9ed858b7caa7b04e9e883c6ef5ac/AndroidManifest.xml:11:5-48:19
+MERGED from [com.clevertap.android:clevertap-android-sdk:3.4.2] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/clevertap-android-sdk-3.4.2.aar/c88e9ed858b7caa7b04e9e883c6ef5ac/AndroidManifest.xml:11:5-48:19
+MERGED from [com.github.bumptech.glide:glide:4.8.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/glide-4.8.0.aar/5d8c7ac10e4d1c527db18ab23b5e9507/AndroidManifest.xml:10:5-20
+MERGED from [com.github.bumptech.glide:glide:4.8.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/glide-4.8.0.aar/5d8c7ac10e4d1c527db18ab23b5e9507/AndroidManifest.xml:10:5-20
+MERGED from [com.github.bumptech.glide:gifdecoder:4.8.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/gifdecoder-4.8.0.aar/ee485c7bc961a8b58418918dca526777/AndroidManifest.xml:9:5-20
+MERGED from [com.github.bumptech.glide:gifdecoder:4.8.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/gifdecoder-4.8.0.aar/ee485c7bc961a8b58418918dca526777/AndroidManifest.xml:9:5-20
+	android:supportsRtl
+		ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:4:167-193
+	android:label
+		ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:4:81-113
+	android:hardwareAccelerated
+		ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:4:18-52
+	android:icon
+		ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:4:53-80
+	android:name
+		ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:4:114-166
+activity#com.clevertap.example.MainActivity
+ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:5:9-10:20
+	android:label
+		ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:5:97-134
+	android:launchMode
+		ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:5:135-165
+	android:windowSoftInputMode
+		ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:5:257-299
+	android:configChanges
+		ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:5:19-96
+	android:theme
+		ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:5:194-256
+	android:name
+		ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:5:166-193
+intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
+ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:6:13-9:29
+	android:label
+		ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:6:28-65
+action#android.intent.action.MAIN
+ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:7:17-69
+	android:name
+		ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:7:25-66
+category#android.intent.category.LAUNCHER
+ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:8:17-77
+	android:name
+		ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:8:27-74
+meta-data#CLEVERTAP_ACCOUNT_ID
+ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:11:9-87
+	android:value
+		ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:11:56-84
+	android:name
+		ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:11:20-55
+meta-data#CLEVERTAP_TOKEN
+ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:12:9-77
+	android:value
+		ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:12:51-74
+	android:name
+		ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:12:20-50
+service#com.clevertap.android.sdk.FcmTokenListenerService
+ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:13:9-17:19
+	android:name
+		ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:13:18-82
+intent-filter#com.google.firebase.INSTANCE_ID_EVENT
+ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:14:13-16:29
+action#com.google.firebase.INSTANCE_ID_EVENT
+ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:15:17-80
+	android:name
+		ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:15:25-77
+service#com.clevertap.android.sdk.FcmMessageListenerService
+ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:18:9-22:19
+	android:name
+		ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:18:18-84
+intent-filter#com.google.firebase.MESSAGING_EVENT
+ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:19:13-21:29
+action#com.google.firebase.MESSAGING_EVENT
+ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:20:17-78
+	android:name
+		ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:20:25-75
+service#com.clevertap.android.sdk.CTNotificationIntentService
+ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:23:9-27:19
+	android:exported
+		ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:23:18-42
+	android:name
+		ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:23:43-111
+intent-filter#com.clevertap.PUSH_EVENT
+ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:24:13-26:29
+action#com.clevertap.PUSH_EVENT
+ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:25:17-67
+	android:name
+		ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:25:25-64
+meta-data#CLEVERTAP_REGION
+ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:28:9-72
+	android:value
+		ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:28:52-69
+	android:name
+		ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:28:20-51
+activity#com.clevertap.android.sdk.InAppNotificationActivity
+ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:29:9-199
+MERGED from [com.clevertap.android:clevertap-android-sdk:3.4.2] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/clevertap-android-sdk-3.4.2.aar/c88e9ed858b7caa7b04e9e883c6ef5ac/AndroidManifest.xml:20:9-23:75
+MERGED from [com.clevertap.android:clevertap-android-sdk:3.4.2] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/clevertap-android-sdk-3.4.2.aar/c88e9ed858b7caa7b04e9e883c6ef5ac/AndroidManifest.xml:20:9-23:75
+	android:configChanges
+		ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:29:19-69
+	android:theme
+		ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:29:137-196
+	android:name
+		ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:29:70-136
+receiver#com.clevertap.android.sdk.InstallReferrerBroadcastReceiver
+ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:30:9-34:20
+MERGED from [com.clevertap.android:clevertap-android-sdk:3.4.2] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/clevertap-android-sdk-3.4.2.aar/c88e9ed858b7caa7b04e9e883c6ef5ac/AndroidManifest.xml:12:9-18:20
+MERGED from [com.clevertap.android:clevertap-android-sdk:3.4.2] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/clevertap-android-sdk-3.4.2.aar/c88e9ed858b7caa7b04e9e883c6ef5ac/AndroidManifest.xml:12:9-18:20
+	android:exported
+		ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:30:19-42
+	android:name
+		ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:30:43-116
+intent-filter#com.android.vending.INSTALL_REFERRER
+ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:31:13-33:29
+action#com.android.vending.INSTALL_REFERRER
+ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:32:17-79
+	android:name
+		ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:32:25-76
+receiver#com.clevertap.android.sdk.CTPushNotificationReceiver
+ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:35:9-137
+MERGED from [com.clevertap.android:clevertap-android-sdk:3.4.2] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/clevertap-android-sdk-3.4.2.aar/c88e9ed858b7caa7b04e9e883c6ef5ac/AndroidManifest.xml:29:9-33:20
+MERGED from [com.clevertap.android:clevertap-android-sdk:3.4.2] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/clevertap-android-sdk-3.4.2.aar/c88e9ed858b7caa7b04e9e883c6ef5ac/AndroidManifest.xml:29:9-33:20
+	android:enabled
+		ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:35:19-41
+	android:exported
+		ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:35:42-66
+	android:name
+		ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:35:67-134
+uses-sdk
+ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:37:5-74
+MERGED from [com.google.firebase:firebase-messaging:18.0.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/firebase-messaging-18.0.0.aar/a60e165ebfedbd4e9bbb78a627368b01/AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-messaging:18.0.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/firebase-messaging-18.0.0.aar/a60e165ebfedbd4e9bbb78a627368b01/AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-iid:18.0.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/firebase-iid-18.0.0.aar/d4f73013a38182c2440e6d09ca35073b/AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-iid:18.0.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/firebase-iid-18.0.0.aar/d4f73013a38182c2440e6d09ca35073b/AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-iid-interop:16.0.1] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/firebase-iid-interop-16.0.1.aar/f78a208beeb4fa8c90c6b4ca64c070f4/AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-iid-interop:16.0.1] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/firebase-iid-interop-16.0.1.aar/f78a208beeb4fa8c90c6b4ca64c070f4/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-base:16.1.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/play-services-base-16.1.0.aar/9a9786990cc6b5301257e453c08ad35b/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-base:16.1.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/play-services-base-16.1.0.aar/9a9786990cc6b5301257e453c08ad35b/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:design:27.1.1] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/1a002354f79cda04cd3bec21a183bad7/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:design:27.1.1] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/1a002354f79cda04cd3bec21a183bad7/AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-common:17.0.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/firebase-common-17.0.0.aar/1d43aab0e0da90c7d73cb24f023ad4ab/AndroidManifest.xml:6:5-8:41
+MERGED from [com.google.firebase:firebase-common:17.0.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/firebase-common-17.0.0.aar/1d43aab0e0da90c7d73cb24f023ad4ab/AndroidManifest.xml:6:5-8:41
+MERGED from [com.google.android.gms:play-services-tasks:16.0.1] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/play-services-tasks-16.0.1.aar/15170dc18dc3cc18bbab0b4229010a37/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-tasks:16.0.1] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/play-services-tasks-16.0.1.aar/15170dc18dc3cc18bbab0b4229010a37/AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-measurement-connector:17.0.1] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/firebase-measurement-connector-17.0.1.aar/105d340d8f7f2b972de68e8aed4af8de/AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:firebase-measurement-connector:17.0.1] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/firebase-measurement-connector-17.0.1.aar/105d340d8f7f2b972de68e8aed4af8de/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-stats:16.0.1] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/play-services-stats-16.0.1.aar/c6d404346082ce94803fdc985c5d7fbe/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-stats:16.0.1] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/play-services-stats-16.0.1.aar/c6d404346082ce94803fdc985c5d7fbe/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-basement:16.2.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/play-services-basement-16.2.0.aar/e3984a19f451b8abc6b8251f7b5c8396/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-basement:16.2.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/play-services-basement-16.2.0.aar/e3984a19f451b8abc6b8251f7b5c8396/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-v4:27.1.1] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/support-v4-27.1.1.aar/eb9e28142e2c2789568940075a35fc7e/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-v4:27.1.1] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/support-v4-27.1.1.aar/eb9e28142e2c2789568940075a35fc7e/AndroidManifest.xml:20:5-44
+MERGED from [com.clevertap.android:clevertap-android-sdk:3.4.2] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/clevertap-android-sdk-3.4.2.aar/c88e9ed858b7caa7b04e9e883c6ef5ac/AndroidManifest.xml:7:5-9:41
+MERGED from [com.clevertap.android:clevertap-android-sdk:3.4.2] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/clevertap-android-sdk-3.4.2.aar/c88e9ed858b7caa7b04e9e883c6ef5ac/AndroidManifest.xml:7:5-9:41
+MERGED from [com.github.bumptech.glide:glide:4.8.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/glide-4.8.0.aar/5d8c7ac10e4d1c527db18ab23b5e9507/AndroidManifest.xml:6:5-8:41
+MERGED from [com.github.bumptech.glide:glide:4.8.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/glide-4.8.0.aar/5d8c7ac10e4d1c527db18ab23b5e9507/AndroidManifest.xml:6:5-8:41
+MERGED from [com.android.support:appcompat-v7:27.1.1] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/592c567429e8c6af64f6ea65f1fde5c0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:appcompat-v7:27.1.1] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/592c567429e8c6af64f6ea65f1fde5c0/AndroidManifest.xml:20:5-44
+MERGED from [:CordovaLib] /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/CordovaLib/build/intermediates/manifests/full/debug/AndroidManifest.xml:25:5-44
+MERGED from [:CordovaLib] /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/CordovaLib/build/intermediates/manifests/full/debug/AndroidManifest.xml:25:5-44
+MERGED from [com.android.support:support-media-compat:27.1.1] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/support-media-compat-27.1.1.aar/3aac88e36511905006f5be918fbe3ecb/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-media-compat:27.1.1] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/support-media-compat-27.1.1.aar/3aac88e36511905006f5be918fbe3ecb/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-fragment:27.1.1] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/support-fragment-27.1.1.aar/74ed0ef7d51d0d744286305da46b7f5d/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-fragment:27.1.1] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/support-fragment-27.1.1.aar/74ed0ef7d51d0d744286305da46b7f5d/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:recyclerview-v7:27.1.1] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/recyclerview-v7-27.1.1.aar/807335eb362b1c537cddb17f102cafeb/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:recyclerview-v7:27.1.1] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/recyclerview-v7-27.1.1.aar/807335eb362b1c537cddb17f102cafeb/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:27.1.1] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-27.1.1.aar/511276fe7d990bb3e94a32742cb47ddd/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:27.1.1] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-27.1.1.aar/511276fe7d990bb3e94a32742cb47ddd/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:27.1.1] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/support-core-ui-27.1.1.aar/6b968376eafd680fddad21f2b2b558a9/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:27.1.1] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/support-core-ui-27.1.1.aar/6b968376eafd680fddad21f2b2b558a9/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:27.1.1] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/support-core-utils-27.1.1.aar/5f5ca37d73ce54e6e7de2030ba09d46a/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:27.1.1] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/support-core-utils-27.1.1.aar/5f5ca37d73ce54e6e7de2030ba09d46a/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:transition:27.1.1] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/transition-27.1.1.aar/654e05edf0a38ba770dcfe04023a998e/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:transition:27.1.1] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/transition-27.1.1.aar/654e05edf0a38ba770dcfe04023a998e/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:27.1.1] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-27.1.1.aar/3db010dc3fbd621b67bc838a028aa32e/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:27.1.1] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-27.1.1.aar/3db010dc3fbd621b67bc838a028aa32e/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:27.1.1] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/c6136985621552ae6627b2639bfec481/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:27.1.1] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/c6136985621552ae6627b2639bfec481/AndroidManifest.xml:20:5-44
+MERGED from [com.github.bumptech.glide:gifdecoder:4.8.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/gifdecoder-4.8.0.aar/ee485c7bc961a8b58418918dca526777/AndroidManifest.xml:5:5-7:41
+MERGED from [com.github.bumptech.glide:gifdecoder:4.8.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/gifdecoder-4.8.0.aar/ee485c7bc961a8b58418918dca526777/AndroidManifest.xml:5:5-7:41
+MERGED from [android.arch.lifecycle:runtime:1.1.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/runtime-1.1.0.aar/f5a0d5f563291c6a062cbe880548d598/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/runtime-1.1.0.aar/f5a0d5f563291c6a062cbe880548d598/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/livedata-core-1.1.0.aar/61aa303d2ce86478d1b84d1e50a41c30/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/livedata-core-1.1.0.aar/61aa303d2ce86478d1b84d1e50a41c30/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/viewmodel-1.1.0.aar/8a784b34ec42773b12b7f20a75d624c0/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/viewmodel-1.1.0.aar/8a784b34ec42773b12b7f20a75d624c0/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/runtime-1.1.0.aar/b3af66e4ea790dd3d2a0a5d89f848d60/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/runtime-1.1.0.aar/b3af66e4ea790dd3d2a0a5d89f848d60/AndroidManifest.xml:20:5-44
+	android:targetSdkVersion
+		ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:37:42-71
+	android:minSdkVersion
+		ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:37:15-41
+uses-permission#android.permission.INTERNET
+ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:38:5-67
+MERGED from [com.google.firebase:firebase-iid:18.0.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/firebase-iid-18.0.0.aar/d4f73013a38182c2440e6d09ca35073b/AndroidManifest.xml:23:5-67
+MERGED from [com.google.firebase:firebase-iid:18.0.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/firebase-iid-18.0.0.aar/d4f73013a38182c2440e6d09ca35073b/AndroidManifest.xml:23:5-67
+	android:name
+		ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:38:22-64
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:39:5-79
+MERGED from [com.google.firebase:firebase-iid:18.0.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/firebase-iid-18.0.0.aar/d4f73013a38182c2440e6d09ca35073b/AndroidManifest.xml:22:5-79
+MERGED from [com.google.firebase:firebase-iid:18.0.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/firebase-iid-18.0.0.aar/d4f73013a38182c2440e6d09ca35073b/AndroidManifest.xml:22:5-79
+	android:name
+		ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:39:22-76
+uses-permission#android.permission.WAKE_LOCK
+ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:40:5-68
+MERGED from [com.google.firebase:firebase-iid:18.0.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/firebase-iid-18.0.0.aar/d4f73013a38182c2440e6d09ca35073b/AndroidManifest.xml:24:5-68
+MERGED from [com.google.firebase:firebase-iid:18.0.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/firebase-iid-18.0.0.aar/d4f73013a38182c2440e6d09ca35073b/AndroidManifest.xml:24:5-68
+	android:name
+		ADDED from /Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml:40:22-65
+service#com.google.firebase.messaging.FirebaseMessagingService
+ADDED from [com.google.firebase:firebase-messaging:18.0.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/firebase-messaging-18.0.0.aar/a60e165ebfedbd4e9bbb78a627368b01/AndroidManifest.xml:28:9-34:19
+	android:exported
+		ADDED from [com.google.firebase:firebase-messaging:18.0.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/firebase-messaging-18.0.0.aar/a60e165ebfedbd4e9bbb78a627368b01/AndroidManifest.xml:30:13-37
+	android:name
+		ADDED from [com.google.firebase:firebase-messaging:18.0.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/firebase-messaging-18.0.0.aar/a60e165ebfedbd4e9bbb78a627368b01/AndroidManifest.xml:29:13-82
+uses-permission#com.google.android.c2dm.permission.RECEIVE
+ADDED from [com.google.firebase:firebase-iid:18.0.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/firebase-iid-18.0.0.aar/d4f73013a38182c2440e6d09ca35073b/AndroidManifest.xml:26:5-82
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:18.0.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/firebase-iid-18.0.0.aar/d4f73013a38182c2440e6d09ca35073b/AndroidManifest.xml:26:22-79
+service#com.google.firebase.components.ComponentDiscoveryService
+ADDED from [com.google.firebase:firebase-iid:18.0.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/firebase-iid-18.0.0.aar/d4f73013a38182c2440e6d09ca35073b/AndroidManifest.xml:29:9-35:19
+	android:exported
+		ADDED from [com.google.firebase:firebase-iid:18.0.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/firebase-iid-18.0.0.aar/d4f73013a38182c2440e6d09ca35073b/AndroidManifest.xml:31:13-37
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:18.0.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/firebase-iid-18.0.0.aar/d4f73013a38182c2440e6d09ca35073b/AndroidManifest.xml:30:13-84
+meta-data#com.google.firebase.components:com.google.firebase.iid.Registrar
+ADDED from [com.google.firebase:firebase-iid:18.0.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/firebase-iid-18.0.0.aar/d4f73013a38182c2440e6d09ca35073b/AndroidManifest.xml:32:13-34:85
+	android:value
+		ADDED from [com.google.firebase:firebase-iid:18.0.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/firebase-iid-18.0.0.aar/d4f73013a38182c2440e6d09ca35073b/AndroidManifest.xml:34:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:18.0.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/firebase-iid-18.0.0.aar/d4f73013a38182c2440e6d09ca35073b/AndroidManifest.xml:33:17-96
+receiver#com.google.firebase.iid.FirebaseInstanceIdReceiver
+ADDED from [com.google.firebase:firebase-iid:18.0.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/firebase-iid-18.0.0.aar/d4f73013a38182c2440e6d09ca35073b/AndroidManifest.xml:37:9-44:20
+	android:exported
+		ADDED from [com.google.firebase:firebase-iid:18.0.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/firebase-iid-18.0.0.aar/d4f73013a38182c2440e6d09ca35073b/AndroidManifest.xml:39:13-36
+	android:permission
+		ADDED from [com.google.firebase:firebase-iid:18.0.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/firebase-iid-18.0.0.aar/d4f73013a38182c2440e6d09ca35073b/AndroidManifest.xml:40:13-73
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:18.0.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/firebase-iid-18.0.0.aar/d4f73013a38182c2440e6d09ca35073b/AndroidManifest.xml:38:13-78
+intent-filter#com.google.android.c2dm.intent.RECEIVE
+ADDED from [com.google.firebase:firebase-iid:18.0.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/firebase-iid-18.0.0.aar/d4f73013a38182c2440e6d09ca35073b/AndroidManifest.xml:41:13-43:29
+action#com.google.android.c2dm.intent.RECEIVE
+ADDED from [com.google.firebase:firebase-iid:18.0.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/firebase-iid-18.0.0.aar/d4f73013a38182c2440e6d09ca35073b/AndroidManifest.xml:42:17-81
+	android:name
+		ADDED from [com.google.firebase:firebase-iid:18.0.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/firebase-iid-18.0.0.aar/d4f73013a38182c2440e6d09ca35073b/AndroidManifest.xml:42:25-78
+activity#com.google.android.gms.common.api.GoogleApiActivity
+ADDED from [com.google.android.gms:play-services-base:16.1.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/play-services-base-16.1.0.aar/9a9786990cc6b5301257e453c08ad35b/AndroidManifest.xml:23:9-26:75
+	android:exported
+		ADDED from [com.google.android.gms:play-services-base:16.1.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/play-services-base-16.1.0.aar/9a9786990cc6b5301257e453c08ad35b/AndroidManifest.xml:25:13-37
+	android:theme
+		ADDED from [com.google.android.gms:play-services-base:16.1.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/play-services-base-16.1.0.aar/9a9786990cc6b5301257e453c08ad35b/AndroidManifest.xml:26:13-72
+	android:name
+		ADDED from [com.google.android.gms:play-services-base:16.1.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/play-services-base-16.1.0.aar/9a9786990cc6b5301257e453c08ad35b/AndroidManifest.xml:24:13-79
+provider#com.google.firebase.provider.FirebaseInitProvider
+ADDED from [com.google.firebase:firebase-common:17.0.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/firebase-common-17.0.0.aar/1d43aab0e0da90c7d73cb24f023ad4ab/AndroidManifest.xml:12:9-16:39
+	android:authorities
+		ADDED from [com.google.firebase:firebase-common:17.0.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/firebase-common-17.0.0.aar/1d43aab0e0da90c7d73cb24f023ad4ab/AndroidManifest.xml:14:13-72
+	android:exported
+		ADDED from [com.google.firebase:firebase-common:17.0.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/firebase-common-17.0.0.aar/1d43aab0e0da90c7d73cb24f023ad4ab/AndroidManifest.xml:15:13-37
+	android:initOrder
+		ADDED from [com.google.firebase:firebase-common:17.0.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/firebase-common-17.0.0.aar/1d43aab0e0da90c7d73cb24f023ad4ab/AndroidManifest.xml:16:13-36
+	android:name
+		ADDED from [com.google.firebase:firebase-common:17.0.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/firebase-common-17.0.0.aar/1d43aab0e0da90c7d73cb24f023ad4ab/AndroidManifest.xml:13:13-77
+meta-data#com.google.android.gms.version
+ADDED from [com.google.android.gms:play-services-basement:16.2.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/play-services-basement-16.2.0.aar/e3984a19f451b8abc6b8251f7b5c8396/AndroidManifest.xml:23:9-25:69
+	android:value
+		ADDED from [com.google.android.gms:play-services-basement:16.2.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/play-services-basement-16.2.0.aar/e3984a19f451b8abc6b8251f7b5c8396/AndroidManifest.xml:25:13-66
+	android:name
+		ADDED from [com.google.android.gms:play-services-basement:16.2.0] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/play-services-basement-16.2.0.aar/e3984a19f451b8abc6b8251f7b5c8396/AndroidManifest.xml:24:13-58
+activity#com.clevertap.android.sdk.CTInboxActivity
+ADDED from [com.clevertap.android:clevertap-android-sdk:3.4.2] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/clevertap-android-sdk-3.4.2.aar/c88e9ed858b7caa7b04e9e883c6ef5ac/AndroidManifest.xml:24:9-27:77
+	android:configChanges
+		ADDED from [com.clevertap.android:clevertap-android-sdk:3.4.2] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/clevertap-android-sdk-3.4.2.aar/c88e9ed858b7caa7b04e9e883c6ef5ac/AndroidManifest.xml:26:13-51
+	android:theme
+		ADDED from [com.clevertap.android:clevertap-android-sdk:3.4.2] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/clevertap-android-sdk-3.4.2.aar/c88e9ed858b7caa7b04e9e883c6ef5ac/AndroidManifest.xml:27:13-74
+	android:name
+		ADDED from [com.clevertap.android:clevertap-android-sdk:3.4.2] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/clevertap-android-sdk-3.4.2.aar/c88e9ed858b7caa7b04e9e883c6ef5ac/AndroidManifest.xml:25:13-69
+service#com.clevertap.android.sdk.CTBackgroundIntentService
+ADDED from [com.clevertap.android:clevertap-android-sdk:3.4.2] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/clevertap-android-sdk-3.4.2.aar/c88e9ed858b7caa7b04e9e883c6ef5ac/AndroidManifest.xml:35:9-42:19
+	android:exported
+		ADDED from [com.clevertap.android:clevertap-android-sdk:3.4.2] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/clevertap-android-sdk-3.4.2.aar/c88e9ed858b7caa7b04e9e883c6ef5ac/AndroidManifest.xml:37:13-37
+	android:permission
+		ADDED from [com.clevertap.android:clevertap-android-sdk:3.4.2] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/clevertap-android-sdk-3.4.2.aar/c88e9ed858b7caa7b04e9e883c6ef5ac/AndroidManifest.xml:38:13-69
+	android:name
+		ADDED from [com.clevertap.android:clevertap-android-sdk:3.4.2] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/clevertap-android-sdk-3.4.2.aar/c88e9ed858b7caa7b04e9e883c6ef5ac/AndroidManifest.xml:36:13-79
+intent-filter#com.clevertap.BG_EVENT
+ADDED from [com.clevertap.android:clevertap-android-sdk:3.4.2] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/clevertap-android-sdk-3.4.2.aar/c88e9ed858b7caa7b04e9e883c6ef5ac/AndroidManifest.xml:39:13-41:29
+action#com.clevertap.BG_EVENT
+ADDED from [com.clevertap.android:clevertap-android-sdk:3.4.2] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/clevertap-android-sdk-3.4.2.aar/c88e9ed858b7caa7b04e9e883c6ef5ac/AndroidManifest.xml:40:17-65
+	android:name
+		ADDED from [com.clevertap.android:clevertap-android-sdk:3.4.2] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/clevertap-android-sdk-3.4.2.aar/c88e9ed858b7caa7b04e9e883c6ef5ac/AndroidManifest.xml:40:25-62
+service#com.clevertap.android.sdk.CTBackgroundJobService
+ADDED from [com.clevertap.android:clevertap-android-sdk:3.4.2] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/clevertap-android-sdk-3.4.2.aar/c88e9ed858b7caa7b04e9e883c6ef5ac/AndroidManifest.xml:43:9-47:19
+	android:exported
+		ADDED from [com.clevertap.android:clevertap-android-sdk:3.4.2] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/clevertap-android-sdk-3.4.2.aar/c88e9ed858b7caa7b04e9e883c6ef5ac/AndroidManifest.xml:45:13-37
+	android:permission
+		ADDED from [com.clevertap.android:clevertap-android-sdk:3.4.2] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/clevertap-android-sdk-3.4.2.aar/c88e9ed858b7caa7b04e9e883c6ef5ac/AndroidManifest.xml:46:13-69
+	android:name
+		ADDED from [com.clevertap.android:clevertap-android-sdk:3.4.2] /Users/darshanpania/.gradle/caches/transforms-1/files-1.1/clevertap-android-sdk-3.4.2.aar/c88e9ed858b7caa7b04e9e883c6ef5ac/AndroidManifest.xml:44:13-76

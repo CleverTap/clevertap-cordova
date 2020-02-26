@@ -325,6 +325,10 @@ static NSURL *launchDeepLink;
     [self.commandDelegate evalJs:js];
 }
 
+-(void)createNotification:(CDVInvokedUrlCommand *)command{
+    NSLog(@"createNotification is no-op in iOS");
+}
+
 -(void)createNotificationChannel:(CDVInvokedUrlCommand *)command{
     NSLog(@"createNotificationChannel is no-op in iOS");
 }
@@ -828,7 +832,7 @@ static NSURL *launchDeepLink;
     }
     NSString *tabBackgroundColor = [dict valueForKey:@"tabBackgroundColor"];
     if (tabBackgroundColor) {
-        _config.tabBackgroundColor = [self ct_colorWithHexString:tabBackgroundColor alpha:1.0];
+        _config.navigationBarTintColor = [self ct_colorWithHexString:tabBackgroundColor alpha:1.0];
     }
     NSString *tabSelectedBgColor = [dict valueForKey:@"tabSelectedBgColor"];
     if (tabSelectedBgColor) {

@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='utf-8'?>
+<manifest android:hardwareAccelerated="true" android:versionCode="10000" android:versionName="1.0.0" package="com.clevertap.example" xmlns:android="http://schemas.android.com/apk/res/android">
+    <supports-screens android:anyDensity="true" android:largeScreens="true" android:normalScreens="true" android:resizeable="true" android:smallScreens="true" android:xlargeScreens="true" />
+    <application android:hardwareAccelerated="true" android:icon="@mipmap/icon" android:label="@string/app_name" android:name="com.clevertap.android.sdk.Application" android:supportsRtl="true">
+        <activity android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale" android:label="@string/activity_name" android:launchMode="singleTop" android:name="MainActivity" android:theme="@android:style/Theme.DeviceDefault.NoActionBar" android:windowSoftInputMode="adjustResize">
+            <intent-filter android:label="@string/launcher_name">
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <meta-data android:name="CLEVERTAP_ACCOUNT_ID" android:value="69R-Z7W-W54Z" />
+        <meta-data android:name="CLEVERTAP_TOKEN" android:value="0a1-2c6" />
+        <service android:name="com.clevertap.android.sdk.FcmTokenListenerService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name="com.clevertap.android.sdk.FcmMessageListenerService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:exported="false" android:name="com.clevertap.android.sdk.CTNotificationIntentService">
+            <intent-filter>
+                <action android:name="com.clevertap.PUSH_EVENT" />
+            </intent-filter>
+        </service>
+        <meta-data android:name="CLEVERTAP_REGION" android:value=" " />
+        <activity android:configChanges="orientation|keyboardHidden" android:name="com.clevertap.android.sdk.InAppNotificationActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <receiver android:exported="true" android:name="com.clevertap.android.sdk.InstallReferrerBroadcastReceiver">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
+            </intent-filter>
+        </receiver>
+        <receiver android:enabled="true" android:exported="false" android:name="com.clevertap.android.sdk.CTPushNotificationReceiver" />
+    </application>
+    <uses-sdk android:minSdkVersion="16" android:targetSdkVersion="26" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+</manifest>

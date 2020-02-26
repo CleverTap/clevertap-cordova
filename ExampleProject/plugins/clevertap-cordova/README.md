@@ -4,10 +4,10 @@ CleverTap Cordova Plugin
 
 ## Supported Versions
 
-Tested on Cordova 8.0.0
+Tested on Cordova 9.0.0
 
-- [CleverTap Android SDK version 3.4.2](https://github.com/CleverTap/clevertap-android-sdk/releases/tag/3.4.2)
-- [CleverTap iOS SDK version 3.4.1](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/3.4.1)
+- [CleverTap Android SDK version 3.6.4](https://github.com/CleverTap/clevertap-android-sdk/releases/tag/3.6.4)
+- [CleverTap iOS SDK version 3.7.1](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/3.7.1)
 
 ## Install
 
@@ -136,30 +136,22 @@ Please ensure that you're requesting the following permissions for your app:
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
-[Please see the example AndroidManifest.xml here](https://github.com/CleverTap/clevertap-cordova/blob/master/Starter/platforms/android/AndroidManifest.xml).
+[Please see the example AndroidManifest.xml here](https://github.com/CleverTap/clevertap-cordova/blob/master/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml).
 
 **Add Dependencies**
 
 Make sure your build.gradle file includes the play-services and support library dependencies:
 
     dependencies {
-        compile fileTree(dir: 'libs', include: '*.jar'  )
+        implementation fileTree(dir: 'libs', include: '*.jar'  )
         debugCompile(project(path: "CordovaLib", configuration: "debug"))
         releaseCompile(project(path: "CordovaLib", configuration: "release"))
         // SUB-PROJECT DEPENDENCIES START
-        compile "com.google.firebase:firebase-core:+"
-        compile "com.google.firebase:firebase-messaging:+"
-        compile "com.google.android.gms:play-services-base:+"
-        compile "com.android.support:support-v4:+"
+        implementation "com.google.firebase:firebase-core:+"
+        implementation "com.google.firebase:firebase-messaging:17.3.3"
+        implementation "com.android.support:support-v4:+"
+        implementation "com.android.installreferrer:installreferrer:1.0" //Mandatory for v2.1.8 and above
         // SUB-PROJECT DEPENDENCIES END   
-
-**NOTE**
-
-Cordova Android 7.+ doesn't support Android Pie (28) libraries and hence to use this plugin, you will have to add one more plugin to your app
-
-    cordova plugin add cordova-android-support-gradle-release
-
-This plugin will manage the dependencies to the highest version available in your app and make sure the app builds correctly. CleverTap supports Tabs in the App Inbox but needs the Android design library to be on v28.0.0. Since this is not possible currently on Cordova, Tabs will not be available in this release. Once Cordova starts supporting Android Pie(28), we will be updating our Cordova SDK so that it can support Tabs.
 
 ### 2. Set up and register for push notifications and deep links
 
@@ -176,6 +168,8 @@ Call the following from your Javascript.
 
 #### Android
 
+The `FCMTokenListenerService` of the CleverTap Android SDK registers push tokens automatically. No action is required from the Javascript side. Hence, Android does not require the `CleverTap.registerPush()` method.
+
 Add your custom url scheme to the AndroidManifest.xml.
 
 	 <intent-filter android:label="@string/app_name">
@@ -186,7 +180,7 @@ Add your custom url scheme to the AndroidManifest.xml.
      </intent-filter>
 
 
-See [example AndroidManifest.xml](ihttps://github.com/CleverTap/clevertap-cordova/blob/master/Starter/platforms/android/AndroidManifest.xml).
+See [example AndroidManifest.xml](ihttps://github.com/CleverTap/clevertap-cordova/blob/master/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml).
 
 ### 3. Integrate Javascript with the Plugin
 
@@ -215,8 +209,8 @@ Start by adding the following listeners to your Javascript:
 
 Then:  
 
-- [see the included iOS Starter Cordova project for example usage](https://github.com/CleverTap/clevertap-cordova/blob/master/Starter/platforms/ios/www/js/index.js).   
+- [see the included iOS Example Cordova project for usage](https://github.com/CleverTap/clevertap-cordova/blob/master/ExampleProject/platforms/ios/www/js/index.js).   
 
-- [see the included Android Starter Cordova project for example usage](https://github.com/CleverTap/clevertap-cordova/blob/master/Starter/platforms/android/assets/www/js/index.js).  
+- [see the included Android Example Cordova project for usage](https://github.com/CleverTap/clevertap-cordova/blob/master/ExampleProject/platforms/android/app/src/main/assets/www/js/index.js).  
 
-- [see the included Ionic3 Example project for example usage](https://github.com/CleverTap/clevertap-cordova/blob/master/Ionic3Example/src/app/app.component.ts).  
+- [see the included Ionic3 Example project for usage](https://github.com/CleverTap/clevertap-cordova/blob/master/Ionic3Example/src/app/app.component.ts).  

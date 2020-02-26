@@ -54,6 +54,11 @@ CleverTap.prototype.setPushToken = function (token) {
 }
 
 //Create Notification Channel for Android O
+
+CleverTap.prototype.createNotification = function (extras) {
+    cordova.exec(null,null, "CleverTapPlugin", "createNotification", [extras]);
+}
+
 CleverTap.prototype.createNotificationChannel = function (channelID, channelName, channelDescription, importance, showBadge) {
     cordova.exec(null,null, "CleverTapPlugin", "createNotificationChannel", [channelID, channelName, channelDescription, importance, showBadge]);
 }

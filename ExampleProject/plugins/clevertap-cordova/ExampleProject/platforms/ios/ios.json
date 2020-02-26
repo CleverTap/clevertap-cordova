@@ -1,0 +1,98 @@
+{
+  "prepare_queue": {
+    "installed": [],
+    "uninstalled": []
+  },
+  "config_munge": {
+    "files": {
+      "undefined": {
+        "parents": {
+          "undefined": [
+            {
+              "xml": "<access origin=\"*.wzrkt.com\" />",
+              "count": 1
+            }
+          ]
+        }
+      },
+      "*-Info.plist": {
+        "parents": {
+          "CleverTapAccountID": [
+            {
+              "xml": "<string>69R-Z7W-W54Z</string>",
+              "count": 1
+            }
+          ],
+          "CleverTapToken": [
+            {
+              "xml": "<string>0a1-2c6</string>",
+              "count": 1
+            }
+          ],
+          "CleverTapRegion": [
+            {
+              "xml": "<string> </string>",
+              "count": 1
+            }
+          ]
+        }
+      },
+      "*/Entitlements-Debug.plist": {
+        "parents": {
+          "aps-environment": [
+            {
+              "xml": "<string>development</string>",
+              "count": 1
+            }
+          ]
+        }
+      },
+      "*/Entitlements-Release.plist": {
+        "parents": {
+          "aps-environment": [
+            {
+              "xml": "<string>production</string>",
+              "count": 1
+            }
+          ]
+        }
+      },
+      "config.xml": {
+        "parents": {
+          "/*": [
+            {
+              "xml": "<feature name=\"CleverTapPlugin\"><param name=\"ios-package\" value=\"CleverTapPlugin\" /></feature>",
+              "count": 1
+            }
+          ]
+        }
+      }
+    }
+  },
+  "installed_plugins": {
+    "cordova-plugin-whitelist": {
+      "PACKAGE_NAME": "com.clevertap.example"
+    },
+    "clevertap-cordova": {
+      "CLEVERTAP_ACCOUNT_ID": "69R-Z7W-W54Z",
+      "CLEVERTAP_TOKEN": "0a1-2c6",
+      "CLEVERTAP_REGION": " ",
+      "PACKAGE_NAME": "com.clevertap.example"
+    }
+  },
+  "dependent_plugins": {},
+  "modules": [
+    {
+      "id": "clevertap-cordova.CleverTap",
+      "file": "plugins/clevertap-cordova/www/CleverTap.js",
+      "pluginId": "clevertap-cordova",
+      "clobbers": [
+        "CleverTap"
+      ]
+    }
+  ],
+  "plugin_metadata": {
+    "cordova-plugin-whitelist": "1.3.3",
+    "clevertap-cordova": "2.1.1"
+  }
+}

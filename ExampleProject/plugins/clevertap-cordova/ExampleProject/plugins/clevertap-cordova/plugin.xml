@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" id="clevertap-cordova" version="2.1.1">
+    <name>CleverTap</name>
+    <description>CleverTap Plugin for Cordova/PhoneGap</description>
+    <license>Commercial</license>
+    <keywords>CleverTap</keywords>
+
+    <js-module src="www/CleverTap.js" name="CleverTap">
+        <clobbers target="CleverTap" />
+    </js-module>
+
+    <engines>
+        <engine name="cordova" version=">=3.0.0" />
+    </engines>
+
+    <preference name="CLEVERTAP_ACCOUNT_ID" />
+    <preference name="CLEVERTAP_TOKEN" />
+    <preference name="CLEVERTAP_REGION" default=" "/>
+
+    <platform name="ios">
+		<config-file>
+			<access origin="*.wzrkt.com" />
+		</config-file>
+
+        <config-file target="*-Info.plist" parent="CleverTapAccountID">
+            <string>$CLEVERTAP_ACCOUNT_ID</string>
+        </config-file>
+
+        <config-file target="*-Info.plist" parent="CleverTapToken">
+            <string>$CLEVERTAP_TOKEN</string>
+        </config-file>
+
+        <config-file target="*-Info.plist" parent="CleverTapRegion">
+            <string>$CLEVERTAP_REGION</string>
+        </config-file>
+
+		<config-file parent="aps-environment" target="*/Entitlements-Debug.plist">
+		    <string>development</string>
+		</config-file>
+		<config-file parent="aps-environment" target="*/Entitlements-Release.plist">
+			<string>production</string>
+		</config-file>
+
+        <config-file target="config.xml" parent="/*">
+            <feature name="CleverTapPlugin">
+                <param name="ios-package" value="CleverTapPlugin"/>
+            </feature>
+        </config-file>
+
+        <header-file src="src/ios/AppDelegate+CleverTapPlugin.h" />
+        <source-file src="src/ios/AppDelegate+CleverTapPlugin.m" />
+        <header-file src="src/ios/CleverTapPlugin.h" />
+        <source-file src="src/ios/CleverTapPlugin.m" />
+        
+        <framework src="src/ios/CleverTapSDK.framework" custom="true" embed="true"/>
+        <framework src="src/ios/SDWebImage.framework" custom="true" embed="true"/>
+        <framework src="SystemConfiguration.framework" />
+        <framework src="CoreTelephony.framework" />
+        <framework src="UIKit.framework" />
+        <framework src="CoreLocation.framework" />
+        
+        <hook type="after_plugin_add" src="scripts/iosAfterPluginAdd.js" />
+
+    </platform>
+
+    <platform name="android">
+		<config-file>
+			<access origin="*.wzrkt.com" />
+		</config-file>
+
+        <config-file target="config.xml" parent="/*">
+            <feature name="CleverTapPlugin" >
+                <param name="android-package" value="com.clevertap.cordova.CleverTapPlugin"/>
+            </feature>
+        </config-file>
+
+        <config-file target="AndroidManifest.xml" parent="/manifest">
+            <uses-permission android:name="android.permission.INTERNET" />
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+            <uses-permission android:name="android.permission.WAKE_LOCK" />
+        </config-file>
+
+		<config-file target="AndroidManifest.xml" parent="/manifest/application">
+            <service
+                android:name="com.clevertap.android.sdk.FcmTokenListenerService">
+                <intent-filter>
+                    <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+                </intent-filter>
+            </service>
+
+            <service
+                android:name="com.clevertap.android.sdk.FcmMessageListenerService">
+                <intent-filter>
+                    <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                </intent-filter>
+            </service>
+            
+            <service
+                android:name="com.clevertap.android.sdk.CTNotificationIntentService"
+                android:exported="false">
+                <intent-filter>
+                    <action android:name="com.clevertap.PUSH_EVENT"/>
+                </intent-filter>
+            </service>
+
+            <meta-data android:name="CLEVERTAP_ACCOUNT_ID" android:value="$CLEVERTAP_ACCOUNT_ID" />
+            <meta-data android:name="CLEVERTAP_TOKEN" android:value="$CLEVERTAP_TOKEN" />
+            <meta-data android:name="CLEVERTAP_REGION" android:value="$CLEVERTAP_REGION" />
+            <activity 
+                android:configChanges="orientation|keyboardHidden" 
+                android:name="com.clevertap.android.sdk.InAppNotificationActivity" 
+                android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+            <receiver android:exported="true" android:name="com.clevertap.android.sdk.InstallReferrerBroadcastReceiver">
+                <intent-filter>
+                    <action android:name="com.android.vending.INSTALL_REFERRER" />
+                </intent-filter>
+            </receiver>
+
+            <receiver
+                android:name="com.clevertap.android.sdk.CTPushNotificationReceiver"
+                android:exported="false"
+                android:enabled="true">
+            </receiver>
+		</config-file>
+
+        <source-file src="src/android/google-services.json" target-dir="." />
+        <source-file src="src/android/CleverTapPlugin.java" target-dir="src/com/clevertap/cordova/" />
+
+        <framework src="com.google.firebase:firebase-messaging:+" />
+        <framework src="com.google.android.gms:play-services-base:+" />
+		<framework src="com.android.support:support-v4:28.0.0" />
+        <framework src="com.clevertap.android:clevertap-android-sdk:3.4.2" />
+        <framework src="com.github.bumptech.glide:glide:4.8.0" />
+        <framework src="com.android.support:design:28.0.0" />
+        <framework src="com.android.support:appcompat-v7:28.0.0" />
+
+        <hook type="after_plugin_add" src="scripts/androidAfterPluginAdd.js" />
+
+    </platform>
+</plugin>

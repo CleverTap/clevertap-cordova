@@ -1,4 +1,4 @@
-@import Foundation;
+#import <Foundation/Foundation.h>
 #import "CleverTap.h"
 @class CleverTapInboxMessageContent;
 
@@ -55,12 +55,16 @@
 @property (nonatomic, readonly, assign) BOOL actionHasUrl;
 @property (nonatomic, readonly, assign) BOOL actionHasLinks;
 
-- (NSString*)urlForLinkAtIndex:(int)index;
+- (NSString *_Nullable)urlForLinkAtIndex:(int)index;
+- (NSDictionary *_Nullable)customDataForLinkAtIndex:(int)index;
 
 @end
 
 @protocol CleverTapInboxViewControllerDelegate <NSObject>
-- (void)messageDidSelect:(CleverTapInboxMessage *)message atIndex:(int)index withButtonIndex:(int)buttonIndex;
+@optional
+- (void)messageDidSelect:(CleverTapInboxMessage *_Nonnull)message atIndex:(int)index withButtonIndex:(int)buttonIndex;
+- (void)messageButtonTappedWithCustomExtras:(NSDictionary *_Nullable)customExtras;
+
 @end
 
 /*!
@@ -71,16 +75,14 @@
 
 @interface CleverTapInboxStyleConfig : NSObject
 
-@property (nonatomic, strong) NSString *title;
-@property (nonatomic, strong) UIColor *backgroundColor;
-@property (nonatomic, strong) UIColor *cellBackgroundColor;
-@property (nonatomic, strong) NSArray *messageTags;
-@property (nonatomic, strong) UIColor *navigationBarTintColor;
-@property (nonatomic, strong) UIColor *navigationTintColor;
-@property (nonatomic, strong) UIColor *tabBackgroundColor;
-@property (nonatomic, strong) UIColor *tabSelectedBgColor;
-@property (nonatomic, strong) UIColor *tabSelectedTextColor;
-@property (nonatomic, strong) UIColor *tabUnSelectedTextColor;
+@property (nonatomic, strong, nullable) NSString *title;
+@property (nonatomic, strong, nullable) UIColor *backgroundColor;
+@property (nonatomic, strong, nullable) NSArray *messageTags;
+@property (nonatomic, strong, nullable) UIColor *navigationBarTintColor;
+@property (nonatomic, strong, nullable) UIColor *navigationTintColor;
+@property (nonatomic, strong, nullable) UIColor *tabSelectedBgColor;
+@property (nonatomic, strong, nullable) UIColor *tabSelectedTextColor;
+@property (nonatomic, strong, nullable) UIColor *tabUnSelectedTextColor;
 
 @end
 
@@ -132,7 +134,7 @@ typedef void (^CleverTapInboxUpdatedBlock)(void);
  This method returns an array of `CleverTapInboxMessage` objects for the user.
  */
 
-- (NSArray<CleverTapInboxMessage *> * _Nonnull )getAllInboxMessages;
+- (NSArray<CleverTapInboxMessage *> * _Nonnull)getAllInboxMessages;
 
 /*!
  @method
@@ -142,7 +144,7 @@ typedef void (^CleverTapInboxUpdatedBlock)(void);
  This method returns an array of unread `CleverTapInboxMessage` objects for the user.
  */
 
-- (NSArray<CleverTapInboxMessage *> * _Nonnull )getUnreadInboxMessages;
+- (NSArray<CleverTapInboxMessage *> * _Nonnull)getUnreadInboxMessages;
 
 /*!
  @method
@@ -151,7 +153,7 @@ typedef void (^CleverTapInboxUpdatedBlock)(void);
  This method returns `CleverTapInboxMessage` object that belongs to the given messageId.
  */
 
-- (CleverTapInboxMessage * _Nullable )getInboxMessageForId:(NSString *)messageId;
+- (CleverTapInboxMessage * _Nullable)getInboxMessageForId:(NSString * _Nonnull)messageId;
 
 /*!
  @method
@@ -160,7 +162,7 @@ typedef void (^CleverTapInboxUpdatedBlock)(void);
  This method deletes the given `CleverTapInboxMessage` object.
  */
 
-- (void)deleteInboxMessage:(CleverTapInboxMessage * _Nonnull )message;
+- (void)deleteInboxMessage:(CleverTapInboxMessage * _Nonnull)message;
 
 /*!
  @method
@@ -192,7 +194,7 @@ typedef void (^CleverTapInboxUpdatedBlock)(void);
  The `CleverTapInboxStyleConfig` has all the parameters required to configure the styling of your Inbox ViewController
  */
 
-- (CleverTapInboxViewController * _Nullable)newInboxViewControllerWithConfig:(CleverTapInboxStyleConfig * _Nullable )config andDelegate:(id<CleverTapInboxViewControllerDelegate> _Nullable )delegate;
+- (CleverTapInboxViewController * _Nonnull)newInboxViewControllerWithConfig:(CleverTapInboxStyleConfig * _Nullable )config andDelegate:(id<CleverTapInboxViewControllerDelegate> _Nullable )delegate;
 
 
 @end
