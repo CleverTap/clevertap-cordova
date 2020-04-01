@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" id="clevertap-cordova" version="2.1.8">
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" id="clevertap-cordova" version="2.1.9">
     <name>CleverTap</name>
     <description>CleverTap Plugin for Cordova/PhoneGap</description>
     <license>Commercial</license>
@@ -119,7 +119,7 @@
 
         <framework src="com.google.firebase:firebase-messaging:17.3.4" />
 		<framework src="com.android.support:support-v4:28.0.0" />
-        <framework src="com.clevertap.android:clevertap-android-sdk:3.6.4" />
+        <framework src="com.clevertap.android:clevertap-android-sdk:3.7.2" />
         <framework src="com.github.bumptech.glide:glide:4.9.0" />
         <framework src="com.android.support:design:28.0.0" />
         <framework src="com.android.support:appcompat-v7:28.0.0" />
