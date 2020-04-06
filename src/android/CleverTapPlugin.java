@@ -45,6 +45,7 @@ import com.clevertap.android.sdk.EventDetail;
 import com.clevertap.android.sdk.UTMDetail;
 import com.clevertap.android.sdk.CTInboxListener;
 import com.clevertap.android.sdk.CTInboxStyleConfig;
+import com.clevertap.android.sdk.displayunits.model.CleverTapDisplayUnit;
 
 public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAppNotificationListener, CTInboxListener, CTExperimentsListener, 
             InboxMessageButtonListener, InAppNotificationButtonListener, DisplayUnitListener {
@@ -1683,6 +1684,60 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             return true;
         }
 
+        else if (action.equals("getAllDisplayUnits")) {
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    ArrayList<CleverTapDisplayUnit> displayUnits = cleverTap.getAllDisplayUnits();
+                    PluginResult _result = new PluginResult(PluginResult.Status.OK,displayUnitListToJSONArray(displayUnits));
+                    _result.setKeepCallback(true);
+                    callbackContext.sendPluginResult(_result);
+                }
+            });
+            return true;
+        }
+
+        else if (action.equals("getDisplayUnitForId")) {
+            final String unitId = (args.length() == 1 ? args.getString(0) : "");
+
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    CleverTapDisplayUnit displayUnit = cleverTap.getDisplayUnitForId(unitId);
+                    PluginResult _result = new PluginResult(PluginResult.Status.OK,displayUnit.getJsonObject());
+                    _result.setKeepCallback(true);
+                    callbackContext.sendPluginResult(_result);
+                }
+            });
+            return true;
+        }
+
+        else if (action.equals("pushDisplayUnitViewedEventForID")) {
+            final String unitId = (args.length() == 1 ? args.getString(0) : "");
+
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    cleverTap.pushDisplayUnitViewedEventForID(unitId);
+                    PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
+                    _result.setKeepCallback(true);
+                    callbackContext.sendPluginResult(_result);
+                }
+            });
+            return true;
+        }
+
+        else if (action.equals("pushDisplayUnitClickedEventForID")) {
+            final String unitId = (args.length() == 1 ? args.getString(0) : "");
+
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    cleverTap.pushDisplayUnitClickedEventForID(unitId);
+                    PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
+                    _result.setKeepCallback(true);
+                    callbackContext.sendPluginResult(_result);
+                }
+            });
+            return true;
+        }
+
         result = new PluginResult(PluginResult.Status.ERROR, errorMsg);
         result.setKeepCallback(true);
         callbackContext.sendPluginResult(result);
@@ -2055,16 +2110,26 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
     }
 
     private JSONObject getJsonFromMap(Map<String, Object> map) throws JSONException {
-    JSONObject jsonData = new JSONObject();
-    for (String key : map.keySet()) {
-        Object value = map.get(key);
-        if (value instanceof Map<?, ?>) {
-            value = getJsonFromMap((Map<String, Object>) value);
+        JSONObject jsonData = new JSONObject();
+        for (String key : map.keySet()) {
+            Object value = map.get(key);
+            if (value instanceof Map<?, ?>) {
+                value = getJsonFromMap((Map<String, Object>) value);
+            }
+            jsonData.put(key, value);
         }
-        jsonData.put(key, value);
+        return jsonData;
     }
-    return jsonData;
-}
+
+    private JSONArray displayUnitListToJSONArray(ArrayList<CleverTapDisplayUnit> displayUnits) throws JSONException {
+        JSONArray array = new JSONArray();
+
+        for( int i = 0; i < displayUnits.size(); i++){
+            array.put(displayUnits.get(i).getJsonObject())
+        }
+
+        return array;
+    }
 
 }
 
