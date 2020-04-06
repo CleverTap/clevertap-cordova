@@ -25,6 +25,11 @@ CleverTap.prototype.enablePersonalization = function () {
 	cordova.exec(null, null, "CleverTapPlugin", "enablePersonalization", []);
 }
 
+// Disables the Personalization API
+CleverTap.prototype.disablePersonalization = function () {
+    cordova.exec(null, null, "CleverTapPlugin", "disablePersonalization", []);
+}
+
 //Enables tracking opt out for the currently active user.
 CleverTap.prototype.setOptOut = function (value) {
     cordova.exec(null, null, "CleverTapPlugin", "setOptOut", [value]);
@@ -399,6 +404,34 @@ CleverTap.prototype.getInboxMessageCount = function (successCallback) {
 
 CleverTap.prototype.showInbox = function (styleConfig) {
     cordova.exec(null, null, "CleverTapPlugin", "showInbox", [styleConfig]);
+}
+
+CleverTap.prototype.getAllInboxMessages = function (successCallback) {
+     cordova.exec(successCallback, null, "CleverTapPlugin", "getAllInboxMessages", []);
+}
+
+CleverTap.prototype.getUnreadInboxMessages = function (successCallback) {
+     cordova.exec(successCallback, null, "CleverTapPlugin", "getUnreadInboxMessages", []);
+}
+
+CleverTap.prototype.getInboxMessageForId = function (messageId, successCallback) {
+     cordova.exec(successCallback, null, "CleverTapPlugin", "getInboxMessageForId", [messageId]);
+}
+
+CleverTap.prototype.deleteInboxMessageForId = function (messageId) {
+     cordova.exec(null, null, "CleverTapPlugin", "deleteInboxMessageForId", [messageId]);
+}
+
+CleverTap.prototype.markReadInboxMessageForId = function (messageId) {
+     cordova.exec(null, null, "CleverTapPlugin", "markReadInboxMessageForId", [messageId]);
+}
+
+CleverTap.prototype.pushInboxNotificationViewedEventForId = function (messageId) {
+     cordova.exec(null, null, "CleverTapPlugin", "pushInboxNotificationViewedEventForId", [messageId]);
+}
+
+CleverTap.prototype.pushInboxNotificationClickedEventForId = function (messageId) {
+     cordova.exec(null, null, "CleverTapPlugin", "pushInboxNotificationClickedEventForId", [messageId]);
 }
 
 /****************************
