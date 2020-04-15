@@ -229,6 +229,21 @@ static NSURL *launchDeepLink;
     }
 }
 
+- (void)inAppNotificationButtonTappedWithCustomExtras:(NSDictionary *)customExtras {
+    NSMutableDictionary *jsonDict = [NSMutableDictionary new];
+    
+    if (customExtras != nil) {
+        jsonDict[@"customExtras"] = customExtras;
+    }
+    
+    NSString *jsonString = [self _dictToJson:jsonDict];
+    
+    if (jsonString != nil) {
+        NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onCleverTapInAppNotificationDismissed', %@);", jsonString];
+        [self.commandDelegate evalJs:js];
+    }
+}
+
 
 #pragma mark CleverTapSyncDelegate
 
