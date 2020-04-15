@@ -18,6 +18,13 @@ CleverTap.prototype.notifyDeviceReady = function () {
 }
 
 /*******************
+ * Sync and In App Call back
+******************/
+CleverTap.prototype.setupCallBacks = function () {
+    cordova.exec(null, null, "CleverTapPlugin", "setupCallBacks", []);
+}
+
+/*******************
  * Personalization
  ******************/
 // Enables the Personalization API

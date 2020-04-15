@@ -47,6 +47,10 @@ static NSURL *launchDeepLink;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onDidFailToRegisterForRemoteNotificationsWithError:) name:CTRemoteNotificationRegisterError object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onHandleRegisterForRemoteNotification:) name:CTRemoteNotificationDidRegister object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onHandleOpenURLNotification:) name: CTHandleOpenURLNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onHandleNotification:) name:CTDidReceiveNotification object:nil];
 }
 
 +(void)onDidFinishLaunchingNotification:(NSNotification *)notification {
@@ -86,10 +90,9 @@ static NSURL *launchDeepLink;
 
 -(void)pluginInitialize {
     [super pluginInitialize];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onHandleOpenURLNotification:) name: CTHandleOpenURLNotification object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onHandleNotification:) name:CTDidReceiveNotification object:nil];
+}
+
+-(void)setupCallBacks:(CDVInvokedUrlCommand *)command  {
     
     [clevertap setSyncDelegate:self];
     
