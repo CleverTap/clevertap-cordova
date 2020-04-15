@@ -765,6 +765,7 @@ static NSURL *launchDeepLink;
     }];
 }
 
+//MARK: Inbox
 -(void)initializeInbox:(CDVInvokedUrlCommand *)command {
     [self.commandDelegate runInBackground:^{
         [clevertap initializeInboxWithCallback:^(BOOL success) {
@@ -804,10 +805,44 @@ static NSURL *launchDeepLink;
 
 -(void)showInbox:(CDVInvokedUrlCommand *)command {
     NSDictionary *configStyle = [command argumentAtIndex:0];
-    CleverTapInboxViewController *inboxController = [clevertap newInboxViewControllerWithConfig:[self _dictToInboxStyleConfig:configStyle? configStyle : nil] andDelegate:nil];
+    CleverTapInboxViewController *inboxController = [clevertap newInboxViewControllerWithConfig:[self _dictToInboxStyleConfig:configStyle? configStyle : nil] andDelegate:self];
     if (inboxController) {
         UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:inboxController];
         [self.viewController presentViewController:navigationController animated:YES completion:nil];
+    }
+}
+
+- (void)messageDidSelect:(CleverTapInboxMessage *_Nonnull)message atIndex:(int)index withButtonIndex:(int)buttonIndex {
+    NSMutableDictionary *jsonDict = [NSMutableDictionary new];
+    
+    if (message != nil) {
+        jsonDict[@"message"] = message;
+    }
+    
+    jsonDict[@"index"] = [NSNumber numberWithInt:index];
+    jsonDict[@"buttonIndex"] = [NSNumber numberWithInt:buttonIndex];
+    
+    NSString *jsonString = [self _dictToJson:jsonDict];
+    
+    if (jsonString != nil) {
+        NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('messageDidSelect', %@);", jsonString];
+        [self.commandDelegate evalJs:js];
+    }
+    
+}
+
+- (void)messageButtonTappedWithCustomExtras:(NSDictionary *_Nullable)customExtras {
+    NSMutableDictionary *jsonDict = [NSMutableDictionary new];
+    
+    if (customExtras != nil) {
+        jsonDict[@"customExtras"] = customExtras;
+    }
+    
+    NSString *jsonString = [self _dictToJson:jsonDict];
+    
+    if (jsonString != nil) {
+        NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('messageButtonTappedWithCustomExtras', %@);", jsonString];
+        [self.commandDelegate evalJs:js];
     }
 }
 
