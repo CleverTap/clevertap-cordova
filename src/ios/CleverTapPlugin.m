@@ -872,55 +872,35 @@ static NSURL *launchDeepLink;
 }
 
 //Delete message from the Inbox. Message id must be a String
-- (void)deleteInboxMessage:(CDVInvokedUrlCommand *)command {
+- (void)deleteInboxMessageForId:(CDVInvokedUrlCommand *)command {
     [self.commandDelegate runInBackground:^{
-        CleverTapInboxMessage *message = [command argumentAtIndex:0];
-        [clevertap deleteInboxMessage:message];
+        NSString *messageId = [command argumentAtIndex:0];
+        [clevertap deleteInboxMessageForID: messageId];
     }];
 }
 
 //Mark Message as Read
-- (void)markReadInboxMessage:(CDVInvokedUrlCommand *)command {
+- (void)markReadInboxMessageForId:(CDVInvokedUrlCommand *)command {
     [self.commandDelegate runInBackground:^{
-        CleverTapInboxMessage *message = [command argumentAtIndex:0];
-        [clevertap markReadInboxMessage:message];
+        NSString *messageId = [command argumentAtIndex:0];
+        [clevertap markReadInboxMessageForID: messageId];
     }];
 }
 
-
-//MARK: Inbox Callback
-- (void)messageDidSelect:(CleverTapInboxMessage *_Nonnull)message atIndex:(int)index withButtonIndex:(int)buttonIndex {
-    NSMutableDictionary *jsonDict = [NSMutableDictionary new];
-    
-    if (message != nil) {
-        jsonDict[@"message"] = message;
-    }
-    
-    jsonDict[@"index"] = [NSNumber numberWithInt:index];
-    jsonDict[@"buttonIndex"] = [NSNumber numberWithInt:buttonIndex];
-    
-    NSString *jsonString = [self _dictToJson:jsonDict];
-    
-    if (jsonString != nil) {
-        NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('messageDidSelect', %@);", jsonString];
-        [self.commandDelegate evalJs:js];
-    }
-    
+//Record Inbox Notification Viewed for MessageID
+-(void)pushInboxNotificationViewedEventForId:(CDVInvokedUrlCommand *)command {
+    [self.commandDelegate runInBackground:^{
+        NSString *messageId = [command argumentAtIndex:0];
+        [clevertap recordInboxNotificationViewedEventForID: messageId];
+    }];
 }
 
-- (void)messageButtonTappedWithCustomExtras:(NSDictionary *_Nullable)customExtras {
-    NSMutableDictionary *jsonDict = [NSMutableDictionary new];
-    
-    if (customExtras != nil) {
-        jsonDict[@"customExtras"] = customExtras;
-    }
-    
-    NSString *jsonString = [self _dictToJson:jsonDict];
-    
-    if (jsonString != nil) {
-        NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('messageButtonTappedWithCustomExtras', %@);", jsonString];
-        [self.commandDelegate evalJs:js];
-    }
+//Record Inbox Notification Clicked for MessageID
+-(void)pushInboxNotificationClickedEventForId:(CDVInvokedUrlCommand *)command {
+    [self.commandDelegate runInBackground:^{
+        NSString *messageId = [command argumentAtIndex:0];
+        [clevertap recordInboxNotificationClickedEventForID: messageId];
+    }];
 }
 
 //MARK: Inbox Callback
