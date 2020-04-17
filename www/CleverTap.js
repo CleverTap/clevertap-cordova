@@ -27,7 +27,6 @@ CleverTap.prototype.disableInAppNotificationDisplay = function (setupValue) {
 /*******************
  * Personalization
  ******************/
-//-------
 // Enables the Personalization API
 CleverTap.prototype.enablePersonalization = function () {
 	cordova.exec(null, null, "CleverTapPlugin", "enablePersonalization", []);
