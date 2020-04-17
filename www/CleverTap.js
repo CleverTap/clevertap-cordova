@@ -18,10 +18,10 @@ CleverTap.prototype.notifyDeviceReady = function () {
 }
 
 /*******************
- * Sync and In App Call back
+ * In App Notification Display Disable Setup
 ******************/
-CleverTap.prototype.setupCallBacks = function () {
-    cordova.exec(null, null, "CleverTapPlugin", "setupCallBacks", []);
+CleverTap.prototype.disableInAppNotificationDisplay = function (setupValue) {
+    cordova.exec(null, null, "CleverTapPlugin", "disableInAppNotificationDisplay", [setupValue]);
 }
 
 /*******************
