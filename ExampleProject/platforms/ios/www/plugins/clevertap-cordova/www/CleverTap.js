@@ -566,3 +566,5 @@ CleverTap.prototype.pushDisplayUnitClickedEventForID = function(unitId){
 }
 
 module.exports = new CleverTap();
+
+});
