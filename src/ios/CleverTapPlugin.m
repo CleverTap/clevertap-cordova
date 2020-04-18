@@ -143,10 +143,13 @@ static NSURL *launchDeepLink;
 }
 
 -(NSString *)_dictToJson:(NSDictionary *)dict {
-    NSError *err;
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict options:0 error:&err];
+    NSData *jsonData;
     
-    if(err != nil) {
+    @try {
+        NSError *error;
+        jsonData = [NSJSONSerialization dataWithJSONObject:dict options:0 error:&error];
+    }
+    @catch (NSException *exception) {
         return nil;
     }
     
@@ -908,7 +911,7 @@ static NSURL *launchDeepLink;
     NSMutableDictionary *jsonDict = [NSMutableDictionary new];
     
     if (message != nil) {
-        jsonDict[@"message"] = message;
+        jsonDict[@"message"] = [message description];
     }
     
     jsonDict[@"index"] = [NSNumber numberWithInt:index];
@@ -917,7 +920,7 @@ static NSURL *launchDeepLink;
     NSString *jsonString = [self _dictToJson:jsonDict];
     
     if (jsonString != nil) {
-        NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('messageDidSelect', %@);", jsonString];
+        NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onMessageDidSelect', %@);", jsonString];
         [self.commandDelegate evalJs:js];
     }
     
@@ -933,7 +936,7 @@ static NSURL *launchDeepLink;
     NSString *jsonString = [self _dictToJson:jsonDict];
     
     if (jsonString != nil) {
-        NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('messageButtonTappedWithCustomExtras', %@);", jsonString];
+        NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onMessageButtonTappedWithCustomExtras', %@);", jsonString];
         [self.commandDelegate evalJs:js];
     }
 }
