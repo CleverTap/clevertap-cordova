@@ -32,6 +32,9 @@ static NSURL *launchDeepLink;
 @interface CleverTapPlugin () <CleverTapSyncDelegate, CleverTapInAppNotificationDelegate> {
 }
 
+//In App Notification Display/Hide Handler
+@property (nonatomic, assign) BOOL showInAppNotification;
+
 @end
 
 @implementation CleverTapPlugin
@@ -47,6 +50,10 @@ static NSURL *launchDeepLink;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onDidFailToRegisterForRemoteNotificationsWithError:) name:CTRemoteNotificationRegisterError object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onHandleRegisterForRemoteNotification:) name:CTRemoteNotificationDidRegister object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onHandleOpenURLNotification:) name: CTHandleOpenURLNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onHandleNotification:) name:CTDidReceiveNotification object:nil];
 }
 
 +(void)onDidFinishLaunchingNotification:(NSNotification *)notification {
@@ -84,15 +91,10 @@ static NSURL *launchDeepLink;
     [self notifyPushNotification:notification.object];
 }
 
--(void)pluginInitialize {
+- (void)pluginInitialize {
     [super pluginInitialize];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onHandleOpenURLNotification:) name: CTHandleOpenURLNotification object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onHandleNotification:) name:CTDidReceiveNotification object:nil];
-    
+    _showInAppNotification = YES;
     [clevertap setSyncDelegate:self];
-    
     [clevertap setInAppNotificationDelegate:self];
 }
 
@@ -141,10 +143,13 @@ static NSURL *launchDeepLink;
 }
 
 -(NSString *)_dictToJson:(NSDictionary *)dict {
-    NSError *err;
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict options:0 error:&err];
+    NSData *jsonData;
     
-    if(err != nil) {
+    @try {
+        NSError *error;
+        jsonData = [NSJSONSerialization dataWithJSONObject:dict options:0 error:&error];
+    }
+    @catch (NSException *exception) {
         return nil;
     }
     
@@ -207,6 +212,7 @@ static NSURL *launchDeepLink;
 
 #pragma mark CleverTapInAppNotificationDelegate
 
+//---Call back for In App Notification Dismissal
 -(void)inAppNotificationDismissedWithExtras:(NSDictionary *)extras andActionExtras:(NSDictionary *)actionExtras {
     NSMutableDictionary *jsonDict = [NSMutableDictionary new];
     
@@ -224,6 +230,32 @@ static NSURL *launchDeepLink;
         NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onCleverTapInAppNotificationDismissed', %@);", jsonString];
         [self.commandDelegate evalJs:js];
     }
+}
+
+//---Call back for In App Notification Dismissal with Extra Buttons
+- (void)inAppNotificationButtonTappedWithCustomExtras:(NSDictionary *)customExtras {
+    NSMutableDictionary *jsonDict = [NSMutableDictionary new];
+    
+    if (customExtras != nil) {
+        jsonDict[@"customExtras"] = customExtras;
+    }
+    
+    NSString *jsonString = [self _dictToJson:jsonDict];
+    
+    if (jsonString != nil) {
+        NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onCleverTapInAppNotificationDismissed', %@);", jsonString];
+        [self.commandDelegate evalJs:js];
+    }
+}
+
+//---Call back to Control Display of In App Notification
+- (BOOL)shouldShowInAppNotificationWithExtras:(NSDictionary *)extras {
+    return _showInAppNotification;
+}
+
+//---Set Value For In App Notification Display
+-(void)disableInAppNotificationDisplay {
+    _showInAppNotification = false;
 }
 
 
@@ -762,6 +794,7 @@ static NSURL *launchDeepLink;
     }];
 }
 
+//MARK: Inbox
 -(void)initializeInbox:(CDVInvokedUrlCommand *)command {
     [self.commandDelegate runInBackground:^{
         [clevertap initializeInboxWithCallback:^(BOOL success) {
@@ -791,6 +824,9 @@ static NSURL *launchDeepLink;
     }];
 }
 
+//MARK: Custom Inbox Callbacks
+
+//---Get Inbox Message Count
 -(void)getInboxMessageCount:(CDVInvokedUrlCommand *)command {
     [self.commandDelegate runInBackground:^{
         NSUInteger messageCount = [clevertap getInboxMessageCount];
@@ -799,12 +835,109 @@ static NSURL *launchDeepLink;
     }];
 }
 
+//---Show Inbox
 -(void)showInbox:(CDVInvokedUrlCommand *)command {
     NSDictionary *configStyle = [command argumentAtIndex:0];
-    CleverTapInboxViewController *inboxController = [clevertap newInboxViewControllerWithConfig:[self _dictToInboxStyleConfig:configStyle? configStyle : nil] andDelegate:nil];
+    CleverTapInboxViewController *inboxController = [clevertap newInboxViewControllerWithConfig:[self _dictToInboxStyleConfig:configStyle? configStyle : nil] andDelegate:self];
     if (inboxController) {
         UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:inboxController];
         [self.viewController presentViewController:navigationController animated:YES completion:nil];
+    }
+}
+
+//---Get All Inbox Messages
+-(void)getAllInboxMessages:(CDVInvokedUrlCommand *)command {
+    [self.commandDelegate runInBackground:^{
+        NSArray *inboxMessages = [clevertap getAllInboxMessages];
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:inboxMessages];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
+}
+
+//---Get Unread Messages From Inbox
+-(void)getUnreadInboxMessages:(CDVInvokedUrlCommand *)command {
+    [self.commandDelegate runInBackground:^{
+        NSArray *unreadInboxMessages = [clevertap getUnreadInboxMessages];
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:unreadInboxMessages];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
+}
+
+//---Passing output in array due to plugin limitation
+//---Get Inbox Message For Message ID
+-(void)getInboxMessageForID:(CDVInvokedUrlCommand *)command {
+    [self.commandDelegate runInBackground:^{
+        NSString *messageId = [command argumentAtIndex:0];
+        CleverTapInboxMessage *inboxMessage = [clevertap getInboxMessageForId:messageId];
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray: [NSArray arrayWithObjects:inboxMessage,nil]];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
+}
+
+//Delete message from the Inbox. Message id must be a String
+- (void)deleteInboxMessageForId:(CDVInvokedUrlCommand *)command {
+    [self.commandDelegate runInBackground:^{
+        NSString *messageId = [command argumentAtIndex:0];
+        [clevertap deleteInboxMessageForID: messageId];
+    }];
+}
+
+//Mark Message as Read
+- (void)markReadInboxMessageForId:(CDVInvokedUrlCommand *)command {
+    [self.commandDelegate runInBackground:^{
+        NSString *messageId = [command argumentAtIndex:0];
+        [clevertap markReadInboxMessageForID: messageId];
+    }];
+}
+
+//Record Inbox Notification Viewed for MessageID
+-(void)pushInboxNotificationViewedEventForId:(CDVInvokedUrlCommand *)command {
+    [self.commandDelegate runInBackground:^{
+        NSString *messageId = [command argumentAtIndex:0];
+        [clevertap recordInboxNotificationViewedEventForID: messageId];
+    }];
+}
+
+//Record Inbox Notification Clicked for MessageID
+-(void)pushInboxNotificationClickedEventForId:(CDVInvokedUrlCommand *)command {
+    [self.commandDelegate runInBackground:^{
+        NSString *messageId = [command argumentAtIndex:0];
+        [clevertap recordInboxNotificationClickedEventForID: messageId];
+    }];
+}
+
+//MARK: Inbox Callback
+- (void)messageDidSelect:(CleverTapInboxMessage *_Nonnull)message atIndex:(int)index withButtonIndex:(int)buttonIndex {
+    NSMutableDictionary *jsonDict = [NSMutableDictionary new];
+    
+    if (message != nil) {
+        jsonDict[@"message"] = [message description];
+    }
+    
+    jsonDict[@"index"] = [NSNumber numberWithInt:index];
+    jsonDict[@"buttonIndex"] = [NSNumber numberWithInt:buttonIndex];
+    
+    NSString *jsonString = [self _dictToJson:jsonDict];
+    
+    if (jsonString != nil) {
+        NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onMessageDidSelect', %@);", jsonString];
+        [self.commandDelegate evalJs:js];
+    }
+    
+}
+
+- (void)messageButtonTappedWithCustomExtras:(NSDictionary *_Nullable)customExtras {
+    NSMutableDictionary *jsonDict = [NSMutableDictionary new];
+    
+    if (customExtras != nil) {
+        jsonDict[@"customExtras"] = customExtras;
+    }
+    
+    NSString *jsonString = [self _dictToJson:jsonDict];
+    
+    if (jsonString != nil) {
+        NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onMessageButtonTappedWithCustomExtras', %@);", jsonString];
+        [self.commandDelegate evalJs:js];
     }
 }
 
