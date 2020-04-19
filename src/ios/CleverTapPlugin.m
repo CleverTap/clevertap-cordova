@@ -29,7 +29,7 @@ static NSDictionary *launchNotification;
 
 static NSURL *launchDeepLink;
 
-@interface CleverTapPlugin () <CleverTapSyncDelegate, CleverTapInAppNotificationDelegate> {
+@interface CleverTapPlugin () <CleverTapSyncDelegate, CleverTapInAppNotificationDelegate,CleverTapDisplayUnitDelegate> {
 }
 
 //In App Notification Display/Hide Handler
@@ -96,6 +96,7 @@ static NSURL *launchDeepLink;
     _showInAppNotification = YES;
     [clevertap setSyncDelegate:self];
     [clevertap setInAppNotificationDelegate:self];
+    [clevertap setDisplayUnitDelegate:self];
 }
 
 -(NSDictionary*)_eventDetailToDict:(CleverTapEventDetail*)detail {
@@ -144,9 +145,9 @@ static NSURL *launchDeepLink;
 
 -(NSString *)_dictToJson:(NSDictionary *)dict {
     NSData *jsonData;
+    NSError *error;
     
     @try {
-        NSError *error;
         jsonData = [NSJSONSerialization dataWithJSONObject:dict options:0 error:&error];
     }
     @catch (NSException *exception) {
@@ -911,7 +912,7 @@ static NSURL *launchDeepLink;
     NSMutableDictionary *jsonDict = [NSMutableDictionary new];
     
     if (message != nil) {
-        jsonDict[@"message"] = [message description];
+        jsonDict[@"message"] = [message json];
     }
     
     jsonDict[@"index"] = [NSNumber numberWithInt:index];
@@ -936,7 +937,64 @@ static NSURL *launchDeepLink;
     NSString *jsonString = [self _dictToJson:jsonDict];
     
     if (jsonString != nil) {
-        NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onMessageButtonTappedWithCustomExtras', %@);", jsonString];
+        NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onmessageButtonTappedWithCustomExtras', %@);", jsonString];
+        [self.commandDelegate evalJs:js];
+    }
+}
+
+//MARK: Native Display
+//---Get All Display Units
+- (void)getAllDisplayUnits:(CDVInvokedUrlCommand *)command {
+    [self.commandDelegate runInBackground:^{
+        NSArray *displayUnits = [clevertap getAllDisplayUnits];
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray: displayUnits];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
+}
+
+//---Get Display Unit  For ID
+- (void)getDisplayUnitForId:(CDVInvokedUrlCommand *)command {
+    [self.commandDelegate runInBackground:^{
+        NSString *unitID = [command argumentAtIndex:0];
+        CleverTapDisplayUnit *displayUnit = [clevertap getDisplayUnitForID:unitID];
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray: [NSArray arrayWithObjects:displayUnit,nil]];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
+}
+
+//---Record Display Unit Viewed Event For ID
+- (void)recordDisplayUnitViewedEventForID:(CDVInvokedUrlCommand *)command {
+    [self.commandDelegate runInBackground:^{
+        NSString *unitID = [command argumentAtIndex:0];
+        [clevertap recordDisplayUnitViewedEventForID:unitID];
+    }];
+}
+
+//---Record Display Unit Clicked Event For ID
+- (void)recordDisplayUnitClickedEventForID:(CDVInvokedUrlCommand *)command {
+    [self.commandDelegate runInBackground:^{
+        NSString *unitID = [command argumentAtIndex:0];
+        [clevertap recordDisplayUnitClickedEventForID:unitID];
+    }];
+}
+
+//---Delegate
+- (void)displayUnitsUpdated:(NSArray<CleverTapDisplayUnit *>*_Nonnull)displayUnits {
+    
+    NSMutableDictionary *jsonDict = [NSMutableDictionary new];
+    
+    if (displayUnits != nil) {
+        NSMutableArray *items = [[NSMutableArray alloc] init];
+        for (CleverTapDisplayUnit *item in displayUnits) {
+            [items addObject: item.json];
+        }
+        jsonDict[@"displayUnits"] = items;
+    }
+    
+    NSString *jsonString = [self _dictToJson:jsonDict];
+    
+    if (jsonString != nil) {
+        NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onCleverTapDisplayUnitsUpdated', %@);", jsonString];
         [self.commandDelegate evalJs:js];
     }
 }
