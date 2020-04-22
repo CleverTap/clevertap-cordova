@@ -9,6 +9,7 @@
 //
 
 #import <Cordova/CDVPlugin.h>
+#import <CleverTapSDK/CleverTap+ABTesting.h>
 
 static NSString* const CTDidReceiveNotification = @"CTDidReceiveNotification";
 static NSString* const CTRemoteNotificationDidRegister = @"CTRemoteNotificationDidRegister";
@@ -92,9 +93,7 @@ static NSString* const CTHandleOpenURLNotification = @"CTHandleOpenURLNotificati
 /**
     Call this method to Disable InApp Notification From CleverTap
 */
--(void)disableInAppNotificationDisplay {
-    _showInAppNotification = false;
-}
+-(void)disableInAppNotificationDisplay;
 
 #pragma mark Event API
 

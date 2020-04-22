@@ -19,7 +19,6 @@
 #import <CleverTapSDK/CleverTapInAppNotificationDelegate.h>
 #import <CleverTapSDK/CleverTapEventDetail.h>
 #import <CleverTapSDK/CleverTapUTMDetail.h>
-#import <CleverTapSDK/CleverTap+ABTesting.h>
 #import <CoreLocation/CoreLocation.h>
 
 static NSDateFormatter *dateFormatter;

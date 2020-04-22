@@ -1,6 +1,6 @@
 //
 //  CleverTapPlugin.h
-//  Copyright (C) 2015 CleverTap 
+//  Copyright (C) 2015 CleverTap
 //
 //  This code is provided under a comercial License.
 //  A copy of this license has been distributed in a file called LICENSE
@@ -9,6 +9,7 @@
 //
 
 #import <Cordova/CDVPlugin.h>
+#import <CleverTapSDK/CleverTap+ABTesting.h>
 
 static NSString* const CTDidReceiveNotification = @"CTDidReceiveNotification";
 static NSString* const CTRemoteNotificationDidRegister = @"CTRemoteNotificationDidRegister";
@@ -92,9 +93,7 @@ static NSString* const CTHandleOpenURLNotification = @"CTHandleOpenURLNotificati
 /**
     Call this method to Disable InApp Notification From CleverTap
 */
--(void)disableInAppNotificationDisplay {
-    _showInAppNotification = false;
-}
+-(void)disableInAppNotificationDisplay;
 
 #pragma mark Event API
 
@@ -512,3 +511,4 @@ This method fetches the Dictionary of String Variable
 -(void)getMapOfStringVariable: (CDVInvokedUrlCommand *)command;
 
 @end
+
