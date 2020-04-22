@@ -77,6 +77,24 @@ static NSString* const CTHandleOpenURLNotification = @"CTHandleOpenURLNotificati
  */
 -(void)handleDeepLink:(NSURL *)url;
 
+#pragma mark CleverTapInAppNotificationDelegate
+
+/**
+   This method gives call back for In App Notification Action
+*/
+-(void)inAppNotificationDismissedWithExtras:(NSDictionary *)extras andActionExtras:(NSDictionary *)actionExtras ;
+
+/**
+   This method gives call back for In App Notification Action
+*/
+- (void)inAppNotificationButtonTappedWithCustomExtras:(NSDictionary *)customExtras ;
+
+/**
+    Call this method to Disable InApp Notification From CleverTap
+*/
+-(void)disableInAppNotificationDisplay {
+    _showInAppNotification = false;
+}
 
 #pragma mark Event API
 
@@ -290,5 +308,207 @@ static NSString* const CTHandleOpenURLNotification = @"CTHandleOpenURLNotificati
  This method opens the controller to display the inbox messages.
  */
 -(void)showInbox:(CDVInvokedUrlCommand *)command;
+
+/**
+This method fetches all Inbox Messages
+*/
+-(void)getAllInboxMessages:(CDVInvokedUrlCommand *)command;
+
+/**
+This method fetches all Unread Inbox Messages
+*/
+-(void)getUnreadInboxMessages:(CDVInvokedUrlCommand *)command;
+
+/**
+This method fetches the Message for Given Message Id
+*/
+-(void)getInboxMessageForID:(CDVInvokedUrlCommand *)command;
+
+/**
+This method deletes the Inbox Message for Given Message Id
+*/
+- (void)deleteInboxMessageForId:(CDVInvokedUrlCommand *)command;
+
+/**
+This method Mark a message as Read for Given Message Id
+*/
+- (void)markReadInboxMessageForId:(CDVInvokedUrlCommand *)command;
+
+/**
+This method Marks Inbox Notification Viewed for Given Message Id
+*/
+-(void)pushInboxNotificationViewedEventForId:(CDVInvokedUrlCommand *)command;
+
+/**
+This method Marks Inbox Notification Clicked for Given Message Id
+*/
+-(void)pushInboxNotificationClickedEventForId:(CDVInvokedUrlCommand *)command;
+
+# pragma mark App Inbox Delegate
+/**
+This method Gives Callback on Inbox Message Tapped
+*/
+- (void)messageDidSelect:(CleverTapInboxMessage *_Nonnull)message atIndex:(int)index withButtonIndex:(int)buttonIndex;
+
+/**
+This method Gives Callback on Inbox Message Tapped
+*/
+-(void)messageButtonTappedWithCustomExtras:(NSDictionary *_Nullable)customExtras;
+
+# pragma mark Native Display
+
+/**
+This method is called to fetch all Display Units
+*/
+- (void)getAllDisplayUnits:(CDVInvokedUrlCommand *)command;
+
+/**
+This method is called to Fetch Display Unit For ID
+*/
+- (void)getDisplayUnitForId:(CDVInvokedUrlCommand *)command;
+
+/**
+This method is called to record Rendering of Display Unit
+*/
+- (void)recordDisplayUnitViewedEventForID:(CDVInvokedUrlCommand *)command;
+
+/**
+This method is called to record Click on Display Unit
+*/
+- (void)recordDisplayUnitClickedEventForID:(CDVInvokedUrlCommand *)command;
+
+# pragma mark Native Display Delegate
+
+/**
+This method is callback for Display Unit Updates
+*/
+- (void)displayUnitsUpdated:(NSArray<CleverTapDisplayUnit *>*_Nonnull)displayUnits;
+
+# pragma mark Dynamic Variables
+
+/**
+This method enables UI Editor
+*/
+-(void)setUIEditorConnectionEnabled: (CDVInvokedUrlCommand *)command;
+
+/**
+This method registers Boolean Variable
+*/
+-(void)registerBooleanVariable: (CDVInvokedUrlCommand *)command;
+
+/**
+This method registers Double Variable
+*/
+-(void)registerDoubleVariable: (CDVInvokedUrlCommand *)command;
+
+/**
+This method registers Integer Variable
+*/
+-(void)registerIntegerVariable: (CDVInvokedUrlCommand *)command;
+
+/**
+This method registers String Variable
+*/
+-(void)registerStringVariable: (CDVInvokedUrlCommand *)command;
+
+/**
+This method registers List of Boolean Variable
+*/
+-(void)registerListOfBooleanVariable: (CDVInvokedUrlCommand *)command;
+
+/**
+This method registers List of Doubel Variable
+*/
+-(void)registerListOfDoubleVariable: (CDVInvokedUrlCommand *)command;
+
+/**
+This method registers List of Integer Variable
+*/
+-(void)registerListOfIntegerVariable: (CDVInvokedUrlCommand *)command;
+
+/**
+This method registers List of String Variable
+*/
+-(void)registerListOfStringVariable: (CDVInvokedUrlCommand *)command;
+
+/**
+This method registers Dictionary of Boolean Variable
+*/
+-(void)registerMapOfBooleanVariable: (CDVInvokedUrlCommand *)command;
+
+/**
+This method registers Dictionary of Double Variable
+*/
+-(void)registerMapOfDoubleVariable: (CDVInvokedUrlCommand *)command;
+
+/**
+This method registers Dictionary of Integer Variable
+*/
+-(void)registerMapOfIntegerVariable: (CDVInvokedUrlCommand *)command;
+
+/**
+This method registers Dictionary of String Variable
+*/
+-(void)registerMapOfStringVariable: (CDVInvokedUrlCommand *)command;
+
+/**
+This method fetches the Boolean Variable
+*/
+-(void)getBooleanVariable: (CDVInvokedUrlCommand *)command;
+
+/**
+This method fetches the Double Variable
+*/
+-(void)getDoubleVariable: (CDVInvokedUrlCommand *)command;
+
+/**
+This method fetches the Integer Variable
+*/
+-(void)getIntegerVariable: (CDVInvokedUrlCommand *)command;
+
+/**
+This method fetches the String Variable
+*/
+-(void)getStringVariable: (CDVInvokedUrlCommand *)command;
+
+/**
+This method fetches the list of Boolean Variable
+*/
+-(void)getListOfBooleanVariable: (CDVInvokedUrlCommand *)command;
+
+/**
+This method fetches the list of Double Variable
+*/
+-(void)getListOfDoubleVariable: (CDVInvokedUrlCommand *)command;
+
+/**
+This method fetches the list of Integer Variable
+*/
+-(void)getListOfIntegerVariable: (CDVInvokedUrlCommand *)command;
+
+/**
+This method fetches the list of String  Variable
+*/
+-(void)getListOfStringVariable: (CDVInvokedUrlCommand *)command;
+
+/**
+This method fetches the Dictionary of Boolean Variable
+*/
+-(void)getMapOfBooleanVariable: (CDVInvokedUrlCommand *)command;
+
+/**
+This method fetches the Dictionary of Double Variable
+*/
+-(void)getMapOfDoubleVariable: (CDVInvokedUrlCommand *)command;
+
+/**
+This method fetches the Dictionary of Integer Variable
+*/
+-(void)getMapOfIntegerVariable: (CDVInvokedUrlCommand *)command;
+
+/**
+This method fetches the Dictionary of String Variable
+*/
+-(void)getMapOfStringVariable: (CDVInvokedUrlCommand *)command;
 
 @end

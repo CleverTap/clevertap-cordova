@@ -826,8 +826,6 @@ static NSURL *launchDeepLink;
     }];
 }
 
-//MARK: Custom Inbox Callbacks
-
 //---Get Inbox Message Count
 -(void)getInboxMessageCount:(CDVInvokedUrlCommand *)command {
     [self.commandDelegate runInBackground:^{
