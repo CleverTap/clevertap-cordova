@@ -119,6 +119,8 @@
         <source-file src="src/android/google-services.json" target-dir="." />
         <source-file src="src/android/CleverTapPlugin.java" target-dir="src/com/clevertap/cordova/" />
 
+        <framework src="src/android/build.gradle" custom="true" type="gradleReference" />
+
         <framework src="com.google.firebase:firebase-messaging:$FIREBASE_MESSAGING_VERSION" />
 		<framework src="com.android.support:support-v4:28.0.0" />
         <framework src="com.clevertap.android:clevertap-android-sdk:$CLEVERTAP_SDK_VERSION" />

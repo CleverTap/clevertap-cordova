@@ -1,0 +1,11 @@
+buildscript {
+    repositories {
+        google()
+        jcenter()
+    }
+
+    dependencies {
+        // Minimum required version 3.3.1
+        classpath 'com.android.tools.build:gradle:3.3.1'
+    }
+}

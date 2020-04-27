@@ -60,7 +60,7 @@ cordova plugin add clevertap-cordova@latest \
     --variable CLEVERTAP_ACCOUNT_ID="YOUR CLEVERTAP ACCOUNT ID" \ 
     --variable CLEVERTAP_TOKEN="YOUR CELVERTAP ACCOUNT TOKEN" \
     --variable FIREBASE_MESSAGING_VERSION="17.3.4" \
-    --variable CLEVERTAP_SDK_VERSION="3.6.4"
+    --variable CLEVERTAP_SDK_VERSION="3.7.2"
 ```
 
 ##### For Ionic3
