@@ -47,6 +47,22 @@ cordova plugin add https://github.com/CleverTap/clevertap-cordova.git --variable
 ionic cordova plugin add clevertap-cordova@latest --variable CLEVERTAP_ACCOUNT_ID="YOUR CLEVERTAP ACCOUNT ID" --variable CLEVERTAP_TOKEN="YOUR CELVERTAP ACCOUNT TOKEN"
 ```
 
+#### Specifying Android library versions
+
+This plugin depends on various components such as the Firebase Messaging SDK & CleverTap 
+[native SDK](https://github.com/CleverTap/clevertap-android-sdk) which are pulled in at build-time by Gradle on Android. By default this
+plugin pins specific versions of these in its `plugin.xml` where you can find the currently pinned versions as `<preference>`'s.
+
+For example:
+
+```shell script
+cordova plugin add clevertap-cordova@latest \ 
+    --variable CLEVERTAP_ACCOUNT_ID="YOUR CLEVERTAP ACCOUNT ID" \ 
+    --variable CLEVERTAP_TOKEN="YOUR CELVERTAP ACCOUNT TOKEN" \
+    --variable FIREBASE_MESSAGING_VERSION="17.3.4" \
+    --variable CLEVERTAP_SDK_VERSION="3.6.4"
+```
+
 ##### For Ionic3
 ```
 npm install @ionic-native/clevertap --save 
