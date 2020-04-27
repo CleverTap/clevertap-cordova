@@ -18,9 +18,9 @@
     <preference name="CLEVERTAP_REGION" default=" "/>
 
     <platform name="ios">
-		<config-file>
+		<!--<config-file>
 			<access origin="*.wzrkt.com" />
-		</config-file>
+		</config-file>-->
 
         <config-file target="*-Info.plist" parent="CleverTapAccountID">
             <string>$CLEVERTAP_ACCOUNT_ID</string>
@@ -64,9 +64,9 @@
     </platform>
 
     <platform name="android">
-		<config-file>
+		<!--<config-file>
 			<access origin="*.wzrkt.com" />
-		</config-file>
+		</config-file>-->
 
         <config-file target="config.xml" parent="/*">
             <feature name="CleverTapPlugin" >
