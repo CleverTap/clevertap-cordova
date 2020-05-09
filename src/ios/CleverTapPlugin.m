@@ -29,7 +29,7 @@ static NSDictionary *launchNotification;
 
 static NSURL *launchDeepLink;
 
-@interface CleverTapPlugin () <CleverTapSyncDelegate, CleverTapInAppNotificationDelegate,CleverTapDisplayUnitDelegate,CleverTapFeatureFlagsDelegate, CleverTapProductConfigDelegate> {
+@interface CleverTapPlugin () <CleverTapSyncDelegate, CleverTapInAppNotificationDelegate,CleverTapDisplayUnitDelegate, CleverTapFeatureFlagsDelegate, CleverTapProductConfigDelegate> {
 }
 
 //In App Notification Display/Hide Handler
@@ -1252,7 +1252,7 @@ static NSURL *launchDeepLink;
     }];
 }
 
--(void)fetch {
+-(void)fetch: (CDVInvokedUrlCommand *)command {
     [self.commandDelegate runInBackground:^{
         [[clevertap productConfig] fetch];
     }];
@@ -1265,13 +1265,13 @@ static NSURL *launchDeepLink;
     }];
 }
 
--(void)activate {
+-(void)activate: (CDVInvokedUrlCommand *)command {
     [self.commandDelegate runInBackground:^{
         [[clevertap productConfig] activate];
     }];
 }
 
--(void)fetchAndActivate {
+-(void)fetchAndActivate: (CDVInvokedUrlCommand *)command {
     [self.commandDelegate runInBackground:^{
         [[clevertap productConfig] fetchAndActivate];
     }];
@@ -1342,6 +1342,7 @@ static NSURL *launchDeepLink;
     [self.commandDelegate evalJs:js];
 }
 
+
 -(CleverTapInboxStyleConfig*)_dictToInboxStyleConfig: (NSDictionary *)dict {
     CleverTapInboxStyleConfig *_config = [CleverTapInboxStyleConfig new];
     NSString *title = [dict valueForKey:@"navBarTitle"];
@@ -1401,4 +1402,3 @@ static NSURL *launchDeepLink;
 }
 
 @end
-
