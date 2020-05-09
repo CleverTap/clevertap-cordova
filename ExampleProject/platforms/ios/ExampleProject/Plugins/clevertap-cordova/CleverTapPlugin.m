@@ -1252,7 +1252,7 @@ static NSURL *launchDeepLink;
     }];
 }
 
--(void)fetch {
+-(void)fetch: (CDVInvokedUrlCommand *)command {
     [self.commandDelegate runInBackground:^{
         [[clevertap productConfig] fetch];
     }];
@@ -1265,13 +1265,13 @@ static NSURL *launchDeepLink;
     }];
 }
 
--(void)activate {
+-(void)activate: (CDVInvokedUrlCommand *)command {
     [self.commandDelegate runInBackground:^{
         [[clevertap productConfig] activate];
     }];
 }
 
--(void)fetchAndActivate {
+-(void)fetchAndActivate: (CDVInvokedUrlCommand *)command {
     [self.commandDelegate runInBackground:^{
         [[clevertap productConfig] fetchAndActivate];
     }];

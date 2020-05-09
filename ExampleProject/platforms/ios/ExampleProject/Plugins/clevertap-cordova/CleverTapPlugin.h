@@ -519,7 +519,7 @@ This method Sets the default value for given set of keys
 /**
 This method fetches the Product Config
 */
--(void)fetch;
+-(void)fetch: (CDVInvokedUrlCommand *)command;
 
 /**
 This method fetches Product Config with a defined minimum time interval
@@ -529,12 +529,12 @@ This method fetches Product Config with a defined minimum time interval
 /**
 This method activates the fetched Product Config
 */
--(void)activate;
+-(void)activate: (CDVInvokedUrlCommand *)command;
 
 /**
 This method fetches and activated the Product Config
 */
--(void)fetchAndActivate;
+-(void)fetchAndActivate: (CDVInvokedUrlCommand *)command;
 
 /**
 This method allows you to set minimum time interval for consecutive Product Config call
