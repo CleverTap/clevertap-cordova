@@ -568,10 +568,6 @@ CleverTap.prototype.pushDisplayUnitClickedEventForID = function(unitId){
 /****************************
 * Feature Flag methods
 ****************************/
-CleverTap.prototype.isFeatureFlagInitialized = function(successCallback){
-    cordova.exec(successCallback, null, "CleverTapPlugin", "isFeatureFlagInitialized", []);
-}
-
 CleverTap.prototype.getFeatureFlag = function(name,defaultValue,successCallback){
     cordova.exec(successCallback, null, "CleverTapPlugin", "getFeatureFlag", [name,defaultValue]);
 }
@@ -579,10 +575,6 @@ CleverTap.prototype.getFeatureFlag = function(name,defaultValue,successCallback)
 /****************************
 * Product Config methods
 ****************************/
-CleverTap.prototype.isProductConfigInitialized = function(successCallback){
-    cordova.exec(successCallback, null, "CleverTapPlugin", "isProductConfigInitialized", []);
-}
-
 CleverTap.prototype.setDefaultsMap = function(jsonMap){
     cordova.exec(null, null, "CleverTapPlugin", "setDefaultsMap", [jsonMap]);
 }

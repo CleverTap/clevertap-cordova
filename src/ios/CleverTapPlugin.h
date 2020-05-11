@@ -493,24 +493,12 @@ This method fetches the Dictionary of String Variable
 -(void)getMapOfStringVariable: (CDVInvokedUrlCommand *)command;
 
 //Feature Flags
-
-/**
-This method fetches the Initiliasation Status of Feature Flag
-*/
--(void)isFeatureFlagInitialized: (CDVInvokedUrlCommand *)command;
-
 /**
 This method fetches the Value of Feature Flag
 */
 -(void)getFeatureFlag: (CDVInvokedUrlCommand *)command;
 
 //Product Config
-
-/**
-This method fetches the  Initiliasation Status of Product Config
-*/
--(void)isProductConfigInitialized: (CDVInvokedUrlCommand *)command;
-
 /**
 This method Sets the default value for given set of keys
 */

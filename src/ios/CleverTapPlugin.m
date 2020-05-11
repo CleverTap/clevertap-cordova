@@ -1212,14 +1212,6 @@ static NSURL *launchDeepLink;
 }
 
 //MARK: Feature Flag
-
-//---Fetch Initialisation status of Feature Flag
--(void)isFeatureFlagInitialized: (CDVInvokedUrlCommand *)command {
-    [self.commandDelegate runInBackground:^{
-        
-    }];
-}
-
 //---Fetch Value of Given Feature Flag key and default value
 -(void)getFeatureFlag: (CDVInvokedUrlCommand *)command {
     [self.commandDelegate runInBackground:^{
@@ -1238,13 +1230,6 @@ static NSURL *launchDeepLink;
 }
 
 //MARK: Product Config
-
--(void)isProductConfigInitialized: (CDVInvokedUrlCommand *)command {
-    [self.commandDelegate runInBackground:^{
-       
-    }];
-}
-
 -(void)setDefaultsMap: (CDVInvokedUrlCommand *)command {
     [self.commandDelegate runInBackground:^{
         NSDictionary *jsonDict = [command argumentAtIndex:0];
