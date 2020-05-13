@@ -29,7 +29,7 @@ static NSDictionary *launchNotification;
 
 static NSURL *launchDeepLink;
 
-@interface CleverTapPlugin () <CleverTapSyncDelegate, CleverTapInAppNotificationDelegate,CleverTapDisplayUnitDelegate> {
+@interface CleverTapPlugin () <CleverTapSyncDelegate, CleverTapInAppNotificationDelegate,CleverTapDisplayUnitDelegate, CleverTapFeatureFlagsDelegate, CleverTapProductConfigDelegate> {
 }
 
 //In App Notification Display/Hide Handler
@@ -97,6 +97,8 @@ static NSURL *launchDeepLink;
     [clevertap setSyncDelegate:self];
     [clevertap setInAppNotificationDelegate:self];
     [clevertap setDisplayUnitDelegate:self];
+    [[clevertap featureFlags] setDelegate:self];
+    [[clevertap productConfig] setDelegate:self];
 }
 
 -(NSDictionary*)_eventDetailToDict:(CleverTapEventDetail*)detail {
@@ -1208,6 +1210,123 @@ static NSURL *launchDeepLink;
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
 }
+
+//MARK: Feature Flag
+//---Fetch Value of Given Feature Flag key and default value
+-(void)getFeatureFlag: (CDVInvokedUrlCommand *)command {
+    [self.commandDelegate runInBackground:^{
+        NSString *varName = [command argumentAtIndex:0];
+        BOOL defaultValue = [command argumentAtIndex:1];
+        BOOL flagValue = [[clevertap featureFlags] get:varName withDefaultValue:defaultValue];
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:flagValue];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
+}
+
+//MARK: Feature Flag Delegate
+-(void)ctFeatureFlagsUpdated {
+    NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onCleverTapFeatureFlagsDidUpdate')"];
+    [self.commandDelegate evalJs:js];
+}
+
+//MARK: Product Config
+-(void)setDefaultsMap: (CDVInvokedUrlCommand *)command {
+    [self.commandDelegate runInBackground:^{
+        NSDictionary *jsonDict = [command argumentAtIndex:0];
+        [[clevertap productConfig]setDefaults:jsonDict];
+    }];
+}
+
+-(void)fetch: (CDVInvokedUrlCommand *)command {
+    [self.commandDelegate runInBackground:^{
+        [[clevertap productConfig] fetch];
+    }];
+}
+
+-(void)fetchWithMinimumFetchIntervalInSeconds: (CDVInvokedUrlCommand *)command {
+    [self.commandDelegate runInBackground:^{
+        NSTimeInterval interval = [[command argumentAtIndex:0] doubleValue];
+        [[clevertap productConfig]fetchWithMinimumInterval: interval];
+    }];
+}
+
+-(void)activate: (CDVInvokedUrlCommand *)command {
+    [self.commandDelegate runInBackground:^{
+        [[clevertap productConfig] activate];
+    }];
+}
+
+-(void)fetchAndActivate: (CDVInvokedUrlCommand *)command {
+    [self.commandDelegate runInBackground:^{
+        [[clevertap productConfig] fetchAndActivate];
+    }];
+}
+
+-(void)setMinimumFetchIntervalInSeconds: (CDVInvokedUrlCommand *)command {
+    [self.commandDelegate runInBackground:^{
+        NSTimeInterval interval = [[command argumentAtIndex:0] doubleValue];
+        [[clevertap productConfig] setMinimumFetchInterval:interval];
+    }];
+}
+
+-(void)getString: (CDVInvokedUrlCommand *)command {
+    [self.commandDelegate runInBackground:^{
+        NSString *key = [command argumentAtIndex:0];
+        NSString *keyValue = [[clevertap productConfig] get:key].stringValue;
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:keyValue];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
+}
+
+-(void)getBoolean: (CDVInvokedUrlCommand *)command {
+    [self.commandDelegate runInBackground:^{
+        NSString *key = [command argumentAtIndex:0];
+        BOOL keyValue = [[clevertap productConfig] get:key].boolValue;
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:keyValue];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
+}
+
+-(void)getLong: (CDVInvokedUrlCommand *)command {
+    [self.commandDelegate runInBackground:^{
+        NSString *key = [command argumentAtIndex:0];
+        long keyValue = [[clevertap productConfig] get:key].numberValue.longValue;
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDouble:keyValue];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
+}
+
+-(void)getDouble: (CDVInvokedUrlCommand *)command {
+    [self.commandDelegate runInBackground:^{
+        NSString *key = [command argumentAtIndex:0];
+        double keyValue = [[clevertap productConfig] get:key].numberValue.doubleValue;
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDouble:keyValue];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
+}
+
+-(void)reset {
+    [self.commandDelegate runInBackground:^{
+        [[clevertap productConfig] reset];
+    }];
+}
+
+//MARK: Product Config Delegate
+- (void)ctProductConfigFetched {
+    NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onCleverTapProductConfigDidFetch')"];
+    [self.commandDelegate evalJs:js];
+}
+
+- (void)ctProductConfigActivated {
+    NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onCleverTapProductConfigDidActivate')"];
+    [self.commandDelegate evalJs:js];
+}
+
+- (void)ctProductConfigInitialized {
+    NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onCleverTapProductConfigDidInitialize')"];
+    [self.commandDelegate evalJs:js];
+}
+
 
 -(CleverTapInboxStyleConfig*)_dictToInboxStyleConfig: (NSDictionary *)dict {
     CleverTapInboxStyleConfig *_config = [CleverTapInboxStyleConfig new];

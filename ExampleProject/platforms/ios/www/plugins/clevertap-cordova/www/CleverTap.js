@@ -565,6 +565,64 @@ CleverTap.prototype.pushDisplayUnitClickedEventForID = function(unitId){
 	cordova.exec(null, null, "CleverTapPlugin", "pushDisplayUnitViewedEventForID", [unitId]);
 }
 
+/****************************
+* Feature Flag methods
+****************************/
+CleverTap.prototype.getFeatureFlag = function(name,defaultValue,successCallback){
+    cordova.exec(successCallback, null, "CleverTapPlugin", "getFeatureFlag", [name,defaultValue]);
+}
+
+/****************************
+* Product Config methods
+****************************/
+CleverTap.prototype.setDefaultsMap = function(jsonMap){
+    cordova.exec(null, null, "CleverTapPlugin", "setDefaultsMap", [jsonMap]);
+}
+
+CleverTap.prototype.fetch = function(){
+    cordova.exec(null, null, "CleverTapPlugin", "fetch", []);
+}
+
+CleverTap.prototype.fetchWithMinimumFetchIntervalInSeconds = function(interval){
+    cordova.exec(null, null, "CleverTapPlugin", "fetchWithMinimumFetchIntervalInSeconds", [interval]);
+}
+
+CleverTap.prototype.activate = function(){
+    cordova.exec(null, null, "CleverTapPlugin", "activate", []);
+}
+
+CleverTap.prototype.fetchAndActivate = function(){
+    cordova.exec(null, null, "CleverTapPlugin", "fetchAndActivate", []);
+}
+
+CleverTap.prototype.setMinimumFetchIntervalInSeconds = function(interval){
+    cordova.exec(null, null, "CleverTapPlugin", "setMinimumFetchIntervalInSeconds", [interval]);
+}
+
+CleverTap.prototype.getLastFetchTimeStampInMillis = function(successCallback){
+    cordova.exec(successCallback, null, "CleverTapPlugin", "setMinimumFetchIntervalInSeconds", []);
+}
+
+CleverTap.prototype.getString = function(key,successCallback){
+    cordova.exec(successCallback, null, "CleverTapPlugin", "getString", [key]);
+}
+
+CleverTap.prototype.getBoolean = function(key,successCallback){
+    cordova.exec(successCallback, null, "CleverTapPlugin", "getBoolean", [key]);
+}
+
+CleverTap.prototype.getLong = function(key,successCallback){
+    cordova.exec(successCallback, null, "CleverTapPlugin", "getLong", [key]);
+}
+
+CleverTap.prototype.getDouble = function(key,successCallback){
+    cordova.exec(successCallback, null, "CleverTapPlugin", "getDouble", [key]);
+}
+
+CleverTap.prototype.reset = function(){
+    cordova.exec(null, null, "CleverTapPlugin", "reset", []);
+}
+                  
 module.exports = new CleverTap();
 
 });

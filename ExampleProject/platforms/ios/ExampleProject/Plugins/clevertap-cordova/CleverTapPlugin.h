@@ -343,17 +343,6 @@ This method Marks Inbox Notification Clicked for Given Message Id
 */
 -(void)pushInboxNotificationClickedEventForId:(CDVInvokedUrlCommand *)command;
 
-# pragma mark App Inbox Delegate
-/**
-This method Gives Callback on Inbox Message Tapped
-*/
-- (void)messageDidSelect:(CleverTapInboxMessage *_Nonnull)message atIndex:(int)index withButtonIndex:(int)buttonIndex;
-
-/**
-This method Gives Callback on Inbox Message Tapped
-*/
--(void)messageButtonTappedWithCustomExtras:(NSDictionary *_Nullable)customExtras;
-
 # pragma mark Native Display
 
 /**
@@ -375,13 +364,6 @@ This method is called to record Rendering of Display Unit
 This method is called to record Click on Display Unit
 */
 - (void)recordDisplayUnitClickedEventForID:(CDVInvokedUrlCommand *)command;
-
-# pragma mark Native Display Delegate
-
-/**
-This method is callback for Display Unit Updates
-*/
-- (void)displayUnitsUpdated:(NSArray<CleverTapDisplayUnit *>*_Nonnull)displayUnits;
 
 # pragma mark Dynamic Variables
 
@@ -509,5 +491,67 @@ This method fetches the Dictionary of Integer Variable
 This method fetches the Dictionary of String Variable
 */
 -(void)getMapOfStringVariable: (CDVInvokedUrlCommand *)command;
+
+//Feature Flags
+/**
+This method fetches the Value of Feature Flag
+*/
+-(void)getFeatureFlag: (CDVInvokedUrlCommand *)command;
+
+//Product Config
+/**
+This method Sets the default value for given set of keys
+*/
+-(void)setDefaultsMap: (CDVInvokedUrlCommand *)command;
+
+/**
+This method fetches the Product Config
+*/
+-(void)fetch: (CDVInvokedUrlCommand *)command;
+
+/**
+This method fetches Product Config with a defined minimum time interval
+*/
+-(void)fetchWithMinimumFetchIntervalInSeconds: (CDVInvokedUrlCommand *)command;
+
+/**
+This method activates the fetched Product Config
+*/
+-(void)activate: (CDVInvokedUrlCommand *)command;
+
+/**
+This method fetches and activated the Product Config
+*/
+-(void)fetchAndActivate: (CDVInvokedUrlCommand *)command;
+
+/**
+This method allows you to set minimum time interval for consecutive Product Config call
+*/
+-(void)setMinimumFetchIntervalInSeconds: (CDVInvokedUrlCommand *)command;
+
+/**
+This method fetches String Value for a given key
+*/
+-(void)getString: (CDVInvokedUrlCommand *)command;
+
+/**
+This method fetches Bool Value for a given key
+*/
+-(void)getBoolean: (CDVInvokedUrlCommand *)command;
+
+/**
+This method fetches Long Value for a given key
+*/
+-(void)getLong: (CDVInvokedUrlCommand *)command;
+
+/**
+This method fetches Double Value for a given key
+*/
+-(void)getDouble: (CDVInvokedUrlCommand *)command;
+
+/**
+This method resets the product Config stored locally
+*/
+-(void)reset;
 
 @end
