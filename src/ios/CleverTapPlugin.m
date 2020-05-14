@@ -399,6 +399,10 @@ static NSURL *launchDeepLink;
     [CleverTap enablePersonalization];
 }
 
+-(void)disablePersonalization:(CDVInvokedUrlCommand *)command {
+    [CleverTap disablePersonalization];
+}
+
 #pragma mark Offline API
 
 -(void)setOffline:(CDVInvokedUrlCommand *)command {
