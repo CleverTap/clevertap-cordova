@@ -32,9 +32,6 @@ static NSURL *launchDeepLink;
 @interface CleverTapPlugin () <CleverTapSyncDelegate, CleverTapInAppNotificationDelegate,CleverTapDisplayUnitDelegate, CleverTapFeatureFlagsDelegate, CleverTapProductConfigDelegate> {
 }
 
-//In App Notification Display/Hide Handler
-@property (nonatomic, assign) BOOL showInAppNotification;
-
 @end
 
 @implementation CleverTapPlugin
@@ -50,15 +47,12 @@ static NSURL *launchDeepLink;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onDidFailToRegisterForRemoteNotificationsWithError:) name:CTRemoteNotificationRegisterError object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onHandleRegisterForRemoteNotification:) name:CTRemoteNotificationDidRegister object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onHandleOpenURLNotification:) name: CTHandleOpenURLNotification object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onHandleNotification:) name:CTDidReceiveNotification object:nil];
 }
 
 +(void)onDidFinishLaunchingNotification:(NSNotification *)notification {
+    
     clevertap = [CleverTap sharedInstance];
-
+    
     NSDictionary *launchOptions = notification.userInfo;
     if (!launchOptions) return;
     
@@ -73,27 +67,36 @@ static NSURL *launchDeepLink;
 }
 
 +(void)onDidFailToRegisterForRemoteNotificationsWithError:(NSNotification *)notification {
+    
     //Log Failures
     NSLog(@"onRemoteRegisterFail: %@", notification.object);
 }
 
 +(void)onHandleRegisterForRemoteNotification:(NSNotification *)notification {
+    
     [clevertap setPushTokenAsString:notification.object];
 }
 
--(void)onHandleOpenURLNotification:(NSNotification *)notification {
+- (void)onHandleOpenURLNotification:(NSNotification *)notification {
+    
     [clevertap handleOpenURL:notification.object sourceApplication:nil];
     [self handleDeepLink:notification.object];
 }
 
--(void)onHandleNotification:(NSNotification *)notification {
+- (void)onHandleNotification:(NSNotification *)notification {
+    
     [clevertap handleNotificationWithData:notification.object];
     [self notifyPushNotification:notification.object];
 }
 
 - (void)pluginInitialize {
+    
     [super pluginInitialize];
-    _showInAppNotification = YES;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onHandleOpenURLNotification:) name: CTHandleOpenURLNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onHandleNotification:) name:CTDidReceiveNotification object:nil];
+    
     [clevertap setSyncDelegate:self];
     [clevertap setInAppNotificationDelegate:self];
     [clevertap setDisplayUnitDelegate:self];
@@ -101,7 +104,8 @@ static NSURL *launchDeepLink;
     [[clevertap productConfig] setDelegate:self];
 }
 
--(NSDictionary*)_eventDetailToDict:(CleverTapEventDetail*)detail {
+- (NSDictionary*)_eventDetailToDict:(CleverTapEventDetail*)detail {
+    
     NSMutableDictionary *_dict = [NSMutableDictionary new];
     
     if(detail) {
@@ -125,7 +129,8 @@ static NSURL *launchDeepLink;
     return _dict;
 }
 
--(NSDictionary*)_utmDetailToDict:(CleverTapUTMDetail*)detail {
+- (NSDictionary*)_utmDetailToDict:(CleverTapUTMDetail*)detail {
+    
     NSMutableDictionary *_dict = [NSMutableDictionary new];
     
     if(detail) {
@@ -145,7 +150,8 @@ static NSURL *launchDeepLink;
     return _dict;
 }
 
--(NSString *)_dictToJson:(NSDictionary *)dict {
+- (NSString *)_dictToJson:(NSDictionary *)dict {
+    
     NSData *jsonData;
     NSError *error;
     
@@ -159,7 +165,8 @@ static NSURL *launchDeepLink;
     return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
 }
 
--(NSDictionary *)formatProfile:(NSDictionary *)profile {
+- (NSDictionary *)formatProfile:(NSDictionary *)profile {
+    
     NSMutableDictionary *_profile = [NSMutableDictionary new];
     
     for (NSString *key in [profile keyEnumerator]) {
@@ -196,6 +203,7 @@ static NSURL *launchDeepLink;
 
 // custom helper method to fire push data into the Cordova WebView
 -(void)notifyPushNotification:(id)notification {
+    
     NSDictionary * _notification;
     if ([notification isKindOfClass:[UILocalNotification class]]) {
         _notification = [((UILocalNotification *) notification) userInfo];
@@ -215,8 +223,11 @@ static NSURL *launchDeepLink;
 
 #pragma mark CleverTapInAppNotificationDelegate
 
-//---Call back for In App Notification Dismissal
--(void)inAppNotificationDismissedWithExtras:(NSDictionary *)extras andActionExtras:(NSDictionary *)actionExtras {
+/**
+ Call back for In App Notification Dismissal
+*/
+- (void)inAppNotificationDismissedWithExtras:(NSDictionary *)extras andActionExtras:(NSDictionary *)actionExtras {
+    
     NSMutableDictionary *jsonDict = [NSMutableDictionary new];
     
     if (extras != nil) {
@@ -235,8 +246,11 @@ static NSURL *launchDeepLink;
     }
 }
 
-//---Call back for In App Notification Dismissal with Extra Buttons
+/**
+Call back for In App Notification Dismissal with Extra Buttons
+ */
 - (void)inAppNotificationButtonTappedWithCustomExtras:(NSDictionary *)customExtras {
+    
     NSMutableDictionary *jsonDict = [NSMutableDictionary new];
     
     if (customExtras != nil) {
@@ -246,25 +260,19 @@ static NSURL *launchDeepLink;
     NSString *jsonString = [self _dictToJson:jsonDict];
     
     if (jsonString != nil) {
-        NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onCleverTapInAppNotificationDismissed', %@);", jsonString];
+        NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onCleverTapInAppButtonClick', %@);", jsonString];
         [self.commandDelegate evalJs:js];
     }
 }
 
-//---Call back to Control Display of In App Notification
-- (BOOL)shouldShowInAppNotificationWithExtras:(NSDictionary *)extras {
-    return _showInAppNotification;
+- (void)disableInAppNotificationDisplay {
+    
 }
-
-//---Set Value For In App Notification Display
--(void)disableInAppNotificationDisplay {
-    _showInAppNotification = false;
-}
-
 
 #pragma mark CleverTapSyncDelegate
 
--(void)profileDidInitialize:(NSString*)CleverTapID {
+- (void)profileDidInitialize:(NSString*)CleverTapID {
+    
     if(!CleverTapID) {
         return ;
     }
@@ -275,10 +283,11 @@ static NSURL *launchDeepLink;
         NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onCleverTapProfileDidInitialize', %@);", jsonString];
         [self.commandDelegate evalJs:js];
     }
-   
+    
 }
 
--(void)profileDataUpdated:(NSDictionary *)updates {
+- (void)profileDataUpdated:(NSDictionary *)updates {
+    
     if(!updates) {
         return ;
     }
@@ -291,11 +300,13 @@ static NSURL *launchDeepLink;
     }
 }
 
-#pragma mark Public
 
-# pragma mark launch
+#pragma mark - Public
 
--(void)notifyDeviceReady:(CDVInvokedUrlCommand *)command {
+# pragma mark Launch
+
+- (void)notifyDeviceReady:(CDVInvokedUrlCommand *)command {
+    
     if (launchNotification) {
         [self notifyPushNotification:[launchNotification copy]];
         launchNotification = nil;
@@ -309,7 +320,8 @@ static NSURL *launchDeepLink;
 
 #pragma mark Push
 
--(void)registerPush:(CDVInvokedUrlCommand *)command {
+- (void)registerPush:(CDVInvokedUrlCommand *)command {
+    
     if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_9_x_Max) {
         if ([[UIApplication sharedApplication] respondsToSelector:@selector(registerUserNotificationSettings:)]) {
             UIUserNotificationType types = (UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound);
@@ -332,12 +344,13 @@ static NSURL *launchDeepLink;
                     [[UIApplication sharedApplication] registerForRemoteNotifications];
                 });
             }
-         }];
+        }];
 #endif
     }
 }
 
--(void)setPushTokenAsString:(CDVInvokedUrlCommand *)command {
+- (void)setPushTokenAsString:(CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSString *token = [command argumentAtIndex:0];
         if (token != nil && [token isKindOfClass:[NSString class]]) {
@@ -346,47 +359,57 @@ static NSURL *launchDeepLink;
     }];
 }
 
--(void)setPushToken:(NSData*)pushToken {
+- (void)setPushToken:(NSData*)pushToken {
+    
     [clevertap setPushToken:pushToken];
 }
 
--(void)handleNotification:(id)notification {
+- (void)handleNotification:(id)notification {
+    
     [clevertap handleNotificationWithData:notification];
     [self notifyPushNotification:notification];
 }
 
--(void)handleDeepLink:(NSURL *)url {
+- (void)handleDeepLink:(NSURL *)url {
+    
     NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onDeepLink', {'deeplink':'%@'});", url.description];
     [self.commandDelegate evalJs:js];
 }
 
--(void)createNotification:(CDVInvokedUrlCommand *)command{
+- (void)createNotification:(CDVInvokedUrlCommand *)command {
+    
     NSLog(@"createNotification is no-op in iOS");
 }
 
--(void)createNotificationChannel:(CDVInvokedUrlCommand *)command{
+- (void)createNotificationChannel:(CDVInvokedUrlCommand *)command {
+    
     NSLog(@"createNotificationChannel is no-op in iOS");
 }
 
--(void)createNotificationChannelWithGroupId:(CDVInvokedUrlCommand *)command{
+- (void)createNotificationChannelWithGroupId:(CDVInvokedUrlCommand *)command {
+    
     NSLog(@"createNotificationChannelWithGroupId is no-op in iOS");
 }
 
--(void)createNotificationChannelGroup:(CDVInvokedUrlCommand *)command{
+- (void)createNotificationChannelGroup:(CDVInvokedUrlCommand *)command {
+    
     NSLog(@"createNotificationChannelGroup is no-op in iOS");
 }
 
--(void)deleteNotificationChannel:(CDVInvokedUrlCommand *)command{
+- (void)deleteNotificationChannel:(CDVInvokedUrlCommand *)command {
+    
     NSLog(@"deleteNotificationChannel is no-op in iOS");
 }
 
--(void)deleteNotificationChannelGroup:(CDVInvokedUrlCommand *)command{
+- (void)deleteNotificationChannelGroup:(CDVInvokedUrlCommand *)command {
+    
     NSLog(@"deleteNotificationChannelGroup is no-op in iOS");
 }
 
-#pragma mark Developer Options
+#pragma mark - Developer Options
 
--(void)setDebugLevel:(CDVInvokedUrlCommand *)command {
+- (void)setDebugLevel:(CDVInvokedUrlCommand *)command {
+    
     NSNumber *level = [command argumentAtIndex:0];
     if (level != nil && [level isKindOfClass:[NSNumber class]]) {
         [CleverTap setDebugLevel:[level intValue]];
@@ -395,17 +418,20 @@ static NSURL *launchDeepLink;
 
 #pragma mark Personalization
 
--(void)enablePersonalization:(CDVInvokedUrlCommand *)command {
+- (void)enablePersonalization:(CDVInvokedUrlCommand *)command {
+    
     [CleverTap enablePersonalization];
 }
 
--(void)disablePersonalization:(CDVInvokedUrlCommand *)command {
+- (void)disablePersonalization:(CDVInvokedUrlCommand *)command {
+    
     [CleverTap disablePersonalization];
 }
 
 #pragma mark Offline API
 
--(void)setOffline:(CDVInvokedUrlCommand *)command {
+- (void)setOffline:(CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         BOOL isOffline = [[command argumentAtIndex:0] boolValue];
         [clevertap setOffline:isOffline];
@@ -414,14 +440,16 @@ static NSURL *launchDeepLink;
 
 #pragma mark OptOut API
 
--(void)setOptOut:(CDVInvokedUrlCommand *)command {
+- (void)setOptOut:(CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         BOOL isOptOut = [[command argumentAtIndex:0] boolValue];
         [clevertap setOptOut:isOptOut];
     }];
 }
 
--(void)enableDeviceNetworkInfoReporting:(CDVInvokedUrlCommand *)command {
+- (void)enableDeviceNetworkInfoReporting:(CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         BOOL isNetworkInfoReporting = [[command argumentAtIndex:0] boolValue];
         [clevertap enableDeviceNetworkInfoReporting:isNetworkInfoReporting];
@@ -430,7 +458,8 @@ static NSURL *launchDeepLink;
 
 #pragma mark Event API
 
--(void)recordScreenView:(CDVInvokedUrlCommand *)command {
+- (void)recordScreenView:(CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSString *screenName = [command argumentAtIndex:0];
         if (screenName != nil && [screenName isKindOfClass:[NSString class]]) {
@@ -439,7 +468,8 @@ static NSURL *launchDeepLink;
     }];
 }
 
--(void)recordEventWithName:(CDVInvokedUrlCommand *)command {
+- (void)recordEventWithName:(CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSString *eventName = [command argumentAtIndex:0];
         if (eventName != nil && [eventName isKindOfClass:[NSString class]]) {
@@ -448,7 +478,8 @@ static NSURL *launchDeepLink;
     }];
 }
 
--(void)recordEventWithNameAndProps:(CDVInvokedUrlCommand *)command {
+- (void)recordEventWithNameAndProps:(CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSString *eventName = [command argumentAtIndex:0];
         NSDictionary *eventProps = [command argumentAtIndex:1];
@@ -458,7 +489,8 @@ static NSURL *launchDeepLink;
     }];
 }
 
--(void)recordChargedEventWithDetailsAndItems:(CDVInvokedUrlCommand *)command {
+- (void)recordChargedEventWithDetailsAndItems:(CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSDictionary *details = [command argumentAtIndex:0];
         NSArray *items = [command argumentAtIndex:1];
@@ -469,7 +501,8 @@ static NSURL *launchDeepLink;
     }];
 }
 
--(void)eventGetFirstTime:(CDVInvokedUrlCommand *)command {
+- (void)eventGetFirstTime:(CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSString *eventName = [command argumentAtIndex:0];
         if (eventName != nil && [eventName isKindOfClass:[NSString class]]) {
@@ -480,7 +513,8 @@ static NSURL *launchDeepLink;
     }];
 }
 
--(void)eventGetLastTime:(CDVInvokedUrlCommand *)command {
+- (void)eventGetLastTime:(CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSString *eventName = [command argumentAtIndex:0];
         if (eventName != nil && [eventName isKindOfClass:[NSString class]]) {
@@ -491,7 +525,8 @@ static NSURL *launchDeepLink;
     }];
 }
 
--(void)eventGetOccurrences:(CDVInvokedUrlCommand *)command {
+- (void)eventGetOccurrences:(CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSString *eventName = [command argumentAtIndex:0];
         if (eventName != nil && [eventName isKindOfClass:[NSString class]]) {
@@ -500,10 +535,10 @@ static NSURL *launchDeepLink;
             [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
         }
     }];
-    
 }
 
--(void)eventGetDetails:(CDVInvokedUrlCommand *)command {
+- (void)eventGetDetails:(CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSString *eventName = [command argumentAtIndex:0];
         if (eventName != nil && [eventName isKindOfClass:[NSString class]]) {
@@ -515,7 +550,8 @@ static NSURL *launchDeepLink;
     }];
 }
 
--(void)getEventHistory:(CDVInvokedUrlCommand *)command {
+- (void)getEventHistory:(CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSDictionary *history = [clevertap userGetEventHistory];
         
@@ -530,16 +566,16 @@ static NSURL *launchDeepLink;
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:_history];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
-   
 }
 
 #pragma mark Profile API
 
 /**
  Note: the call to CleverTapSDK must be made on the main thread due to start the LocationManager, but thereafter the CleverTapSDK method itself is non-blocking.
-*/
+ */
 
--(void)getLocation:(CDVInvokedUrlCommand *)command {
+- (void)getLocation:(CDVInvokedUrlCommand *)command {
+    
     [CleverTap getLocationWithSuccess:^(CLLocationCoordinate2D loc){
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:@{@"lat":@(loc.latitude), @"lon":@(loc.longitude)}];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
@@ -550,7 +586,8 @@ static NSURL *launchDeepLink;
     }];
 }
 
--(void)setLocation:(CDVInvokedUrlCommand *)command {
+- (void)setLocation:(CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         @try {
             double lat = [[command argumentAtIndex:0] doubleValue];
@@ -565,7 +602,8 @@ static NSURL *launchDeepLink;
     }];
 }
 
--(void)onUserLogin:(CDVInvokedUrlCommand *)command {
+- (void)onUserLogin:(CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSDictionary *profile = [command argumentAtIndex:0];
         if (profile != nil && [profile isKindOfClass:[NSDictionary class]]) {
@@ -575,7 +613,8 @@ static NSURL *launchDeepLink;
     }];
 }
 
--(void)profileSet:(CDVInvokedUrlCommand *)command {
+- (void)profileSet:(CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSDictionary *profile = [command argumentAtIndex:0];
         if (profile != nil && [profile isKindOfClass:[NSDictionary class]]) {
@@ -585,7 +624,8 @@ static NSURL *launchDeepLink;
     }];
 }
 
--(void)profileSetGraphUser:(CDVInvokedUrlCommand *)command {
+- (void)profileSetGraphUser:(CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSDictionary *profile = [command argumentAtIndex:0];
         if (profile != nil && [profile isKindOfClass:[NSDictionary class]]) {
@@ -594,7 +634,8 @@ static NSURL *launchDeepLink;
     }];
 }
 
--(void)profileSetGooglePlusUser:(CDVInvokedUrlCommand *)command {
+- (void)profileSetGooglePlusUser:(CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSDictionary *profile = [command argumentAtIndex:0];
         if (profile != nil && [profile isKindOfClass:[NSDictionary class]]) {
@@ -603,7 +644,8 @@ static NSURL *launchDeepLink;
     }];
 }
 
--(void)profileGetProperty:(CDVInvokedUrlCommand *)command {
+- (void)profileGetProperty:(CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSString *propertyName = [command argumentAtIndex:0];
         CDVPluginResult *pluginResult;
@@ -652,7 +694,8 @@ static NSURL *launchDeepLink;
     }];
 }
 
--(void)profileGetCleverTapAttributionIdentifier:(CDVInvokedUrlCommand *)command {
+- (void)profileGetCleverTapAttributionIdentifier:(CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         CDVPluginResult *pluginResult;
         
@@ -670,7 +713,8 @@ static NSURL *launchDeepLink;
     }];
 }
 
--(void)profileGetCleverTapID:(CDVInvokedUrlCommand *)command {
+- (void)profileGetCleverTapID:(CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         CDVPluginResult *pluginResult;
         
@@ -688,7 +732,8 @@ static NSURL *launchDeepLink;
     }];
 }
 
--(void)profileRemoveValueForKey:(CDVInvokedUrlCommand *)command {
+- (void)profileRemoveValueForKey:(CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSString *key = [command argumentAtIndex:0];
         if (key != nil && [key isKindOfClass:[NSString class]]) {
@@ -698,7 +743,8 @@ static NSURL *launchDeepLink;
     
 }
 
--(void)profileSetMultiValues:(CDVInvokedUrlCommand *)command {
+- (void)profileSetMultiValues:(CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSString *key = [command argumentAtIndex:0];
         NSArray *values = [command argumentAtIndex:1];
@@ -709,7 +755,8 @@ static NSURL *launchDeepLink;
     
 }
 
--(void)profileAddMultiValue:(CDVInvokedUrlCommand *)command {
+- (void)profileAddMultiValue:(CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSString *key = [command argumentAtIndex:0];
         NSString *value = [command argumentAtIndex:1];
@@ -719,7 +766,8 @@ static NSURL *launchDeepLink;
     }];
 }
 
--(void)profileAddMultiValues:(CDVInvokedUrlCommand *)command {
+- (void)profileAddMultiValues:(CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSString *key = [command argumentAtIndex:0];
         NSArray *values = [command argumentAtIndex:1];
@@ -729,7 +777,8 @@ static NSURL *launchDeepLink;
     }];
 }
 
--(void)profileRemoveMultiValue:(CDVInvokedUrlCommand *)command {
+- (void)profileRemoveMultiValue:(CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSString *key = [command argumentAtIndex:0];
         NSString *value = [command argumentAtIndex:1];
@@ -739,7 +788,8 @@ static NSURL *launchDeepLink;
     }];
 }
 
--(void)profileRemoveMultiValues:(CDVInvokedUrlCommand *)command {
+- (void)profileRemoveMultiValues:(CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSString *key = [command argumentAtIndex:0];
         NSArray *values = [command argumentAtIndex:1];
@@ -749,8 +799,11 @@ static NSURL *launchDeepLink;
     }];
 }
 
+
 #pragma mark Session API
--(void)sessionGetTimeElapsed:(CDVInvokedUrlCommand *)command {
+
+- (void)sessionGetTimeElapsed:(CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSTimeInterval elapsed = [clevertap sessionGetTimeElapsed];
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDouble:elapsed];
@@ -758,7 +811,8 @@ static NSURL *launchDeepLink;
     }];
 }
 
--(void)sessionGetTotalVisits:(CDVInvokedUrlCommand *)command {
+- (void)sessionGetTotalVisits:(CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         int total = [clevertap userGetTotalVisits];
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:total];
@@ -766,7 +820,8 @@ static NSURL *launchDeepLink;
     }];
 }
 
--(void)sessionGetScreenCount:(CDVInvokedUrlCommand *)command {
+- (void)sessionGetScreenCount:(CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         int count = [clevertap userGetScreenCount];
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:count];
@@ -774,7 +829,8 @@ static NSURL *launchDeepLink;
     }];
 }
 
--(void)sessionGetPreviousVisitTime:(CDVInvokedUrlCommand *)command {
+- (void)sessionGetPreviousVisitTime:(CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSTimeInterval previous = [clevertap userGetPreviousVisitTime];
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDouble:previous];
@@ -782,7 +838,8 @@ static NSURL *launchDeepLink;
     }];
 }
 
--(void)sessionGetUTMDetails:(CDVInvokedUrlCommand *)command {
+- (void)sessionGetUTMDetails:(CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         CleverTapUTMDetail *detail = [clevertap sessionGetUTMDetails];
         NSDictionary * _detail = [self _utmDetailToDict:detail];
@@ -792,7 +849,8 @@ static NSURL *launchDeepLink;
     }];
 }
 
--(void)pushInstallReferrer:(CDVInvokedUrlCommand *)command {
+- (void)pushInstallReferrer:(CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSString *source = [command argumentAtIndex:0];
         NSString *medium = [command argumentAtIndex:1];
@@ -801,8 +859,11 @@ static NSURL *launchDeepLink;
     }];
 }
 
-//MARK: Inbox
--(void)initializeInbox:(CDVInvokedUrlCommand *)command {
+
+#pragma mark - Inbox
+
+- (void)initializeInbox:(CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         [clevertap initializeInboxWithCallback:^(BOOL success) {
             NSLog(@"Inbox initialized %d", success);
@@ -813,7 +874,8 @@ static NSURL *launchDeepLink;
     }];
 }
 
--(void)inboxMessagesDidUpdate {
+- (void)inboxMessagesDidUpdate {
+    
     [self.commandDelegate runInBackground:^{
         [clevertap registerInboxUpdatedBlock:^{
             NSLog(@"Inbox Messages updated");
@@ -823,7 +885,8 @@ static NSURL *launchDeepLink;
     }];
 }
 
--(void)getInboxMessageUnreadCount:(CDVInvokedUrlCommand *)command {
+- (void)getInboxMessageUnreadCount:(CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSUInteger unreadMessageCount = [clevertap getInboxMessageUnreadCount];
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:(int)unreadMessageCount];
@@ -832,7 +895,8 @@ static NSURL *launchDeepLink;
 }
 
 //---Get Inbox Message Count
--(void)getInboxMessageCount:(CDVInvokedUrlCommand *)command {
+- (void)getInboxMessageCount:(CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSUInteger messageCount = [clevertap getInboxMessageCount];
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:(int)messageCount];
@@ -841,9 +905,10 @@ static NSURL *launchDeepLink;
 }
 
 //---Show Inbox
--(void)showInbox:(CDVInvokedUrlCommand *)command {
+- (void)showInbox:(CDVInvokedUrlCommand *)command {
+    
     NSDictionary *configStyle = [command argumentAtIndex:0];
-    CleverTapInboxViewController *inboxController = [clevertap newInboxViewControllerWithConfig:[self _dictToInboxStyleConfig:configStyle? configStyle : nil] andDelegate:self];
+    CleverTapInboxViewController *inboxController = [clevertap newInboxViewControllerWithConfig:[self _dictToInboxStyleConfig:configStyle? configStyle : nil] andDelegate:(id <CleverTapInboxViewControllerDelegate>)self];
     if (inboxController) {
         UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:inboxController];
         [self.viewController presentViewController:navigationController animated:YES completion:nil];
@@ -851,7 +916,8 @@ static NSURL *launchDeepLink;
 }
 
 //---Get All Inbox Messages
--(void)getAllInboxMessages:(CDVInvokedUrlCommand *)command {
+- (void)getAllInboxMessages:(CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSArray *inboxMessages = [clevertap getAllInboxMessages];
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:inboxMessages];
@@ -860,7 +926,8 @@ static NSURL *launchDeepLink;
 }
 
 //---Get Unread Messages From Inbox
--(void)getUnreadInboxMessages:(CDVInvokedUrlCommand *)command {
+- (void)getUnreadInboxMessages:(CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSArray *unreadInboxMessages = [clevertap getUnreadInboxMessages];
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:unreadInboxMessages];
@@ -870,7 +937,7 @@ static NSURL *launchDeepLink;
 
 //---Passing output in array due to plugin limitation
 //---Get Inbox Message For Message ID
--(void)getInboxMessageForID:(CDVInvokedUrlCommand *)command {
+- (void)getInboxMessageForID:(CDVInvokedUrlCommand *)command {
     [self.commandDelegate runInBackground:^{
         NSString *messageId = [command argumentAtIndex:0];
         CleverTapInboxMessage *inboxMessage = [clevertap getInboxMessageForId:messageId];
@@ -881,6 +948,7 @@ static NSURL *launchDeepLink;
 
 //Delete message from the Inbox. Message id must be a String
 - (void)deleteInboxMessageForId:(CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSString *messageId = [command argumentAtIndex:0];
         [clevertap deleteInboxMessageForID: messageId];
@@ -889,6 +957,7 @@ static NSURL *launchDeepLink;
 
 //Mark Message as Read
 - (void)markReadInboxMessageForId:(CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSString *messageId = [command argumentAtIndex:0];
         [clevertap markReadInboxMessageForID: messageId];
@@ -896,7 +965,8 @@ static NSURL *launchDeepLink;
 }
 
 //Record Inbox Notification Viewed for MessageID
--(void)pushInboxNotificationViewedEventForId:(CDVInvokedUrlCommand *)command {
+- (void)pushInboxNotificationViewedEventForId:(CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSString *messageId = [command argumentAtIndex:0];
         [clevertap recordInboxNotificationViewedEventForID: messageId];
@@ -904,15 +974,17 @@ static NSURL *launchDeepLink;
 }
 
 //Record Inbox Notification Clicked for MessageID
--(void)pushInboxNotificationClickedEventForId:(CDVInvokedUrlCommand *)command {
+- (void)pushInboxNotificationClickedEventForId:(CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSString *messageId = [command argumentAtIndex:0];
         [clevertap recordInboxNotificationClickedEventForID: messageId];
     }];
 }
 
-//MARK: Inbox Callback
+#pragma mark Inbox Callback
 - (void)messageDidSelect:(CleverTapInboxMessage *_Nonnull)message atIndex:(int)index withButtonIndex:(int)buttonIndex {
+    
     NSMutableDictionary *jsonDict = [NSMutableDictionary new];
     
     if (message != nil) {
@@ -928,10 +1000,10 @@ static NSURL *launchDeepLink;
         NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onMessageDidSelect', %@);", jsonString];
         [self.commandDelegate evalJs:js];
     }
-    
 }
 
 - (void)messageButtonTappedWithCustomExtras:(NSDictionary *_Nullable)customExtras {
+    
     NSMutableDictionary *jsonDict = [NSMutableDictionary new];
     
     if (customExtras != nil) {
@@ -946,9 +1018,14 @@ static NSURL *launchDeepLink;
     }
 }
 
-//MARK: Native Display
-//---Get All Display Units
+
+#pragma mark - Native Display
+
+/**
+Get All Display Units
+*/
 - (void)getAllDisplayUnits:(CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSArray *displayUnits = [clevertap getAllDisplayUnits];
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray: displayUnits];
@@ -956,8 +1033,11 @@ static NSURL *launchDeepLink;
     }];
 }
 
-//---Get Display Unit  For ID
+/**
+ Get Display Unit  For ID
+*/
 - (void)getDisplayUnitForId:(CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSString *unitID = [command argumentAtIndex:0];
         CleverTapDisplayUnit *displayUnit = [clevertap getDisplayUnitForID:unitID];
@@ -966,16 +1046,19 @@ static NSURL *launchDeepLink;
     }];
 }
 
-//---Record Display Unit Viewed Event For ID
+/**
+ Record Display Unit Viewed Event For ID
+ */
 - (void)recordDisplayUnitViewedEventForID:(CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSString *unitID = [command argumentAtIndex:0];
         [clevertap recordDisplayUnitViewedEventForID:unitID];
     }];
 }
 
-//---Record Display Unit Clicked Event For ID
 - (void)recordDisplayUnitClickedEventForID:(CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSString *unitID = [command argumentAtIndex:0];
         [clevertap recordDisplayUnitClickedEventForID:unitID];
@@ -1003,99 +1086,115 @@ static NSURL *launchDeepLink;
     }
 }
 
-//MARK: Dynamic Variables
--(void)setUIEditorConnectionEnabled: (CDVInvokedUrlCommand *)command {
+
+#pragma mark - Dynamic Variables
+
+- (void)setUIEditorConnectionEnabled: (CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         BOOL enableUIConnection = [command argumentAtIndex:0];
         [CleverTap setUIEditorConnectionEnabled: enableUIConnection];
     }];
 }
 
--(void)registerBooleanVariable: (CDVInvokedUrlCommand *)command {
+- (void)registerBooleanVariable: (CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSString *boolVariable = [command argumentAtIndex:0];
         [clevertap registerBoolVariableWithName: boolVariable];
     }];
 }
 
--(void)registerDoubleVariable: (CDVInvokedUrlCommand *)command {
+- (void)registerDoubleVariable: (CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSString *doubleVariable = [command argumentAtIndex:0];
         [clevertap registerDoubleVariableWithName: doubleVariable];
     }];
 }
 
--(void)registerIntegerVariable: (CDVInvokedUrlCommand *)command {
+- (void)registerIntegerVariable: (CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSString *intVariable = [command argumentAtIndex:0];
         [clevertap registerIntegerVariableWithName: intVariable];
     }];
 }
 
--(void)registerStringVariable: (CDVInvokedUrlCommand *)command {
+- (void)registerStringVariable: (CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSString *stringVariable = [command argumentAtIndex:0];
         [clevertap registerStringVariableWithName: stringVariable];
     }];
 }
 
--(void)registerListOfBooleanVariable: (CDVInvokedUrlCommand *)command {
+- (void)registerListOfBooleanVariable: (CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSString *boolVariable = [command argumentAtIndex:0];
         [clevertap registerArrayOfBoolVariableWithName: boolVariable];
     }];
 }
 
--(void)registerListOfDoubleVariable: (CDVInvokedUrlCommand *)command {
+- (void)registerListOfDoubleVariable: (CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSString *doubleVariable = [command argumentAtIndex:0];
         [clevertap registerArrayOfDoubleVariableWithName:doubleVariable];
     }];
 }
 
--(void)registerListOfIntegerVariable: (CDVInvokedUrlCommand *)command {
+- (void)registerListOfIntegerVariable: (CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSString *integerVariable = [command argumentAtIndex:0];
         [clevertap registerArrayOfIntegerVariableWithName:integerVariable];
     }];
 }
 
--(void)registerListOfStringVariable: (CDVInvokedUrlCommand *)command {
+- (void)registerListOfStringVariable: (CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSString *stringVariable = [command argumentAtIndex:0];
         [clevertap registerArrayOfStringVariableWithName:stringVariable];
     }];
 }
 
--(void)registerMapOfBooleanVariable: (CDVInvokedUrlCommand *)command {
+- (void)registerMapOfBooleanVariable: (CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSString *boolVariable = [command argumentAtIndex:0];
         [clevertap registerDictionaryOfBoolVariableWithName: boolVariable];
     }];
 }
 
--(void)registerMapOfDoubleVariable: (CDVInvokedUrlCommand *)command {
+- (void)registerMapOfDoubleVariable: (CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSString *doubleVariable = [command argumentAtIndex:0];
         [clevertap registerDictionaryOfDoubleVariableWithName:doubleVariable];
     }];
 }
 
--(void)registerMapOfIntegerVariable: (CDVInvokedUrlCommand *)command {
+- (void)registerMapOfIntegerVariable: (CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSString *integerVariable = [command argumentAtIndex:0];
         [clevertap registerDictionaryOfIntegerVariableWithName:integerVariable];
     }];
 }
 
--(void)registerMapOfStringVariable: (CDVInvokedUrlCommand *)command {
+- (void)registerMapOfStringVariable: (CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSString *stringVariable = [command argumentAtIndex:0];
         [clevertap registerDictionaryOfStringVariableWithName:stringVariable];
     }];
 }
 
--(void)getBooleanVariable: (CDVInvokedUrlCommand *)command {
+- (void)getBooleanVariable: (CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSString *varName = [command argumentAtIndex:0];
         BOOL defaultValue = [command argumentAtIndex:1];
@@ -1105,7 +1204,8 @@ static NSURL *launchDeepLink;
     }];
 }
 
--(void)getDoubleVariable: (CDVInvokedUrlCommand *)command {
+- (void)getDoubleVariable: (CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSString *varName = [command argumentAtIndex:0];
         double defaultValue = [[command argumentAtIndex:1] doubleValue];
@@ -1115,7 +1215,8 @@ static NSURL *launchDeepLink;
     }];
 }
 
--(void)getIntegerVariable: (CDVInvokedUrlCommand *)command {
+- (void)getIntegerVariable: (CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSString *varName = [command argumentAtIndex:0];
         int defaultValue = (int)[command argumentAtIndex:1];
@@ -1125,7 +1226,8 @@ static NSURL *launchDeepLink;
     }];
 }
 
--(void)getStringVariable: (CDVInvokedUrlCommand *)command {
+- (void)getStringVariable: (CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSString *varName = [command argumentAtIndex:0];
         NSString *defaultValue = [command argumentAtIndex:1];
@@ -1135,7 +1237,8 @@ static NSURL *launchDeepLink;
     }];
 }
 
--(void)getListOfBooleanVariable: (CDVInvokedUrlCommand *)command {
+- (void)getListOfBooleanVariable: (CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSString *varName = [command argumentAtIndex:0];
         NSArray *defaultValue = [command argumentAtIndex:1];
@@ -1145,7 +1248,8 @@ static NSURL *launchDeepLink;
     }];
 }
 
--(void)getListOfDoubleVariable: (CDVInvokedUrlCommand *)command {
+- (void)getListOfDoubleVariable: (CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSString *varName = [command argumentAtIndex:0];
         NSArray *defaultValue = [command argumentAtIndex:1];
@@ -1155,7 +1259,8 @@ static NSURL *launchDeepLink;
     }];
 }
 
--(void)getListOfIntegerVariable: (CDVInvokedUrlCommand *)command {
+- (void)getListOfIntegerVariable: (CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSString *varName = [command argumentAtIndex:0];
         NSArray *defaultValue = [command argumentAtIndex:1];
@@ -1165,7 +1270,8 @@ static NSURL *launchDeepLink;
     }];
 }
 
--(void)getListOfStringVariable: (CDVInvokedUrlCommand *)command {
+- (void)getListOfStringVariable: (CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSString *varName = [command argumentAtIndex:0];
         NSArray *defaultValue = [command argumentAtIndex:1];
@@ -1175,7 +1281,8 @@ static NSURL *launchDeepLink;
     }];
 }
 
--(void)getMapOfBooleanVariable: (CDVInvokedUrlCommand *)command {
+- (void)getMapOfBooleanVariable: (CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSString *varName = [command argumentAtIndex:0];
         NSDictionary *defaultValue = [command argumentAtIndex:1];
@@ -1185,7 +1292,8 @@ static NSURL *launchDeepLink;
     }];
 }
 
--(void)getMapOfDoubleVariable: (CDVInvokedUrlCommand *)command {
+- (void)getMapOfDoubleVariable: (CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSString *varName = [command argumentAtIndex:0];
         NSDictionary *defaultValue = [command argumentAtIndex:1];
@@ -1195,7 +1303,8 @@ static NSURL *launchDeepLink;
     }];
 }
 
--(void)getMapOfIntegerVariable: (CDVInvokedUrlCommand *)command {
+- (void)getMapOfIntegerVariable: (CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSString *varName = [command argumentAtIndex:0];
         NSDictionary *defaultValue = [command argumentAtIndex:1];
@@ -1205,7 +1314,8 @@ static NSURL *launchDeepLink;
     }];
 }
 
--(void)getMapOfStringVariable: (CDVInvokedUrlCommand *)command {
+- (void)getMapOfStringVariable: (CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSString *varName = [command argumentAtIndex:0];
         NSDictionary *defaultValue = [command argumentAtIndex:1];
@@ -1215,9 +1325,13 @@ static NSURL *launchDeepLink;
     }];
 }
 
-//MARK: Feature Flag
+
+#pragma mark - Product Experience
+
+#pragma mark Feature Flag
 //---Fetch Value of Given Feature Flag key and default value
--(void)getFeatureFlag: (CDVInvokedUrlCommand *)command {
+- (void)getFeatureFlag: (CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSString *varName = [command argumentAtIndex:0];
         BOOL defaultValue = [command argumentAtIndex:1];
@@ -1227,53 +1341,65 @@ static NSURL *launchDeepLink;
     }];
 }
 
-//MARK: Feature Flag Delegate
--(void)ctFeatureFlagsUpdated {
+
+#pragma mark Feature Flag Deleagte
+
+- (void)ctFeatureFlagsUpdated {
+    
     NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onCleverTapFeatureFlagsDidUpdate')"];
     [self.commandDelegate evalJs:js];
 }
 
-//MARK: Product Config
--(void)setDefaultsMap: (CDVInvokedUrlCommand *)command {
+
+#pragma mark Product Config
+
+- (void)setDefaultsMap: (CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSDictionary *jsonDict = [command argumentAtIndex:0];
         [[clevertap productConfig]setDefaults:jsonDict];
     }];
 }
 
--(void)fetch: (CDVInvokedUrlCommand *)command {
+- (void)fetch: (CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         [[clevertap productConfig] fetch];
     }];
 }
 
--(void)fetchWithMinimumFetchIntervalInSeconds: (CDVInvokedUrlCommand *)command {
+- (void)fetchWithMinimumFetchIntervalInSeconds: (CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSTimeInterval interval = [[command argumentAtIndex:0] doubleValue];
         [[clevertap productConfig]fetchWithMinimumInterval: interval];
     }];
 }
 
--(void)activate: (CDVInvokedUrlCommand *)command {
+- (void)activate: (CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         [[clevertap productConfig] activate];
     }];
 }
 
--(void)fetchAndActivate: (CDVInvokedUrlCommand *)command {
+- (void)fetchAndActivate: (CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         [[clevertap productConfig] fetchAndActivate];
     }];
 }
 
--(void)setMinimumFetchIntervalInSeconds: (CDVInvokedUrlCommand *)command {
+- (void)setMinimumFetchIntervalInSeconds: (CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSTimeInterval interval = [[command argumentAtIndex:0] doubleValue];
         [[clevertap productConfig] setMinimumFetchInterval:interval];
     }];
 }
 
--(void)getString: (CDVInvokedUrlCommand *)command {
+- (void)getString: (CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSString *key = [command argumentAtIndex:0];
         NSString *keyValue = [[clevertap productConfig] get:key].stringValue;
@@ -1282,7 +1408,8 @@ static NSURL *launchDeepLink;
     }];
 }
 
--(void)getBoolean: (CDVInvokedUrlCommand *)command {
+- (void)getBoolean: (CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSString *key = [command argumentAtIndex:0];
         BOOL keyValue = [[clevertap productConfig] get:key].boolValue;
@@ -1291,7 +1418,8 @@ static NSURL *launchDeepLink;
     }];
 }
 
--(void)getLong: (CDVInvokedUrlCommand *)command {
+- (void)getLong: (CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSString *key = [command argumentAtIndex:0];
         long keyValue = [[clevertap productConfig] get:key].numberValue.longValue;
@@ -1300,7 +1428,8 @@ static NSURL *launchDeepLink;
     }];
 }
 
--(void)getDouble: (CDVInvokedUrlCommand *)command {
+- (void)getDouble: (CDVInvokedUrlCommand *)command {
+    
     [self.commandDelegate runInBackground:^{
         NSString *key = [command argumentAtIndex:0];
         double keyValue = [[clevertap productConfig] get:key].numberValue.doubleValue;
@@ -1309,30 +1438,36 @@ static NSURL *launchDeepLink;
     }];
 }
 
--(void)reset {
+- (void)reset {
+    
     [self.commandDelegate runInBackground:^{
         [[clevertap productConfig] reset];
     }];
 }
 
-//MARK: Product Config Delegate
+
+#pragma mark Product Config Delegate
+
 - (void)ctProductConfigFetched {
+    
     NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onCleverTapProductConfigDidFetch')"];
     [self.commandDelegate evalJs:js];
 }
 
 - (void)ctProductConfigActivated {
+    
     NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onCleverTapProductConfigDidActivate')"];
     [self.commandDelegate evalJs:js];
 }
 
 - (void)ctProductConfigInitialized {
+    
     NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onCleverTapProductConfigDidInitialize')"];
     [self.commandDelegate evalJs:js];
 }
 
-
--(CleverTapInboxStyleConfig*)_dictToInboxStyleConfig: (NSDictionary *)dict {
+- (CleverTapInboxStyleConfig*)_dictToInboxStyleConfig: (NSDictionary *)dict {
+    
     CleverTapInboxStyleConfig *_config = [CleverTapInboxStyleConfig new];
     NSString *title = [dict valueForKey:@"navBarTitle"];
     if (title) {
@@ -1373,7 +1508,8 @@ static NSURL *launchDeepLink;
     return _config;
 }
 
-- (UIColor *)ct_colorWithHexString:(NSString *)string alpha:(CGFloat)alpha{
+- (UIColor *)ct_colorWithHexString:(NSString *)string alpha:(CGFloat)alpha {
+    
     if (![string isKindOfClass:[NSString class]] || [string length] == 0) {
         return [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:1.0f];
     }

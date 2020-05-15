@@ -18,13 +18,6 @@ CleverTap.prototype.notifyDeviceReady = function () {
 }
 
 /*******************
- * In App Notification Display Disable Setup
-******************/
-CleverTap.prototype.disableInAppNotificationDisplay = function (setupValue) {
-    cordova.exec(null, null, "CleverTapPlugin", "disableInAppNotificationDisplay", [setupValue]);
-}
-
-/*******************
  * Personalization
  ******************/
 // Enables the Personalization API
