@@ -266,7 +266,7 @@ Call back for In App Notification Dismissal with Extra Buttons
 }
 
 - (void)disableInAppNotificationDisplay {
-    
+    //Not Handlingshowinbox
 }
 
 #pragma mark CleverTapSyncDelegate
@@ -894,7 +894,9 @@ Call back for In App Notification Dismissal with Extra Buttons
     }];
 }
 
-//---Get Inbox Message Count
+/**
+Get Inbox Message Count
+ */
 - (void)getInboxMessageCount:(CDVInvokedUrlCommand *)command {
     
     [self.commandDelegate runInBackground:^{
@@ -904,7 +906,9 @@ Call back for In App Notification Dismissal with Extra Buttons
     }];
 }
 
-//---Show Inbox
+/**
+Show Inbox
+*/
 - (void)showInbox:(CDVInvokedUrlCommand *)command {
     
     NSDictionary *configStyle = [command argumentAtIndex:0];
@@ -915,7 +919,9 @@ Call back for In App Notification Dismissal with Extra Buttons
     }
 }
 
-//---Get All Inbox Messages
+/**
+Get All Inbox Messages
+*/
 - (void)getAllInboxMessages:(CDVInvokedUrlCommand *)command {
     
     [self.commandDelegate runInBackground:^{
@@ -925,7 +931,9 @@ Call back for In App Notification Dismissal with Extra Buttons
     }];
 }
 
-//---Get Unread Messages From Inbox
+/**
+Get Unread Messages From Inbox
+*/
 - (void)getUnreadInboxMessages:(CDVInvokedUrlCommand *)command {
     
     [self.commandDelegate runInBackground:^{
@@ -935,8 +943,10 @@ Call back for In App Notification Dismissal with Extra Buttons
     }];
 }
 
+/**
 //---Passing output in array due to plugin limitation
-//---Get Inbox Message For Message ID
+Get Inbox Message For Message ID
+*/
 - (void)getInboxMessageForID:(CDVInvokedUrlCommand *)command {
     [self.commandDelegate runInBackground:^{
         NSString *messageId = [command argumentAtIndex:0];
@@ -946,7 +956,9 @@ Call back for In App Notification Dismissal with Extra Buttons
     }];
 }
 
-//Delete message from the Inbox. Message id must be a String
+/**
+Delete message from the Inbox. Message id must be a String
+*/
 - (void)deleteInboxMessageForId:(CDVInvokedUrlCommand *)command {
     
     [self.commandDelegate runInBackground:^{
@@ -955,7 +967,9 @@ Call back for In App Notification Dismissal with Extra Buttons
     }];
 }
 
-//Mark Message as Read
+/**
+Mark Message as Read
+*/
 - (void)markReadInboxMessageForId:(CDVInvokedUrlCommand *)command {
     
     [self.commandDelegate runInBackground:^{
@@ -964,7 +978,9 @@ Call back for In App Notification Dismissal with Extra Buttons
     }];
 }
 
-//Record Inbox Notification Viewed for MessageID
+/**
+Record Inbox Notification Viewed for MessageID
+*/
 - (void)pushInboxNotificationViewedEventForId:(CDVInvokedUrlCommand *)command {
     
     [self.commandDelegate runInBackground:^{
@@ -973,7 +989,9 @@ Call back for In App Notification Dismissal with Extra Buttons
     }];
 }
 
-//Record Inbox Notification Clicked for MessageID
+/**
+Record Inbox Notification Clicked for MessageID
+*/
 - (void)pushInboxNotificationClickedEventForId:(CDVInvokedUrlCommand *)command {
     
     [self.commandDelegate runInBackground:^{
@@ -983,25 +1001,6 @@ Call back for In App Notification Dismissal with Extra Buttons
 }
 
 #pragma mark Inbox Callback
-- (void)messageDidSelect:(CleverTapInboxMessage *_Nonnull)message atIndex:(int)index withButtonIndex:(int)buttonIndex {
-    
-    NSMutableDictionary *jsonDict = [NSMutableDictionary new];
-    
-    if (message != nil) {
-        jsonDict[@"message"] = [message json];
-    }
-    
-    jsonDict[@"index"] = [NSNumber numberWithInt:index];
-    jsonDict[@"buttonIndex"] = [NSNumber numberWithInt:buttonIndex];
-    
-    NSString *jsonString = [self _dictToJson:jsonDict];
-    
-    if (jsonString != nil) {
-        NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onMessageDidSelect', %@);", jsonString];
-        [self.commandDelegate evalJs:js];
-    }
-}
-
 - (void)messageButtonTappedWithCustomExtras:(NSDictionary *_Nullable)customExtras {
     
     NSMutableDictionary *jsonDict = [NSMutableDictionary new];
@@ -1013,7 +1012,7 @@ Call back for In App Notification Dismissal with Extra Buttons
     NSString *jsonString = [self _dictToJson:jsonDict];
     
     if (jsonString != nil) {
-        NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onmessageButtonTappedWithCustomExtras', %@);", jsonString];
+        NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onCleverTapInboxButtonClick', %@);", jsonString];
         [self.commandDelegate evalJs:js];
     }
 }
@@ -1065,7 +1064,6 @@ Get All Display Units
     }];
 }
 
-//---Delegate
 - (void)displayUnitsUpdated:(NSArray<CleverTapDisplayUnit *>*_Nonnull)displayUnits {
     
     NSMutableDictionary *jsonDict = [NSMutableDictionary new];
