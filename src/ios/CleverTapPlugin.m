@@ -32,9 +32,6 @@ static NSURL *launchDeepLink;
 @interface CleverTapPlugin () <CleverTapSyncDelegate, CleverTapInAppNotificationDelegate,CleverTapDisplayUnitDelegate, CleverTapFeatureFlagsDelegate, CleverTapProductConfigDelegate> {
 }
 
-//In App Notification Display/Hide Handler
-@property (nonatomic, assign) BOOL showInAppNotification;
-
 @end
 
 @implementation CleverTapPlugin
@@ -50,10 +47,6 @@ static NSURL *launchDeepLink;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onDidFailToRegisterForRemoteNotificationsWithError:) name:CTRemoteNotificationRegisterError object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onHandleRegisterForRemoteNotification:) name:CTRemoteNotificationDidRegister object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onHandleOpenURLNotification:) name: CTHandleOpenURLNotification object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onHandleNotification:) name:CTDidReceiveNotification object:nil];
 }
 
 +(void)onDidFinishLaunchingNotification:(NSNotification *)notification {
@@ -84,13 +77,13 @@ static NSURL *launchDeepLink;
     [clevertap setPushTokenAsString:notification.object];
 }
 
--(void)onHandleOpenURLNotification:(NSNotification *)notification {
+- (void)onHandleOpenURLNotification:(NSNotification *)notification {
     
     [clevertap handleOpenURL:notification.object sourceApplication:nil];
     [self handleDeepLink:notification.object];
 }
 
--(void)onHandleNotification:(NSNotification *)notification {
+- (void)onHandleNotification:(NSNotification *)notification {
     
     [clevertap handleNotificationWithData:notification.object];
     [self notifyPushNotification:notification.object];
@@ -99,7 +92,11 @@ static NSURL *launchDeepLink;
 - (void)pluginInitialize {
     
     [super pluginInitialize];
-    _showInAppNotification = YES;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onHandleOpenURLNotification:) name: CTHandleOpenURLNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onHandleNotification:) name:CTDidReceiveNotification object:nil];
+    
     [clevertap setSyncDelegate:self];
     [clevertap setInAppNotificationDelegate:self];
     [clevertap setDisplayUnitDelegate:self];
@@ -107,7 +104,7 @@ static NSURL *launchDeepLink;
     [[clevertap productConfig] setDelegate:self];
 }
 
--(NSDictionary*)_eventDetailToDict:(CleverTapEventDetail*)detail {
+- (NSDictionary*)_eventDetailToDict:(CleverTapEventDetail*)detail {
     
     NSMutableDictionary *_dict = [NSMutableDictionary new];
     
@@ -132,7 +129,7 @@ static NSURL *launchDeepLink;
     return _dict;
 }
 
--(NSDictionary*)_utmDetailToDict:(CleverTapUTMDetail*)detail {
+- (NSDictionary*)_utmDetailToDict:(CleverTapUTMDetail*)detail {
     
     NSMutableDictionary *_dict = [NSMutableDictionary new];
     
@@ -153,7 +150,7 @@ static NSURL *launchDeepLink;
     return _dict;
 }
 
--(NSString *)_dictToJson:(NSDictionary *)dict {
+- (NSString *)_dictToJson:(NSDictionary *)dict {
     
     NSData *jsonData;
     NSError *error;
@@ -168,7 +165,7 @@ static NSURL *launchDeepLink;
     return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
 }
 
--(NSDictionary *)formatProfile:(NSDictionary *)profile {
+- (NSDictionary *)formatProfile:(NSDictionary *)profile {
     
     NSMutableDictionary *_profile = [NSMutableDictionary new];
     
@@ -224,13 +221,12 @@ static NSURL *launchDeepLink;
     }
 }
 
-
-#pragma mark - Developer
-
 #pragma mark CleverTapInAppNotificationDelegate
 
-//---Call back for In App Notification Dismissal
--(void)inAppNotificationDismissedWithExtras:(NSDictionary *)extras andActionExtras:(NSDictionary *)actionExtras {
+/**
+ Call back for In App Notification Dismissal
+*/
+- (void)inAppNotificationDismissedWithExtras:(NSDictionary *)extras andActionExtras:(NSDictionary *)actionExtras {
     
     NSMutableDictionary *jsonDict = [NSMutableDictionary new];
     
@@ -250,7 +246,9 @@ static NSURL *launchDeepLink;
     }
 }
 
-//---Call back for In App Notification Dismissal with Extra Buttons
+/**
+Call back for In App Notification Dismissal with Extra Buttons
+ */
 - (void)inAppNotificationButtonTappedWithCustomExtras:(NSDictionary *)customExtras {
     
     NSMutableDictionary *jsonDict = [NSMutableDictionary new];
@@ -262,21 +260,13 @@ static NSURL *launchDeepLink;
     NSString *jsonString = [self _dictToJson:jsonDict];
     
     if (jsonString != nil) {
-        NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onCleverTapInAppNotificationDismissed', %@);", jsonString];
+        NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onCleverTapInAppButtonClick', %@);", jsonString];
         [self.commandDelegate evalJs:js];
     }
 }
 
-//---Call back to Control Display of In App Notification
-- (BOOL)shouldShowInAppNotificationWithExtras:(NSDictionary *)extras {
-    
-    return _showInAppNotification;
-}
-
-//---Set Value For In App Notification Display
 - (void)disableInAppNotificationDisplay {
     
-    _showInAppNotification = false;
 }
 
 
@@ -919,7 +909,7 @@ static NSURL *launchDeepLink;
 - (void)showInbox:(CDVInvokedUrlCommand *)command {
     
     NSDictionary *configStyle = [command argumentAtIndex:0];
-    CleverTapInboxViewController *inboxController = [clevertap newInboxViewControllerWithConfig:[self _dictToInboxStyleConfig:configStyle? configStyle : nil] andDelegate:self];
+    CleverTapInboxViewController *inboxController = [clevertap newInboxViewControllerWithConfig:[self _dictToInboxStyleConfig:configStyle? configStyle : nil] andDelegate:(id <CleverTapInboxViewControllerDelegate>)self];
     if (inboxController) {
         UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:inboxController];
         [self.viewController presentViewController:navigationController animated:YES completion:nil];
@@ -993,7 +983,7 @@ static NSURL *launchDeepLink;
     }];
 }
 
-//MARK: Inbox Callback
+#pragma mark Inbox Callback
 - (void)messageDidSelect:(CleverTapInboxMessage *_Nonnull)message atIndex:(int)index withButtonIndex:(int)buttonIndex {
     
     NSMutableDictionary *jsonDict = [NSMutableDictionary new];
@@ -1032,7 +1022,9 @@ static NSURL *launchDeepLink;
 
 #pragma mark - Native Display
 
-//---Get All Display Units
+/**
+Get All Display Units
+*/
 - (void)getAllDisplayUnits:(CDVInvokedUrlCommand *)command {
     
     [self.commandDelegate runInBackground:^{
@@ -1042,7 +1034,9 @@ static NSURL *launchDeepLink;
     }];
 }
 
-//---Get Display Unit  For ID
+/**
+ Get Display Unit  For ID
+*/
 - (void)getDisplayUnitForId:(CDVInvokedUrlCommand *)command {
     
     [self.commandDelegate runInBackground:^{
@@ -1053,7 +1047,9 @@ static NSURL *launchDeepLink;
     }];
 }
 
-//---Record Display Unit Viewed Event For ID
+/**
+ Record Display Unit Viewed Event For ID
+ */
 - (void)recordDisplayUnitViewedEventForID:(CDVInvokedUrlCommand *)command {
     
     [self.commandDelegate runInBackground:^{

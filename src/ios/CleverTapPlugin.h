@@ -88,17 +88,12 @@ static NSString* const CTHandleOpenURLNotification = @"CTHandleOpenURLNotificati
 /**
  This method gives call back for In App Notification Action
  */
-- (void)inAppNotificationDismissedWithExtras:(NSDictionary *)extras andActionExtras:(NSDictionary *)actionExtras ;
+- (void)inAppNotificationDismissedWithExtras:(NSDictionary *)extras andActionExtras:(NSDictionary *)actionExtras;
 
 /**
  This method gives call back for In App Notification Action
  */
-- (void)inAppNotificationButtonTappedWithCustomExtras:(NSDictionary *)customExtras ;
-
-/**
- Call this method to Disable InApp Notification From CleverTap
- */
-- (void)disableInAppNotificationDisplay;
+- (void)inAppNotificationButtonTappedWithCustomExtras:(NSDictionary *)customExtras;
 
 #pragma mark Event API
 
