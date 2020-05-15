@@ -266,7 +266,7 @@ Call back for In App Notification Dismissal with Extra Buttons
 }
 
 - (void)disableInAppNotificationDisplay {
-    
+    //Not Handlingshowinbox
 }
 
 #pragma mark CleverTapSyncDelegate
@@ -1001,25 +1001,6 @@ Record Inbox Notification Clicked for MessageID
 }
 
 #pragma mark Inbox Callback
-- (void)messageDidSelect:(CleverTapInboxMessage *_Nonnull)message atIndex:(int)index withButtonIndex:(int)buttonIndex {
-    
-    NSMutableDictionary *jsonDict = [NSMutableDictionary new];
-    
-    if (message != nil) {
-        jsonDict[@"message"] = [message json];
-    }
-    
-    jsonDict[@"index"] = [NSNumber numberWithInt:index];
-    jsonDict[@"buttonIndex"] = [NSNumber numberWithInt:buttonIndex];
-    
-    NSString *jsonString = [self _dictToJson:jsonDict];
-    
-    if (jsonString != nil) {
-        NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onCleverTapInboxButtonClick', %@);", jsonString];
-        [self.commandDelegate evalJs:js];
-    }
-}
-
 - (void)messageButtonTappedWithCustomExtras:(NSDictionary *_Nullable)customExtras {
     
     NSMutableDictionary *jsonDict = [NSMutableDictionary new];
@@ -1031,7 +1012,7 @@ Record Inbox Notification Clicked for MessageID
     NSString *jsonString = [self _dictToJson:jsonDict];
     
     if (jsonString != nil) {
-        NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onCleverTapInboxButtonClickWithCustomExtras', %@);", jsonString];
+        NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onCleverTapInboxButtonClick', %@);", jsonString];
         [self.commandDelegate evalJs:js];
     }
 }

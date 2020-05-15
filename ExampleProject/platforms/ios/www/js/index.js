@@ -29,6 +29,14 @@ initialize: function() {
     document.addEventListener('onPushNotification', this.onPushNotification, false);
     document.addEventListener('onCleverTapInboxDidInitialize', this.onCleverTapInboxDidInitialize, false);
     document.addEventListener('onCleverTapInboxMessagesDidUpdate', this.onCleverTapInboxMessagesDidUpdate, false);
+    document.addEventListener('onCleverTapInboxButtonClick', this.onCleverTapInboxButtonClick, false);
+    document.addEventListener('onCleverTapInAppButtonClick', this.onCleverTapInAppButtonClick, false);
+    document.addEventListener('onCleverTapFeatureFlagsDidUpdate', this.onCleverTapFeatureFlagsDidUpdate, false);
+    document.addEventListener('onCleverTapProductConfigDidInitialize', this.onCleverTapProductConfigDidInitialize, false);
+    document.addEventListener('onCleverTapProductConfigDidFetch', this.onCleverTapProductConfigDidFetch, false);
+    document.addEventListener('onCleverTapProductConfigDidActivate', this.onCleverTapProductConfigDidActivate, false);
+    document.addEventListener('onCleverTapExperimentsUpdated', this.onCleverTapExperimentsUpdated, false);
+    document.addEventListener('onCleverTapDisplayUnitsLoaded', this.onCleverTapDisplayUnitsLoaded, false);
 },
     
     // deviceready Event Handler
@@ -160,6 +168,41 @@ onCleverTapInboxDidInitialize: function() {
 onCleverTapInboxMessagesDidUpdate: function() {
     CleverTap.getInboxMessageUnreadCount(function(val) {console.log("Inbox unread message count"+val);})
     CleverTap.getInboxMessageCount(function(val) {console.log("Inbox read message count"+val);});
+},
+
+onCleverTapInAppButtonClick: function(e) {
+    console.log("onCleverTapInAppButtonClick");
+    console.log(e.kvs);
+},
+
+onCleverTapInboxButtonClick: function(e) {
+    console.log("onCleverTapInboxButtonClick");
+    console.log(e.kvs);
+},
+
+onCleverTapFeatureFlagsDidUpdate: function() {
+    console.log("onCleverTapFeatureFlagsDidUpdate");
+},
+
+onCleverTapProductConfigDidInitialize: function() {
+    console.log("onCleverTapProductConfigDidInitialize");
+},
+
+onCleverTapProductConfigDidFetch: function() {
+    console.log("onCleverTapProductConfigDidFetch");
+},
+
+onCleverTapProductConfigDidActivate: function() {
+    console.log("onCleverTapProductConfigDidActivate");
+},
+
+onCleverTapExperimentsUpdated: function() {
+    console.log("onCleverTapExperimentsUpdated");
+},
+
+onCleverTapDisplayUnitsLoaded: function(e) {
+    console.log("onCleverTapDisplayUnitsLoaded");
+    console.log(e.units);
 },
     
     // Update DOM on a Received Event
