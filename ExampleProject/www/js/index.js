@@ -172,12 +172,12 @@ onCleverTapInboxMessagesDidUpdate: function() {
 
 onCleverTapInAppButtonClick: function(e) {
     console.log("onCleverTapInAppButtonClick");
-    console.log(e.kvs);
+    console.log(e.customExtras);
 },
 
 onCleverTapInboxButtonClick: function(e) {
     console.log("onCleverTapInboxButtonClick");
-    console.log(e.kvs);
+    console.log(e.customExtras);
 },
 
 onCleverTapFeatureFlagsDidUpdate: function() {

@@ -2304,7 +2304,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
     public void onInboxButtonClick(HashMap<String, String> payload) {
         JSONObject jsonPayload = new JSONObject(payload);
 
-        final String json = "{'kvs':"+jsonPayload.toString()+"}";
+        final String json = "{'customExtras':"+jsonPayload.toString()+"}";
 
         webView.getView().post(new Runnable() {
             public void run() {
@@ -2318,7 +2318,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
     //InApp Notification callback
     public void onInAppButtonClick(HashMap<String, String> hashMap) {
         JSONObject jsonPayload = new JSONObject(hashMap);
-        final String json = "{'kvs':"+jsonPayload.toString()+"}";
+        final String json = "{'customExtras':"+jsonPayload.toString()+"}";
 
         webView.getView().post(new Runnable() {
             public void run() {
