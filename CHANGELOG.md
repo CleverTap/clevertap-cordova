@@ -3,7 +3,10 @@ Change Log
 
 Version 2.1.9 *(16 May, 2020)*
 -------------------------------------------
-* Adds support for Custom Inbox, InApp and Inbox Click callbacks, Native Display, Dynamic Variables, Product Config and Feature Flags
+* Adds support for Custom Inbox, InApp and Inbox Click callbacks
+* Adds support for Native Display & Dynamic Variables
+* Adds support for Product Config and Feature Flags
+* Adds support for Xiaomi, Baidu * Huawei Push
 * Update for CleverTap Android SDK v 3.8.0
 * Update for CleverTap iOS SDK v 3.8.0
 
