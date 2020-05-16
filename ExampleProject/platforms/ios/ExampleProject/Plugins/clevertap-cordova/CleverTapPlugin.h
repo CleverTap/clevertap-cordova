@@ -73,6 +73,13 @@ static NSString* const CTHandleOpenURLNotification = @"CTHandleOpenURLNotificati
 - (void)setPushTokenAsString:(CDVInvokedUrlCommand *)command;
 - (void)setPushToken:(NSData*)pushToken;
 
+/**
+    Xiaomi, Baidu and Huawei Push Token Changes
+ */
+-(void)setPushXiaomiTokenAsString:(CDVInvokedUrlCommand *)command;
+-(void)setPushBaiduTokenAsString:(CDVInvokedUrlCommand *)command;
+-(void)setPushHuaweiTokenAsString:(CDVInvokedUrlCommand *)command;
+
 /** Let CleverTap handle the push notification
  CleverTap will insure your AppDelege OpenUrl: sourceApplication: is called with a deep link, if included in notification
  */
