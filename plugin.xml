@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" id="clevertap-cordova" version="2.1.8">
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" id="clevertap-cordova" version="2.1.9">
     <name>CleverTap</name>
     <description>CleverTap Plugin for Cordova/PhoneGap</description>
     <license>Commercial</license>
@@ -18,10 +18,7 @@
     <preference name="CLEVERTAP_REGION" default=" "/>
 
     <platform name="ios">
-		<config-file>
-			<access origin="*.wzrkt.com" />
-		</config-file>
-
+		
         <config-file target="*-Info.plist" parent="CleverTapAccountID">
             <string>$CLEVERTAP_ACCOUNT_ID</string>
         </config-file>
@@ -64,10 +61,8 @@
     </platform>
 
     <platform name="android">
-		<config-file>
-			<access origin="*.wzrkt.com" />
-		</config-file>
-
+        <preference name="FIREBASE_MESSAGING_VERSION" default="17.3.4"/>
+        
         <config-file target="config.xml" parent="/*">
             <feature name="CleverTapPlugin" >
                 <param name="android-package" value="com.clevertap.cordova.CleverTapPlugin"/>
@@ -117,9 +112,9 @@
         <source-file src="src/android/google-services.json" target-dir="." />
         <source-file src="src/android/CleverTapPlugin.java" target-dir="src/com/clevertap/cordova/" />
 
-        <framework src="com.google.firebase:firebase-messaging:17.3.4" />
+        <framework src="com.google.firebase:firebase-messaging:$FIREBASE_MESSAGING_VERSION" />
 		<framework src="com.android.support:support-v4:28.0.0" />
-        <framework src="com.clevertap.android:clevertap-android-sdk:3.6.4" />
+        <framework src="com.clevertap.android:clevertap-android-sdk:3.8.0" />
         <framework src="com.github.bumptech.glide:glide:4.9.0" />
         <framework src="com.android.support:design:28.0.0" />
         <framework src="com.android.support:appcompat-v7:28.0.0" />

@@ -29,6 +29,14 @@ initialize: function() {
     document.addEventListener('onPushNotification', this.onPushNotification, false);
     document.addEventListener('onCleverTapInboxDidInitialize', this.onCleverTapInboxDidInitialize, false);
     document.addEventListener('onCleverTapInboxMessagesDidUpdate', this.onCleverTapInboxMessagesDidUpdate, false);
+    document.addEventListener('onCleverTapInboxButtonClick', this.onCleverTapInboxButtonClick, false);
+    document.addEventListener('onCleverTapInAppButtonClick', this.onCleverTapInAppButtonClick, false);
+    document.addEventListener('onCleverTapFeatureFlagsDidUpdate', this.onCleverTapFeatureFlagsDidUpdate, false);
+    document.addEventListener('onCleverTapProductConfigDidInitialize', this.onCleverTapProductConfigDidInitialize, false);
+    document.addEventListener('onCleverTapProductConfigDidFetch', this.onCleverTapProductConfigDidFetch, false);
+    document.addEventListener('onCleverTapProductConfigDidActivate', this.onCleverTapProductConfigDidActivate, false);
+    document.addEventListener('onCleverTapExperimentsUpdated', this.onCleverTapExperimentsUpdated, false);
+    document.addEventListener('onCleverTapDisplayUnitsLoaded', this.onCleverTapDisplayUnitsLoaded, false);
 },
     
     // deviceready Event Handler
@@ -49,11 +57,15 @@ onDeviceReady: function() {
      CleverTap.notifyDeviceReady();
      CleverTap.registerPush();
      CleverTap.enablePersonalization();
+     CleverTap.disablePersonalization();
      CleverTap.recordScreenView("HomeView");
      
      CleverTap.pushInstallReferrer("source", "medium", "campaign");
      
      CleverTap.setPushToken("foo");
+     CleverTap.setPushXiaomiToken("foo");
+     CleverTap.setPushBaiduToken("foo");
+     CleverTap.setPushHuaweiToken("foo");
      
      CleverTap.onUserLogin({"Identity":098767, "custom":1.3});
      
@@ -105,9 +117,59 @@ onDeviceReady: function() {
      CleverTap.profileRemoveValueForKey("custom");
      CleverTap.profileGetProperty("multiValue", function(val) {console.log("multiValue profile value is "+val);});
      
+     CleverTap.getAllInboxMessages(function(val) {console.log("Inbox messages are "+val);});
+     CleverTap.getUnreadInboxMessages(function(val) {console.log("Unread Inbox messages are "+val);});
+     CleverTap.getInboxMessageForID("messageId", function(val) {console.log("Inbox message is "+val);});
+     CleverTap.deleteInboxMessageForId("messageId");
+     CleverTap.markReadInboxMessageForId("messageId");
+     CleverTap.pushInboxNotificationViewedEventForId("messageId");
+     CleverTap.pushInboxNotificationClickedEventForId("messageId");
+     CleverTap.getAllDisplayUnits(function(val) {console.log("Native Display units are "+val);});
+     CleverTap.getDisplayUnitForId(function(val) {console.log("Native Display unit is "+val);});
+     CleverTap.recordDisplayUnitViewedEventForID("unitID");
+     CleverTap.recordDisplayUnitClickedEventForID("unitID");
+     CleverTap.setUIEditorConnectionEnabled(true);
+     CleverTap.registerBooleanVariable("test");
+     CleverTap.registerDoubleVariable("test");
+     CleverTap.registerIntegerVariable("test");
+     CleverTap.registerStringVariable("test");
+     CleverTap.registerListOfBooleanVariable("test");
+     CleverTap.registerListOfDoubleVariable("test");
+     CleverTap.registerListOfIntegerVariable("test");
+     CleverTap.registerListOfStringVariable("test");
+     CleverTap.registerMapOfBooleanVariable("test");
+     CleverTap.registerMapOfDoubleVariable("test");
+     CleverTap.registerMapOfIntegerVariable("test");
+     CleverTap.registerMapOfStringVariable("test");
+     CleverTap.getBooleanVariable("test", true, function(val) {console.log("Value is "+val);});
+     CleverTap.getDoubleVariable("test", 1000, function(val) {console.log("Value is "+val);});
+     CleverTap.getIntegerVariable("test", 10, function(val) {console.log("Value is "+val);});
+     CleverTap.getStringVariable("test", "testValue", function(val) {console.log("Value is "+val);});
+     CleverTap.getListOfBooleanVariable("test", [true,true], function(val) {console.log("Value is "+val);});
+     CleverTap.getListOfDoubleVariable("test", [1000,2000], function(val) {console.log("Value is "+val);});
+     CleverTap.getListOfIntegerVariable("test", [10,20], function(val) {console.log("Value is "+val);});
+     CleverTap.getListOfStringVariable("test", ["ASD","adsad"], function(val) {console.log("Value is "+val);});
+     CleverTap.getMapOfBooleanVariable("test", {"test1": true, "test2": false, "test3": true}, function(val) {console.log("Value is "+val);});
+     CleverTap.getMapOfDoubleVariable("test", {"test1": 1000, "test2": 2000, "test3": 3000}, function(val) {console.log("Value is "+val);});
+     CleverTap.getMapOfIntegerVariable("test", {"test1": 10, "test2": 20, "test3": 30}, function(val) {console.log("Value is "+val);});
+     CleverTap.getMapOfStringVariable("test", {"test1": "sda", "test2": "asd", "test3": "Sad"}, function(val) {console.log("Value is "+val);});
+     CleverTap.getFeatureFlag("test",true,function(val) {console.log("Value is "+val);});
+     CleverTap.setDefaultsMap({"test":"val1","test1":"val2"});
+     CleverTap.fetch();
+     CleverTap.fetchWithMinimumFetchIntervalInSeconds(100);
+     CleverTap.activate();
+     CleverTap.fetchAndActivate();
+     CleverTap.setMinimumFetchIntervalInSeconds(100);
+     CleverTap.getString("test", function(val) {console.log("Value is "+val);});
+     CleverTap.getBoolean("test", function(val) {console.log("Value is "+val);});
+     CleverTap.getLong("test", function(val) {console.log("Value is "+val);});
+     CleverTap.getDouble("test", function(val) {console.log("Value is "+val);});
+     CleverTap.reset();
+     
      //FOR NOTIFICATION INBOX
      CleverTap.initializeInbox();
      */
+
 },
     
     // onCleverTapProfileSync Event Handler
@@ -160,6 +222,41 @@ onCleverTapInboxDidInitialize: function() {
 onCleverTapInboxMessagesDidUpdate: function() {
     CleverTap.getInboxMessageUnreadCount(function(val) {console.log("Inbox unread message count"+val);})
     CleverTap.getInboxMessageCount(function(val) {console.log("Inbox read message count"+val);});
+},
+
+onCleverTapInAppButtonClick: function(e) {
+    console.log("onCleverTapInAppButtonClick");
+    console.log(e.customExtras);
+},
+
+onCleverTapInboxButtonClick: function(e) {
+    console.log("onCleverTapInboxButtonClick");
+    console.log(e.customExtras);
+},
+
+onCleverTapFeatureFlagsDidUpdate: function() {
+    console.log("onCleverTapFeatureFlagsDidUpdate");
+},
+
+onCleverTapProductConfigDidInitialize: function() {
+    console.log("onCleverTapProductConfigDidInitialize");
+},
+
+onCleverTapProductConfigDidFetch: function() {
+    console.log("onCleverTapProductConfigDidFetch");
+},
+
+onCleverTapProductConfigDidActivate: function() {
+    console.log("onCleverTapProductConfigDidActivate");
+},
+
+onCleverTapExperimentsUpdated: function() {
+    console.log("onCleverTapExperimentsUpdated");
+},
+
+onCleverTapDisplayUnitsLoaded: function(e) {
+    console.log("onCleverTapDisplayUnitsLoaded");
+    console.log(e.units);
 },
     
     // Update DOM on a Received Event

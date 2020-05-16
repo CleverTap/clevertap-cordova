@@ -6,8 +6,8 @@ CleverTap Cordova Plugin
 
 Tested on Cordova 9.0.0
 
-- [CleverTap Android SDK version 3.6.4](https://github.com/CleverTap/clevertap-android-sdk/releases/tag/3.6.4)
-- [CleverTap iOS SDK version 3.7.1](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/3.7.1)
+- [CleverTap Android SDK version 3.8.0](https://github.com/CleverTap/clevertap-android-sdk/releases/tag/3.8.0)
+- [CleverTap iOS SDK version 3.8.0](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/3.8.0)
 
 ## Install
 
@@ -39,7 +39,6 @@ If the google-services.json file is not present in your project when the script 
 ```
 cordova plugin add https://github.com/CleverTap/clevertap-cordova.git --variable CLEVERTAP_ACCOUNT_ID="YOUR CLEVERTAP ACCOUNT ID" --variable CLEVERTAP_TOKEN="YOUR CELVERTAP ACCOUNT TOKEN"
 ```
-
 
 #### Using Ionic  
 
@@ -194,23 +193,75 @@ Start by adding the following listeners to your Javascript:
     document.addEventListener('onCleverTapInAppNotificationDismissed', this.onCleverTapInAppNotificationDismissed, false); // optional, to be receive a callback with custom in-app notification click data
     document.addEventListener('onDeepLink', this.onDeepLink, false); // optional, register to receive deep links.
     document.addEventListener('onPushNotification', this.onPushNotification, false); // optional, register to receive push notification payloads.
+    document.addEventListener('onCleverTapInboxDidInitialize', this.onCleverTapInboxDidInitialize, false); // optional, to check if CleverTap Inbox intialized
+    document.addEventListener('onCleverTapInboxMessagesDidUpdate', this.onCleverTapInboxMessagesDidUpdate, false); // optional, to check if CleverTap Inbox Messages were updated
+    document.addEventListener('onCleverTapInboxButtonClick', this.onCleverTapInboxButtonClick, false); // optional, to check if Inbox button was clicked with custom payload
+    document.addEventListener('onCleverTapInAppButtonClick', this.onCleverTapInAppButtonClick, false); // optional, to check if InApp button was clicked with custom payload
+    document.addEventListener('onCleverTapFeatureFlagsDidUpdate', this.onCleverTapFeatureFlagsDidUpdate, false); // optional, to check if Feature Flags were updated
+    document.addEventListener('onCleverTapProductConfigDidInitialize', this.onCleverTapProductConfigDidInitialize, false); // optional, to check if Product Config was initialized
+    document.addEventListener('onCleverTapProductConfigDidFetch', this.onCleverTapProductConfigDidFetch, false); // optional, to check if Product Configs were updated
+    document.addEventListener('onCleverTapProductConfigDidActivate', this.onCleverTapProductConfigDidActivate, false); // optional, to check if Product Configs were activated
+    document.addEventListener('onCleverTapExperimentsUpdated', this.onCleverTapExperimentsUpdated, false); // optional, to check if Dynamic Variable Experiments were updated
+    document.addEventListener('onCleverTapDisplayUnitsLoaded', this.onCleverTapDisplayUnitsLoaded, false); // optional, to check if Native Display units were loaded
 
 
     // deep link handling  
     onDeepLink: function(e) {
         console.log(e.deeplink);  
-    },  
+    },
 
     // push notification data handling
     onPushNotification: function(e) {
         console.log(JSON.stringify(e.notification));
     },
+    onCleverTapInboxDidInitialize: function() {
+        CleverTap.showInbox({"navBarTitle":"My App Inbox","tabs": ["tag1", "tag2"],"navBarColor":"#FF0000"});
+    },
+    
+    onCleverTapInboxMessagesDidUpdate: function() {
+        CleverTap.getInboxMessageUnreadCount(function(val) {console.log("Inbox unread message count"+val);})
+        CleverTap.getInboxMessageCount(function(val) {console.log("Inbox read message count"+val);});
+    },
+
+    onCleverTapInAppButtonClick: function(e) {
+        console.log("onCleverTapInAppButtonClick");
+        console.log(e.customExtras);
+    },
+
+    onCleverTapInboxButtonClick: function(e) {
+        console.log("onCleverTapInboxButtonClick");
+        console.log(e.customExtras);
+    },
+
+    onCleverTapFeatureFlagsDidUpdate: function() {
+        console.log("onCleverTapFeatureFlagsDidUpdate");
+    },
+
+    onCleverTapProductConfigDidInitialize: function() {
+        console.log("onCleverTapProductConfigDidInitialize");
+    },
+
+    onCleverTapProductConfigDidFetch: function() {
+        console.log("onCleverTapProductConfigDidFetch");
+    },
+
+    onCleverTapProductConfigDidActivate: function() {
+        console.log("onCleverTapProductConfigDidActivate");
+    },
+
+    onCleverTapExperimentsUpdated: function() {
+        console.log("onCleverTapExperimentsUpdated");
+    },
+
+    onCleverTapDisplayUnitsLoaded: function(e) {
+        console.log("onCleverTapDisplayUnitsLoaded");
+        console.log(e.units);
+    },
+
 
 
 Then:  
 
-- [see the included iOS Example Cordova project for usage](https://github.com/CleverTap/clevertap-cordova/blob/master/ExampleProject/platforms/ios/www/js/index.js).   
-
-- [see the included Android Example Cordova project for usage](https://github.com/CleverTap/clevertap-cordova/blob/master/ExampleProject/platforms/android/app/src/main/assets/www/js/index.js).  
+- [see the included Example Cordova project for usage](https://github.com/CleverTap/clevertap-cordova/blob/master/ExampleProject/www/js/index.js).  
 
 - [see the included Ionic3 Example project for usage](https://github.com/CleverTap/clevertap-cordova/blob/master/Ionic3Example/src/app/app.component.ts).  
