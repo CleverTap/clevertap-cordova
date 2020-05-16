@@ -359,6 +359,18 @@ Call back for In App Notification Dismissal with Extra Buttons
     }];
 }
 
+-(void)setPushXiaomiTokenAsString:(CDVInvokedUrlCommand *)command {
+    NSLog(@"XiaomiToken is no-op in iOS");
+}
+
+-(void)setPushBaiduTokenAsString:(CDVInvokedUrlCommand *)command {
+    NSLog(@"BaiduToken is no-op in iOS");
+}
+
+-(void)setPushHuaweiTokenAsString:(CDVInvokedUrlCommand *)command {
+    NSLog(@"HuaweiToken is no-op in iOS");
+}
+
 - (void)setPushToken:(NSData*)pushToken {
     
     [clevertap setPushToken:pushToken];
