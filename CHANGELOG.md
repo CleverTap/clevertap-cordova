@@ -3,7 +3,7 @@ Change Log
 
 Version 2.1.9 *(16 May, 2020)*
 -------------------------------------------
-Adds support for Custom Inbox, Native Display, Dyanmic Variables, Product Config and Feature Flags
+Adds support for Custom Inbox, Native Display, Dynamic Variables, Product Config and Feature Flags
 Update for CleverTap Android SDK v 3.8.0
 Update for CleverTap iOS SDK v 3.8.0
 
