@@ -262,8 +262,6 @@ Start by adding the following listeners to your Javascript:
 
 Then:  
 
-- [see the included iOS Example Cordova project for usage](https://github.com/CleverTap/clevertap-cordova/blob/master/ExampleProject/platforms/ios/www/js/index.js).   
-
-- [see the included Android Example Cordova project for usage](https://github.com/CleverTap/clevertap-cordova/blob/master/ExampleProject/platforms/android/app/src/main/assets/www/js/index.js).  
+- [see the included Example Cordova project for usage](https://github.com/CleverTap/clevertap-cordova/blob/master/ExampleProject/www/js/index.js).  
 
 - [see the included Ionic3 Example project for usage](https://github.com/CleverTap/clevertap-cordova/blob/master/Ionic3Example/src/app/app.component.ts).  
