@@ -219,6 +219,19 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             return true;
         }
 
+        else if (action.equals("setPushHuaweiTokenAsString")) {
+            final String token = args.getString(0);
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    cleverTap.pushHuaweiRegistrationId(token,true);
+                    PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
+                    _result.setKeepCallback(true);
+                    callbackContext.sendPluginResult(_result);
+                }
+            });
+            return true;
+        }
+
         else if (action.equals("createNotification")) {
             final String extras = args.getString(0);
             JSONObject json = new JSONObject(extras);
@@ -1326,7 +1339,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                     int msgCount = cleverTap.getInboxMessageCount();
                     PluginResult _result = new PluginResult(PluginResult.Status.OK, msgCount);
                     _result.setKeepCallback(true);
-                    callbackContext.sendPluginResult(_result);
+                    callbackContext.ssetendPluginResult(_result);
                 }
             });
             return true;

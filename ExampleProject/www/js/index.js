@@ -63,6 +63,9 @@ onDeviceReady: function() {
      CleverTap.pushInstallReferrer("source", "medium", "campaign");
      
      CleverTap.setPushToken("foo");
+     CleverTap.setPushXiaomiToken("foo");
+     CleverTap.setPushBaiduToken("foo");
+     CleverTap.setPushHuaweiToken("foo");
      
      CleverTap.onUserLogin({"Identity":098767, "custom":1.3});
      
