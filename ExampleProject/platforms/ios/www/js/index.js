@@ -113,6 +113,55 @@ onDeviceReady: function() {
      CleverTap.profileRemoveValueForKey("custom");
      CleverTap.profileGetProperty("multiValue", function(val) {console.log("multiValue profile value is "+val);});
      
+     CleverTap.getAllInboxMessages(function(val) {console.log("Inbox messages are "+val);});
+     CleverTap.getUnreadInboxMessages(function(val) {console.log("Unread Inbox messages are "+val);});
+     CleverTap.getInboxMessageForID("messageId", function(val) {console.log("Inbox message is "+val);});
+     CleverTap.deleteInboxMessageForId("messageId");
+     CleverTap.markReadInboxMessageForId("messageId");
+     CleverTap.pushInboxNotificationViewedEventForId("messageId");
+     CleverTap.pushInboxNotificationClickedEventForId("messageId");
+     CleverTap.getAllDisplayUnits(function(val) {console.log("Native Display units are "+val);});
+     CleverTap.getDisplayUnitForId(function(val) {console.log("Native Display unit is "+val);});
+     CleverTap.recordDisplayUnitViewedEventForID("unitID");
+     CleverTap.recordDisplayUnitClickedEventForID("unitID");
+     CleverTap.setUIEditorConnectionEnabled(true);
+     CleverTap.registerBooleanVariable("test");
+     CleverTap.registerDoubleVariable("test");
+     CleverTap.registerIntegerVariable("test");
+     CleverTap.registerStringVariable("test");
+     CleverTap.registerListOfBooleanVariable("test");
+     CleverTap.registerListOfDoubleVariable("test");
+     CleverTap.registerListOfIntegerVariable("test");
+     CleverTap.registerListOfStringVariable("test");
+     CleverTap.registerMapOfBooleanVariable("test");
+     CleverTap.registerMapOfDoubleVariable("test");
+     CleverTap.registerMapOfIntegerVariable("test");
+     CleverTap.registerMapOfStringVariable("test");
+     CleverTap.getBooleanVariable("test", true, function(val) {console.log("Value is "+val);});
+     CleverTap.getDoubleVariable("test", 1000, function(val) {console.log("Value is "+val);});
+     CleverTap.getIntegerVariable("test", 10, function(val) {console.log("Value is "+val);});
+     CleverTap.getStringVariable("test", "testValue", function(val) {console.log("Value is "+val);});
+     CleverTap.getListOfBooleanVariable("test", [true,true], function(val) {console.log("Value is "+val);});
+     CleverTap.getListOfDoubleVariable("test", [1000,2000], function(val) {console.log("Value is "+val);});
+     CleverTap.getListOfIntegerVariable("test", [10,20], function(val) {console.log("Value is "+val);});
+     CleverTap.getListOfStringVariable("test", ["ASD","adsad"], function(val) {console.log("Value is "+val);});
+     CleverTap.getMapOfBooleanVariable("test", {"test1": true, "test2": false, "test3": true}, function(val) {console.log("Value is "+val);});
+     CleverTap.getMapOfDoubleVariable("test", {"test1": 1000, "test2": 2000, "test3": 3000}, function(val) {console.log("Value is "+val);});
+     CleverTap.getMapOfIntegerVariable("test", {"test1": 10, "test2": 20, "test3": 30}, function(val) {console.log("Value is "+val);});
+     CleverTap.getMapOfStringVariable("test", {"test1": "sda", "test2": "asd", "test3": "Sad"}, function(val) {console.log("Value is "+val);});
+     CleverTap.getFeatureFlag("test",true,function(val) {console.log("Value is "+val);});
+     CleverTap.setDefaultsMap({"test":"val1","test1":"val2"});
+     CleverTap.fetch();
+     CleverTap.fetchWithMinimumFetchIntervalInSeconds(100);
+     CleverTap.activate();
+     CleverTap.fetchAndActivate();
+     CleverTap.setMinimumFetchIntervalInSeconds(100);
+     CleverTap.getString("test", function(val) {console.log("Value is "+val);});
+     CleverTap.getBoolean("test", function(val) {console.log("Value is "+val);});
+     CleverTap.getLong("test", function(val) {console.log("Value is "+val);});
+     CleverTap.getDouble("test", function(val) {console.log("Value is "+val);});
+     CleverTap.reset();
+     
      //FOR NOTIFICATION INBOX
      CleverTap.initializeInbox();
      */
