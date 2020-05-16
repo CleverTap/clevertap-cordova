@@ -13,7 +13,6 @@ package com.clevertap.cordova;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.location.Location;
 
@@ -2251,7 +2250,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         return true;
     }
 
-    public void onDismissed(Map<String, Object> var1, @Nullable Map<String, Object> var2) {
+    public void onDismissed(Map<String, Object> var1, Map<String, Object> var2) {
         if(var1 == null && var2 == null) {
             return ;
         }
