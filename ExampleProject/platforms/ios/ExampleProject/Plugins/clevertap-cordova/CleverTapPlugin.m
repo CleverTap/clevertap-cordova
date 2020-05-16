@@ -1073,13 +1073,13 @@ Get All Display Units
         for (CleverTapDisplayUnit *item in displayUnits) {
             [items addObject: item.json];
         }
-        jsonDict[@"displayUnits"] = items;
+        jsonDict[@"units"] = items;
     }
     
     NSString *jsonString = [self _dictToJson:jsonDict];
     
     if (jsonString != nil) {
-        NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onCleverTapDisplayUnitsUpdated', %@);", jsonString];
+        NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onCleverTapDisplayUnitsLoaded', %@);", jsonString];
         [self.commandDelegate evalJs:js];
     }
 }
@@ -1207,8 +1207,8 @@ Get All Display Units
     [self.commandDelegate runInBackground:^{
         NSString *varName = [command argumentAtIndex:0];
         double defaultValue = [[command argumentAtIndex:1] doubleValue];
-        BOOL boolVariable = [clevertap getDoubleVariableWithName:varName defaultValue:defaultValue];
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:boolVariable];
+        double doubleVariable = [clevertap getDoubleVariableWithName:varName defaultValue:defaultValue];
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDouble:doubleVariable];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
 }
@@ -1218,8 +1218,8 @@ Get All Display Units
     [self.commandDelegate runInBackground:^{
         NSString *varName = [command argumentAtIndex:0];
         int defaultValue = (int)[command argumentAtIndex:1];
-        BOOL boolVariable = [clevertap getIntegerVariableWithName:varName defaultValue:defaultValue];
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:boolVariable];
+        int intVariable = [clevertap getIntegerVariableWithName:varName defaultValue:defaultValue];
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:intVariable];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
 }
@@ -1229,8 +1229,8 @@ Get All Display Units
     [self.commandDelegate runInBackground:^{
         NSString *varName = [command argumentAtIndex:0];
         NSString *defaultValue = [command argumentAtIndex:1];
-        BOOL boolVariable = [clevertap getStringVariableWithName:varName defaultValue:defaultValue];
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:boolVariable];
+        NSString *stringVariable = [clevertap getStringVariableWithName:varName defaultValue:defaultValue];
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:stringVariable];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
 }
@@ -1240,8 +1240,8 @@ Get All Display Units
     [self.commandDelegate runInBackground:^{
         NSString *varName = [command argumentAtIndex:0];
         NSArray *defaultValue = [command argumentAtIndex:1];
-        BOOL boolVariable = [clevertap getArrayOfBoolVariableWithName:varName defaultValue:defaultValue];
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:boolVariable];
+        NSArray *boolArray = [clevertap getArrayOfBoolVariableWithName:varName defaultValue:defaultValue];
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:boolArray];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
 }
@@ -1251,8 +1251,8 @@ Get All Display Units
     [self.commandDelegate runInBackground:^{
         NSString *varName = [command argumentAtIndex:0];
         NSArray *defaultValue = [command argumentAtIndex:1];
-        BOOL boolVariable = [clevertap getArrayOfDoubleVariableWithName:varName defaultValue:defaultValue];
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:boolVariable];
+        NSArray *doubleArray = [clevertap getArrayOfDoubleVariableWithName:varName defaultValue:defaultValue];
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:doubleArray];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
 }
@@ -1262,8 +1262,8 @@ Get All Display Units
     [self.commandDelegate runInBackground:^{
         NSString *varName = [command argumentAtIndex:0];
         NSArray *defaultValue = [command argumentAtIndex:1];
-        BOOL boolVariable = [clevertap getArrayOfIntegerVariableWithName:varName defaultValue:defaultValue];
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:boolVariable];
+        NSArray *intArray = [clevertap getArrayOfIntegerVariableWithName:varName defaultValue:defaultValue];
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:intArray];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
 }
@@ -1273,8 +1273,8 @@ Get All Display Units
     [self.commandDelegate runInBackground:^{
         NSString *varName = [command argumentAtIndex:0];
         NSArray *defaultValue = [command argumentAtIndex:1];
-        BOOL boolVariable = [clevertap getArrayOfStringVariableWithName:varName defaultValue:defaultValue];
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:boolVariable];
+        NSArray *stringArray = [clevertap getArrayOfStringVariableWithName:varName defaultValue:defaultValue];
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:stringArray];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
 }
@@ -1284,8 +1284,8 @@ Get All Display Units
     [self.commandDelegate runInBackground:^{
         NSString *varName = [command argumentAtIndex:0];
         NSDictionary *defaultValue = [command argumentAtIndex:1];
-        BOOL boolVariable = [clevertap getDictionaryOfBoolVariableWithName:varName defaultValue:defaultValue];
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:boolVariable];
+        NSDictionary *boolDict = [clevertap getDictionaryOfBoolVariableWithName:varName defaultValue:defaultValue];
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:boolDict];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
 }
@@ -1295,8 +1295,8 @@ Get All Display Units
     [self.commandDelegate runInBackground:^{
         NSString *varName = [command argumentAtIndex:0];
         NSDictionary *defaultValue = [command argumentAtIndex:1];
-        BOOL boolVariable = [clevertap getDictionaryOfDoubleVariableWithName:varName defaultValue:defaultValue];
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:boolVariable];
+        NSDictionary *doubleDict = [clevertap getDictionaryOfDoubleVariableWithName:varName defaultValue:defaultValue];
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:doubleDict];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
 }
@@ -1306,8 +1306,8 @@ Get All Display Units
     [self.commandDelegate runInBackground:^{
         NSString *varName = [command argumentAtIndex:0];
         NSDictionary *defaultValue = [command argumentAtIndex:1];
-        BOOL boolVariable = [clevertap getDictionaryOfIntegerVariableWithName:varName defaultValue:defaultValue];
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:boolVariable];
+        NSDictionary *intDict = [clevertap getDictionaryOfIntegerVariableWithName:varName defaultValue:defaultValue];
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:intDict];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
 }
@@ -1317,8 +1317,8 @@ Get All Display Units
     [self.commandDelegate runInBackground:^{
         NSString *varName = [command argumentAtIndex:0];
         NSDictionary *defaultValue = [command argumentAtIndex:1];
-        BOOL boolVariable = [clevertap getDictionaryOfStringVariableWithName:varName defaultValue:defaultValue];
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:boolVariable];
+        NSDictionary *stringDict = [clevertap getDictionaryOfStringVariableWithName:varName defaultValue:defaultValue];
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:stringDict];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
 }
