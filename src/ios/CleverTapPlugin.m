@@ -398,9 +398,19 @@ Call back for In App Notification Dismissal with Extra Buttons
     NSLog(@"createNotificationChannel is no-op in iOS");
 }
 
+- (void)createNotificationChannelWithSound:(CDVInvokedUrlCommand *)command {
+    
+    NSLog(@"createNotificationChannelWithSound is no-op in iOS");
+}
+
 - (void)createNotificationChannelWithGroupId:(CDVInvokedUrlCommand *)command {
     
     NSLog(@"createNotificationChannelWithGroupId is no-op in iOS");
+}
+
+- (void)createNotificationChannelWithGroupIdAndSound:(CDVInvokedUrlCommand *)command {
+    
+    NSLog(@"createNotificationChannelWithGroupIdAndSound is no-op in iOS");
 }
 
 - (void)createNotificationChannelGroup:(CDVInvokedUrlCommand *)command {
@@ -1060,7 +1070,7 @@ Get All Display Units
 /**
  Record Display Unit Viewed Event For ID
  */
-- (void)recordDisplayUnitViewedEventForID:(CDVInvokedUrlCommand *)command {
+- (void)pushDisplayUnitViewedEventForID:(CDVInvokedUrlCommand *)command {
     
     [self.commandDelegate runInBackground:^{
         NSString *unitID = [command argumentAtIndex:0];
@@ -1068,7 +1078,7 @@ Get All Display Units
     }];
 }
 
-- (void)recordDisplayUnitClickedEventForID:(CDVInvokedUrlCommand *)command {
+- (void)pushDisplayUnitClickedEventForID:(CDVInvokedUrlCommand *)command {
     
     [self.commandDelegate runInBackground:^{
         NSString *unitID = [command argumentAtIndex:0];
@@ -1407,6 +1417,16 @@ Get All Display Units
         [[clevertap productConfig] setMinimumFetchInterval:interval];
     }];
 }
+
+- (void)getLastFetchTimeStampInMillis: (CDVInvokedUrlCommand *)command {
+    
+    [self.commandDelegate runInBackground:^{
+       NSTimeInterval value = [[[clevertap productConfig] getLastFetchTimeStamp] timeIntervalSince1970] * 1000;
+       CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDouble:value];
+       [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
+}
+
 
 - (void)getString: (CDVInvokedUrlCommand *)command {
     

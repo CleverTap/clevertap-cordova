@@ -598,7 +598,7 @@ CleverTap.prototype.setMinimumFetchIntervalInSeconds = function(interval){
 }
 
 CleverTap.prototype.getLastFetchTimeStampInMillis = function(successCallback){
-    cordova.exec(successCallback, null, "CleverTapPlugin", "setMinimumFetchIntervalInSeconds", []);
+    cordova.exec(successCallback, null, "CleverTapPlugin", "getLastFetchTimeStampInMillis", []);
 }
 
 CleverTap.prototype.getString = function(key,successCallback){
