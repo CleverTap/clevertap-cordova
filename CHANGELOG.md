@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+Version 2.2.0 *(19 May, 2020)*
+-------------------------------------------
+* Bug Fixes and enhancements
+
 Version 2.1.9 *(16 May, 2020)*
 -------------------------------------------
 * Adds support for Custom Inbox, InApp and Inbox Click callbacks
