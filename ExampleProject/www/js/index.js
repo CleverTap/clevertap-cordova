@@ -160,6 +160,7 @@ onDeviceReady: function() {
      CleverTap.activate();
      CleverTap.fetchAndActivate();
      CleverTap.setMinimumFetchIntervalInSeconds(100);
+     CleverTap.getLastFetchTimeStampInMillis(function(val) {console.log("Value is "+val);});
      CleverTap.getString("test", function(val) {console.log("Value is "+val);});
      CleverTap.getBoolean("test", function(val) {console.log("Value is "+val);});
      CleverTap.getLong("test", function(val) {console.log("Value is "+val);});

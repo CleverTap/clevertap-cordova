@@ -365,12 +365,12 @@ static NSString* const CTHandleOpenURLNotification = @"CTHandleOpenURLNotificati
 /**
  This method is called to record Rendering of Display Unit
  */
-- (void)recordDisplayUnitViewedEventForID:(CDVInvokedUrlCommand *)command;
+- (void)pushDisplayUnitViewedEventForID:(CDVInvokedUrlCommand *)command;
 
 /**
  This method is called to record Click on Display Unit
  */
-- (void)recordDisplayUnitClickedEventForID:(CDVInvokedUrlCommand *)command;
+- (void)pushDisplayUnitClickedEventForID:(CDVInvokedUrlCommand *)command;
 
 # pragma mark Dynamic Variables
 
@@ -535,6 +535,11 @@ static NSString* const CTHandleOpenURLNotification = @"CTHandleOpenURLNotificati
  This method allows you to set minimum time interval for consecutive Product Config call
  */
 - (void)setMinimumFetchIntervalInSeconds: (CDVInvokedUrlCommand *)command;
+
+/**
+This method allows you to fetch last config fetched time
+*/
+- (void)getLastFetchTimeStampInMillis: (CDVInvokedUrlCommand *)command;
 
 /**
  This method fetches String Value for a given key
