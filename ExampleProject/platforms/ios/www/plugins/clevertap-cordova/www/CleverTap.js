@@ -146,9 +146,10 @@ CleverTap.prototype.recordChargedEventWithDetailsAndItems = function (details, i
 // Get Event First Time
 // eventName = string
 // successCallback = callback function for result
+// errorCallback = callback function for Invalid argument error
 // success returns epoch seconds or -1
-CleverTap.prototype.eventGetFirstTime = function (eventName, successCallback) {
-    cordova.exec(successCallback, null, "CleverTapPlugin", "eventGetFirstTime", [eventName]);
+CleverTap.prototype.eventGetFirstTime = function (eventName, successCallback, errorCallback) {
+    cordova.exec(successCallback, errorCallback, "CleverTapPlugin", "eventGetFirstTime", [eventName]);
 }
                
 // Get Event Last Time

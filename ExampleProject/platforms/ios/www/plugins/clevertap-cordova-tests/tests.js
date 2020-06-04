@@ -254,7 +254,7 @@ describe('CleverTap', function () {
                           done();
                       }
 
-                      CleverTap.eventGetFirstTime(onSuccess,onError);
+                      CleverTap.eventGetFirstTime(null,onSuccess,onError);
                   });
 
                   });

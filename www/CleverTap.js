@@ -121,35 +121,36 @@ CleverTap.prototype.deleteNotificationChannelGroup = function (groupId) {
 CleverTap.prototype.recordScreenView = function (screenName) {
     cordova.exec(null, null, "CleverTapPlugin", "recordScreenView", [screenName]);
 }
-               
+
 // Record Event with Name
 // eventName = string
 CleverTap.prototype.recordEventWithName = function (eventName) {
     cordova.exec(null, null, "CleverTapPlugin", "recordEventWithName", [eventName]);
 }
-               
+
 // Record Event with Name and Event properties
 // eventName = string
 // eventProps = object
 CleverTap.prototype.recordEventWithNameAndProps = function (eventName, eventProps) {
     cordova.exec(null, null, "CleverTapPlugin", "recordEventWithNameAndProps", [eventName, eventProps]);
 }
-               
+
 // Record Charged Event with Details and Items
 // details = object with transaction details
 // items = array of items purchased
 CleverTap.prototype.recordChargedEventWithDetailsAndItems = function (details, items) {
     cordova.exec(null, null, "CleverTapPlugin", "recordChargedEventWithDetailsAndItems", [details, items]);
 }
-               
+
 // Get Event First Time
 // eventName = string
 // successCallback = callback function for result
+// errorCallback = callback function for Invalid argument error
 // success returns epoch seconds or -1
-CleverTap.prototype.eventGetFirstTime = function (eventName, successCallback) {
-    cordova.exec(successCallback, null, "CleverTapPlugin", "eventGetFirstTime", [eventName]);
+CleverTap.prototype.eventGetFirstTime = function (eventName, successCallback, errorCallback) {
+    cordova.exec(successCallback, errorCallback, "CleverTapPlugin", "eventGetFirstTime", [eventName]);
 }
-               
+
 // Get Event Last Time
 // eventName = string
 // successCallback = callback function for result
