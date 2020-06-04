@@ -226,6 +226,37 @@ describe('CleverTap', function () {
                   it('should be a function', function () {
                      expect(typeof CleverTap.eventGetFirstTime).toEqual('function');
                      });
+                  
+                  it('should succeed when called with parameter', function (done) {
+                      function onSuccess(data){
+                          expect(data).toBeDefined();
+                          expect(typeof data === "string").toBe(false);
+                          done();
+                      }
+
+                      function onError(error){
+                          expect(true).toEqual(false);  //This has to fail
+                          done();
+                      }
+
+                      CleverTap.eventGetFirstTime('testEvent',onSuccess,onError);
+                  });
+
+                  it('should fail when called without parameter', function (done) {
+                      function onSuccess(data){
+                          expect(true).toEqual(false);  //This has to fail
+                          done();
+                      }
+
+                      function onError(error){
+                          expect(error).toBeDefined();
+                          expect(typeof error === "string").toBe(true);
+                          done();
+                      }
+
+                      CleverTap.eventGetFirstTime(onSuccess,onError);
+                  });
+
                   });
                         
          describe('eventGetLastTime', function () {
