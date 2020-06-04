@@ -10,7 +10,7 @@
   "clevertap-cordova": {
     "source": {
       "type": "registry",
-      "id": "https://github.com/CleverTap/clevertap-cordova.git#2.1.8"
+      "id": "https://github.com/CleverTap/clevertap-cordova.git#2.2.2"
     },
     "is_top_level": true,
     "variables": {
@@ -22,6 +22,22 @@
     "source": {
       "type": "registry",
       "id": "cordova-android-support-gradle-release"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "clevertap-cordova-tests": {
+    "source": {
+      "type": "registry",
+      "path": "/Users/suryanarayansahu/Documents/CleverTap/SDK/CleverTap_Cordova/ExampleProject/node_modules/clevertap-cordova-tests"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-test-framework": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-test-framework"
     },
     "is_top_level": true,
     "variables": {}

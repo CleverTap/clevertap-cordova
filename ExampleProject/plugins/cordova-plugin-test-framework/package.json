@@ -1,0 +1,65 @@
+{
+  "_from": "cordova-plugin-test-framework",
+  "_id": "cordova-plugin-test-framework@1.1.6",
+  "_inBundle": false,
+  "_integrity": "sha1-sJmrRprpoyWSYce85y1ksU5BkSQ=",
+  "_location": "/cordova-plugin-test-framework",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "cordova-plugin-test-framework",
+    "name": "cordova-plugin-test-framework",
+    "escapedName": "cordova-plugin-test-framework",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/cordova-plugin-test-framework/-/cordova-plugin-test-framework-1.1.6.tgz",
+  "_shasum": "b099ab469ae9a3259261c7bce72d64b14e419124",
+  "_spec": "cordova-plugin-test-framework",
+  "_where": "/Users/suryanarayansahu/Documents/CleverTap/SDK/CleverTap_Cordova/ExampleProject",
+  "author": {
+    "name": "Apache Software Foundation"
+  },
+  "bugs": {
+    "url": "https://issues.apache.org/jira/browse/CB"
+  },
+  "bundleDependencies": false,
+  "cordova": {
+    "id": "cordova-plugin-test-framework",
+    "platforms": []
+  },
+  "deprecated": false,
+  "description": "Cordova Test Framework Plugin",
+  "devDependencies": {
+    "eslint": "^4.2.0",
+    "eslint-config-semistandard": "^11.0.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-node": "^5.1.1",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1"
+  },
+  "homepage": "https://github.com/apache/cordova-plugin-test-framework#readme",
+  "keywords": [
+    "cordova",
+    "test",
+    "ecosystem:cordova"
+  ],
+  "license": "Apache-2.0",
+  "name": "cordova-plugin-test-framework",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/apache/cordova-plugin-test-framework.git"
+  },
+  "scripts": {
+    "eslint": "eslint www",
+    "test": "npm run eslint"
+  },
+  "version": "1.1.6"
+}

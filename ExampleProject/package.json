@@ -14,6 +14,10 @@
         "cordova-android": "^7.0.0",
         "cordova-android-support-gradle-release": "^3.0.0",
         "cordova-ios": "^5.1.1",
+        "cordova-plugin-device": "^2.0.3",
+        "cordova-plugin-device-tests": "file:plugins/cordova-plugin-device/tests",
+        "cordova-plugin-geolocation": "^4.0.2",
+        "cordova-plugin-test-framework": "^1.1.6",
         "cordova-plugin-whitelist": "^1.3.3"
     },
     "cordova": {
@@ -23,7 +27,10 @@
                 "CLEVERTAP_ACCOUNT_ID": "69R-Z7W-W54Z",
                 "CLEVERTAP_TOKEN": "0a1-2c6",
                 "CLEVERTAP_REGION": " "
-            }
+            },
+            "cordova-plugin-geolocation": {},
+            "cordova-plugin-device-tests": {},
+            "cordova-plugin-test-framework": {}
         },
         "platforms": [
             "android",
