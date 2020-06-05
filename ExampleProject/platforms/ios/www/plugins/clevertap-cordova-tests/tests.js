@@ -267,6 +267,37 @@ describe('CleverTap', function () {
                   it('should be a function', function () {
                      expect(typeof CleverTap.eventGetLastTime).toEqual('function');
                      });
+                  
+                  it('should succeed when called with parameter', function (done) {
+                      function onSuccess(data){
+                          expect(data).toBeDefined();
+                          expect(typeof data === "string").toBe(false);
+                          done();
+                      }
+
+                      function onError(error){
+                          expect(true).toEqual(false);  //This has to fail
+                          done();
+                      }
+
+                      CleverTap.eventGetLastTime('testEvent',onSuccess,onError);
+                  });
+                  
+                  it('should fail when called without parameter', function (done) {
+                      function onSuccess(data){
+                          expect(true).toEqual(false);  //This has to fail
+                          done();
+                      }
+
+                      function onError(error){
+                          expect(error).toBeDefined();
+                          expect(typeof error === "string").toBe(true);
+                          done();
+                      }
+
+                      CleverTap.eventGetLastTime(null,onSuccess,onError);
+                  });
+                  
                   });
                         
          describe('eventGetOccurrences', function () {
@@ -277,6 +308,37 @@ describe('CleverTap', function () {
                   it('should be a function', function () {
                      expect(typeof CleverTap.eventGetOccurrences).toEqual('function');
                      });
+                  
+                  it('should succeed when called with parameter', function (done) {
+                      function onSuccess(data){
+                          expect(data).toBeDefined();
+                          expect(typeof data === "string").toBe(false);
+                          done();
+                      }
+
+                      function onError(error){
+                          expect(true).toEqual(false);  //This has to fail
+                          done();
+                      }
+
+                      CleverTap.eventGetOccurrences('testEvent',onSuccess,onError);
+                  });
+                  
+                  it('should fail when called without parameter', function (done) {
+                      function onSuccess(data){
+                          expect(true).toEqual(false);  //This has to fail
+                          done();
+                      }
+
+                      function onError(error){
+                          expect(error).toBeDefined();
+                          expect(typeof error === "string").toBe(true);
+                          done();
+                      }
+
+                      CleverTap.eventGetOccurrences(null,onSuccess,onError);
+                  });
+                  
                   });
                         
          describe('eventGetDetails', function () {
@@ -287,6 +349,36 @@ describe('CleverTap', function () {
                   it('should be a function', function () {
                      expect(typeof CleverTap.eventGetDetails).toEqual('function');
                      });
+                  
+                  it('should succeed when called with parameter', function (done) {
+                      function onSuccess(data){
+                          expect(data).toBeDefined();
+                          done();
+                      }
+
+                      function onError(error){
+                          expect(true).toEqual(false);  //This has to fail
+                          done();
+                      }
+
+                      CleverTap.eventGetDetails('testEvent',onSuccess,onError);
+                  });
+                  
+                  it('should fail when called without parameter', function (done) {
+                      function onSuccess(data){
+                          expect(true).toEqual(false);  //This has to fail
+                          done();
+                      }
+
+                      function onError(error){
+                          expect(error).toBeDefined();
+                          expect(typeof error === "string").toBe(true);
+                          done();
+                      }
+
+                      CleverTap.eventGetDetails(null,onSuccess,onError);
+                  });
+                  
                   });
                         
          describe('getEventHistory', function () {
@@ -587,6 +679,36 @@ describe('CleverTap', function () {
                   it('should be a function', function () {
                      expect(typeof CleverTap.getInboxMessageForId).toEqual('function');
                      });
+                  
+                  it('should succeed when called with parameter', function (done) {
+                      function onSuccess(data){
+                          expect(typeof data === "string").toBe(false);
+                          done();
+                      }
+
+                      function onError(error){
+                          expect(true).toEqual(false);  //This has to fail
+                          done();
+                      }
+
+                      CleverTap.getInboxMessageForId('testEvent',onSuccess,onError);
+                  });
+                  
+                  it('should fail when called without parameter', function (done) {
+                      function onSuccess(data){
+                          expect(true).toEqual(false);  //This has to fail
+                          done();
+                      }
+
+                      function onError(error){
+                          expect(error).toBeDefined();
+                          expect(typeof error === "string").toBe(true);
+                          done();
+                      }
+
+                      CleverTap.getInboxMessageForId(null,onSuccess,onError);
+                  });
+                  
                   });
                         
          describe('deleteInboxMessageForId', function () {
@@ -767,6 +889,37 @@ describe('CleverTap', function () {
                   it('should be a function', function () {
                      expect(typeof CleverTap.getBooleanVariable).toEqual('function');
                      });
+                  
+                  it('should succeed when called with parameter', function (done) {
+                      function onSuccess(data){
+                          expect(data).toBeDefined();
+                          expect(typeof data === "boolean").toBe(true);
+                          done();
+                      }
+
+                      function onError(error){
+                          expect(true).toEqual(false);  //This has to fail
+                          done();
+                      }
+
+                      CleverTap.getBooleanVariable('testEvent',true,onSuccess,onError);
+                  });
+                  
+                  it('should fail when called without parameter', function (done) {
+                      function onSuccess(data){
+                          expect(true).toEqual(false);  //This has to fail
+                          done();
+                      }
+
+                      function onError(error){
+                          expect(error).toBeDefined();
+                          expect(typeof error === "string").toBe(true);
+                          done();
+                      }
+
+                      CleverTap.getBooleanVariable(null,null,onSuccess,onError);
+                  });
+                  
                   });
                         
          describe('getDoubleVariable', function () {
@@ -777,6 +930,36 @@ describe('CleverTap', function () {
                   it('should be a function', function () {
                      expect(typeof CleverTap.getDoubleVariable).toEqual('function');
                      });
+                  
+                  it('should succeed when called with parameter', function (done) {
+                      function onSuccess(data){
+                          expect(data).toBeDefined();
+                          expect(typeof data === "number").toBe(true);
+                          done();
+                      }
+
+                      function onError(error){
+                          expect(true).toEqual(false);  //This has to fail
+                          done();
+                      }
+
+                      CleverTap.getDoubleVariable('testEvent',20,onSuccess,onError);
+                  });
+                  
+                  it('should fail when called without parameter', function (done) {
+                      function onSuccess(data){
+                          expect(true).toEqual(false);  //This has to fail
+                          done();
+                      }
+
+                      function onError(error){
+                          expect(error).toBeDefined();
+                          expect(typeof error === "string").toBe(true);
+                          done();
+                      }
+
+                      CleverTap.getDoubleVariable(null,null,onSuccess,onError);
+                  });
                   });
                         
          describe('getIntegerVariable', function () {
@@ -787,6 +970,37 @@ describe('CleverTap', function () {
                   it('should be a function', function () {
                      expect(typeof CleverTap.getIntegerVariable).toEqual('function');
                      });
+                  
+                  it('should succeed when called with parameter', function (done) {
+                      function onSuccess(data){
+                          expect(data).toBeDefined();
+                          expect(typeof data === "number").toBe(true);
+                          done();
+                      }
+
+                      function onError(error){
+                          expect(true).toEqual(false);  //This has to fail
+                          done();
+                      }
+
+                      CleverTap.getIntegerVariable('testEvent',10,onSuccess,onError);
+                  });
+                  
+                  it('should fail when called without parameter', function (done) {
+                      function onSuccess(data){
+                          expect(true).toEqual(false);  //This has to fail
+                          done();
+                      }
+
+                      function onError(error){
+                          expect(error).toBeDefined();
+                          expect(typeof error === "string").toBe(true);
+                          done();
+                      }
+
+                      CleverTap.getIntegerVariable(null,null,onSuccess,onError);
+                  });
+                  
                   });
                         
          describe('getStringVariable', function () {
@@ -797,6 +1011,37 @@ describe('CleverTap', function () {
                   it('should be a function', function () {
                      expect(typeof CleverTap.getStringVariable).toEqual('function');
                      });
+                  
+                  it('should succeed when called with parameter', function (done) {
+                      function onSuccess(data){
+                          expect(data).toBeDefined();
+                          expect(typeof data === "string").toBe(true);
+                          done();
+                      }
+
+                      function onError(error){
+                          expect(true).toEqual(false);  //This has to fail
+                          done();
+                      }
+
+                      CleverTap.getStringVariable('testEvent','defaultValue',onSuccess,onError);
+                  });
+                  
+                  it('should fail when called without parameter', function (done) {
+                      function onSuccess(data){
+                          expect(true).toEqual(false);  //This has to fail
+                          done();
+                      }
+
+                      function onError(error){
+                          expect(error).toBeDefined();
+                          expect(typeof error === "string").toBe(true);
+                          done();
+                      }
+
+                      CleverTap.getStringVariable(null,null,onSuccess,onError);
+                  });
+                  
                   });
                         
          describe('getListOfBooleanVariable', function () {
@@ -807,6 +1052,37 @@ describe('CleverTap', function () {
                   it('should be a function', function () {
                      expect(typeof CleverTap.getListOfBooleanVariable).toEqual('function');
                      });
+                  
+                  it('should succeed when called with parameter', function (done) {
+                      function onSuccess(data){
+                          expect(data).toBeDefined();
+                          expect(typeof data === "object").toBe(true);
+                          done();
+                      }
+
+                      function onError(error){
+                          expect(true).toEqual(false);  //This has to fail
+                          done();
+                      }
+
+                      CleverTap.getListOfBooleanVariable('testEvent',[true,false],onSuccess,onError);
+                  });
+                  
+                  it('should fail when called without parameter', function (done) {
+                      function onSuccess(data){
+                          expect(true).toEqual(false);  //This has to fail
+                          done();
+                      }
+
+                      function onError(error){
+                          expect(error).toBeDefined();
+                          expect(typeof error === "string").toBe(true);
+                          done();
+                      }
+
+                      CleverTap.getListOfBooleanVariable(null,null,onSuccess,onError);
+                  });
+                  
                   });
                         
          describe('getListOfDoubleVariable', function () {
@@ -817,6 +1093,37 @@ describe('CleverTap', function () {
                   it('should be a function', function () {
                      expect(typeof CleverTap.getListOfDoubleVariable).toEqual('function');
                      });
+                  
+                  it('should succeed when called with parameter', function (done) {
+                      function onSuccess(data){
+                          expect(data).toBeDefined();
+                          expect(typeof data === "object").toBe(true);
+                          done();
+                      }
+
+                      function onError(error){
+                          expect(true).toEqual(false);  //This has to fail
+                          done();
+                      }
+
+                      CleverTap.getListOfDoubleVariable('testEvent',[10,20],onSuccess,onError);
+                  });
+                  
+                  it('should fail when called without parameter', function (done) {
+                      function onSuccess(data){
+                          expect(true).toEqual(false);  //This has to fail
+                          done();
+                      }
+
+                      function onError(error){
+                          expect(error).toBeDefined();
+                          expect(typeof error === "string").toBe(true);
+                          done();
+                      }
+
+                      CleverTap.getListOfDoubleVariable(null,null,onSuccess,onError);
+                  });
+                  
                   });
                         
          describe('getListOfIntegerVariable', function () {
@@ -827,6 +1134,37 @@ describe('CleverTap', function () {
                   it('should be a function', function () {
                      expect(typeof CleverTap.getListOfIntegerVariable).toEqual('function');
                      });
+                  
+                  it('should succeed when called with parameter', function (done) {
+                      function onSuccess(data){
+                          expect(data).toBeDefined();
+                          expect(typeof data === "object").toBe(true);
+                          done();
+                      }
+
+                      function onError(error){
+                          expect(true).toEqual(false);  //This has to fail
+                          done();
+                      }
+
+                      CleverTap.getListOfIntegerVariable('testEvent',[10,20],onSuccess,onError);
+                  });
+                  
+                  it('should fail when called without parameter', function (done) {
+                      function onSuccess(data){
+                          expect(true).toEqual(false);  //This has to fail
+                          done();
+                      }
+
+                      function onError(error){
+                          expect(error).toBeDefined();
+                          expect(typeof error === "string").toBe(true);
+                          done();
+                      }
+
+                      CleverTap.getListOfIntegerVariable(null,null,onSuccess,onError);
+                  });
+                  
                   });
                         
          describe('getListOfStringVariable', function () {
@@ -837,6 +1175,37 @@ describe('CleverTap', function () {
                   it('should be a function', function () {
                      expect(typeof CleverTap.getListOfStringVariable).toEqual('function');
                      });
+                  
+                  it('should succeed when called with parameter', function (done) {
+                      function onSuccess(data){
+                          expect(data).toBeDefined();
+                          expect(typeof data === "object").toBe(true);
+                          done();
+                      }
+
+                      function onError(error){
+                          expect(true).toEqual(false);  //This has to fail
+                          done();
+                      }
+
+                      CleverTap.getListOfStringVariable('testEvent',['test','test1'],onSuccess,onError);
+                  });
+                  
+                  it('should fail when called without parameter', function (done) {
+                      function onSuccess(data){
+                          expect(true).toEqual(false);  //This has to fail
+                          done();
+                      }
+
+                      function onError(error){
+                          expect(error).toBeDefined();
+                          expect(typeof error === "string").toBe(true);
+                          done();
+                      }
+
+                      CleverTap.getListOfStringVariable(null,null,onSuccess,onError);
+                  });
+                  
                   });
                         
          describe('getMapOfBooleanVariable', function () {
@@ -847,6 +1216,37 @@ describe('CleverTap', function () {
                   it('should be a function', function () {
                      expect(typeof CleverTap.getMapOfBooleanVariable).toEqual('function');
                      });
+                  
+                  it('should succeed when called with parameter', function (done) {
+                      function onSuccess(data){
+                          expect(data).toBeDefined();
+                          expect(typeof data === "object").toBe(true);
+                          done();
+                      }
+
+                      function onError(error){
+                          expect(true).toEqual(false);  //This has to fail
+                          done();
+                      }
+
+                      CleverTap.getMapOfBooleanVariable('testEvent',{"test1":true,"test2":true},onSuccess,onError);
+                  });
+                  
+                  it('should fail when called without parameter', function (done) {
+                      function onSuccess(data){
+                          expect(true).toEqual(false);  //This has to fail
+                          done();
+                      }
+
+                      function onError(error){
+                          expect(error).toBeDefined();
+                          expect(typeof error === "string").toBe(true);
+                          done();
+                      }
+
+                      CleverTap.getMapOfBooleanVariable(null,null,onSuccess,onError);
+                  });
+                  
                   });
                         
          describe('getMapOfDoubleVariable', function () {
@@ -857,6 +1257,37 @@ describe('CleverTap', function () {
                   it('should be a function', function () {
                      expect(typeof CleverTap.getMapOfDoubleVariable).toEqual('function');
                      });
+                  
+                  it('should succeed when called with parameter', function (done) {
+                      function onSuccess(data){
+                          expect(data).toBeDefined();
+                          expect(typeof data === "object").toBe(true);
+                          done();
+                      }
+
+                      function onError(error){
+                          expect(true).toEqual(false);  //This has to fail
+                          done();
+                      }
+
+                      CleverTap.getMapOfDoubleVariable('testEvent',{"test1":10,"test2":20},onSuccess,onError);
+                  });
+                  
+                  it('should fail when called without parameter', function (done) {
+                      function onSuccess(data){
+                          expect(true).toEqual(false);  //This has to fail
+                          done();
+                      }
+
+                      function onError(error){
+                          expect(error).toBeDefined();
+                          expect(typeof error === "string").toBe(true);
+                          done();
+                      }
+
+                      CleverTap.getMapOfDoubleVariable(null,null,onSuccess,onError);
+                  });
+                  
                   });
                         
          describe('getMapOfIntegerVariable', function () {
@@ -867,6 +1298,37 @@ describe('CleverTap', function () {
                   it('should be a function', function () {
                      expect(typeof CleverTap.getMapOfIntegerVariable).toEqual('function');
                      });
+                  
+                  it('should succeed when called with parameter', function (done) {
+                      function onSuccess(data){
+                          expect(data).toBeDefined();
+                          expect(typeof data === "object").toBe(true);
+                          done();
+                      }
+
+                      function onError(error){
+                          expect(true).toEqual(false);  //This has to fail
+                          done();
+                      }
+
+                      CleverTap.getMapOfIntegerVariable('testEvent',{"test1":111,"test2":222},onSuccess,onError);
+                  });
+                  
+                  it('should fail when called without parameter', function (done) {
+                      function onSuccess(data){
+                          expect(true).toEqual(false);  //This has to fail
+                          done();
+                      }
+
+                      function onError(error){
+                          expect(error).toBeDefined();
+                          expect(typeof error === "string").toBe(true);
+                          done();
+                      }
+
+                      CleverTap.getMapOfIntegerVariable(null,null,onSuccess,onError);
+                  });
+                  
                   });
                         
          describe('getMapOfStringVariable', function () {
@@ -877,6 +1339,37 @@ describe('CleverTap', function () {
                   it('should be a function', function () {
                      expect(typeof CleverTap.getMapOfStringVariable).toEqual('function');
                      });
+                  
+                  it('should succeed when called with parameter', function (done) {
+                      function onSuccess(data){
+                          expect(data).toBeDefined();
+                          expect(typeof data === "object").toBe(true);
+                          done();
+                      }
+
+                      function onError(error){
+                          expect(true).toEqual(false);  //This has to fail
+                          done();
+                      }
+
+                      CleverTap.getMapOfIntegerVariable('testEvent',{"test1":"test3","test2":"test4"},onSuccess,onError);
+                  });
+                  
+                  it('should fail when called without parameter', function (done) {
+                      function onSuccess(data){
+                          expect(true).toEqual(false);  //This has to fail
+                          done();
+                      }
+
+                      function onError(error){
+                          expect(error).toBeDefined();
+                          expect(typeof error === "string").toBe(true);
+                          done();
+                      }
+
+                      CleverTap.getMapOfIntegerVariable(null,null,onSuccess,onError);
+                  });
+                  
                   });
                         
          describe('getAllDisplayUnits', function () {
@@ -897,6 +1390,37 @@ describe('CleverTap', function () {
                   it('should be a function', function () {
                      expect(typeof CleverTap.getDisplayUnitForId).toEqual('function');
                      });
+                  
+                  it('should succeed when called with parameter', function (done) {
+                      function onSuccess(data){
+                          expect(data).toBeDefined();
+                          expect(typeof data === "object").toBe(true);
+                          done();
+                      }
+
+                      function onError(error){
+                          expect(true).toEqual(false);  //This has to fail
+                          done();
+                      }
+
+                      CleverTap.getDisplayUnitForId('testEvent',onSuccess,onError);
+                  });
+                  
+                  it('should fail when called without parameter', function (done) {
+                      function onSuccess(data){
+                          expect(true).toEqual(false);  //This has to fail
+                          done();
+                      }
+
+                      function onError(error){
+                          expect(error).toBeDefined();
+                          expect(typeof error === "string").toBe(true);
+                          done();
+                      }
+
+                      CleverTap.getDisplayUnitForId(null,onSuccess,onError);
+                  });
+                  
                   });
                         
          describe('pushDisplayUnitViewedEventForID', function () {
@@ -927,6 +1451,37 @@ describe('CleverTap', function () {
                   it('should be a function', function () {
                      expect(typeof CleverTap.getFeatureFlag).toEqual('function');
                      });
+                  
+                  it('should succeed when called with parameter', function (done) {
+                      function onSuccess(data){
+                          expect(data).toBeDefined();
+                          expect(typeof data === "boolean").toBe(true);
+                          done();
+                      }
+
+                      function onError(error){
+                          expect(true).toEqual(false);  //This has to fail
+                          done();
+                      }
+
+                      CleverTap.getFeatureFlag('testEvent',true,onSuccess,onError);
+                  });
+                  
+                  it('should fail when called without parameter', function (done) {
+                      function onSuccess(data){
+                          expect(true).toEqual(false);  //This has to fail
+                          done();
+                      }
+
+                      function onError(error){
+                          expect(error).toBeDefined();
+                          expect(typeof error === "string").toBe(true);
+                          done();
+                      }
+
+                      CleverTap.getFeatureFlag(null,null,onSuccess,onError);
+                  });
+                  
                   });
                         
          describe('setDefaultsMap', function () {
@@ -1007,6 +1562,36 @@ describe('CleverTap', function () {
                   it('should be a function', function () {
                      expect(typeof CleverTap.getString).toEqual('function');
                      });
+                  
+                  it('should succeed when called with parameter', function (done) {
+                      function onSuccess(data){
+                          expect(data).toBeDefined();
+                          done();
+                      }
+
+                      function onError(error){
+                          expect(true).toEqual(false);  //This has to fail
+                          done();
+                      }
+
+                      CleverTap.getString('testEvent',onSuccess,onError);
+                  });
+                  
+                  it('should fail when called without parameter', function (done) {
+                      function onSuccess(data){
+                          expect(true).toEqual(false);  //This has to fail
+                          done();
+                      }
+
+                      function onError(error){
+                          expect(error).toBeDefined();
+                          expect(typeof error === "string").toBe(true);
+                          done();
+                      }
+
+                      CleverTap.getString(null,onSuccess,onError);
+                  });
+                  
                   });
                         
          describe('getBoolean', function () {
@@ -1017,6 +1602,37 @@ describe('CleverTap', function () {
                   it('should be a function', function () {
                      expect(typeof CleverTap.getBoolean).toEqual('function');
                      });
+                  
+                  it('should succeed when called with parameter', function (done) {
+                      function onSuccess(data){
+                          expect(data).toBeDefined();
+                          expect(typeof data === "boolean").toBe(true);
+                          done();
+                      }
+
+                      function onError(error){
+                          expect(true).toEqual(false);  //This has to fail
+                          done();
+                      }
+
+                      CleverTap.getBoolean('testEvent',onSuccess,onError);
+                  });
+                  
+                  it('should fail when called without parameter', function (done) {
+                      function onSuccess(data){
+                          expect(true).toEqual(false);  //This has to fail
+                          done();
+                      }
+
+                      function onError(error){
+                          expect(error).toBeDefined();
+                          expect(typeof error === "string").toBe(true);
+                          done();
+                      }
+
+                      CleverTap.getBoolean(null,onSuccess,onError);
+                  });
+                  
                   });
                         
          describe('getLong', function () {
@@ -1027,6 +1643,37 @@ describe('CleverTap', function () {
                   it('should be a function', function () {
                      expect(typeof CleverTap.getLong).toEqual('function');
                      });
+                  
+                  it('should succeed when called with parameter', function (done) {
+                      function onSuccess(data){
+                          expect(data).toBeDefined();
+                          expect(typeof data === "number").toBe(true);
+                          done();
+                      }
+
+                      function onError(error){
+                          expect(true).toEqual(false);  //This has to fail
+                          done();
+                      }
+
+                      CleverTap.getLong('testEvent',onSuccess,onError);
+                  });
+                  
+                  it('should fail when called without parameter', function (done) {
+                      function onSuccess(data){
+                          expect(true).toEqual(false);  //This has to fail
+                          done();
+                      }
+
+                      function onError(error){
+                          expect(error).toBeDefined();
+                          expect(typeof error === "string").toBe(true);
+                          done();
+                      }
+
+                      CleverTap.getLong(null,onSuccess,onError);
+                  });
+                  
                   });
                         
          describe('getDouble', function () {
@@ -1037,6 +1684,37 @@ describe('CleverTap', function () {
                   it('should be a function', function () {
                      expect(typeof CleverTap.getDouble).toEqual('function');
                      });
+                  
+                  it('should succeed when called with parameter', function (done) {
+                      function onSuccess(data){
+                          expect(data).toBeDefined();
+                          expect(typeof data === "number").toBe(true);
+                          done();
+                      }
+
+                      function onError(error){
+                          expect(true).toEqual(false);  //This has to fail
+                          done();
+                      }
+
+                      CleverTap.getDouble('testEvent',onSuccess,onError);
+                  });
+                  
+                  it('should fail when called without parameter', function (done) {
+                      function onSuccess(data){
+                          expect(true).toEqual(false);  //This has to fail
+                          done();
+                      }
+
+                      function onError(error){
+                          expect(error).toBeDefined();
+                          expect(typeof error === "string").toBe(true);
+                          done();
+                      }
+
+                      CleverTap.getDouble(null,onSuccess,onError);
+                  });
+                  
                   });
                         
          describe('reset', function () {
