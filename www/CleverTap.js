@@ -1,4 +1,4 @@
-//  Copyright (C) 2015 CleverTap 
+//  Copyright (C) 2015 CleverTap
 //
 //  This code is provided under a commercial License.
 //  A copy of this license has been distributed in a file called LICENSE
@@ -7,7 +7,7 @@
 
 var CleverTap = function () {
 }
-               
+
 /*******************
  * notify device ready
  * NOTE: in iOS use to be notified of launch Push Notification or Deep Link
@@ -44,7 +44,7 @@ CleverTap.prototype.setOffline = function (value) {
 CleverTap.prototype.enableDeviceNetworkInfoReporting = function (value) {
     cordova.exec(null, null, "CleverTapPlugin", "enableDeviceNetworkInfoReporting", [value]);
 }
-               
+
 /*******************
  * Push
  ******************/
@@ -52,7 +52,7 @@ CleverTap.prototype.enableDeviceNetworkInfoReporting = function (value) {
 CleverTap.prototype.registerPush = function () {
     cordova.exec(null, null, "CleverTapPlugin", "registerPush", []);
 }
-               
+
 // Sets the devices push token
 CleverTap.prototype.setPushToken = function (token) {
     cordova.exec(null, null, "CleverTapPlugin", "setPushTokenAsString", [token]);
@@ -110,8 +110,8 @@ CleverTap.prototype.deleteNotificationChannel = function (channelID) {
 CleverTap.prototype.deleteNotificationChannelGroup = function (groupId) {
     cordova.exec(null,null, "CleverTapPlugin", "deleteNotificationChannelGroup", [groupId]);
 }
-               
-               
+
+
 /*******************
  * Events
  ******************/
@@ -154,44 +154,47 @@ CleverTap.prototype.eventGetFirstTime = function (eventName, successCallback, er
 // Get Event Last Time
 // eventName = string
 // successCallback = callback function for result
+// errorCallback = callback function for Invalid argument error
 // success returns epoch seconds or -1
-CleverTap.prototype.eventGetLastTime = function (eventName, successCallback) {
-    cordova.exec(successCallback, null, "CleverTapPlugin", "eventGetLastTime", [eventName]);
+CleverTap.prototype.eventGetLastTime = function (eventName, successCallback, errorCallback) {
+    cordova.exec(successCallback, errorCallback, "CleverTapPlugin", "eventGetLastTime", [eventName]);
 }
-               
+
 // Get Event Get Occurrences
 // successCallback = callback function for result
+// errorCallback = callback function for Invalid argument error
 // success calls back with int or -1
-CleverTap.prototype.eventGetOccurrences = function (eventName, successCallback) {
-    cordova.exec(successCallback, null, "CleverTapPlugin", "eventGetOccurrences", [eventName]);
+CleverTap.prototype.eventGetOccurrences = function (eventName, successCallback, errorCallback) {
+    cordova.exec(successCallback, errorCallback, "CleverTapPlugin", "eventGetOccurrences", [eventName]);
 }
-               
+
 // Get Event Get Details
 // successCallback = callback function for result
-// success calls back with object {"eventName": <string>, "firstTime":<epoch seconds>, "lastTime": <epoch seconds>, "count": <int>} or empty object 
-CleverTap.prototype.eventGetDetails = function (eventName, successCallback) {
-    cordova.exec(successCallback, null, "CleverTapPlugin", "eventGetDetails", [eventName]);
+// errorCallback = callback function for Invalid argument error
+// success calls back with object {"eventName": <string>, "firstTime":<epoch seconds>, "lastTime": <epoch seconds>, "count": <int>} or empty object
+CleverTap.prototype.eventGetDetails = function (eventName, successCallback, errorCallback) {
+    cordova.exec(successCallback, errorCallback, "CleverTapPlugin", "eventGetDetails", [eventName]);
 }
-               
+
 // Get Event History
 // successCallback = callback function for result
-// success calls back with object {"eventName1":<event1 details object>, "eventName2":<event2 details object>} 
+// success calls back with object {"eventName1":<event1 details object>, "eventName2":<event2 details object>}
 CleverTap.prototype.getEventHistory = function (successCallback) {
     cordova.exec(successCallback, null, "CleverTapPlugin", "getEventHistory", []);
 }
-               
+
 
 /*******************
  * Profiles
  ******************/
 
-/** 
+/**
 Get the device location if available.
 
 On iOS:
 Calling this will prompt the user location permissions dialog.
 Please be sure to include the NSLocationWhenInUseUsageDescription key in your Info.plist.
-Uses desired accuracy of kCLLocationAccuracyHundredMeters. 
+Uses desired accuracy of kCLLocationAccuracyHundredMeters.
 If you need background location updates or finer accuracy please implement your own location handling.
 
 On Android:
@@ -204,13 +207,13 @@ successCallback = callback function for result
 errorCallback = callback function in case of error
 success returns {lat:lat, lon:lon} lat and lon are floats
 error returns a reason string
- 
+
 Note: on iOS the call to CleverTapSDK must be made on the main thread due to LocationManager restrictions, but the CleverTapSDK method itself is non-blocking.
 */
 CleverTap.prototype.getLocation = function (successCallback, errorCallback) {
     cordova.exec(successCallback, errorCallback, "CleverTapPlugin", "getLocation", []);
 }
-               
+
 // Set location
 // lat = float
 // lon = float
@@ -221,45 +224,45 @@ CleverTap.prototype.setLocation = function (lat, lon) {
 /**
  Creates a separate and distinct user profile identified by one or more of Identity, Email, FBID or GPID values,
  and populated with the key-values included in the profile dictionary.
- 
+
  If your app is used by multiple users, you can use this method to assign them each a unique profile to track them separately.
- 
+
  If instead you wish to assign multiple Identity, Email, FBID and/or GPID values to the same user profile,
  use profileSet rather than this method.
- 
+
  If none of Identity, Email, FBID or GPID is included in the profile dictionary,
  all properties values will be associated with the current user profile.
- 
+
  When initially installed on this device, your app is assigned an "anonymous" profile.
  The first time you identify a user on this device (whether via onUserLogin or profileSet),
  the "anonymous" history on the device will be associated with the newly identified user.
- 
+
  Then, use this method to switch between subsequent separate identified users.
- 
+
  Please note that switching from one identified user to another is a costly operation
  in that the current session for the previous user is automatically closed
  and data relating to the old user removed, and a new session is started
  for the new user and data for that user refreshed via a network call to CleverTap.
  In addition, any global frequency caps are reset as part of the switch.
- 
+
  profile = object
  */
 CleverTap.prototype.onUserLogin = function (profile) {
     cordova.exec(null, null, "CleverTapPlugin", "onUserLogin", [profile]);
 }
-               
+
 // Set profile attributes
 // profile = object
 CleverTap.prototype.profileSet = function (profile) {
     cordova.exec(null, null, "CleverTapPlugin", "profileSet", [profile]);
 }
-               
+
 // Set profile attributes from facebook user
 // profile = facebook graph user object
 CleverTap.prototype.profileSetGraphUser = function (profile) {
     cordova.exec(null, null, "CleverTapPlugin", "profileSetGraphUser", [profile]);
 }
-               
+
 // Set profile attributes from google plus user
 // profile = google plus user object
 CleverTap.prototype.profileGooglePlusUser = function (profile) {
@@ -280,7 +283,7 @@ CleverTap.prototype.profileGetProperty = function (propertyName, successCallback
 CleverTap.prototype.profileGetCleverTapAttributionIdentifier = function (successCallback) {
     cordova.exec(successCallback, null, "CleverTapPlugin", "profileGetCleverTapAttributionIdentifier", []);
 }
-               
+
 // Get User Profile CleverTapID
 // successCallback = callback function for result
 // success calls back with CleverTapID or false
@@ -328,7 +331,7 @@ CleverTap.prototype.profileRemoveMultiValue = function (key, value) {
 CleverTap.prototype.profileRemoveMultiValues = function (key, values) {
     cordova.exec(null, null, "CleverTapPlugin", "profileRemoveMultiValues", [key, values]);
 }
-               
+
 /*******************
  * Session
  ******************/
@@ -339,21 +342,21 @@ CleverTap.prototype.profileRemoveMultiValues = function (key, values) {
 CleverTap.prototype.sessionGetTimeElapsed = function (successCallback) {
     cordova.exec(successCallback, null, "CleverTapPlugin", "sessionGetTimeElapsed", []);
 }
-               
+
 // Get Session Get Total Visits
 // successCallback = callback function for result
 // success calls back with int or -1
 CleverTap.prototype.sessionGetTotalVisits = function (successCallback) {
     cordova.exec(successCallback, null, "CleverTapPlugin", "sessionGetTotalVisits", []);
 }
-               
+
 // Get Sesssion Screen Count
 // successCallback = callback function for result
 // success calls back with int
 CleverTap.prototype.sessionGetScreenCount = function (successCallback) {
     cordova.exec(successCallback, null, "CleverTapPlugin", "sessionGetScreenCount", []);
 }
-               
+
 // Get Sesssion Get Previous Visit Time
 // successCallback = callback function for result
 // success calls back with epoch seconds or -1
@@ -375,7 +378,7 @@ CleverTap.prototype.sessionGetUTMDetails = function (successCallback) {
 CleverTap.prototype.pushInstallReferrer = function (source, medium, campaign) {
     cordova.exec(null, null, "CleverTapPlugin", "pushInstallReferrer", [source, medium, campaign]);
 }
-               
+
 /*******************
  * Developer Options
  ******************/
@@ -420,8 +423,8 @@ CleverTap.prototype.getUnreadInboxMessages = function (successCallback) {
      cordova.exec(successCallback, null, "CleverTapPlugin", "getUnreadInboxMessages", []);
 }
 
-CleverTap.prototype.getInboxMessageForId = function (messageId, successCallback) {
-     cordova.exec(successCallback, null, "CleverTapPlugin", "getInboxMessageForId", [messageId]);
+CleverTap.prototype.getInboxMessageForId = function (messageId, successCallback, errorCallback) {
+     cordova.exec(successCallback, errorCallback, "CleverTapPlugin", "getInboxMessageForId", [messageId]);
 }
 
 CleverTap.prototype.deleteInboxMessageForId = function (messageId) {
@@ -496,52 +499,52 @@ CleverTap.prototype.registerMapOfStringVariable = function(name){
 	cordova.exec(null, null, "CleverTapPlugin", "registerMapOfStringVariable", [name]);
 }
 
-CleverTap.prototype.getBooleanVariable = function(name,defaultValue,successCallback){
-	cordova.exec(successCallback, null, "CleverTapPlugin", "getBooleanVariable", [name,defaultValue]);
+CleverTap.prototype.getBooleanVariable = function(name, defaultValue, successCallback, errorCallback){
+	cordova.exec(successCallback, errorCallback, "CleverTapPlugin", "getBooleanVariable", [name,defaultValue]);
 }
 
-CleverTap.prototype.getDoubleVariable = function(name,defaultValue,successCallback){
-	cordova.exec(successCallback, null, "CleverTapPlugin", "getDoubleVariable", [name,defaultValue]);
+CleverTap.prototype.getDoubleVariable = function(name, defaultValue, successCallback, errorCallback){
+	cordova.exec(successCallback, errorCallback, "CleverTapPlugin", "getDoubleVariable", [name,defaultValue]);
 }
 
-CleverTap.prototype.getIntegerVariable = function(name,defaultValue,successCallback){
-	cordova.exec(successCallback, null, "CleverTapPlugin", "getIntegerVariable", [name,defaultValue]);
+CleverTap.prototype.getIntegerVariable = function(name, defaultValue, successCallback, errorCallback){
+	cordova.exec(successCallback, errorCallback, "CleverTapPlugin", "getIntegerVariable", [name,defaultValue]);
 }
 
-CleverTap.prototype.getStringVariable = function(name,defaultValue,successCallback){
-	cordova.exec(successCallback, null, "CleverTapPlugin", "getStringVariable", [name,defaultValue]);
+CleverTap.prototype.getStringVariable = function(name, defaultValue, successCallback, errorCallback){
+	cordova.exec(successCallback, errorCallback, "CleverTapPlugin", "getStringVariable", [name,defaultValue]);
 }
 
-CleverTap.prototype.getListOfBooleanVariable = function(name,defaultValue,successCallback){
-	cordova.exec(successCallback, null, "CleverTapPlugin", "getListOfBooleanVariable", [name,defaultValue]);
+CleverTap.prototype.getListOfBooleanVariable = function(name, defaultValue, successCallback, errorCallback){
+	cordova.exec(successCallback, errorCallback, "CleverTapPlugin", "getListOfBooleanVariable", [name,defaultValue]);
 }
 
-CleverTap.prototype.getListOfDoubleVariable = function(name,defaultValue,successCallback){
-	cordova.exec(successCallback, null, "CleverTapPlugin", "getListOfDoubleVariable", [name,defaultValue]);
+CleverTap.prototype.getListOfDoubleVariable = function(name, defaultValue, successCallback, errorCallback){
+	cordova.exec(successCallback, errorCallback, "CleverTapPlugin", "getListOfDoubleVariable", [name,defaultValue]);
 }
 
-CleverTap.prototype.getListOfIntegerVariable = function(name,defaultValue,successCallback){
-	cordova.exec(successCallback, null, "CleverTapPlugin", "getListOfIntegerVariable", [name,defaultValue]);
+CleverTap.prototype.getListOfIntegerVariable = function(name, defaultValue, successCallback, errorCallback){
+	cordova.exec(successCallback, errorCallback, "CleverTapPlugin", "getListOfIntegerVariable", [name,defaultValue]);
 }
 
-CleverTap.prototype.getListOfStringVariable = function(name,defaultValue,successCallback){
-	cordova.exec(successCallback, null, "CleverTapPlugin", "getListOfStringVariable", [name,defaultValue]);
+CleverTap.prototype.getListOfStringVariable = function(name, defaultValue, successCallback, errorCallback){
+	cordova.exec(successCallback, errorCallback, "CleverTapPlugin", "getListOfStringVariable", [name,defaultValue]);
 }
 
-CleverTap.prototype.getMapOfBooleanVariable = function(name,defaultValue,successCallback){
-	cordova.exec(successCallback, null, "CleverTapPlugin", "getMapOfBooleanVariable", [name,defaultValue]);
+CleverTap.prototype.getMapOfBooleanVariable = function(name, defaultValue, successCallback, errorCallback){
+	cordova.exec(successCallback, errorCallback, "CleverTapPlugin", "getMapOfBooleanVariable", [name,defaultValue]);
 }
 
-CleverTap.prototype.getMapOfDoubleVariable = function(name,defaultValue,successCallback){
-	cordova.exec(successCallback, null, "CleverTapPlugin", "getMapOfDoubleVariable", [name,defaultValue]);
+CleverTap.prototype.getMapOfDoubleVariable = function(name, defaultValue, successCallback, errorCallback){
+	cordova.exec(successCallback, errorCallback, "CleverTapPlugin", "getMapOfDoubleVariable", [name,defaultValue]);
 }
 
-CleverTap.prototype.getMapOfIntegerVariable = function(name,defaultValue,successCallback){
-	cordova.exec(successCallback, null, "CleverTapPlugin", "getMapOfIntegerVariable", [name,defaultValue]);
+CleverTap.prototype.getMapOfIntegerVariable = function(name, defaultValue, successCallback, errorCallback){
+	cordova.exec(successCallback, errorCallback, "CleverTapPlugin", "getMapOfIntegerVariable", [name,defaultValue]);
 }
 
-CleverTap.prototype.getMapOfStringVariable = function(name,defaultValue,successCallback){
-	cordova.exec(successCallback, null, "CleverTapPlugin", "getMapOfStringVariable", [name,defaultValue]);
+CleverTap.prototype.getMapOfStringVariable = function(name, defaultValue, successCallback, errorCallback){
+	cordova.exec(successCallback, errorCallback, "CleverTapPlugin", "getMapOfStringVariable", [name,defaultValue]);
 }
 
 /****************************
@@ -551,8 +554,8 @@ CleverTap.prototype.getAllDisplayUnits = function(successCallback){
 	cordova.exec(successCallback, null, "CleverTapPlugin", "getAllDisplayUnits", []);
 }
 
-CleverTap.prototype.getDisplayUnitForId = function(unitId, successCallback){
-	cordova.exec(successCallback, null, "CleverTapPlugin", "getDisplayUnitForId", [unitId]);
+CleverTap.prototype.getDisplayUnitForId = function(unitId, successCallback, errorCallback){
+	cordova.exec(successCallback, errorCallback, "CleverTapPlugin", "getDisplayUnitForId", [unitId]);
 }
 
 CleverTap.prototype.pushDisplayUnitViewedEventForID = function(unitId){
@@ -564,15 +567,15 @@ CleverTap.prototype.pushDisplayUnitClickedEventForID = function(unitId){
 }
 
 /****************************
- * Feature Flag methods
- ****************************/
-CleverTap.prototype.getFeatureFlag = function(name,defaultValue,successCallback){
-    cordova.exec(successCallback, null, "CleverTapPlugin", "getFeatureFlag", [name,defaultValue]);
+* Feature Flag methods
+****************************/
+CleverTap.prototype.getFeatureFlag = function(name, defaultValue, successCallback, errorCallback){
+    cordova.exec(successCallback, errorCallback, "CleverTapPlugin", "getFeatureFlag", [name,defaultValue]);
 }
 
 /****************************
- * Product Config methods
- ****************************/
+* Product Config methods
+****************************/
 CleverTap.prototype.setDefaultsMap = function(jsonMap){
     cordova.exec(null, null, "CleverTapPlugin", "setDefaultsMap", [jsonMap]);
 }
@@ -601,20 +604,20 @@ CleverTap.prototype.getLastFetchTimeStampInMillis = function(successCallback){
     cordova.exec(successCallback, null, "CleverTapPlugin", "getLastFetchTimeStampInMillis", []);
 }
 
-CleverTap.prototype.getString = function(key,successCallback){
-    cordova.exec(successCallback, null, "CleverTapPlugin", "getString", [key]);
+CleverTap.prototype.getString = function(key, successCallback, errorCallback){
+    cordova.exec(successCallback, errorCallback, "CleverTapPlugin", "getString", [key]);
 }
 
-CleverTap.prototype.getBoolean = function(key,successCallback){
-    cordova.exec(successCallback, null, "CleverTapPlugin", "getBoolean", [key]);
+CleverTap.prototype.getBoolean = function(key, successCallback, errorCallback){
+    cordova.exec(successCallback, errorCallback, "CleverTapPlugin", "getBoolean", [key]);
 }
 
-CleverTap.prototype.getLong = function(key,successCallback){
-    cordova.exec(successCallback, null, "CleverTapPlugin", "getLong", [key]);
+CleverTap.prototype.getLong = function(key, successCallback, errorCallback){
+    cordova.exec(successCallback, errorCallback, "CleverTapPlugin", "getLong", [key]);
 }
 
-CleverTap.prototype.getDouble = function(key,successCallback){
-    cordova.exec(successCallback, null, "CleverTapPlugin", "getDouble", [key]);
+CleverTap.prototype.getDouble = function(key, successCallback, errorCallback){
+    cordova.exec(successCallback, errorCallback, "CleverTapPlugin", "getDouble", [key]);
 }
 
 CleverTap.prototype.reset = function(){

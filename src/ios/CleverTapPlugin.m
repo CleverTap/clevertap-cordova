@@ -546,6 +546,9 @@ Call back for In App Notification Dismissal with Extra Buttons
             NSTimeInterval last = [clevertap eventGetLastTime:eventName];
             CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDouble:last];
             [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        } else {
+            CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Invalid arguments"];
+            [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
         }
     }];
 }
@@ -558,6 +561,9 @@ Call back for In App Notification Dismissal with Extra Buttons
             int num = [clevertap eventGetOccurrences:eventName];
             CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:num];
             [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        } else {
+            CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Invalid arguments"];
+            [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
         }
     }];
 }
@@ -571,6 +577,9 @@ Call back for In App Notification Dismissal with Extra Buttons
             NSDictionary * res = [self _eventDetailToDict:detail];
             CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:res];
             [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        } else {
+            CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Invalid arguments"];
+            [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
         }
     }];
 }
@@ -972,12 +981,17 @@ Get Unread Messages From Inbox
 //---Passing output in array due to plugin limitation
 Get Inbox Message For Message ID
 */
-- (void)getInboxMessageForID:(CDVInvokedUrlCommand *)command {
+- (void)getInboxMessageForId:(CDVInvokedUrlCommand *)command {
     [self.commandDelegate runInBackground:^{
         NSString *messageId = [command argumentAtIndex:0];
-        CleverTapInboxMessage *inboxMessage = [clevertap getInboxMessageForId:messageId];
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray: [NSArray arrayWithObjects:inboxMessage,nil]];
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        if (messageId != nil && [messageId isKindOfClass:[NSString class]]) {
+            CleverTapInboxMessage *inboxMessage = [clevertap getInboxMessageForId:messageId];
+            CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray: [NSArray arrayWithObjects:inboxMessage,nil]];
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        } else {
+            CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Invalid arguments"];
+            [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+        }
     }];
 }
 
@@ -1064,9 +1078,14 @@ Get All Display Units
     
     [self.commandDelegate runInBackground:^{
         NSString *unitID = [command argumentAtIndex:0];
-        CleverTapDisplayUnit *displayUnit = [clevertap getDisplayUnitForID:unitID];
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray: [NSArray arrayWithObjects:displayUnit,nil]];
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        if (unitID != nil && [unitID isKindOfClass:[NSString class]]) {
+            CleverTapDisplayUnit *displayUnit = [clevertap getDisplayUnitForID:unitID];
+            CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray: [NSArray arrayWithObjects:displayUnit,nil]];
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        } else {
+            CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Invalid arguments"];
+            [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+        }
     }];
 }
 
@@ -1221,9 +1240,14 @@ Get All Display Units
     [self.commandDelegate runInBackground:^{
         NSString *varName = [command argumentAtIndex:0];
         BOOL defaultValue = [command argumentAtIndex:1];
-        BOOL boolVariable = [clevertap getBoolVariableWithName:varName defaultValue:defaultValue];
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:boolVariable];
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        if (varName != nil && [varName isKindOfClass:[NSString class]]) {
+            BOOL boolVariable = [clevertap getBoolVariableWithName:varName defaultValue:defaultValue];
+            CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:boolVariable];
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        } else {
+            CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Invalid arguments"];
+            [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+        }
     }];
 }
 
@@ -1232,9 +1256,15 @@ Get All Display Units
     [self.commandDelegate runInBackground:^{
         NSString *varName = [command argumentAtIndex:0];
         double defaultValue = [[command argumentAtIndex:1] doubleValue];
-        double doubleVariable = [clevertap getDoubleVariableWithName:varName defaultValue:defaultValue];
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDouble:doubleVariable];
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        if (varName != nil && [varName isKindOfClass:[NSString class]]) {
+            double doubleVariable = [clevertap getDoubleVariableWithName:varName defaultValue:defaultValue];
+            CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDouble:doubleVariable];
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        } else {
+            CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Invalid arguments"];
+            [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+        }
+        
     }];
 }
 
@@ -1243,9 +1273,14 @@ Get All Display Units
     [self.commandDelegate runInBackground:^{
         NSString *varName = [command argumentAtIndex:0];
         int defaultValue = (int)[command argumentAtIndex:1];
-        int intVariable = [clevertap getIntegerVariableWithName:varName defaultValue:defaultValue];
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:intVariable];
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        if (varName != nil && [varName isKindOfClass:[NSString class]]) {
+            int intVariable = [clevertap getIntegerVariableWithName:varName defaultValue:defaultValue];
+            CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:intVariable];
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        } else {
+            CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Invalid arguments"];
+            [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+        }
     }];
 }
 
@@ -1254,9 +1289,14 @@ Get All Display Units
     [self.commandDelegate runInBackground:^{
         NSString *varName = [command argumentAtIndex:0];
         NSString *defaultValue = [command argumentAtIndex:1];
-        NSString *stringVariable = [clevertap getStringVariableWithName:varName defaultValue:defaultValue];
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:stringVariable];
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        if (varName != nil && [varName isKindOfClass:[NSString class]] && defaultValue != nil && [defaultValue isKindOfClass:[NSString class]]) {
+            NSString *stringVariable = [clevertap getStringVariableWithName:varName defaultValue:defaultValue];
+            CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:stringVariable];
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        } else {
+            CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Invalid arguments"];
+            [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+        }
     }];
 }
 
@@ -1265,9 +1305,14 @@ Get All Display Units
     [self.commandDelegate runInBackground:^{
         NSString *varName = [command argumentAtIndex:0];
         NSArray *defaultValue = [command argumentAtIndex:1];
-        NSArray *boolArray = [clevertap getArrayOfBoolVariableWithName:varName defaultValue:defaultValue];
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:boolArray];
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        if (varName != nil && [varName isKindOfClass:[NSString class]] && defaultValue != nil && [defaultValue isKindOfClass:[NSArray class]]) {
+            NSArray *boolArray = [clevertap getArrayOfBoolVariableWithName:varName defaultValue:defaultValue];
+            CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:boolArray];
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        } else {
+            CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Invalid arguments"];
+            [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+        }
     }];
 }
 
@@ -1276,9 +1321,14 @@ Get All Display Units
     [self.commandDelegate runInBackground:^{
         NSString *varName = [command argumentAtIndex:0];
         NSArray *defaultValue = [command argumentAtIndex:1];
-        NSArray *doubleArray = [clevertap getArrayOfDoubleVariableWithName:varName defaultValue:defaultValue];
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:doubleArray];
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        if (varName != nil && [varName isKindOfClass:[NSString class]] && defaultValue != nil && [defaultValue isKindOfClass:[NSArray class]]) {
+            NSArray *doubleArray = [clevertap getArrayOfDoubleVariableWithName:varName defaultValue:defaultValue];
+            CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:doubleArray];
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        } else {
+            CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Invalid arguments"];
+            [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+        }
     }];
 }
 
@@ -1287,9 +1337,14 @@ Get All Display Units
     [self.commandDelegate runInBackground:^{
         NSString *varName = [command argumentAtIndex:0];
         NSArray *defaultValue = [command argumentAtIndex:1];
-        NSArray *intArray = [clevertap getArrayOfIntegerVariableWithName:varName defaultValue:defaultValue];
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:intArray];
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        if (varName != nil && [varName isKindOfClass:[NSString class]] && defaultValue != nil && [defaultValue isKindOfClass:[NSArray class]]) {
+            NSArray *intArray = [clevertap getArrayOfIntegerVariableWithName:varName defaultValue:defaultValue];
+            CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:intArray];
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        } else {
+            CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Invalid arguments"];
+            [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+        }
     }];
 }
 
@@ -1298,9 +1353,14 @@ Get All Display Units
     [self.commandDelegate runInBackground:^{
         NSString *varName = [command argumentAtIndex:0];
         NSArray *defaultValue = [command argumentAtIndex:1];
-        NSArray *stringArray = [clevertap getArrayOfStringVariableWithName:varName defaultValue:defaultValue];
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:stringArray];
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        if (varName != nil && [varName isKindOfClass:[NSString class]] && defaultValue != nil && [defaultValue isKindOfClass:[NSArray class]]) {
+            NSArray *stringArray = [clevertap getArrayOfStringVariableWithName:varName defaultValue:defaultValue];
+            CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:stringArray];
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        } else {
+            CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Invalid arguments"];
+            [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+        }
     }];
 }
 
@@ -1309,9 +1369,14 @@ Get All Display Units
     [self.commandDelegate runInBackground:^{
         NSString *varName = [command argumentAtIndex:0];
         NSDictionary *defaultValue = [command argumentAtIndex:1];
-        NSDictionary *boolDict = [clevertap getDictionaryOfBoolVariableWithName:varName defaultValue:defaultValue];
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:boolDict];
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        if (varName != nil && [varName isKindOfClass:[NSString class]] && defaultValue != nil && [defaultValue isKindOfClass:[NSDictionary class]]) {
+            NSDictionary *boolDict = [clevertap getDictionaryOfBoolVariableWithName:varName defaultValue:defaultValue];
+            CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:boolDict];
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        } else {
+            CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Invalid arguments"];
+            [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+        }
     }];
 }
 
@@ -1320,9 +1385,14 @@ Get All Display Units
     [self.commandDelegate runInBackground:^{
         NSString *varName = [command argumentAtIndex:0];
         NSDictionary *defaultValue = [command argumentAtIndex:1];
-        NSDictionary *doubleDict = [clevertap getDictionaryOfDoubleVariableWithName:varName defaultValue:defaultValue];
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:doubleDict];
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        if (varName != nil && [varName isKindOfClass:[NSString class]] && defaultValue != nil && [defaultValue isKindOfClass:[NSDictionary class]]) {
+            NSDictionary *doubleDict = [clevertap getDictionaryOfDoubleVariableWithName:varName defaultValue:defaultValue];
+            CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:doubleDict];
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        } else {
+            CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Invalid arguments"];
+            [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+        }
     }];
 }
 
@@ -1331,9 +1401,14 @@ Get All Display Units
     [self.commandDelegate runInBackground:^{
         NSString *varName = [command argumentAtIndex:0];
         NSDictionary *defaultValue = [command argumentAtIndex:1];
-        NSDictionary *intDict = [clevertap getDictionaryOfIntegerVariableWithName:varName defaultValue:defaultValue];
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:intDict];
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        if (varName != nil && [varName isKindOfClass:[NSString class]] && defaultValue != nil && [defaultValue isKindOfClass:[NSDictionary class]]) {
+            NSDictionary *intDict = [clevertap getDictionaryOfIntegerVariableWithName:varName defaultValue:defaultValue];
+            CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:intDict];
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        } else {
+            CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Invalid arguments"];
+            [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+        }
     }];
 }
 
@@ -1342,9 +1417,14 @@ Get All Display Units
     [self.commandDelegate runInBackground:^{
         NSString *varName = [command argumentAtIndex:0];
         NSDictionary *defaultValue = [command argumentAtIndex:1];
-        NSDictionary *stringDict = [clevertap getDictionaryOfStringVariableWithName:varName defaultValue:defaultValue];
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:stringDict];
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        if (varName != nil && [varName isKindOfClass:[NSString class]] && defaultValue != nil && [defaultValue isKindOfClass:[NSDictionary class]]) {
+            NSDictionary *stringDict = [clevertap getDictionaryOfStringVariableWithName:varName defaultValue:defaultValue];
+            CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:stringDict];
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        } else {
+            CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Invalid arguments"];
+            [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+        }
     }];
 }
 
@@ -1358,9 +1438,14 @@ Get All Display Units
     [self.commandDelegate runInBackground:^{
         NSString *varName = [command argumentAtIndex:0];
         BOOL defaultValue = [command argumentAtIndex:1];
-        BOOL flagValue = [[clevertap featureFlags] get:varName withDefaultValue:defaultValue];
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:flagValue];
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        if (varName != nil && [varName isKindOfClass:[NSString class]]) {
+            BOOL flagValue = [[clevertap featureFlags] get:varName withDefaultValue:defaultValue];
+            CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:flagValue];
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        }  else {
+            CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Invalid arguments"];
+            [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+        }
     }];
 }
 
@@ -1435,9 +1520,14 @@ Get All Display Units
     
     [self.commandDelegate runInBackground:^{
         NSString *key = [command argumentAtIndex:0];
-        NSString *keyValue = [[clevertap productConfig] get:key].stringValue;
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:keyValue];
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        if (key != nil && [key isKindOfClass:[NSString class]]) {
+            NSString *keyValue = [[clevertap productConfig] get:key].stringValue;
+            CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:keyValue];
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        } else {
+            CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Invalid arguments"];
+            [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+        }
     }];
 }
 
@@ -1445,9 +1535,14 @@ Get All Display Units
     
     [self.commandDelegate runInBackground:^{
         NSString *key = [command argumentAtIndex:0];
-        BOOL keyValue = [[clevertap productConfig] get:key].boolValue;
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:keyValue];
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        if (key != nil && [key isKindOfClass:[NSString class]]) {
+            BOOL keyValue = [[clevertap productConfig] get:key].boolValue;
+            CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:keyValue];
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        } else {
+            CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Invalid arguments"];
+            [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+        }
     }];
 }
 
@@ -1455,9 +1550,14 @@ Get All Display Units
     
     [self.commandDelegate runInBackground:^{
         NSString *key = [command argumentAtIndex:0];
-        long keyValue = [[clevertap productConfig] get:key].numberValue.longValue;
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDouble:keyValue];
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        if (key != nil && [key isKindOfClass:[NSString class]]) {
+            long keyValue = [[clevertap productConfig] get:key].numberValue.longValue;
+            CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDouble:keyValue];
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        } else {
+            CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Invalid arguments"];
+            [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+        }
     }];
 }
 
@@ -1465,9 +1565,14 @@ Get All Display Units
     
     [self.commandDelegate runInBackground:^{
         NSString *key = [command argumentAtIndex:0];
-        double keyValue = [[clevertap productConfig] get:key].numberValue.doubleValue;
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDouble:keyValue];
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        if (key != nil && [key isKindOfClass:[NSString class]]) {
+            double keyValue = [[clevertap productConfig] get:key].numberValue.doubleValue;
+            CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDouble:keyValue];
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        } else {
+            CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Invalid arguments"];
+            [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+        }
     }];
 }
 

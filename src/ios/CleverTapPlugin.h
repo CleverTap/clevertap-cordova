@@ -328,7 +328,7 @@ static NSString* const CTHandleOpenURLNotification = @"CTHandleOpenURLNotificati
 /**
  This method fetches the Message for Given Message Id
  */
-- (void)getInboxMessageForID:(CDVInvokedUrlCommand *)command;
+- (void)getInboxMessageForId:(CDVInvokedUrlCommand *)command;
 
 /**
  This method deletes the Inbox Message for Given Message Id
