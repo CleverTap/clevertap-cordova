@@ -4,9 +4,9 @@ CleverTap Cordova Plugin
 
 ## Supported Versions
 
-Tested on Cordova 9.0.0
+Tested on Cordova 10.0.0
 
-- [CleverTap Android SDK version 3.8.0](https://github.com/CleverTap/clevertap-android-sdk/releases/tag/3.8.0)
+- [CleverTap Android SDK version 4.0.0](https://github.com/CleverTap/clevertap-android-sdk/releases/tag/core-v4.0.0)
 - [CleverTap iOS SDK version 3.8.0](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/3.8.0)
 
 ## Install
@@ -147,9 +147,20 @@ Make sure your build.gradle file includes the play-services and support library 
         releaseCompile(project(path: "CordovaLib", configuration: "release"))
         // SUB-PROJECT DEPENDENCIES START
         implementation "com.google.firebase:firebase-core:+"
-        implementation "com.google.firebase:firebase-messaging:17.3.3"
-        implementation "com.android.support:support-v4:+"
-        implementation "com.android.installreferrer:installreferrer:1.0" //Mandatory for v2.1.8 and above
+        implementation "com.google.firebase:firebase-messaging:20.2.4"
+        implementation 'androidx.core:core:1.3.0'
+        implementation 'androidx.fragment:fragment:1.1.0'
+        implementation "com.android.installreferrer:installreferrer:2.1" //Mandatory for v2.1.8 and above
+        //MANDATORY for App Inbox
+        implementation 'androidx.appcompat:appcompat:1.2.0'
+        implementation 'androidx.recyclerview:recyclerview:1.1.0'
+        implementation 'androidx.viewpager:viewpager:1.0.0'
+        implementation 'com.google.android.material:material:1.2.1'
+        implementation 'com.github.bumptech.glide:glide:4.11.0'
+        //Optional ExoPlayer Libraries for Audio/Video Inbox Messages. Audio/Video messages will be dropped without these dependencies
+        implementation 'com.google.android.exoplayer:exoplayer:2.11.5'
+        implementation 'com.google.android.exoplayer:exoplayer-hls:2.11.5'
+        implementation 'com.google.android.exoplayer:exoplayer-ui:2.11.5'
         // SUB-PROJECT DEPENDENCIES END   
 
 ### 2. Set up and register for push notifications and deep links
