@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-port/values-port.xml",
+            "outputFile": "/Users/darshan/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-port/values-port.xml",
             "map": [
                 {
-                    "source": "/Users/darshanpania/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/592c567429e8c6af64f6ea65f1fde5c0/res/values-port/values-port.xml",
+                    "source": "/Users/darshan/.gradle/caches/transforms-2/files-2.1/438786eb448967dbfdf15c0047da4828/appcompat-1.2.0/res/values-port/values-port.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

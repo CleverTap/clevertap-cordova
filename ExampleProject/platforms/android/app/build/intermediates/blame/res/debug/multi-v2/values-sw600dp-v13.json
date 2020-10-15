@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-sw600dp-v13/values-sw600dp-v13.xml",
+            "outputFile": "/Users/darshan/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject/platforms/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-sw600dp-v13/values-sw600dp-v13.xml",
             "map": [
                 {
-                    "source": "/Users/darshanpania/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/592c567429e8c6af64f6ea65f1fde5c0/res/values-sw600dp-v13/values-sw600dp-v13.xml",
+                    "source": "/Users/darshan/.gradle/caches/transforms-2/files-2.1/438786eb448967dbfdf15c0047da4828/appcompat-1.2.0/res/values-sw600dp-v13/values-sw600dp-v13.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9",
                         "startColumns": "4,4,4,4,4,4,4,4",
@@ -14,22 +14,39 @@
                     }
                 },
                 {
-                    "source": "/Users/darshanpania/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/1a002354f79cda04cd3bec21a183bad7/res/values-sw600dp-v13/values-sw600dp-v13.xml",
+                    "source": "/Users/darshan/.gradle/caches/transforms-2/files-2.1/a4ff2e0e54f6f787f681078ac2632495/jetified-clevertap-android-sdk-4.0.0/res/values-sw600dp-v13/values-sw600dp-v13.xml",
                     "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,115,185,256,328,386,444,550,614,677",
-                        "endLines": "2,3,4,5,6,7,8,9,10,14",
-                        "endColumns": "59,69,70,71,57,57,105,63,62,12",
-                        "endOffsets": "110,180,251,323,381,439,545,609,672,854"
+                        "startLines": "2,3,4,5,6,7,8",
+                        "startColumns": "4,4,4,4,4,4,4",
+                        "startOffsets": "55,106,159,217,276,333,387",
+                        "endColumns": "50,52,57,58,56,53,51",
+                        "endOffsets": "101,154,212,271,328,382,434"
                     },
                     "to": {
-                        "startLines": "10,11,12,13,14,15,16,17,18,19",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "611,671,741,812,884,942,1000,1106,1170,1233",
-                        "endLines": "10,11,12,13,14,15,16,17,18,22",
-                        "endColumns": "59,69,70,71,57,57,105,63,62,12",
-                        "endOffsets": "666,736,807,879,937,995,1101,1165,1228,1410"
+                        "startLines": "19,22,23,24,25,26,27",
+                        "startColumns": "4,4,4,4,4,4,4",
+                        "startOffsets": "1173,1339,1392,1450,1509,1566,1620",
+                        "endColumns": "50,52,57,58,56,53,51",
+                        "endOffsets": "1219,1387,1445,1504,1561,1615,1667"
+                    }
+                },
+                {
+                    "source": "/Users/darshan/.gradle/caches/transforms-2/files-2.1/1dcf83d41bfef79226705c169688a0e4/material-1.2.1/res/values-sw600dp-v13/values-sw600dp-v13.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,10,11,12,13,14",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,115,185,256,328,386,444,553,617,673,732,795",
+                        "endLines": "2,3,4,5,6,7,9,10,11,12,13,17",
+                        "endColumns": "59,69,70,71,57,57,10,63,55,58,62,10",
+                        "endOffsets": "110,180,251,323,381,439,548,612,668,727,790,962"
+                    },
+                    "to": {
+                        "startLines": "10,11,12,13,14,15,16,18,20,21,28,29",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "611,671,741,812,884,942,1000,1109,1224,1280,1672,1735",
+                        "endLines": "10,11,12,13,14,15,17,18,20,21,28,32",
+                        "endColumns": "59,69,70,71,57,57,10,63,55,58,62,10",
+                        "endOffsets": "666,736,807,879,937,995,1104,1168,1275,1334,1730,1902"
                     }
                 }
             ]

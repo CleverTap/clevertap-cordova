@@ -1,1 +1,20 @@
-[{"outputType":{"type":"APK"},"apkInfo":{"type":"MAIN","splits":[],"versionCode":10000},"path":"app-debug.apk","properties":{"packageId":"com.clevertap.example","split":"","minSdkVersion":"16"}}]
+{
+  "version": 1,
+  "artifactType": {
+    "type": "APK",
+    "kind": "Directory"
+  },
+  "applicationId": "com.clevertap.example",
+  "variantName": "debug",
+  "elements": [
+    {
+      "type": "SINGLE",
+      "filters": [],
+      "properties": [],
+      "versionCode": 10000,
+      "versionName": "10000",
+      "enabled": true,
+      "outputFile": "app-debug.apk"
+    }
+  ]
+}

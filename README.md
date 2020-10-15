@@ -4,9 +4,9 @@ CleverTap Cordova Plugin
 
 ## Supported Versions
 
-Tested on Cordova 9.0.0
+Tested on Cordova 10.0.0
 
-- [CleverTap Android SDK version 3.8.0](https://github.com/CleverTap/clevertap-android-sdk/releases/tag/3.8.0)
+- [CleverTap Android SDK version 4.0.0](https://github.com/CleverTap/clevertap-android-sdk/releases/tag/core-v4.0.0)
 - [CleverTap iOS SDK version 3.8.0](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/3.8.0)
 
 ## Install
@@ -36,24 +36,24 @@ If the google-services.json file is not present in your project when the script 
 
 #### Using Cordova  
 
-```
+```sh
 cordova plugin add https://github.com/CleverTap/clevertap-cordova.git --variable CLEVERTAP_ACCOUNT_ID="YOUR CLEVERTAP ACCOUNT ID" --variable CLEVERTAP_TOKEN="YOUR CELVERTAP ACCOUNT TOKEN"
 ```
 
 #### Using Ionic  
 
-```
+```sh
 ionic cordova plugin add clevertap-cordova@latest --variable CLEVERTAP_ACCOUNT_ID="YOUR CLEVERTAP ACCOUNT ID" --variable CLEVERTAP_TOKEN="YOUR CELVERTAP ACCOUNT TOKEN"
 ```
 
 ##### For Ionic3
-```
+```sh
 npm install @ionic-native/clevertap --save 
 ```
 - [see the included Ionic3 Example project for usage](https://github.com/CleverTap/clevertap-cordova/blob/master/Ionic3Example/src/app/app.component.ts).
 
 - be sure to [add CleverTap as a provider in your app module](https://github.com/CleverTap/clevertap-cordova/blob/master/Ionic3Example/src/app/app.module.ts). 
-```
+```javascript
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, clevertap: CleverTap) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
@@ -81,7 +81,7 @@ When using the plugin with PhoneGap Build:
 
 Add the following to your `www/config.xml` file:
 
-```
+```xml
 <preference name="android-build-tool" value="gradle" />
 
 <gap:plugin name="clevertap-cordova" source="npm">
@@ -93,7 +93,7 @@ Add the following to your `www/config.xml` file:
 
 *For PhoneGap Build Android projects*:  **Extremely Important**:  add `CleverTap.notifyDeviceReady();` to your onDeviceReady callback in `www/js/index.js`:
 
-```
+```javascript
 onDeviceReady: function() {
     app.receivedEvent('deviceready');
     CleverTap.notifyDeviceReady();
@@ -105,12 +105,14 @@ onDeviceReady: function() {
 
 Check that the following is inside the `<application></application>` tags of your AndroidManifest.xml:  
 
+```xml
     <meta-data  
         android:name="CLEVERTAP_ACCOUNT_ID"  
         android:value="Your CleverTap Account ID"/>  
     <meta-data  
         android:name="CLEVERTAP_TOKEN"  
         android:value="Your CleverTap Account Token"/>
+```
 
 Replace "Your CleverTap Account ID" and "Your CleverTap Account Token" with actual values from your CleverTap [Dashboard](https://dashboard.clevertap.com) -> Settings.
 
@@ -120,8 +122,10 @@ IMPORTANT!
 
 Check the `android:name` property of the `<application>` tag of our AndroidManifest.xml:
 
+```xml
     <application
         android:name="com.clevertap.android.sdk.Application">
+```
 
 **Note:** The above step is **extremely important** and enables CleverTap to track notification opens, display in-app notifications, track deep links, and other important **user behaviour**.
 
@@ -129,11 +133,13 @@ Check the `android:name` property of the `<application>` tag of our AndroidManif
 
 Please ensure that you're requesting the following permissions for your app:
 
+```xml
     <!-- Required to allow the app to send events -->
     <uses-permission android:name="android.permission.INTERNET"/>
     <!-- Recommended so that we can be smart about when to send the data -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+```
 
 [Please see the example AndroidManifest.xml here](https://github.com/CleverTap/clevertap-cordova/blob/master/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml).
 
@@ -141,16 +147,39 @@ Please ensure that you're requesting the following permissions for your app:
 
 Make sure your build.gradle file includes the play-services and support library dependencies:
 
+```groovy
     dependencies {
         implementation fileTree(dir: 'libs', include: '*.jar'  )
         debugCompile(project(path: "CordovaLib", configuration: "debug"))
         releaseCompile(project(path: "CordovaLib", configuration: "release"))
         // SUB-PROJECT DEPENDENCIES START
         implementation "com.google.firebase:firebase-core:+"
-        implementation "com.google.firebase:firebase-messaging:17.3.3"
-        implementation "com.android.support:support-v4:+"
-        implementation "com.android.installreferrer:installreferrer:1.0" //Mandatory for v2.1.8 and above
-        // SUB-PROJECT DEPENDENCIES END   
+        implementation "com.google.firebase:firebase-messaging:20.2.4"
+        implementation 'androidx.core:core:1.3.0'
+        implementation 'androidx.fragment:fragment:1.1.0'
+        implementation "com.android.installreferrer:installreferrer:2.1" //Mandatory for v2.1.8 and above
+        //MANDATORY for App Inbox
+        implementation 'androidx.appcompat:appcompat:1.2.0'
+        implementation 'androidx.recyclerview:recyclerview:1.1.0'
+        implementation 'androidx.viewpager:viewpager:1.0.0'
+        implementation 'com.google.android.material:material:1.2.1'
+        implementation 'com.github.bumptech.glide:glide:4.11.0'
+        //Optional ExoPlayer Libraries for Audio/Video Inbox Messages. Audio/Video messages will be dropped without these dependencies
+        implementation 'com.google.android.exoplayer:exoplayer:2.11.5'
+        implementation 'com.google.android.exoplayer:exoplayer-hls:2.11.5'
+        implementation 'com.google.android.exoplayer:exoplayer-ui:2.11.5'
+        // SUB-PROJECT DEPENDENCIES END 
+```  
+
+#### Support AndroidX
+
+To support AndroidX libraries, add the following to your `config.xml` file -
+
+```xml
+    <preference name="AndroidXEnabled" value="true" />
+```
+
+Also ensure that your app supports `cordova-android@9.0.0`
 
 ### 2. Set up and register for push notifications and deep links
 
@@ -162,8 +191,9 @@ If you plan on using deep links, [please register your custom url scheme as desc
 
 Call the following from your Javascript.
 
+```javascript
     CleverTap.registerPush();
-
+```
 
 #### Android
 
@@ -171,13 +201,14 @@ The `FCMTokenListenerService` of the CleverTap Android SDK registers push tokens
 
 Add your custom url scheme to the AndroidManifest.xml.
 
+```xml
 	 <intent-filter android:label="@string/app_name">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="clevertapstarter" />
      </intent-filter>
-
+```
 
 See [example AndroidManifest.xml](ihttps://github.com/CleverTap/clevertap-cordova/blob/master/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml).
 
@@ -187,6 +218,7 @@ After integrating, all calls to the CleverTap SDK should be made from your Javas
 
 Start by adding the following listeners to your Javascript:
 
+```javascript
     document.addEventListener('deviceready', this.onDeviceReady, false);
     document.addEventListener('onCleverTapProfileSync', this.onCleverTapProfileSync, false); // optional: to be notified of CleverTap user profile synchronization updates
     document.addEventListener('onCleverTapProfileDidInitialize', this.onCleverTapProfileDidInitialize, false); // optional, to be notified when the CleverTap user profile is initialized
@@ -257,7 +289,7 @@ Start by adding the following listeners to your Javascript:
         console.log("onCleverTapDisplayUnitsLoaded");
         console.log(e.units);
     },
-
+```
 
 
 Then:  
