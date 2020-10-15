@@ -5,11 +5,11 @@
   },
   "config_munge": {
     "files": {
-      "undefined": {
+      "res/xml/config.xml": {
         "parents": {
-          "undefined": [
+          "/*": [
             {
-              "xml": "<access origin=\"*.wzrkt.com\" />",
+              "xml": "<feature name=\"Whitelist\"><param name=\"android-package\" value=\"org.apache.cordova.whitelist.WhitelistPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
               "count": 1
             }
           ]
@@ -43,23 +43,19 @@
           ],
           "/manifest/application": [
             {
-              "xml": "<service android:name=\"com.clevertap.android.sdk.FcmTokenListenerService\"><intent-filter><action android:name=\"com.google.firebase.INSTANCE_ID_EVENT\" /></intent-filter></service>",
+              "xml": "<service android:name=\"com.clevertap.android.sdk.pushnotification.fcm.FcmMessageListenerService\"><intent-filter><action android:name=\"com.google.firebase.MESSAGING_EVENT\" /></intent-filter></service>",
               "count": 1
             },
             {
-              "xml": "<service android:name=\"com.clevertap.android.sdk.FcmMessageListenerService\"><intent-filter><action android:name=\"com.google.firebase.MESSAGING_EVENT\" /></intent-filter></service>",
+              "xml": "<service android:exported=\"false\" android:name=\"com.clevertap.android.sdk.pushnotification.CTNotificationIntentService\"><intent-filter><action android:name=\"com.clevertap.PUSH_EVENT\" /></intent-filter></service>",
               "count": 1
             },
             {
-              "xml": "<service android:exported=\"false\" android:name=\"com.clevertap.android.sdk.CTNotificationIntentService\"><intent-filter><action android:name=\"com.clevertap.PUSH_EVENT\" /></intent-filter></service>",
+              "xml": "<meta-data android:name=\"CLEVERTAP_ACCOUNT_ID\" android:value=\"TEST-R59-947-8W5Z\" />",
               "count": 1
             },
             {
-              "xml": "<meta-data android:name=\"CLEVERTAP_ACCOUNT_ID\" android:value=\"69R-Z7W-W54Z\" />",
-              "count": 1
-            },
-            {
-              "xml": "<meta-data android:name=\"CLEVERTAP_TOKEN\" android:value=\"0a1-2c6\" />",
+              "xml": "<meta-data android:name=\"CLEVERTAP_TOKEN\" android:value=\"TEST-a4c-c52\" />",
               "count": 1
             },
             {
@@ -67,25 +63,7 @@
               "count": 1
             },
             {
-              "xml": "<activity android:configChanges=\"orientation|keyboardHidden\" android:name=\"com.clevertap.android.sdk.InAppNotificationActivity\" android:theme=\"@android:style/Theme.Translucent.NoTitleBar\" />",
-              "count": 1
-            },
-            {
-              "xml": "<receiver android:exported=\"true\" android:name=\"com.clevertap.android.sdk.InstallReferrerBroadcastReceiver\"><intent-filter><action android:name=\"com.android.vending.INSTALL_REFERRER\" /></intent-filter></receiver>",
-              "count": 1
-            },
-            {
-              "xml": "<receiver android:enabled=\"true\" android:exported=\"false\" android:name=\"com.clevertap.android.sdk.CTPushNotificationReceiver\"></receiver>",
-              "count": 1
-            }
-          ]
-        }
-      },
-      "res/xml/config.xml": {
-        "parents": {
-          "/*": [
-            {
-              "xml": "<feature name=\"Whitelist\"><param name=\"android-package\" value=\"org.apache.cordova.whitelist.WhitelistPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
+              "xml": "<receiver android:enabled=\"true\" android:exported=\"false\" android:name=\"com.clevertap.android.sdk.pushnotification.CTPushNotificationReceiver\"></receiver>",
               "count": 1
             }
           ]
@@ -98,13 +76,10 @@
       "PACKAGE_NAME": "com.clevertap.example"
     },
     "clevertap-cordova": {
-      "CLEVERTAP_ACCOUNT_ID": "69R-Z7W-W54Z",
-      "CLEVERTAP_TOKEN": "0a1-2c6",
+      "CLEVERTAP_ACCOUNT_ID": "TEST-R59-947-8W5Z",
+      "CLEVERTAP_TOKEN": "TEST-a4c-c52",
       "CLEVERTAP_REGION": " ",
-      "PACKAGE_NAME": "com.clevertap.example"
-    },
-    "cordova-android-support-gradle-release": {
-      "ANDROID_SUPPORT_VERSION": "27.+",
+      "FIREBASE_MESSAGING_VERSION": "20.2.4",
       "PACKAGE_NAME": "com.clevertap.example"
     }
   },
@@ -120,8 +95,7 @@
     }
   ],
   "plugin_metadata": {
-    "cordova-plugin-whitelist": "1.3.3",
-    "clevertap-cordova": "2.1.1",
-    "cordova-android-support-gradle-release": "3.0.0"
+    "cordova-plugin-whitelist": "1.3.4",
+    "clevertap-cordova": "2.3.0"
   }
 }

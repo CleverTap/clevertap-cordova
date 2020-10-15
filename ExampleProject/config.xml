@@ -29,4 +29,5 @@
         <variable name="CLEVERTAP_REGION" value=" " />
     </plugin>
     <engine name="android" spec="^7.0.0" />
+    <preference name="AndroidXEnabled" value="true" />
 </widget>
