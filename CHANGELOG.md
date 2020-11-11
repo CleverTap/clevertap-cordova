@@ -1,7 +1,7 @@
 Change Log
 ==========
 
-Version 2.3.1 *(12 November, 2020)*
+Version 2.3.1 *(11 November, 2020)*
 -------------------------------------------
 * Fixed a NPE on `getAllDisplayUnits` method
 
