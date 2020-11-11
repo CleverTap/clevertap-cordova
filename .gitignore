@@ -1,8 +1,8 @@
 *.xcuserstate
-Starter/platforms/android/.idea/
-Starter/platforms/android/.gradle/
-Starter/platforms/android/build/
-Starter/platforms/android/CordovaLib/build/
+ExampleProject/platforms/android/.idea/
+ExampleProject/platforms/android/.gradle/
+ExampleProject/platforms/android/build/
+ExampleProject/platforms/android/CordovaLib/build/
 npm-debug.log
 node_modules
 .DS_Store
