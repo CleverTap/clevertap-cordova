@@ -225,7 +225,7 @@ static NSURL *launchDeepLink;
 
 /**
  Call back for In App Notification Dismissal
-*/
+ */
 - (void)inAppNotificationDismissedWithExtras:(NSDictionary *)extras andActionExtras:(NSDictionary *)actionExtras {
     
     NSMutableDictionary *jsonDict = [NSMutableDictionary new];
@@ -247,7 +247,7 @@ static NSURL *launchDeepLink;
 }
 
 /**
-Call back for In App Notification Dismissal with Extra Buttons
+ Call back for In App Notification Dismissal with Extra Buttons
  */
 - (void)inAppNotificationButtonTappedWithCustomExtras:(NSDictionary *)customExtras {
     
@@ -917,7 +917,7 @@ Call back for In App Notification Dismissal with Extra Buttons
 }
 
 /**
-Get Inbox Message Count
+ Get Inbox Message Count
  */
 - (void)getInboxMessageCount:(CDVInvokedUrlCommand *)command {
     
@@ -929,8 +929,8 @@ Get Inbox Message Count
 }
 
 /**
-Show Inbox
-*/
+ Show Inbox
+ */
 - (void)showInbox:(CDVInvokedUrlCommand *)command {
     
     NSDictionary *configStyle = [command argumentAtIndex:0];
@@ -942,8 +942,8 @@ Show Inbox
 }
 
 /**
-Get All Inbox Messages
-*/
+ Get All Inbox Messages
+ */
 - (void)getAllInboxMessages:(CDVInvokedUrlCommand *)command {
     
     [self.commandDelegate runInBackground:^{
@@ -954,8 +954,8 @@ Get All Inbox Messages
 }
 
 /**
-Get Unread Messages From Inbox
-*/
+ Get Unread Messages From Inbox
+ */
 - (void)getUnreadInboxMessages:(CDVInvokedUrlCommand *)command {
     
     [self.commandDelegate runInBackground:^{
@@ -966,9 +966,9 @@ Get Unread Messages From Inbox
 }
 
 /**
-//---Passing output in array due to plugin limitation
-Get Inbox Message For Message ID
-*/
+ //---Passing output in array due to plugin limitation
+ Get Inbox Message For Message ID
+ */
 - (void)getInboxMessageForID:(CDVInvokedUrlCommand *)command {
     [self.commandDelegate runInBackground:^{
         NSString *messageId = [command argumentAtIndex:0];
@@ -979,8 +979,8 @@ Get Inbox Message For Message ID
 }
 
 /**
-Delete message from the Inbox. Message id must be a String
-*/
+ Delete message from the Inbox. Message id must be a String
+ */
 - (void)deleteInboxMessageForId:(CDVInvokedUrlCommand *)command {
     
     [self.commandDelegate runInBackground:^{
@@ -990,8 +990,8 @@ Delete message from the Inbox. Message id must be a String
 }
 
 /**
-Mark Message as Read
-*/
+ Mark Message as Read
+ */
 - (void)markReadInboxMessageForId:(CDVInvokedUrlCommand *)command {
     
     [self.commandDelegate runInBackground:^{
@@ -1001,8 +1001,8 @@ Mark Message as Read
 }
 
 /**
-Record Inbox Notification Viewed for MessageID
-*/
+ Record Inbox Notification Viewed for MessageID
+ */
 - (void)pushInboxNotificationViewedEventForId:(CDVInvokedUrlCommand *)command {
     
     [self.commandDelegate runInBackground:^{
@@ -1012,8 +1012,8 @@ Record Inbox Notification Viewed for MessageID
 }
 
 /**
-Record Inbox Notification Clicked for MessageID
-*/
+ Record Inbox Notification Clicked for MessageID
+ */
 - (void)pushInboxNotificationClickedEventForId:(CDVInvokedUrlCommand *)command {
     
     [self.commandDelegate runInBackground:^{
@@ -1043,8 +1043,8 @@ Record Inbox Notification Clicked for MessageID
 #pragma mark - Native Display
 
 /**
-Get All Display Units
-*/
+ Get All Display Units
+ */
 - (void)getAllDisplayUnits:(CDVInvokedUrlCommand *)command {
     
     [self.commandDelegate runInBackground:^{
@@ -1056,7 +1056,7 @@ Get All Display Units
 
 /**
  Get Display Unit  For ID
-*/
+ */
 - (void)getDisplayUnitForId:(CDVInvokedUrlCommand *)command {
     
     [self.commandDelegate runInBackground:^{
@@ -1421,9 +1421,9 @@ Get All Display Units
 - (void)getLastFetchTimeStampInMillis: (CDVInvokedUrlCommand *)command {
     
     [self.commandDelegate runInBackground:^{
-       NSTimeInterval value = [[[clevertap productConfig] getLastFetchTimeStamp] timeIntervalSince1970] * 1000;
-       CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDouble:value];
-       [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        NSTimeInterval value = [[[clevertap productConfig] getLastFetchTimeStamp] timeIntervalSince1970] * 1000;
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDouble:value];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
 }
 

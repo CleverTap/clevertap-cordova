@@ -74,7 +74,7 @@ static NSString* const CTHandleOpenURLNotification = @"CTHandleOpenURLNotificati
 - (void)setPushToken:(NSData*)pushToken;
 
 /**
-    Xiaomi, Baidu and Huawei Push Token Changes
+ Xiaomi, Baidu and Huawei Push Token Changes
  */
 -(void)setPushXiaomiTokenAsString:(CDVInvokedUrlCommand *)command;
 -(void)setPushBaiduTokenAsString:(CDVInvokedUrlCommand *)command;
@@ -537,8 +537,8 @@ static NSString* const CTHandleOpenURLNotification = @"CTHandleOpenURLNotificati
 - (void)setMinimumFetchIntervalInSeconds: (CDVInvokedUrlCommand *)command;
 
 /**
-This method allows you to fetch last config fetched time
-*/
+ This method allows you to fetch last config fetched time
+ */
 - (void)getLastFetchTimeStampInMillis: (CDVInvokedUrlCommand *)command;
 
 /**
