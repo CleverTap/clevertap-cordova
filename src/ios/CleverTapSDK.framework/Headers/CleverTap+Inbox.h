@@ -33,7 +33,7 @@
 /*!
  
  @abstract
-  The `CleverTapInboxMessageContent` represents the inbox message content.
+ The `CleverTapInboxMessageContent` represents the inbox message content.
  */
 
 @interface CleverTapInboxMessageContent : NSObject
@@ -83,6 +83,8 @@
 @property (nonatomic, strong, nullable) UIColor *tabSelectedBgColor;
 @property (nonatomic, strong, nullable) UIColor *tabSelectedTextColor;
 @property (nonatomic, strong, nullable) UIColor *tabUnSelectedTextColor;
+@property (nonatomic, strong, nullable) NSString *noMessageViewText;
+@property (nonatomic, strong, nullable) UIColor *noMessageViewTextColor;
 
 @end
 
@@ -223,11 +225,11 @@ typedef void (^CleverTapInboxUpdatedBlock)(void);
 - (void)recordInboxNotificationViewedEventForID:(NSString * _Nonnull)messageId;
 
 /*!
-@method
-
-@abstract
-Record Notification Clicked for App Inbox.
-*/
+ @method
+ 
+ @abstract
+ Record Notification Clicked for App Inbox.
+ */
 - (void)recordInboxNotificationClickedEventForID:(NSString * _Nonnull)messageId;
 
 

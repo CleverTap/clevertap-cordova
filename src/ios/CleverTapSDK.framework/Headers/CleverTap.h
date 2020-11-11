@@ -16,9 +16,11 @@
 #define CLEVERTAP_NO_INBOX_SUPPORT 1
 #define CLEVERTAP_NO_AB_SUPPORT 1
 #define CLEVERTAP_NO_DISPLAY_UNIT_SUPPORT 1
+#define CLEVERTAP_NO_GEOFENCE_SUPPORT 1
 #endif
 
 @protocol CleverTapSyncDelegate;
+@protocol CleverTapPushNotificationDelegate;
 #if !CLEVERTAP_NO_INAPP_SUPPORT
 @protocol CleverTapInAppNotificationDelegate;
 #endif
@@ -277,6 +279,18 @@ typedef NS_ENUM(int, CleverTapLogLevel) {
 - (void)setLocation:(CLLocationCoordinate2D)location;
 
 /*!
+ 
+ @abstract
+ Posted when the CleverTap Geofences are updated.
+ 
+ @discussion
+ Useful for accessing the CleverTap geofences
+ 
+ */
+extern NSString * _Nonnull const CleverTapGeofencesDidUpdateNotification;
+
+
+/*!
  @method
  
  @abstract
@@ -359,7 +373,7 @@ typedef NS_ENUM(int, CleverTapLogLevel) {
  
  @param properties       properties dictionary
  @param cleverTapID        the CleverTap id
-
+ 
  */
 - (void)onUserLogin:(NSDictionary *_Nonnull)properties withCleverTapID:(NSString * _Nonnull)cleverTapID;
 
@@ -688,6 +702,16 @@ typedef NS_ENUM(int, CleverTapLogLevel) {
  @method
  
  @abstract
+ Record Notification Clicked for Push Notifications.
+ 
+ @param notificationData       notificationData id
+ */
+- (void)recordNotificationClickedEventWithData:(id _Nonnull)notificationData;
+
+/*!
+ @method
+ 
+ @abstract
  Get the time of the first recording of the event.
  
  Be sure to call enablePersonalization prior to invoking this method.
@@ -874,6 +898,25 @@ extern NSString * _Nonnull const CleverTapProfileDidInitializeNotification;
  */
 - (void)setSyncDelegate:(id <CleverTapSyncDelegate> _Nullable)delegate;
 
+
+/*!
+
+@method
+
+@abstract
+The `CleverTapPushNotificationDelegate` protocol provides methods for notifying
+your application (the adopting delegate) about push notifications.
+
+@see CleverTapPushNotificationDelegate.h
+
+@discussion
+This sets the CleverTapPushNotificationDelegate.
+
+@param delegate     an object conforming to the CleverTapPushNotificationDelegate Protocol
+*/
+
+- (void)setPushNotificationDelegate:(id <CleverTapPushNotificationDelegate> _Nullable)delegate;
+
 #if !CLEVERTAP_NO_INAPP_SUPPORT
 /*!
  
@@ -890,7 +933,7 @@ extern NSString * _Nonnull const CleverTapProfileDidInitializeNotification;
  
  @param delegate     an object conforming to the CleverTapInAppNotificationDelegate Protocol
  */
-- (void)setInAppNotificationDelegate:(id  <CleverTapInAppNotificationDelegate> _Nullable)delegate;
+- (void)setInAppNotificationDelegate:(id <CleverTapInAppNotificationDelegate> _Nullable)delegate;
 #endif
 
 /* ------------------------------------------------------------------------------------------------------
@@ -1078,7 +1121,60 @@ extern NSString * _Nonnull const CleverTapProfileDidInitializeNotification;
  */
 + (CleverTapLogLevel)getDebugLevel;
 
+/*!
+@method
+
+@abstract
+Set the Library name for Auxiliary SDKs
+
+@discussion
+Call this to method to set library name in the Auxiliary SDK
+*/
 - (void)setLibrary:(NSString * _Nonnull)name;
+
+/*!
+ @method
+ 
+ @abstract
+ Store the users location for geofences on the default shared CleverTap instance.
+ 
+ @discussion
+ Optional.  If you're application is collection the user location you can pass it to CleverTap
+ for, among other things, more fine-grained geo-targeting and segmentation purposes.
+ 
+ @param location       CLLocationCoordiate2D
+ */
+- (void)setLocationForGeofences:(CLLocationCoordinate2D)location withPluginVersion:(NSString *_Nullable)version;
+
+/*!
+ @method
+ 
+ @abstract
+ Record the error for geofences
+ 
+ @param error       NSError
+ */
+- (void)didFailToRegisterForGeofencesWithError:(NSError *_Nullable)error;
+
+/*!
+ @method
+ 
+ @abstract
+ Record Geofence Entered Event.
+ 
+ @param geofenceDetails      details of the Geofence
+ */
+- (void)recordGeofenceEnteredEvent:(NSDictionary *_Nonnull)geofenceDetails;
+
+/*!
+ @method
+ 
+ @abstract
+ Record Geofence Exited Event.
+ 
+ @param geofenceDetails       details of the Geofence
+ */
+- (void)recordGeofenceExitedEvent:(NSDictionary *_Nonnull)geofenceDetails;
 
 #if defined(CLEVERTAP_HOST_WATCHOS)
 /** HostWatchOS
