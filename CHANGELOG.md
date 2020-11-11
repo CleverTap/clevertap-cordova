@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+Version 2.3.1 *(11 November, 2020)*
+-------------------------------------------
+* Fixed a NPE on `getAllDisplayUnits` method
+
 Version 2.3.0 *(15 October, 2020)*
 -------------------------------------------
 * Update for CleverTap Android SDK v4.0.0

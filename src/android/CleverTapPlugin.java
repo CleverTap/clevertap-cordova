@@ -2680,6 +2680,10 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
     private JSONArray displayUnitListToJSONArray(ArrayList<CleverTapDisplayUnit> displayUnits) throws JSONException {
         JSONArray array = new JSONArray();
 
+        if(displayUnits == null){
+            return array;
+        }
+
         for( int i = 0; i < displayUnits.size(); i++){
             array.put(displayUnits.get(i).getJsonObject());
         }
