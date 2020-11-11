@@ -22,11 +22,8 @@
 #import <CoreLocation/CoreLocation.h>
 
 static NSDateFormatter *dateFormatter;
-
 static CleverTap *clevertap;
-
 static NSDictionary *launchNotification;
-
 static NSURL *launchDeepLink;
 
 @interface CleverTapPlugin () <CleverTapSyncDelegate, CleverTapInAppNotificationDelegate,CleverTapDisplayUnitDelegate, CleverTapFeatureFlagsDelegate, CleverTapProductConfigDelegate> {
@@ -969,7 +966,7 @@ static NSURL *launchDeepLink;
  //---Passing output in array due to plugin limitation
  Get Inbox Message For Message ID
  */
-- (void)getInboxMessageForID:(CDVInvokedUrlCommand *)command {
+- (void)getInboxMessageForId:(CDVInvokedUrlCommand *)command {
     [self.commandDelegate runInBackground:^{
         NSString *messageId = [command argumentAtIndex:0];
         CleverTapInboxMessage *inboxMessage = [clevertap getInboxMessageForId:messageId];
@@ -1557,3 +1554,4 @@ static NSURL *launchDeepLink;
 }
 
 @end
+

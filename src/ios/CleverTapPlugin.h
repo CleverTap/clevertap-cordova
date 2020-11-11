@@ -11,10 +11,10 @@
 #import <Cordova/CDVPlugin.h>
 #import <CleverTapSDK/CleverTap+ABTesting.h>
 
-static NSString* const CTDidReceiveNotification = @"CTDidReceiveNotification";
-static NSString* const CTRemoteNotificationDidRegister = @"CTRemoteNotificationDidRegister";
-static NSString* const CTRemoteNotificationRegisterError = @"CTRemoteNotificationRegisterError";
-static NSString* const CTHandleOpenURLNotification = @"CTHandleOpenURLNotification";
+static NSString * const CTDidReceiveNotification = @"CTDidReceiveNotification";
+static NSString * const CTRemoteNotificationDidRegister = @"CTRemoteNotificationDidRegister";
+static NSString * const CTRemoteNotificationRegisterError = @"CTRemoteNotificationRegisterError";
+static NSString * const CTHandleOpenURLNotification = @"CTHandleOpenURLNotification";
 
 @interface CleverTapPlugin : CDVPlugin
 
@@ -328,7 +328,7 @@ static NSString* const CTHandleOpenURLNotification = @"CTHandleOpenURLNotificati
 /**
  This method fetches the Message for Given Message Id
  */
-- (void)getInboxMessageForID:(CDVInvokedUrlCommand *)command;
+- (void)getInboxMessageForId:(CDVInvokedUrlCommand *)command;
 
 /**
  This method deletes the Inbox Message for Given Message Id
@@ -567,3 +567,4 @@ static NSString* const CTHandleOpenURLNotification = @"CTHandleOpenURLNotificati
 - (void)reset;
 
 @end
+
