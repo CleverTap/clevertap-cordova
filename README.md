@@ -1,6 +1,9 @@
 CleverTap Cordova Plugin
 ========
 [![npm version](https://badge.fury.io/js/clevertap-cordova.svg)](https://badge.fury.io/js/clevertap-cordova)
+<a href="https://github.com/CleverTap/clevertap-cordova/releases">
+    <img src="https://img.shields.io/github/release/CleverTap/clevertap-cordova.svg" />
+</a>
 
 ## Supported Versions
 
