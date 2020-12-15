@@ -40,6 +40,7 @@ If the google-services.json file is not present in your project when the script 
 #### Using Cordova  
 
 ```sh
+# ensure npm is installed: npm -g install npm
 cordova plugin add https://github.com/CleverTap/clevertap-cordova.git --variable CLEVERTAP_ACCOUNT_ID="YOUR CLEVERTAP ACCOUNT ID" --variable CLEVERTAP_TOKEN="YOUR CELVERTAP ACCOUNT TOKEN"
 ```
 
