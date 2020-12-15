@@ -25,11 +25,11 @@
 
 #import <UIKit/UIKit.h>
 
-extern const NSString * CSToastPositionTop;
-extern const NSString * CSToastPositionCenter;
-extern const NSString * CSToastPositionBottom;
+extern const NSString * CTToastPositionTop;
+extern const NSString * CTToastPositionCenter;
+extern const NSString * CTToastPositionBottom;
 
-@class CSToastStyle;
+@class CTToastStyle;
 
 /**
  Toast is an Objective-C category that adds toast notifications to the UIView
@@ -49,7 +49,7 @@ extern const NSString * CSToastPositionBottom;
  
  @param message The message to be displayed
  */
-- (void)makeToast:(NSString *)message;
+- (void)ct_makeToast:(NSString *)message;
 
 /**
  Creates and presents a new toast view with a message. Duration and position
@@ -58,9 +58,9 @@ extern const NSString * CSToastPositionBottom;
  @param message The message to be displayed
  @param duration The toast duration
  @param position The toast's center point. Can be one of the predefined CSToastPosition
-                 constants or a `CGPoint` wrapped in an `NSValue` object.
+ constants or a `CGPoint` wrapped in an `NSValue` object.
  */
-- (void)makeToast:(NSString *)message
+- (void)ct_makeToast:(NSString *)message
          duration:(NSTimeInterval)duration
          position:(id)position;
 
@@ -74,10 +74,10 @@ extern const NSString * CSToastPositionBottom;
  constants or a `CGPoint` wrapped in an `NSValue` object.
  @param style The style. The shared style will be used when nil
  */
-- (void)makeToast:(NSString *)message
+- (void)ct_makeToast:(NSString *)message
          duration:(NSTimeInterval)duration
          position:(id)position
-            style:(CSToastStyle *)style;
+            style:(CTToastStyle *)style;
 
 /**
  Creates and presents a new toast view with a message, title, and image. Duration,
@@ -88,19 +88,19 @@ extern const NSString * CSToastPositionBottom;
  @param message The message to be displayed
  @param duration The toast duration
  @param position The toast's center point. Can be one of the predefined CSToastPosition
-                 constants or a `CGPoint` wrapped in an `NSValue` object.
+ constants or a `CGPoint` wrapped in an `NSValue` object.
  @param title The title
  @param image The image
  @param style The style. The shared style will be used when nil
  @param completion The completion block, executed after the toast view disappears.
-                   didTap will be `YES` if the toast view was dismissed from a tap.
+ didTap will be `YES` if the toast view was dismissed from a tap.
  */
-- (void)makeToast:(NSString *)message
+- (void)ct_makeToast:(NSString *)message
          duration:(NSTimeInterval)duration
          position:(id)position
             title:(NSString *)title
             image:(UIImage *)image
-            style:(CSToastStyle *)style
+            style:(CTToastStyle *)style
        completion:(void(^)(BOOL didTap))completion;
 
 /**
@@ -117,10 +117,10 @@ extern const NSString * CSToastPositionBottom;
  @param style The style. The shared style will be used when nil
  @return The newly created toast view
  */
-- (UIView *)toastViewForMessage:(NSString *)message
+- (UIView *)ct_toastViewForMessage:(NSString *)message
                           title:(NSString *)title
                           image:(UIImage *)image
-                          style:(CSToastStyle *)style;
+                          style:(CTToastStyle *)style;
 
 /**
  Hides the active toast. If there are multiple toasts active in a view, this method
@@ -131,7 +131,7 @@ extern const NSString * CSToastPositionBottom;
  @warning This method has no effect on activity toasts. Use `hideToastActivity` to
  hide activity toasts.
  */
-- (void)hideToast;
+- (void)ct_hideToast;
 
 /**
  Hides an active toast.
@@ -141,12 +141,12 @@ extern const NSString * CSToastPositionBottom;
  
  @warning this does not clear a toast view that is currently waiting in the queue.
  */
-- (void)hideToast:(UIView *)toast;
+- (void)ct_hideToast:(UIView *)toast;
 
 /**
  Hides all active toast views and clears the queue.
  */
-- (void)hideAllToasts;
+- (void)ct_hideAllToasts;
 
 /**
  Hides all active toast views, with options to hide activity and clear the queue.
@@ -154,13 +154,13 @@ extern const NSString * CSToastPositionBottom;
  @param includeActivity If `true`, toast activity will also be hidden. Default is `false`.
  @param clearQueue If `true`, removes all toast views from the queue. Default is `true`.
  */
-- (void)hideAllToasts:(BOOL)includeActivity clearQueue:(BOOL)clearQueue;
+- (void)ct_hideAllToasts:(BOOL)includeActivity clearQueue:(BOOL)clearQueue;
 
 /**
  Removes all toast views from the queue. This has no effect on toast views that are
  active. Use `hideAllToasts` to hide the active toasts views and clear the queue.
  */
-- (void)clearToastQueue;
+- (void)ct_clearToastQueue;
 
 /**
  Creates and displays a new toast activity indicator view at a specified position.
@@ -173,21 +173,21 @@ extern const NSString * CSToastPositionBottom;
  has no effect on the queueing behavior of the showToast: methods.
  
  @param position The toast's center point. Can be one of the predefined CSToastPosition
-                 constants or a `CGPoint` wrapped in an `NSValue` object.
+ constants or a `CGPoint` wrapped in an `NSValue` object.
  */
-- (void)makeToastActivity:(id)position;
+- (void)ct_makeToastActivity:(id)position;
 
 /**
  Dismisses the active toast activity indicator view.
  */
-- (void)hideToastActivity;
+- (void)ct_hideToastActivity;
 
 /**
  Displays any view as toast using the default duration and position.
  
  @param toast The view to be displayed as toast
  */
-- (void)showToast:(UIView *)toast;
+- (void)ct_showToast:(UIView *)toast;
 
 /**
  Displays any view as toast at a provided position and duration. The completion block 
@@ -197,11 +197,11 @@ extern const NSString * CSToastPositionBottom;
  @param toast The view to be displayed as toast
  @param duration The notification duration
  @param position The toast's center point. Can be one of the predefined CSToastPosition
-                 constants or a `CGPoint` wrapped in an `NSValue` object.
+ constants or a `CGPoint` wrapped in an `NSValue` object.
  @param completion The completion block, executed after the toast view disappears.
-                   didTap will be `YES` if the toast view was dismissed from a tap.
+ didTap will be `YES` if the toast view was dismissed from a tap.
  */
-- (void)showToast:(UIView *)toast
+- (void)ct_showToast:(UIView *)toast
          duration:(NSTimeInterval)duration
          position:(id)position
        completion:(void(^)(BOOL didTap))completion;
@@ -209,16 +209,16 @@ extern const NSString * CSToastPositionBottom;
 @end
 
 /**
- `CSToastStyle` instances define the look and feel for toast views created via the 
+ `CTToastStyle` instances define the look and feel for toast views created via the
  `makeToast:` methods as well for toast views created directly with
  `toastViewForMessage:title:image:style:`.
  
- @warning `CSToastStyle` offers relatively simple styling options for the default
+ @warning `CTToastStyle` offers relatively simple styling options for the default
  toast view. If you require a toast view with more complex UI, it probably makes more
  sense to create your own custom UIView subclass and present it with the `showToast:`
  methods.
  */
-@interface CSToastStyle : NSObject
+@interface CTToastStyle : NSObject
 
 /**
  The background color. Default is `[UIColor blackColor]` at 80% opacity.
@@ -339,41 +339,41 @@ extern const NSString * CSToastPositionBottom;
 @property (assign, nonatomic) NSTimeInterval fadeDuration;
 
 /**
- Creates a new instance of `CSToastStyle` with all the default values set.
+ Creates a new instance of `CTToastStyle` with all the default values set.
  */
 - (instancetype)initWithDefaultStyle NS_DESIGNATED_INITIALIZER;
 
 /**
  @warning Only the designated initializer should be used to create
- an instance of `CSToastStyle`.
+ an instance of `CTToastStyle`.
  */
 - (instancetype)init NS_UNAVAILABLE;
 
 @end
 
 /**
- `CSToastManager` provides general configuration options for all toast
+ `CTToastManager` provides general configuration options for all toast
  notifications. Backed by a singleton instance.
  */
-@interface CSToastManager : NSObject
+@interface CTToastManager : NSObject
 
 /**
  Sets the shared style on the singleton. The shared style is used whenever
  a `makeToast:` method (or `toastViewForMessage:title:image:style:`) is called
- with with a nil style. By default, this is set to `CSToastStyle`'s default
+ with with a nil style. By default, this is set to `CTToastStyle`'s default
  style.
  
  @param sharedStyle the shared style
  */
-+ (void)setSharedStyle:(CSToastStyle *)sharedStyle;
++ (void)setSharedStyle:(CTToastStyle *)sharedStyle;
 
 /**
  Gets the shared style from the singlton. By default, this is
- `CSToastStyle`'s default style.
+ `CTToastStyle`'s default style.
  
  @return the shared style
  */
-+ (CSToastStyle *)sharedStyle;
++ (CTToastStyle *)sharedStyle;
 
 /**
  Enables or disables tap to dismiss on toast views. Default is `YES`.
@@ -422,13 +422,13 @@ extern const NSString * CSToastPositionBottom;
  Returns the default duration. Default is 3.0.
  
  @return duration The toast duration
-*/
+ */
 + (NSTimeInterval)defaultDuration;
 
 /**
  Sets the default position. Used for the `makeToast:` and
  `showToast:` methods that don't require an explicit position.
- Default is `CSToastPositionBottom`.
+ Default is `CTToastPositionBottom`.
  
  @param position The default center point. Can be one of the predefined
  CSToastPosition constants or a `CGPoint` wrapped in an `NSValue` object.
@@ -436,7 +436,7 @@ extern const NSString * CSToastPositionBottom;
 + (void)setDefaultPosition:(id)position;
 
 /**
- Returns the default toast position. Default is `CSToastPositionBottom`.
+ Returns the default toast position. Default is `CTToastPositionBottom`.
  
  @return position The default center point. Will be one of the predefined
  CSToastPosition constants or a `CGPoint` wrapped in an `NSValue` object.

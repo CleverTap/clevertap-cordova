@@ -1,4 +1,3 @@
-
 #import <Foundation/Foundation.h>
 
 typedef NS_ENUM(int, CTValidatorContext) {
@@ -25,7 +24,10 @@ typedef NS_ENUM(int, CTValidatorContext) {
 
 + (BOOL)isRestrictedEventName:(NSString *)name;
 
-+ (BOOL)isValidCleverTapId:(NSString *)cleverTapID;
++ (BOOL)isDiscaredEventName:(NSString *)name;
 
++ (void)setDiscardedEvents:(NSArray *)events;
+
++ (BOOL)isValidCleverTapId:(NSString *)cleverTapID;
 
 @end

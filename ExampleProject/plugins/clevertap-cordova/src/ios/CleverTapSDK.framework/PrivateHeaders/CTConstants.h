@@ -15,7 +15,6 @@ extern NSString *const kCTNotifViewedApiDomain;
 #define CLTAP_TOKEN_LABEL @"CleverTapToken"
 #define CLTAP_REGION_LABEL @"CleverTapRegion"
 #define CLTAP_DISABLE_APP_LAUNCH_LABEL @"CleverTapDisableAppLaunched"
-#define CLTAP_USE_IFA_LABEL @"CleverTapUseIFA"
 #define CLTAP_USE_CUSTOM_CLEVERTAP_ID_LABEL @"CleverTapUseCustomId"
 #define CLTAP_BETA_LABEL @"CleverTapBeta"
 #define CLTAP_SESSION_LENGTH_MINS 20
@@ -25,10 +24,13 @@ extern NSString *const kCTNotifViewedApiDomain;
 #define CLTAP_APNS_PROPERTY_DEVICE_TOKEN @"device_token"
 #define CLTAP_NOTIFICATION_CLICKED_EVENT_NAME @"Notification Clicked"
 #define CLTAP_NOTIFICATION_VIEWED_EVENT_NAME @"Notification Viewed"
+#define CLTAP_GEOFENCE_ENTERED_EVENT_NAME @"Geocluster Entered"
+#define CLTAP_GEOFENCE_EXITED_EVENT_NAME @"Geocluster Exited"
 #define CLTAP_PREFS_LAST_DAILY_PUSHED_EVENTS_DATE @"lastDailyEventsPushedDate"
 #define CLTAP_SYSTEM_VERSION_LESS_THAN(v) ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
 #define CLTAP_APP_LAUNCHED_EVENT @"App Launched"
 #define CLTAP_ERROR_KEY @"wzrk_error"
+#define CLTAP_WZRK_FETCH_EVENT @"wzrk_fetch"
 #define CLTAP_PUSH_DELAY_SECONDS 1
 #define CLTAP_PING_TICK_INTERVAL 1
 #define CLTAP_LOCATION_PING_INTERVAL_SECONDS 10
@@ -48,8 +50,13 @@ extern NSString *const kCTNotifViewedApiDomain;
 #define CLTAP_INAPP_NOTIF_SHOW_CLOSE @"sc"
 #define CLTAP_INAPP_JSON_RESPONSE_KEY @"inapp_notifs"
 #define CLTAP_INBOX_MSG_JSON_RESPONSE_KEY @"inbox_notifs"
+#define CLTAP_DISPLAY_UNIT_JSON_RESPONSE_KEY @"adUnit_notifs"
+#define CLTAP_FEATURE_FLAGS_JSON_RESPONSE_KEY @"ff_notifs"
+#define CLTAP_PRODUCT_CONFIG_JSON_RESPONSE_KEY @"pc_notifs"
 #define CLTAP_PREFS_INAPP_KEY @"inapp_notifs"
 #define CLTAP_AB_EXP_JSON_RESPONSE_KEY @"ab_exps"
+#define CLTAP_GEOFENCES_JSON_RESPONSE_KEY @"geofences"
+#define CLTAP_DISCARDED_EVENT_JSON_KEY @"d_e"
 #define CLTAP_INAPP_CLOSE_IV_WIDTH 40
 #define CLTAP_NOTIFICATION_ID_TAG @"wzrk_id"
 #define CLTAP_WZRK_PREFIX @"wzrk_"
@@ -102,6 +109,9 @@ extern NSString *const kCTNotifViewedApiDomain;
 #define CLTAP_INBOX_MESSAGE_TAPPED_NOTIFICATION @"CleverTapInboxMessageTappedNotification"
 #define CLTAP_INBOX_MESSAGE_MEDIA_PLAYING_NOTIFICATION @"CleverTapInboxMediaPlayingNotification"
 #define CLTAP_INBOX_MESSAGE_MEDIA_MUTED_NOTIFICATION @"CleverTapInboxMediaMutedNotification"
+
+// geofences update notification
+#define CLTAP_GEOFENCES_DID_UPDATE_NOTIFICATION @"CleverTapGeofencesDidUpdateNotification"
 
 // valid profile identifier keys
 #define CLTAP_PROFILE_IDENTIFIER_KEYS @[@"Identity", @"Email", @"FBID", @"GPID"]

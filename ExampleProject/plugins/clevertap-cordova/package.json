@@ -1,25 +1,25 @@
 {
-  "_from": "git+https://github.com/CleverTap/clevertap-cordova.git#2.1.8",
-  "_id": "clevertap-cordova@2.1.8",
+  "_from": "git+https://github.com/CleverTap/clevertap-cordova.git",
+  "_id": "clevertap-cordova@2.3.1",
   "_inBundle": false,
   "_integrity": "",
   "_location": "/clevertap-cordova",
   "_phantomChildren": {},
   "_requested": {
     "type": "git",
-    "raw": "https://github.com/CleverTap/clevertap-cordova.git#2.1.8",
-    "rawSpec": "https://github.com/CleverTap/clevertap-cordova.git#2.1.8",
-    "saveSpec": "git+https://github.com/CleverTap/clevertap-cordova.git#2.1.8",
+    "raw": "https://github.com/CleverTap/clevertap-cordova.git",
+    "rawSpec": "https://github.com/CleverTap/clevertap-cordova.git",
+    "saveSpec": "git+https://github.com/CleverTap/clevertap-cordova.git",
     "fetchSpec": "https://github.com/CleverTap/clevertap-cordova.git",
-    "gitCommittish": "2.1.8"
+    "gitCommittish": null
   },
   "_requiredBy": [
-    "#USER",
-    "/"
+    "#DEV:/",
+    "#USER"
   ],
-  "_resolved": "git+https://github.com/CleverTap/clevertap-cordova.git#7fb9ea61c76a48c057e9ff0506b64898b6ccd903",
-  "_spec": "https://github.com/CleverTap/clevertap-cordova.git#2.1.8",
-  "_where": "/Users/aditi/repo/Github/clevertap-cordova/ExampleProject",
+  "_resolved": "git+https://github.com/CleverTap/clevertap-cordova.git#78e568c5d77d90c35f9eeca22db515015a5a9d11",
+  "_spec": "https://github.com/CleverTap/clevertap-cordova.git",
+  "_where": "/Users/yogesh/Programming/CleverTap-Cordova/ExampleProject",
   "author": {
     "name": "CleverTap"
   },
@@ -56,5 +56,5 @@
     "type": "git",
     "url": "git+https://github.com/CleverTap/clevertap-cordova.git"
   },
-  "version": "2.1.8"
+  "version": "2.3.1"
 }

@@ -10,12 +10,12 @@
   "clevertap-cordova": {
     "source": {
       "type": "registry",
-      "id": "https://github.com/CleverTap/clevertap-cordova.git#2.1.8"
+      "id": "https://github.com/CleverTap/clevertap-cordova.git"
     },
     "is_top_level": true,
     "variables": {
-      "CLEVERTAP_ACCOUNT_ID": "YOUR CLEVERTAP ACCOUNT ID",
-      "CLEVERTAP_TOKEN": "YOUR CELVERTAP ACCOUNT TOKEN"
+      "CLEVERTAP_ACCOUNT_ID": "R55-957-685Z",
+      "CLEVERTAP_TOKEN": "a5c-552"
     }
   },
   "cordova-android-support-gradle-release": {
