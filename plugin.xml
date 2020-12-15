@@ -49,7 +49,6 @@
         <header-file src="src/ios/CleverTapPlugin.h" />
         <source-file src="src/ios/CleverTapPlugin.m" />
         
-        >
         <framework src="CleverTap-iOS-SDK" type="podspec" spec="~> 3.9.0" />
         <framework src="SystemConfiguration.framework" />
         <framework src="CoreTelephony.framework" />
