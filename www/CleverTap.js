@@ -132,6 +132,19 @@ CleverTap.prototype.recordEventWithName = function (eventName) {
 // eventName = string
 // eventProps = object
 CleverTap.prototype.recordEventWithNameAndProps = function (eventName, eventProps) {
+    //automatic conversion of date object in suitable CleverTap format
+
+    /*-------------- * -----------------
+    |  input        =>        output    |
+    * --------------------------------- *
+    | new Date()    =>     $D_epoch     |
+    ---------------- * ----------------- */
+
+    for (let [key, value] of Object.entries(eventProps)) {
+        if (Object.prototype.toString.call(value) === '[object Date]') {
+            eventProps[key] = "$D_" + value.getTime()/1000;
+        }
+    }
     cordova.exec(null, null, "CleverTapPlugin", "recordEventWithNameAndProps", [eventName, eventProps]);
 }
                
