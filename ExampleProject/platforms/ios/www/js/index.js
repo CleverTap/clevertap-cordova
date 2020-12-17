@@ -44,6 +44,7 @@ initialize: function() {
     // Bind any cordova events here. Common events are:
     // 'pause', 'resume', etc.
 onDeviceReady: function() {
+    alert('The device ready event has been fired! 🚀');
     this.receivedEvent('deviceready');
     CleverTap.setDebugLevel(3);
     CleverTap.registerPush();
