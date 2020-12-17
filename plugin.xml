@@ -10,7 +10,7 @@
     </js-module>
 
     <engines>
-        <engine name="cordova" version=">=4.3.0" />
+        <engine name="cordova" version=">=3.0.0" />
     </engines>
 
     <preference name="CLEVERTAP_ACCOUNT_ID" />
@@ -57,14 +57,6 @@
         
         <hook type="after_plugin_add" src="scripts/iosAfterPluginAdd.js" />
 
-        <podspec>
-            <config>
-                <source url="https://github.com/CleverTap/clevertap-ios-sdk.git" />
-            </config>
-            <pods use-frameworks="true">
-                <pod name="CleverTap-iOS-SDK" spec="~> 3.9.0" />
-            </pods>
-        </podspec>
     </platform>
 
     <platform name="android">
