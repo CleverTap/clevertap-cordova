@@ -10,7 +10,7 @@
     </js-module>
 
     <engines>
-        <engine name="cordova" version=">=3.0.0" />
+        <engine name="cordova" version=">=4.3.0" />
     </engines>
 
     <preference name="CLEVERTAP_ACCOUNT_ID" />
@@ -49,7 +49,15 @@
         <header-file src="src/ios/CleverTapPlugin.h" />
         <source-file src="src/ios/CleverTapPlugin.m" />
         
-        <framework src="CleverTap-iOS-SDK" type="podspec" spec="~> 3.9.0" />
+        <podspec>
+            <config>
+                <source url="https://github.com/CleverTap/clevertap-ios-sdk.git" />
+            </config>
+            <pods use-frameworks="true">
+                <pod name="CleverTap-iOS-SDK" spec="~> 3.9.1" />
+            </pods>
+        </podspec>
+        
         <framework src="SystemConfiguration.framework" />
         <framework src="CoreTelephony.framework" />
         <framework src="UIKit.framework" />
