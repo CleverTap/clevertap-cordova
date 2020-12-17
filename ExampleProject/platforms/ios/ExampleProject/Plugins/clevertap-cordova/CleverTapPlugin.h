@@ -11,10 +11,10 @@
 #import <Cordova/CDVPlugin.h>
 #import <CleverTapSDK/CleverTap+ABTesting.h>
 
-static NSString * const CTDidReceiveNotification = @"CTDidReceiveNotification";
-static NSString * const CTRemoteNotificationDidRegister = @"CTRemoteNotificationDidRegister";
-static NSString * const CTRemoteNotificationRegisterError = @"CTRemoteNotificationRegisterError";
-static NSString * const CTHandleOpenURLNotification = @"CTHandleOpenURLNotification";
+static NSString* const CTDidReceiveNotification = @"CTDidReceiveNotification";
+static NSString* const CTRemoteNotificationDidRegister = @"CTRemoteNotificationDidRegister";
+static NSString* const CTRemoteNotificationRegisterError = @"CTRemoteNotificationRegisterError";
+static NSString* const CTHandleOpenURLNotification = @"CTHandleOpenURLNotification";
 
 @interface CleverTapPlugin : CDVPlugin
 
@@ -74,7 +74,7 @@ static NSString * const CTHandleOpenURLNotification = @"CTHandleOpenURLNotificat
 - (void)setPushToken:(NSData*)pushToken;
 
 /**
- Xiaomi, Baidu and Huawei Push Token Changes
+    Xiaomi, Baidu and Huawei Push Token Changes
  */
 -(void)setPushXiaomiTokenAsString:(CDVInvokedUrlCommand *)command;
 -(void)setPushBaiduTokenAsString:(CDVInvokedUrlCommand *)command;
@@ -328,7 +328,7 @@ static NSString * const CTHandleOpenURLNotification = @"CTHandleOpenURLNotificat
 /**
  This method fetches the Message for Given Message Id
  */
-- (void)getInboxMessageForId:(CDVInvokedUrlCommand *)command;
+- (void)getInboxMessageForID:(CDVInvokedUrlCommand *)command;
 
 /**
  This method deletes the Inbox Message for Given Message Id
@@ -537,8 +537,8 @@ static NSString * const CTHandleOpenURLNotification = @"CTHandleOpenURLNotificat
 - (void)setMinimumFetchIntervalInSeconds: (CDVInvokedUrlCommand *)command;
 
 /**
- This method allows you to fetch last config fetched time
- */
+This method allows you to fetch last config fetched time
+*/
 - (void)getLastFetchTimeStampInMillis: (CDVInvokedUrlCommand *)command;
 
 /**
@@ -567,4 +567,3 @@ static NSString * const CTHandleOpenURLNotification = @"CTHandleOpenURLNotificat
 - (void)reset;
 
 @end
-

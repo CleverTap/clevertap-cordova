@@ -1,3 +1,4 @@
+
 #import <Foundation/Foundation.h>
 
 typedef NS_ENUM(int, CTValidatorContext) {
@@ -29,5 +30,6 @@ typedef NS_ENUM(int, CTValidatorContext) {
 + (void)setDiscardedEvents:(NSArray *)events;
 
 + (BOOL)isValidCleverTapId:(NSString *)cleverTapID;
+
 
 @end

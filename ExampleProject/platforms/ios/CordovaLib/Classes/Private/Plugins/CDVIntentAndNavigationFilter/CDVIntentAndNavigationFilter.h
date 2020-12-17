@@ -20,7 +20,11 @@
 #import <Cordova/CDVPlugin.h>
 #import <Cordova/CDVWhitelist.h>
 
+#if WK_WEB_VIEW_ONLY
 #define CDVWebViewNavigationType int
+#else
+#define CDVWebViewNavigationType UIWebViewNavigationType
+#endif
 
 typedef NS_ENUM(NSInteger, CDVIntentAndNavigationFilterValue) {
     CDVIntentAndNavigationFilterValueIntentAllowed,

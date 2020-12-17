@@ -1,6 +1,6 @@
-#import "CTImageInAppViewController.h"
+#import "CTInAppDisplayViewController.h"
 
-@interface CTCoverImageViewController : CTImageInAppViewController
+@interface CTCoverImageViewController : CTInAppDisplayViewController
 
 @end
 

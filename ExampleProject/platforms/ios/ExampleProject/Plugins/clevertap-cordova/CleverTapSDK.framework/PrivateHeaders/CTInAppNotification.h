@@ -1,3 +1,4 @@
+
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import "CTInAppUtils.h"
@@ -18,7 +19,6 @@
 @property (nonatomic, readonly) int maxPerSession;
 @property (nonatomic, readonly) int totalLifetimeCount;
 @property (nonatomic, readonly) int totalDailyCount;
-@property (nonatomic, readonly) NSUInteger timeToLive;
 @property (nonatomic, assign, readonly) char position;
 @property (nonatomic, assign, readonly) float height;
 @property (nonatomic, assign, readonly) float heightPercent;

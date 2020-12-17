@@ -17,6 +17,7 @@
 @property (strong, readonly) NSString *countryCode;
 @property (strong, readonly) NSString *timeZone;
 @property (strong, readonly) NSString *radio;
+@property (strong, readonly) NSString *advertisingIdentitier;
 @property (strong, readonly) NSString *vendorIdentifier;
 @property (strong, readonly) NSString *deviceWidth;
 @property (strong, readonly) NSString *deviceHeight;
@@ -25,6 +26,7 @@
 @property (atomic, readonly) NSString *fallbackDeviceId;
 @property (atomic, readwrite) NSString *library;
 @property (assign, readonly) BOOL wifi;
+@property (assign, readonly) BOOL advertisingTrackingEnabled;
 @property (strong, readonly) NSMutableArray<CTValidationResult*>* validationErrors;
 
 - (instancetype)initWithConfig:(CleverTapInstanceConfig *)config andCleverTapID:(NSString *)cleverTapID;

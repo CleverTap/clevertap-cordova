@@ -1,6 +1,6 @@
-#import "CTImageInAppViewController.h"
+#import "CTInAppDisplayViewController.h"
 
-@interface CTHalfInterstitialImageViewController : CTImageInAppViewController
+@interface CTHalfInterstitialImageViewController : CTInAppDisplayViewController
 
 @end
 

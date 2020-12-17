@@ -1,3 +1,4 @@
+
 #import <Foundation/Foundation.h>
 #import "CleverTap.h"
 
@@ -10,6 +11,7 @@
 @property (nonatomic, assign) BOOL analyticsOnly;
 @property (nonatomic, assign) BOOL disableAppLaunchedEvent;
 @property (nonatomic, assign) BOOL enablePersonalization;
+@property (nonatomic, assign) BOOL useIDFA;
 @property (nonatomic, assign) BOOL useCustomCleverTapId;
 @property (nonatomic, assign) CleverTapLogLevel logLevel;
 
