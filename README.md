@@ -9,46 +9,47 @@
     <img src="https://img.shields.io/github/release/CleverTap/clevertap-cordova.svg" />
 </a>
 
-## Supported Versions
+## 👋 Introduction
+The CleverTap Cordova Plugin for Mobile Customer Engagement and Analytics solutions.
+
+For more information check out our [website](https://clevertap.com/ "CleverTap")  and  [documentation](https://developer.clevertap.com/docs/ "CleverTap Technical Documentation").
+
+To get started, sign up [here](https://clevertap.com/live-product-demo/).
+
+## ✅ Supported Versions
 
 Tested on Cordova 10.0.0
 
 - [CleverTap Android SDK version 4.0.0](https://github.com/CleverTap/clevertap-android-sdk/releases/tag/core-v4.0.0)
 - [CleverTap iOS SDK version 3.9.1](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/3.9.1)
 
-## Install
+## 🚀 Install
 
-To integrate CleverTap for Cordova:
+To install CleverTap for Cordova, follow the 3 steps mentioned below:
 
-1. Sign up
+### 1️⃣ Sign up
 
-2. Set up and register for Push notifications, if required.
-
-3. Integrate your Javascript with the CleverTap Plugin.
-
-### 1. Sign up
-
-[Sign up](http://www.clevertap.com/sign-up/) for a free account.  
+[Sign up](https://clevertap.com/live-product-demo/) for a free account.  
 
 When you create your CleverTap account, you will also automatically get a -Test account.  Use the -Test account for development and the main account for production.
 
-### Install the Plugin
+#### Install the Plugin
 
 Grab the Account ID and Token values from your CleverTap [Dashboard](https://dashboard.clevertap.com) -> Settings.
 
-#### For Android *Important*
+##### For Android *Important*
 Starting with v2.0.0, the plugin uses FCM rather than GCM.  To configure FCM, add your google-services.json to the root of your cordova project **before you add the plugin**.  
 The plugin uses an `after plugin add` hook script to configure your project for FCM.  
 If the google-services.json file is not present in your project when the script runs, FCM will not be configured properly and will not work.
 
-#### Using Cordova  
+##### Using Cordova  
 
 ```sh
 # ensure npm is installed: npm -g install npm
 cordova plugin add https://github.com/CleverTap/clevertap-cordova.git --variable CLEVERTAP_ACCOUNT_ID="YOUR CLEVERTAP ACCOUNT ID" --variable CLEVERTAP_TOKEN="YOUR CELVERTAP ACCOUNT TOKEN"
 ```
 
-#### Using Ionic  
+##### Using Ionic  
 
 ```sh
 ionic cordova plugin add clevertap-cordova@latest --variable CLEVERTAP_ACCOUNT_ID="YOUR CLEVERTAP ACCOUNT ID" --variable CLEVERTAP_TOKEN="YOUR CELVERTAP ACCOUNT TOKEN"
@@ -79,7 +80,7 @@ npm install @ionic-native/clevertap --save
 
 ```
 
-#### Using PhoneGap Build
+##### Using PhoneGap Build
 
 **Starting with v2.0.0, the plugin drops official support for PhoneGap Build.**
 This is because PhoneGap Build does not support install hooks and a hook is required to configure FCM.
@@ -189,7 +190,7 @@ To support AndroidX libraries, add the following to your `config.xml` file -
 
 Also ensure that your app supports `cordova-android@9.0.0`
 
-### 2. Set up and register for push notifications and deep links
+### 2️⃣ Set up and register for push notifications and deep links
 
 #### iOS
 
@@ -220,7 +221,7 @@ Add your custom url scheme to the AndroidManifest.xml.
 
 See [example AndroidManifest.xml](ihttps://github.com/CleverTap/clevertap-cordova/blob/master/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml).
 
-### 3. Integrate Javascript with the Plugin
+### 3️⃣ Integrate Javascript with the Plugin
 
 After integrating, all calls to the CleverTap SDK should be made from your Javascript.
 
@@ -302,6 +303,6 @@ Start by adding the following listeners to your Javascript:
 
 Then:  
 
-- [see the included Example Cordova project for usage](https://github.com/CleverTap/clevertap-cordova/blob/master/ExampleProject/www/js/index.js).  
+- [See the included Example Cordova project for usage](https://github.com/CleverTap/clevertap-cordova/blob/master/ExampleProject/www/js/index.js).  
 
-- [see the included Ionic3 Example project for usage](https://github.com/CleverTap/clevertap-cordova/blob/master/Ionic3Example/src/app/app.component.ts).  
+- [See the included Ionic3 Example project for usage](https://github.com/CleverTap/clevertap-cordova/blob/master/Ionic3Example/src/app/app.component.ts).  
