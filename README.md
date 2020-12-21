@@ -8,6 +8,7 @@
 <a href="https://github.com/CleverTap/clevertap-cordova/releases">
     <img src="https://img.shields.io/github/release/CleverTap/clevertap-cordova.svg" />
 </a>
+[![npm downloads](https://img.shields.io/npm/dm/clevertap-cordova.svg)](https://www.npmjs.com/package/clevertap-cordova)
 
 ## 👋 Introduction
 The CleverTap Cordova Plugin for Mobile Customer Engagement and Analytics solutions.
