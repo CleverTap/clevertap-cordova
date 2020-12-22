@@ -54,8 +54,10 @@
         <podspec>
             <config>
                 <source url="https://github.com/CleverTap/clevertap-ios-sdk.git" />
+                <source url="https://github.com/CocoaPods/Specs.git" />
             </config>
             <pods use-frameworks="true">
+                <pod name="SDWebImage" spec="~> 5.0" />
                 <pod name="CleverTap-iOS-SDK" spec="~> 3.9.1" />
             </pods>
         </podspec>
