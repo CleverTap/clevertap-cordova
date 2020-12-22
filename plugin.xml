@@ -46,21 +46,11 @@
             </feature>
         </config-file>
 
+        <framework src="CleverTap-iOS-SDK" type="podspec" spec="~> 3.9.1" />
         <header-file src="src/ios/AppDelegate+CleverTapPlugin.h" />
         <source-file src="src/ios/AppDelegate+CleverTapPlugin.m" />
         <header-file src="src/ios/CleverTapPlugin.h" />
         <source-file src="src/ios/CleverTapPlugin.m" />
-        
-        <podspec>
-            <config>
-                <source url="https://github.com/CleverTap/clevertap-ios-sdk.git" />
-                <source url="https://github.com/CocoaPods/Specs.git" />
-            </config>
-            <pods use-frameworks="true">
-                <pod name="SDWebImage" spec="~> 5.0" />
-                <pod name="CleverTap-iOS-SDK" spec="~> 3.9.1" />
-            </pods>
-        </podspec>
         
         <framework src="SystemConfiguration.framework" />
         <framework src="CoreTelephony.framework" />
