@@ -57,8 +57,6 @@
         <framework src="UIKit.framework" />
         <framework src="CoreLocation.framework" />
         
-        <hook type="after_plugin_add" src="scripts/iosAfterPluginAdd.js" />
-
     </platform>
 
     <platform name="android">
