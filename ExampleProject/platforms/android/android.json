@@ -76,8 +76,8 @@
       "PACKAGE_NAME": "com.clevertap.example"
     },
     "clevertap-cordova": {
-      "CLEVERTAP_ACCOUNT_ID": "TEST-R59-947-8W5Z",
-      "CLEVERTAP_TOKEN": "TEST-a4c-c52",
+      "CLEVERTAP_ACCOUNT_ID": "48Z-795-765Z",
+      "CLEVERTAP_TOKEN": "5ca-1b4",
       "CLEVERTAP_REGION": " ",
       "FIREBASE_MESSAGING_VERSION": "20.2.4",
       "PACKAGE_NAME": "com.clevertap.example"

@@ -13,7 +13,7 @@
   "author": "Apache Cordova Team",
   "license": "Apache-2.0",
   "devDependencies": {
-    "clevertap-cordova": "git+https://github.com/CleverTap/clevertap-cordova.git#task/release/SDK-378",
+    "clevertap-cordova": "file:..",
     "cordova-android": "^9.0.0",
     "cordova-ios": "^6.1.1",
     "cordova-plugin-whitelist": "^1.3.4"
@@ -22,8 +22,8 @@
     "plugins": {
       "cordova-plugin-whitelist": {},
       "clevertap-cordova": {
-        "CLEVERTAP_ACCOUNT_ID": "TEST-R59-947-8W5Z",
-        "CLEVERTAP_TOKEN": "TEST-a4c-c52",
+        "CLEVERTAP_ACCOUNT_ID": "48Z-795-765Z",
+        "CLEVERTAP_TOKEN": "5ca-1b4",
         "CLEVERTAP_REGION": " ",
         "FIREBASE_MESSAGING_VERSION": "20.2.4"
       }

@@ -23,11 +23,11 @@
 	<key>CFBundleVersion</key>
 	<string>1.0.0</string>
 	<key>CleverTapAccountID</key>
-	<string>69R-Z7W-W54Z</string>
+	<string>YOUR CLEVERTAP ACCOUNT ID</string>
 	<key>CleverTapRegion</key>
-	<string></string>
+	<string/>
 	<key>CleverTapToken</key>
-	<string>0a1-2c6</string>
+	<string>YOUR CELVERTAP ACCOUNT TOKEN</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -36,9 +36,9 @@
 		<true/>
 	</dict>
 	<key>NSMainNibFile</key>
-	<string></string>
+	<string/>
 	<key>NSMainNibFile~ipad</key>
-	<string></string>
+	<string/>
 	<key>UIRequiresFullScreen</key>
 	<true/>
 	<key>UISupportedInterfaceOrientations</key>

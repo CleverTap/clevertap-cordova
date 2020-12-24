@@ -57,11 +57,15 @@ onDeviceReady: function() {
      CleverTap.notifyDeviceReady();
      CleverTap.registerPush();
      CleverTap.enablePersonalization();
+     CleverTap.disablePersonalization();
      CleverTap.recordScreenView("HomeView");
      
      CleverTap.pushInstallReferrer("source", "medium", "campaign");
      
      CleverTap.setPushToken("foo");
+     CleverTap.setPushXiaomiToken("foo");
+     CleverTap.setPushBaiduToken("foo");
+     CleverTap.setPushHuaweiToken("foo");
      
      CleverTap.onUserLogin({"Identity":098767, "custom":1.3});
      
@@ -166,6 +170,7 @@ onDeviceReady: function() {
      //FOR NOTIFICATION INBOX
      CleverTap.initializeInbox();
      */
+
 },
     
     // onCleverTapProfileSync Event Handler
@@ -222,12 +227,12 @@ onCleverTapInboxMessagesDidUpdate: function() {
 
 onCleverTapInAppButtonClick: function(e) {
     console.log("onCleverTapInAppButtonClick");
-    console.log(e.kvs);
+    console.log(e.customExtras);
 },
 
 onCleverTapInboxButtonClick: function(e) {
     console.log("onCleverTapInboxButtonClick");
-    console.log(e.kvs);
+    console.log(e.customExtras);
 },
 
 onCleverTapFeatureFlagsDidUpdate: function() {
