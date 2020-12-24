@@ -78,6 +78,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         cleverTap.setCTFeatureFlagsListener(this);
         cleverTap.setCTProductConfigListener(this);
         cleverTap.setCTPushNotificationListener(this);
+        cleverTap.setCTPushAmpListener(this);
         cleverTap.setLibrary("Cordova");
         onNewIntent(cordova.getActivity().getIntent());
 
