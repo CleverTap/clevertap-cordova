@@ -9,7 +9,7 @@
 //
 
 #import <Cordova/CDVPlugin.h>
-#import <CleverTapSDK/CleverTap+ABTesting.h>
+#import "CleverTap+ABTesting.h"
 
 static NSString * const CTDidReceiveNotification = @"CTDidReceiveNotification";
 static NSString * const CTRemoteNotificationDidRegister = @"CTRemoteNotificationDidRegister";

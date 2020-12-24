@@ -13,12 +13,16 @@
 #endif
 
 #import "CleverTapPlugin.h"
-#import <CleverTapSDK/CleverTap.h>
-#import <CleverTapSDK/CleverTap+Inbox.h>
-#import <CleverTapSDK/CleverTapSyncDelegate.h>
-#import <CleverTapSDK/CleverTapInAppNotificationDelegate.h>
-#import <CleverTapSDK/CleverTapEventDetail.h>
-#import <CleverTapSDK/CleverTapUTMDetail.h>
+#import "CleverTap.h"
+#import "CleverTap+Inbox.h"
+#import "CleverTapSyncDelegate.h"
+#import "CleverTap+FeatureFlags.h"
+#import "CleverTap+ProductConfig.h"
+#import "CleverTap+DisplayUnit.h"
+#import "CleverTapInAppNotificationDelegate.h"
+#import "CleverTapEventDetail.h"
+#import "CleverTapUTMDetail.h"
+
 #import <CoreLocation/CoreLocation.h>
 
 static NSDateFormatter *dateFormatter;
