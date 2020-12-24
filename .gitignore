@@ -8,3 +8,5 @@ node_modules
 .DS_Store
 .idea
 .gradle
+ExampleProject/plugins/clevertap-cordova/ExampleProject/platforms/android/app/build
+ExampleProject/plugins/clevertap-cordova/ExampleProject/platforms/android/CordovaLib/build
