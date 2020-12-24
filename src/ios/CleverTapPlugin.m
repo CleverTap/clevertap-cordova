@@ -11,8 +11,10 @@
 #if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
 @import UserNotifications;
 #endif
-
 #import "CleverTapPlugin.h"
+
+#import <CoreLocation/CoreLocation.h>
+
 #import "CleverTap.h"
 #import "CleverTap+Inbox.h"
 #import "CleverTapSyncDelegate.h"
@@ -22,8 +24,6 @@
 #import "CleverTapInAppNotificationDelegate.h"
 #import "CleverTapEventDetail.h"
 #import "CleverTapUTMDetail.h"
-
-#import <CoreLocation/CoreLocation.h>
 
 static NSDateFormatter *dateFormatter;
 static CleverTap *clevertap;
@@ -37,7 +37,7 @@ static NSURL *launchDeepLink;
 
 @implementation CleverTapPlugin
 
-#pragma mark Private
+#pragma mark - Private
 
 +(void)load {
     
@@ -222,7 +222,7 @@ static NSURL *launchDeepLink;
     }
 }
 
-#pragma mark CleverTapInAppNotificationDelegate
+#pragma mark - CleverTapInAppNotificationDelegate
 
 /**
  Call back for In App Notification Dismissal
@@ -270,7 +270,7 @@ static NSURL *launchDeepLink;
     //Not Handlingshowinbox
 }
 
-#pragma mark CleverTapSyncDelegate
+#pragma mark - CleverTapSyncDelegate
 
 - (void)profileDidInitialize:(NSString*)CleverTapID {
     
@@ -319,7 +319,7 @@ static NSURL *launchDeepLink;
     }
 }
 
-#pragma mark Push
+#pragma mark - Push
 
 - (void)registerPush:(CDVInvokedUrlCommand *)command {
     
@@ -439,7 +439,7 @@ static NSURL *launchDeepLink;
     }
 }
 
-#pragma mark Personalization
+#pragma mark - Personalization
 
 - (void)enablePersonalization:(CDVInvokedUrlCommand *)command {
     
@@ -451,7 +451,7 @@ static NSURL *launchDeepLink;
     [CleverTap disablePersonalization];
 }
 
-#pragma mark Offline API
+#pragma mark - Offline API
 
 - (void)setOffline:(CDVInvokedUrlCommand *)command {
     
@@ -461,7 +461,7 @@ static NSURL *launchDeepLink;
     }];
 }
 
-#pragma mark OptOut API
+#pragma mark - OptOut API
 
 - (void)setOptOut:(CDVInvokedUrlCommand *)command {
     
@@ -479,7 +479,7 @@ static NSURL *launchDeepLink;
     }];
 }
 
-#pragma mark Event API
+#pragma mark - Event API
 
 - (void)recordScreenView:(CDVInvokedUrlCommand *)command {
     
