@@ -11,22 +11,23 @@
 #if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
 @import UserNotifications;
 #endif
-
 #import "CleverTapPlugin.h"
-#import <CleverTapSDK/CleverTap.h>
-#import <CleverTapSDK/CleverTap+Inbox.h>
-#import <CleverTapSDK/CleverTapSyncDelegate.h>
-#import <CleverTapSDK/CleverTapInAppNotificationDelegate.h>
-#import <CleverTapSDK/CleverTapEventDetail.h>
-#import <CleverTapSDK/CleverTapUTMDetail.h>
+
 #import <CoreLocation/CoreLocation.h>
 
+#import "CleverTap.h"
+#import "CleverTap+Inbox.h"
+#import "CleverTapSyncDelegate.h"
+#import "CleverTap+FeatureFlags.h"
+#import "CleverTap+ProductConfig.h"
+#import "CleverTap+DisplayUnit.h"
+#import "CleverTapInAppNotificationDelegate.h"
+#import "CleverTapEventDetail.h"
+#import "CleverTapUTMDetail.h"
+
 static NSDateFormatter *dateFormatter;
-
 static CleverTap *clevertap;
-
 static NSDictionary *launchNotification;
-
 static NSURL *launchDeepLink;
 
 @interface CleverTapPlugin () <CleverTapSyncDelegate, CleverTapInAppNotificationDelegate,CleverTapDisplayUnitDelegate, CleverTapFeatureFlagsDelegate, CleverTapProductConfigDelegate> {
@@ -36,7 +37,7 @@ static NSURL *launchDeepLink;
 
 @implementation CleverTapPlugin
 
-#pragma mark Private
+#pragma mark - Private
 
 +(void)load {
     
@@ -221,11 +222,11 @@ static NSURL *launchDeepLink;
     }
 }
 
-#pragma mark CleverTapInAppNotificationDelegate
+#pragma mark - CleverTapInAppNotificationDelegate
 
 /**
  Call back for In App Notification Dismissal
-*/
+ */
 - (void)inAppNotificationDismissedWithExtras:(NSDictionary *)extras andActionExtras:(NSDictionary *)actionExtras {
     
     NSMutableDictionary *jsonDict = [NSMutableDictionary new];
@@ -247,7 +248,7 @@ static NSURL *launchDeepLink;
 }
 
 /**
-Call back for In App Notification Dismissal with Extra Buttons
+ Call back for In App Notification Dismissal with Extra Buttons
  */
 - (void)inAppNotificationButtonTappedWithCustomExtras:(NSDictionary *)customExtras {
     
@@ -269,7 +270,7 @@ Call back for In App Notification Dismissal with Extra Buttons
     //Not Handlingshowinbox
 }
 
-#pragma mark CleverTapSyncDelegate
+#pragma mark - CleverTapSyncDelegate
 
 - (void)profileDidInitialize:(NSString*)CleverTapID {
     
@@ -318,7 +319,7 @@ Call back for In App Notification Dismissal with Extra Buttons
     }
 }
 
-#pragma mark Push
+#pragma mark - Push
 
 - (void)registerPush:(CDVInvokedUrlCommand *)command {
     
@@ -438,7 +439,7 @@ Call back for In App Notification Dismissal with Extra Buttons
     }
 }
 
-#pragma mark Personalization
+#pragma mark - Personalization
 
 - (void)enablePersonalization:(CDVInvokedUrlCommand *)command {
     
@@ -450,7 +451,7 @@ Call back for In App Notification Dismissal with Extra Buttons
     [CleverTap disablePersonalization];
 }
 
-#pragma mark Offline API
+#pragma mark - Offline API
 
 - (void)setOffline:(CDVInvokedUrlCommand *)command {
     
@@ -460,7 +461,7 @@ Call back for In App Notification Dismissal with Extra Buttons
     }];
 }
 
-#pragma mark OptOut API
+#pragma mark - OptOut API
 
 - (void)setOptOut:(CDVInvokedUrlCommand *)command {
     
@@ -478,7 +479,7 @@ Call back for In App Notification Dismissal with Extra Buttons
     }];
 }
 
-#pragma mark Event API
+#pragma mark - Event API
 
 - (void)recordScreenView:(CDVInvokedUrlCommand *)command {
     
@@ -917,7 +918,7 @@ Call back for In App Notification Dismissal with Extra Buttons
 }
 
 /**
-Get Inbox Message Count
+ Get Inbox Message Count
  */
 - (void)getInboxMessageCount:(CDVInvokedUrlCommand *)command {
     
@@ -929,8 +930,8 @@ Get Inbox Message Count
 }
 
 /**
-Show Inbox
-*/
+ Show Inbox
+ */
 - (void)showInbox:(CDVInvokedUrlCommand *)command {
     
     NSDictionary *configStyle = [command argumentAtIndex:0];
@@ -942,8 +943,8 @@ Show Inbox
 }
 
 /**
-Get All Inbox Messages
-*/
+ Get All Inbox Messages
+ */
 - (void)getAllInboxMessages:(CDVInvokedUrlCommand *)command {
     
     [self.commandDelegate runInBackground:^{
@@ -954,8 +955,8 @@ Get All Inbox Messages
 }
 
 /**
-Get Unread Messages From Inbox
-*/
+ Get Unread Messages From Inbox
+ */
 - (void)getUnreadInboxMessages:(CDVInvokedUrlCommand *)command {
     
     [self.commandDelegate runInBackground:^{
@@ -966,10 +967,10 @@ Get Unread Messages From Inbox
 }
 
 /**
-//---Passing output in array due to plugin limitation
-Get Inbox Message For Message ID
-*/
-- (void)getInboxMessageForID:(CDVInvokedUrlCommand *)command {
+ //---Passing output in array due to plugin limitation
+ Get Inbox Message For Message ID
+ */
+- (void)getInboxMessageForId:(CDVInvokedUrlCommand *)command {
     [self.commandDelegate runInBackground:^{
         NSString *messageId = [command argumentAtIndex:0];
         CleverTapInboxMessage *inboxMessage = [clevertap getInboxMessageForId:messageId];
@@ -979,8 +980,8 @@ Get Inbox Message For Message ID
 }
 
 /**
-Delete message from the Inbox. Message id must be a String
-*/
+ Delete message from the Inbox. Message id must be a String
+ */
 - (void)deleteInboxMessageForId:(CDVInvokedUrlCommand *)command {
     
     [self.commandDelegate runInBackground:^{
@@ -990,8 +991,8 @@ Delete message from the Inbox. Message id must be a String
 }
 
 /**
-Mark Message as Read
-*/
+ Mark Message as Read
+ */
 - (void)markReadInboxMessageForId:(CDVInvokedUrlCommand *)command {
     
     [self.commandDelegate runInBackground:^{
@@ -1001,8 +1002,8 @@ Mark Message as Read
 }
 
 /**
-Record Inbox Notification Viewed for MessageID
-*/
+ Record Inbox Notification Viewed for MessageID
+ */
 - (void)pushInboxNotificationViewedEventForId:(CDVInvokedUrlCommand *)command {
     
     [self.commandDelegate runInBackground:^{
@@ -1012,8 +1013,8 @@ Record Inbox Notification Viewed for MessageID
 }
 
 /**
-Record Inbox Notification Clicked for MessageID
-*/
+ Record Inbox Notification Clicked for MessageID
+ */
 - (void)pushInboxNotificationClickedEventForId:(CDVInvokedUrlCommand *)command {
     
     [self.commandDelegate runInBackground:^{
@@ -1043,8 +1044,8 @@ Record Inbox Notification Clicked for MessageID
 #pragma mark - Native Display
 
 /**
-Get All Display Units
-*/
+ Get All Display Units
+ */
 - (void)getAllDisplayUnits:(CDVInvokedUrlCommand *)command {
     
     [self.commandDelegate runInBackground:^{
@@ -1056,7 +1057,7 @@ Get All Display Units
 
 /**
  Get Display Unit  For ID
-*/
+ */
 - (void)getDisplayUnitForId:(CDVInvokedUrlCommand *)command {
     
     [self.commandDelegate runInBackground:^{
@@ -1421,9 +1422,9 @@ Get All Display Units
 - (void)getLastFetchTimeStampInMillis: (CDVInvokedUrlCommand *)command {
     
     [self.commandDelegate runInBackground:^{
-       NSTimeInterval value = [[[clevertap productConfig] getLastFetchTimeStamp] timeIntervalSince1970] * 1000;
-       CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDouble:value];
-       [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        NSTimeInterval value = [[[clevertap productConfig] getLastFetchTimeStamp] timeIntervalSince1970] * 1000;
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDouble:value];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
 }
 
@@ -1557,3 +1558,4 @@ Get All Display Units
 }
 
 @end
+

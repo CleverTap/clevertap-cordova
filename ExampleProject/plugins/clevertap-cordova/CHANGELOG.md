@@ -1,6 +1,12 @@
 Change Log
 ==========
 
+Version 2.3.2 *(28 December, 2020)*
+-------------------------------------------
+* Added support for Push Notification Click Callbacks.
+* Added CleverTap iOS SDK dependency via CocoaPods in the plugin.xml
+* Update for CleverTap Android SDK v4.0.1
+
 Version 2.3.1 *(11 November, 2020)*
 -------------------------------------------
 * Fixed a NPE on `getAllDisplayUnits` method
