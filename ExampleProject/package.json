@@ -13,7 +13,7 @@
   "author": "CleverTap",
   "license": "Apache-2.0",
   "devDependencies": {
-    "clevertap-cordova": "git+https://github.com/CleverTap/clevertap-cordova.git#SDK-366-ios-as-podspec",
+    "clevertap-cordova": "git+https://github.com/CleverTap/clevertap-cordova.git#55cfce1a3cd6d99716c6bb5787d3682171a12e4b",
     "cordova-android": "^9.0.0",
     "cordova-ios": "^6.1.1",
     "cordova-plugin-whitelist": "^1.3.4"
