@@ -9,31 +9,31 @@
 //
 
 #import <Cordova/CDVPlugin.h>
-#import <CleverTapSDK/CleverTap+ABTesting.h>
+#import "CleverTap+ABTesting.h"
 
-static NSString* const CTDidReceiveNotification = @"CTDidReceiveNotification";
-static NSString* const CTRemoteNotificationDidRegister = @"CTRemoteNotificationDidRegister";
-static NSString* const CTRemoteNotificationRegisterError = @"CTRemoteNotificationRegisterError";
-static NSString* const CTHandleOpenURLNotification = @"CTHandleOpenURLNotification";
+static NSString * const CTDidReceiveNotification = @"CTDidReceiveNotification";
+static NSString * const CTRemoteNotificationDidRegister = @"CTRemoteNotificationDidRegister";
+static NSString * const CTRemoteNotificationRegisterError = @"CTRemoteNotificationRegisterError";
+static NSString * const CTHandleOpenURLNotification = @"CTHandleOpenURLNotification";
 
 @interface CleverTapPlugin : CDVPlugin
 
 
-# pragma mark Developer Options
+# pragma mark - Developer Options
 
 /** Set CleverTap debug logging
  0 = off, 1 = on;
  */
 - (void)setDebugLevel:(CDVInvokedUrlCommand *)command;
 
-# pragma mark launch
+# pragma mark - Launch
 /**
  call to be notified of launch Push Notification or Deep Link
  */
 - (void)notifyDeviceReady:(CDVInvokedUrlCommand *)command;
 
 
-# pragma mark enable Personalization API
+# pragma mark - Enable Personalization API
 
 /** Enable the Personalization API
  must be invoked before calling most Event, Profile, or Session getters, see below
@@ -45,13 +45,13 @@ static NSString* const CTHandleOpenURLNotification = @"CTHandleOpenURLNotificati
  */
 - (void)disablePersonalization:(CDVInvokedUrlCommand *)command;
 
-# pragma mark Offline api
+# pragma mark - Offline api
 
 /** Disables/Enables sending events to the server.
  */
 - (void)setOffline:(CDVInvokedUrlCommand *)command;
 
-#pragma mark OptOut API
+#pragma mark - OptOut API
 
 /** Enabling tracking opt out for the currently active user
  */
@@ -62,7 +62,7 @@ static NSString* const CTHandleOpenURLNotification = @"CTHandleOpenURLNotificati
 - (void)enableDeviceNetworkInfoReporting:(CDVInvokedUrlCommand *)command;
 
 
-#pragma mark Push Notifications
+#pragma mark - Push Notifications
 
 /** Request user push notification permission
  */
@@ -74,7 +74,7 @@ static NSString* const CTHandleOpenURLNotification = @"CTHandleOpenURLNotificati
 - (void)setPushToken:(NSData*)pushToken;
 
 /**
-    Xiaomi, Baidu and Huawei Push Token Changes
+ Xiaomi, Baidu and Huawei Push Token Changes
  */
 -(void)setPushXiaomiTokenAsString:(CDVInvokedUrlCommand *)command;
 -(void)setPushBaiduTokenAsString:(CDVInvokedUrlCommand *)command;
@@ -90,7 +90,7 @@ static NSString* const CTHandleOpenURLNotification = @"CTHandleOpenURLNotificati
  */
 - (void)handleDeepLink:(NSURL *)url;
 
-#pragma mark CleverTapInAppNotificationDelegate
+#pragma mark - CleverTapInAppNotificationDelegate
 
 /**
  This method gives call back for In App Notification Action
@@ -102,7 +102,7 @@ static NSString* const CTHandleOpenURLNotification = @"CTHandleOpenURLNotificati
  */
 - (void)inAppNotificationButtonTappedWithCustomExtras:(NSDictionary *)customExtras;
 
-#pragma mark Event API
+#pragma mark - Event API
 
 /** Record a Screen View
  */
@@ -147,7 +147,7 @@ static NSString* const CTHandleOpenURLNotification = @"CTHandleOpenURLNotificati
 - (void)getEventHistory:(CDVInvokedUrlCommand *)command;
 
 
-#pragma mark Profile API
+#pragma mark - Profile API
 
 /**
  Get the device location if available.  Calling this will prompt the user location permissions dialog.
@@ -261,7 +261,7 @@ static NSString* const CTHandleOpenURLNotification = @"CTHandleOpenURLNotificati
  */
 - (void)profileRemoveMultiValues:(CDVInvokedUrlCommand *)command;
 
-#pragma mark Session API
+#pragma mark - Session API
 
 /** Get CleverTap session time in seconds
  */
@@ -291,7 +291,7 @@ static NSString* const CTHandleOpenURLNotification = @"CTHandleOpenURLNotificati
  */
 - (void)pushInstallReferrer:(CDVInvokedUrlCommand *)command;
 
-# pragma mark App Inbox
+# pragma mark - App Inbox
 
 /**
  Initialized the inbox controller.
@@ -328,7 +328,7 @@ static NSString* const CTHandleOpenURLNotification = @"CTHandleOpenURLNotificati
 /**
  This method fetches the Message for Given Message Id
  */
-- (void)getInboxMessageForID:(CDVInvokedUrlCommand *)command;
+- (void)getInboxMessageForId:(CDVInvokedUrlCommand *)command;
 
 /**
  This method deletes the Inbox Message for Given Message Id
@@ -350,7 +350,7 @@ static NSString* const CTHandleOpenURLNotification = @"CTHandleOpenURLNotificati
  */
 - (void)pushInboxNotificationClickedEventForId:(CDVInvokedUrlCommand *)command;
 
-# pragma mark Native Display
+# pragma mark - Native Display
 
 /**
  This method is called to fetch all Display Units
@@ -372,7 +372,7 @@ static NSString* const CTHandleOpenURLNotification = @"CTHandleOpenURLNotificati
  */
 - (void)pushDisplayUnitClickedEventForID:(CDVInvokedUrlCommand *)command;
 
-# pragma mark Dynamic Variables
+# pragma mark - Dynamic Variables
 
 /**
  This method enables UI Editor
@@ -499,6 +499,9 @@ static NSString* const CTHandleOpenURLNotification = @"CTHandleOpenURLNotificati
  */
 - (void)getMapOfStringVariable: (CDVInvokedUrlCommand *)command;
 
+
+# pragma mark - Feature Flags & Product Config
+
 //Feature Flags
 /**
  This method fetches the Value of Feature Flag
@@ -537,8 +540,8 @@ static NSString* const CTHandleOpenURLNotification = @"CTHandleOpenURLNotificati
 - (void)setMinimumFetchIntervalInSeconds: (CDVInvokedUrlCommand *)command;
 
 /**
-This method allows you to fetch last config fetched time
-*/
+ This method allows you to fetch last config fetched time
+ */
 - (void)getLastFetchTimeStampInMillis: (CDVInvokedUrlCommand *)command;
 
 /**
@@ -567,3 +570,4 @@ This method allows you to fetch last config fetched time
 - (void)reset;
 
 @end
+

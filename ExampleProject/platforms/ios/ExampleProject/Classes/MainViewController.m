@@ -6,9 +6,9 @@
  to you under the Apache License, Version 2.0 (the
  "License"); you may not use this file except in compliance
  with the License.  You may obtain a copy of the License at
-
+ 
  http://www.apache.org/licenses/LICENSE-2.0
-
+ 
  Unless required by applicable law or agreed to in writing,
  software distributed under the License is distributed on an
  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -57,7 +57,7 @@
 {
     // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
-
+    
     // Release any cached data, images, etc that aren't in use.
 }
 
@@ -67,7 +67,7 @@
 {
     // View defaults to full size.  If you want to customize the view's size, or its subviews (e.g. webView),
     // you can do so here.
-
+    
     [super viewWillAppear:animated];
 }
 
@@ -77,48 +77,12 @@
     // Do any additional setup after loading the view from its nib.
 }
 
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
-
-/* Comment out the block below to over-ride */
-
-/*
-- (UIWebView*) newCordovaViewWithFrame:(CGRect)bounds
-{
-    return[super newCordovaViewWithFrame:bounds];
-}
-
-// CB-12098
-#if __IPHONE_OS_VERSION_MAX_ALLOWED < 90000  
-- (NSUInteger)supportedInterfaceOrientations
-#else  
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations
-#endif
-{
-    return [super supportedInterfaceOrientations];
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
-{
-    return [super shouldAutorotateToInterfaceOrientation:interfaceOrientation];
-}
-
-- (BOOL)shouldAutorotate 
-{
-    return [super shouldAutorotate];
-}
-*/
-
 @end
 
 @implementation MainCommandDelegate
 
 /* To override the methods, uncomment the line in the init function(s)
-   in MainViewController.m
+ in MainViewController.m
  */
 
 #pragma mark CDVCommandDelegate implementation
@@ -138,7 +102,7 @@
 @implementation MainCommandQueue
 
 /* To override, uncomment the line in the init function(s)
-   in MainViewController.m
+ in MainViewController.m
  */
 - (BOOL)execute:(CDVInvokedUrlCommand*)command
 {

@@ -10,7 +10,9 @@
     </js-module>
 
     <engines>
-        <engine name="cordova" version=">=3.0.0" />
+        <engine name="cordova" version=">=7.0.0" />
+        <engine name="cordova-android" version=">=6.3.0" />
+        <engine name="cordova-ios" version=">=4.3.0" />
     </engines>
 
     <preference name="CLEVERTAP_ACCOUNT_ID" />
@@ -44,20 +46,17 @@
             </feature>
         </config-file>
 
+        <framework src="CleverTap-iOS-SDK" type="podspec" spec="~> 3.9.1" />
         <header-file src="src/ios/AppDelegate+CleverTapPlugin.h" />
         <source-file src="src/ios/AppDelegate+CleverTapPlugin.m" />
         <header-file src="src/ios/CleverTapPlugin.h" />
         <source-file src="src/ios/CleverTapPlugin.m" />
         
-        <framework src="src/ios/CleverTapSDK.framework" custom="true" embed="true"/>
-        <framework src="src/ios/SDWebImage.framework" custom="true" embed="true"/>
         <framework src="SystemConfiguration.framework" />
         <framework src="CoreTelephony.framework" />
         <framework src="UIKit.framework" />
         <framework src="CoreLocation.framework" />
         
-        <hook type="after_plugin_add" src="scripts/iosAfterPluginAdd.js" />
-
     </platform>
 
     <platform name="android">

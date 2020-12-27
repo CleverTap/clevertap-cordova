@@ -1,25 +1,25 @@
 {
-  "_from": "git+https://github.com/CleverTap/clevertap-cordova.git#2.1.8",
-  "_id": "clevertap-cordova@2.1.8",
+  "_from": "git+https://github.com/CleverTap/clevertap-cordova.git#SDK-366-ios-as-podspec",
+  "_id": "clevertap-cordova@2.3.2",
   "_inBundle": false,
   "_integrity": "",
   "_location": "/clevertap-cordova",
   "_phantomChildren": {},
   "_requested": {
     "type": "git",
-    "raw": "https://github.com/CleverTap/clevertap-cordova.git#2.1.8",
-    "rawSpec": "https://github.com/CleverTap/clevertap-cordova.git#2.1.8",
-    "saveSpec": "git+https://github.com/CleverTap/clevertap-cordova.git#2.1.8",
+    "raw": "https://github.com/CleverTap/clevertap-cordova.git#SDK-366-ios-as-podspec",
+    "rawSpec": "https://github.com/CleverTap/clevertap-cordova.git#SDK-366-ios-as-podspec",
+    "saveSpec": "git+https://github.com/CleverTap/clevertap-cordova.git#SDK-366-ios-as-podspec",
     "fetchSpec": "https://github.com/CleverTap/clevertap-cordova.git",
-    "gitCommittish": "2.1.8"
+    "gitCommittish": "SDK-366-ios-as-podspec"
   },
   "_requiredBy": [
-    "#USER",
-    "/"
+    "#DEV:/",
+    "#USER"
   ],
-  "_resolved": "git+https://github.com/CleverTap/clevertap-cordova.git#7fb9ea61c76a48c057e9ff0506b64898b6ccd903",
-  "_spec": "https://github.com/CleverTap/clevertap-cordova.git#2.1.8",
-  "_where": "/Users/aditi/repo/Github/clevertap-cordova/ExampleProject",
+  "_resolved": "git+https://github.com/CleverTap/clevertap-cordova.git#bea55f47c1d69e71fcc2493b56485d6d0fc6bcce",
+  "_spec": "https://github.com/CleverTap/clevertap-cordova.git#SDK-366-ios-as-podspec",
+  "_where": "/Users/yogesh/Programming/CleverTap-Cordova/ExampleProject",
   "author": {
     "name": "CleverTap"
   },
@@ -37,12 +37,15 @@
   "dependencies": {},
   "deprecated": false,
   "description": "CleverTap Plugin for Cordova/PhoneGap",
-  "engines": [
-    {
-      "name": "cordova",
-      "version": ">=3.0.0"
+  "engines": {
+    "cordovaDependencies": {
+      "2.3.2": {
+        "cordova": ">=7.0.0",
+        "cordova-android": ">6.3.0",
+        "cordova-ios": ">=4.3.0"
+      }
     }
-  ],
+  },
   "homepage": "https://github.com/CleverTap/clevertap-cordova#readme",
   "keywords": [
     "CleverTap",
@@ -56,5 +59,5 @@
     "type": "git",
     "url": "git+https://github.com/CleverTap/clevertap-cordova.git"
   },
-  "version": "2.1.8"
+  "version": "2.3.2"
 }
