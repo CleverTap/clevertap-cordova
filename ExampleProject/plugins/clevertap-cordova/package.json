@@ -1,5 +1,5 @@
 {
-  "_from": "git+https://github.com/CleverTap/clevertap-cordova.git#SDK-366-ios-as-podspec",
+  "_from": "git+https://github.com/CleverTap/clevertap-cordova.git#task/SDK-573/update-ios-release-2.3.2",
   "_id": "clevertap-cordova@2.3.2",
   "_inBundle": false,
   "_integrity": "",
@@ -7,18 +7,18 @@
   "_phantomChildren": {},
   "_requested": {
     "type": "git",
-    "raw": "https://github.com/CleverTap/clevertap-cordova.git#SDK-366-ios-as-podspec",
-    "rawSpec": "https://github.com/CleverTap/clevertap-cordova.git#SDK-366-ios-as-podspec",
-    "saveSpec": "git+https://github.com/CleverTap/clevertap-cordova.git#SDK-366-ios-as-podspec",
+    "raw": "https://github.com/CleverTap/clevertap-cordova.git#task/SDK-573/update-ios-release-2.3.2",
+    "rawSpec": "https://github.com/CleverTap/clevertap-cordova.git#task/SDK-573/update-ios-release-2.3.2",
+    "saveSpec": "git+https://github.com/CleverTap/clevertap-cordova.git#task/SDK-573/update-ios-release-2.3.2",
     "fetchSpec": "https://github.com/CleverTap/clevertap-cordova.git",
-    "gitCommittish": "SDK-366-ios-as-podspec"
+    "gitCommittish": "task/SDK-573/update-ios-release-2.3.2"
   },
   "_requiredBy": [
     "#DEV:/",
     "#USER"
   ],
-  "_resolved": "git+https://github.com/CleverTap/clevertap-cordova.git#bea55f47c1d69e71fcc2493b56485d6d0fc6bcce",
-  "_spec": "https://github.com/CleverTap/clevertap-cordova.git#SDK-366-ios-as-podspec",
+  "_resolved": "git+https://github.com/CleverTap/clevertap-cordova.git#7d3071e7981aa8250bf3ffb558565081829e9178",
+  "_spec": "https://github.com/CleverTap/clevertap-cordova.git#task/SDK-573/update-ios-release-2.3.2",
   "_where": "/Users/yogesh/Programming/CleverTap-Cordova/ExampleProject",
   "author": {
     "name": "CleverTap"

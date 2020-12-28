@@ -18,7 +18,7 @@
   "clevertap-cordova": {
     "source": {
       "type": "registry",
-      "id": "https://github.com/CleverTap/clevertap-cordova.git#SDK-366-ios-as-podspec"
+      "id": "https://github.com/CleverTap/clevertap-cordova.git#task/SDK-573/update-ios-release-2.3.2"
     },
     "is_top_level": true,
     "variables": {
