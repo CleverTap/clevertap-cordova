@@ -17,7 +17,7 @@
     "#DEV:/",
     "#USER"
   ],
-  "_resolved": "git+https://github.com/CleverTap/clevertap-cordova.git#7d3071e7981aa8250bf3ffb558565081829e9178",
+  "_resolved": "git+https://github.com/CleverTap/clevertap-cordova.git#49a40f94201f37ddd727c6a68e38cdb7a7f34110",
   "_spec": "https://github.com/CleverTap/clevertap-cordova.git#task/SDK-573/update-ios-release-2.3.2",
   "_where": "/Users/yogesh/Programming/CleverTap-Cordova/ExampleProject",
   "author": {

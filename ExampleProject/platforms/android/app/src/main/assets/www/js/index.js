@@ -37,8 +37,6 @@ initialize: function() {
     document.addEventListener('onCleverTapProductConfigDidActivate', this.onCleverTapProductConfigDidActivate, false);
     document.addEventListener('onCleverTapExperimentsUpdated', this.onCleverTapExperimentsUpdated, false);
     document.addEventListener('onCleverTapDisplayUnitsLoaded', this.onCleverTapDisplayUnitsLoaded, false);
-    document.addEventListener('onCleverTapNotificationClickedPayloadDidReceived', this.onCleverTapNotificationClickedPayloadDidReceived, false);
-    document.addEventListener('onCleverTapPushAmpPayloadDidReceived', this.onCleverTapPushAmpPayloadDidReceived, false);
 },
     
     // deviceready Event Handler
@@ -260,16 +258,6 @@ onCleverTapExperimentsUpdated: function() {
 onCleverTapDisplayUnitsLoaded: function(e) {
     console.log("onCleverTapDisplayUnitsLoaded");
     console.log(e.units);
-},
-
-onCleverTapNotificationClickedPayloadDidReceived: function(e) {
-    console.log("onCleverTapNotificationClickedPayloadDidReceived");
-    console.log(e.customExtras);
-},
-
-onCleverTapPushAmpPayloadDidReceived: function(e) {
-    console.log("onCleverTapPushAmpPayloadDidReceived");
-    console.log(e.customExtras);
 },
     
     // Update DOM on a Received Event
