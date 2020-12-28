@@ -52,11 +52,6 @@
         <header-file src="src/ios/CleverTapPlugin.h" />
         <source-file src="src/ios/CleverTapPlugin.m" />
         
-        <framework src="SystemConfiguration.framework" />
-        <framework src="CoreTelephony.framework" />
-        <framework src="UIKit.framework" />
-        <framework src="CoreLocation.framework" />
-        
     </platform>
 
     <platform name="android">
