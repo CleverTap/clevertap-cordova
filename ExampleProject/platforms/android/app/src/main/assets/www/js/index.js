@@ -48,6 +48,8 @@ onDeviceReady: function() {
     CleverTap.setDebugLevel(3);
     CleverTap.registerPush();
     
+    CleverTap.recordEventWithNameAndProps("foo", {"bar":"zoo"});
+
     // Ionic example usage
     //$rootScope.CleverTap = CleverTap;
     //CleverTap && CleverTap.registerPush();
