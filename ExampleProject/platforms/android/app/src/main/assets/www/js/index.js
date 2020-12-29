@@ -194,6 +194,10 @@ onDeviceReady: function() {
     //      }
     //
     //
+
+onCleverTapPushNotificationTappedWithCustomExtras: function(e){
+    console.log(e.customExtras);
+}
     
 onCleverTapProfileSync: function(e) {
     console.log(e.updates);
