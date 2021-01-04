@@ -90,6 +90,12 @@ static NSString * const CTHandleOpenURLNotification = @"CTHandleOpenURLNotificat
  */
 - (void)handleDeepLink:(NSURL *)url;
 
+
+#pragma mark - Push Notification Delegate
+
+- (void)pushNotificationTappedWithCustomExtras:(NSDictionary *)customExtras;
+
+
 #pragma mark - CleverTapInAppNotificationDelegate
 
 /**

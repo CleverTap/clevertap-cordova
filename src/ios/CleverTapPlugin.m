@@ -24,13 +24,14 @@
 #import "CleverTapInAppNotificationDelegate.h"
 #import "CleverTapEventDetail.h"
 #import "CleverTapUTMDetail.h"
+#import "CleverTapPushNotificationDelegate.h"
 
 static NSDateFormatter *dateFormatter;
 static CleverTap *clevertap;
 static NSDictionary *launchNotification;
 static NSURL *launchDeepLink;
 
-@interface CleverTapPlugin () <CleverTapSyncDelegate, CleverTapInAppNotificationDelegate,CleverTapDisplayUnitDelegate, CleverTapFeatureFlagsDelegate, CleverTapProductConfigDelegate> {
+@interface CleverTapPlugin () <CleverTapSyncDelegate, CleverTapInAppNotificationDelegate,CleverTapDisplayUnitDelegate, CleverTapFeatureFlagsDelegate, CleverTapProductConfigDelegate,CleverTapPushNotificationDelegate> {
 }
 
 @end
@@ -103,6 +104,7 @@ static NSURL *launchDeepLink;
     [clevertap setDisplayUnitDelegate:self];
     [[clevertap featureFlags] setDelegate:self];
     [[clevertap productConfig] setDelegate:self];
+    [clevertap setPushNotificationDelegate:self];
 }
 
 - (NSDictionary*)_eventDetailToDict:(CleverTapEventDetail*)detail {
@@ -428,6 +430,26 @@ static NSURL *launchDeepLink;
     
     NSLog(@"deleteNotificationChannelGroup is no-op in iOS");
 }
+
+
+#pragma mark - Push Notification Delegate
+
+- (void)pushNotificationTappedWithCustomExtras:(NSDictionary *)customExtras {
+    
+    NSMutableDictionary *jsonDict = [NSMutableDictionary new];
+    
+    if (customExtras != nil) {
+        jsonDict[@"customExtras"] = customExtras;
+    }
+    
+    NSString *jsonString = [self _dictToJson:jsonDict];
+    
+    if (jsonString != nil) {
+        NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onCleverTapPushNotificationTappedWithCustomExtras', %@);", jsonString];
+        [self.commandDelegate evalJs:js];
+    }
+}
+
 
 #pragma mark - Developer Options
 
