@@ -37,6 +37,7 @@ initialize: function() {
     document.addEventListener('onCleverTapProductConfigDidActivate', this.onCleverTapProductConfigDidActivate, false);
     document.addEventListener('onCleverTapExperimentsUpdated', this.onCleverTapExperimentsUpdated, false);
     document.addEventListener('onCleverTapDisplayUnitsLoaded', this.onCleverTapDisplayUnitsLoaded, false);
+    document.addEventListener('onCleverTapPushNotificationTappedWithCustomExtras', this.onCleverTapPushNotificationTappedWithCustomExtras, false);
 },
     
     // deviceready Event Handler
@@ -193,10 +194,6 @@ onDeviceReady: function() {
     //
     //
     
-onCleverTapPushNotificationTappedWithCustomExtras: function(e){
-    console.log(e.customExtras);
-}
-
 onCleverTapProfileSync: function(e) {
     console.log(e.updates);
 },
@@ -209,7 +206,12 @@ onCleverTapInAppNotificationDismissed: function(e) {
     console.log(e.extras);
     console.log(e.actionExtras);
 },
-    
+
+onCleverTapPushNotificationTappedWithCustomExtras: function(e) {
+    console.log("onCleverTapPushNotificationTappedWithCustomExtras");
+    console.log(e.customExtras);
+}, 
+
     // deep link handling
 onDeepLink: function(e) {
     console.log(e.deeplink);
