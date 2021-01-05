@@ -47,8 +47,6 @@ initialize: function() {
     // 'pause', 'resume', etc.
 onDeviceReady: function() {
     this.receivedEvent('deviceready');
-    CleverTap.setDebugLevel(3);
-    CleverTap.registerPush();
     
     // Ionic example usage
     //$rootScope.CleverTap = CleverTap;
