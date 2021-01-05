@@ -1,7 +1,7 @@
 Change Log
 ==========
 
-Version 2.3.2 *(28 December, 2020)*
+Version 2.3.2 *(06 January, 2021)*
 -------------------------------------------
 * Added support for Push Notification Click Callbacks.
 * Added CleverTap iOS SDK dependency via CocoaPods in the plugin.xml
