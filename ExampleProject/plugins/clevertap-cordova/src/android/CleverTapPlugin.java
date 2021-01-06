@@ -16,6 +16,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.location.Location;
 
+import com.clevertap.android.sdk.pushnotification.CTPushNotificationListener;
+import com.clevertap.android.sdk.pushnotification.amp.CTPushAmpListener;
+import java.util.Set;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaWebView;
 import org.apache.cordova.CordovaPlugin;
@@ -2508,7 +2511,6 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         return array;
     }
 
-    @Overide
     public void onNotificationClickedPayloadReceived(HashMap<String, Object> payload){
 
         JSONObject jsonPayload = new JSONObject(payload);
@@ -2522,8 +2524,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         });
     }
 
-    @Overide
-    void onPushAmpPayloadReceived(Bundle extras){
+   public void onPushAmpPayloadReceived(Bundle extras){
         JSONObject jsonPayload = toJson(extras);
 
         final String json = "{'customExtras':" + jsonPayload.toString() + "}";
@@ -2535,7 +2536,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         });
     }
 
-    private JsonObject toJson(Bundle bundle){
+    private JSONObject toJson(Bundle bundle){
         JSONObject json = new JSONObject();
         Set<String> keys = bundle.keySet();
         for (String key : keys) {
@@ -2546,5 +2547,6 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 //Handle exception here
             }
         }
+        return json;
     }
 }
