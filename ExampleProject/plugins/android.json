@@ -10,14 +10,15 @@
     "cordova-plugin-whitelist": {
       "PACKAGE_NAME": "com.clevertap.example"
     },
-    "clevertap-cordova": {
-      "CLEVERTAP_ACCOUNT_ID": "69R-Z7W-W54Z",
-      "CLEVERTAP_TOKEN": "0a1-2c6",
-      "CLEVERTAP_REGION": " ",
-      "PACKAGE_NAME": "com.clevertap.example"
-    },
     "cordova-android-support-gradle-release": {
       "ANDROID_SUPPORT_VERSION": "27.+",
+      "PACKAGE_NAME": "com.clevertap.example"
+    },
+    "clevertap-cordova": {
+      "CLEVERTAP_ACCOUNT_ID": "R55-957-685Z",
+      "CLEVERTAP_TOKEN": "a5c-552",
+      "CLEVERTAP_REGION": " ",
+      "FIREBASE_MESSAGING_VERSION": "20.2.4",
       "PACKAGE_NAME": "com.clevertap.example"
     }
   },

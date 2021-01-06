@@ -47,8 +47,6 @@ initialize: function() {
     // 'pause', 'resume', etc.
 onDeviceReady: function() {
     this.receivedEvent('deviceready');
-    CleverTap.setDebugLevel(3);
-    CleverTap.registerPush();
     
     // Ionic example usage
     //$rootScope.CleverTap = CleverTap;
@@ -207,7 +205,12 @@ onCleverTapInAppNotificationDismissed: function(e) {
     console.log(e.extras);
     console.log(e.actionExtras);
 },
-    
+
+onCleverTapPushNotificationTappedWithCustomExtras: function(e) {
+    console.log("onCleverTapPushNotificationTappedWithCustomExtras");
+    console.log(e.customExtras);
+}, 
+
     // deep link handling
 onDeepLink: function(e) {
     console.log(e.deeplink);
