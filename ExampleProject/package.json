@@ -10,10 +10,10 @@
   "keywords": [
     "ecosystem:cordova"
   ],
-  "author": "Apache Cordova Team",
+  "author": "CleverTap",
   "license": "Apache-2.0",
   "devDependencies": {
-    "clevertap-cordova": "git+https://github.com/CleverTap/clevertap-cordova.git#task/release/SDK-378",
+    "clevertap-cordova": "git+https://github.com/CleverTap/clevertap-cordova.git#task/SDK-573/update-ios-release-2.3.2",
     "cordova-android": "^9.0.0",
     "cordova-ios": "^6.1.1",
     "cordova-plugin-whitelist": "^1.3.4"
@@ -21,16 +21,18 @@
   "cordova": {
     "plugins": {
       "cordova-plugin-whitelist": {},
+      "cordova-android-support-gradle-release": {},
       "clevertap-cordova": {
-        "CLEVERTAP_ACCOUNT_ID": "TEST-R59-947-8W5Z",
-        "CLEVERTAP_TOKEN": "TEST-a4c-c52",
-        "CLEVERTAP_REGION": " ",
-        "FIREBASE_MESSAGING_VERSION": "20.2.4"
+        "CLEVERTAP_ACCOUNT_ID": "48Z-795-765Z",
+        "CLEVERTAP_TOKEN": "5ca-1b4"
       }
     },
     "platforms": [
-      "ios",
-      "android"
+      "android",
+      "ios"
     ]
+  },
+  "dependencies": {
+    "lru-cache": "^6.0.0"
   }
 }

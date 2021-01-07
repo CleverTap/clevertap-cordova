@@ -37,6 +37,8 @@ initialize: function() {
     document.addEventListener('onCleverTapProductConfigDidActivate', this.onCleverTapProductConfigDidActivate, false);
     document.addEventListener('onCleverTapExperimentsUpdated', this.onCleverTapExperimentsUpdated, false);
     document.addEventListener('onCleverTapDisplayUnitsLoaded', this.onCleverTapDisplayUnitsLoaded, false);
+    document.addEventListener('onCleverTapPushNotificationTappedWithCustomExtras', this.onCleverTapPushNotificationTappedWithCustomExtras, false);
+    document.addEventListener('onCleverTapPushAmpPayloadDidReceived', this.onCleverTapPushAmpPayloadDidReceived, false);
 },
     
     // deviceready Event Handler
@@ -45,8 +47,6 @@ initialize: function() {
     // 'pause', 'resume', etc.
 onDeviceReady: function() {
     this.receivedEvent('deviceready');
-    CleverTap.setDebugLevel(3);
-    CleverTap.registerPush();
     
     // Ionic example usage
     //$rootScope.CleverTap = CleverTap;
@@ -57,11 +57,15 @@ onDeviceReady: function() {
      CleverTap.notifyDeviceReady();
      CleverTap.registerPush();
      CleverTap.enablePersonalization();
+     CleverTap.disablePersonalization();
      CleverTap.recordScreenView("HomeView");
      
      CleverTap.pushInstallReferrer("source", "medium", "campaign");
      
      CleverTap.setPushToken("foo");
+     CleverTap.setPushXiaomiToken("foo");
+     CleverTap.setPushBaiduToken("foo");
+     CleverTap.setPushHuaweiToken("foo");
      
      CleverTap.onUserLogin({"Identity":098767, "custom":1.3});
      
@@ -166,6 +170,7 @@ onDeviceReady: function() {
      //FOR NOTIFICATION INBOX
      CleverTap.initializeInbox();
      */
+
 },
     
     // onCleverTapProfileSync Event Handler
@@ -200,7 +205,12 @@ onCleverTapInAppNotificationDismissed: function(e) {
     console.log(e.extras);
     console.log(e.actionExtras);
 },
-    
+
+onCleverTapPushNotificationTappedWithCustomExtras: function(e) {
+    console.log("onCleverTapPushNotificationTappedWithCustomExtras");
+    console.log(e.customExtras);
+}, 
+
     // deep link handling
 onDeepLink: function(e) {
     console.log(e.deeplink);
@@ -222,12 +232,12 @@ onCleverTapInboxMessagesDidUpdate: function() {
 
 onCleverTapInAppButtonClick: function(e) {
     console.log("onCleverTapInAppButtonClick");
-    console.log(e.kvs);
+    console.log(e.customExtras);
 },
 
 onCleverTapInboxButtonClick: function(e) {
     console.log("onCleverTapInboxButtonClick");
-    console.log(e.kvs);
+    console.log(e.customExtras);
 },
 
 onCleverTapFeatureFlagsDidUpdate: function() {
@@ -254,7 +264,16 @@ onCleverTapDisplayUnitsLoaded: function(e) {
     console.log("onCleverTapDisplayUnitsLoaded");
     console.log(e.units);
 },
-    
+onCleverTapPushNotificationTappedWithCustomExtras: function(e) {
+    console.log("onCleverTapPushNotificationTappedWithCustomExtras");
+    console.log(e.customExtras);
+},
+
+onCleverTapPushAmpPayloadDidReceived: function(e) {
+    console.log("onCleverTapPushAmpPayloadDidReceived");
+    console.log(e.customExtras);
+},
+
     // Update DOM on a Received Event
 receivedEvent: function(id) {
     var parentElement = document.getElementById(id);

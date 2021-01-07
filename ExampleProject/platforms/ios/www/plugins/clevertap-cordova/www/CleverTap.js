@@ -68,7 +68,7 @@ CleverTap.prototype.setPushXiaomiToken = function (token) {
 CleverTap.prototype.setPushBaiduToken = function (token) {
     cordova.exec(null, null, "CleverTapPlugin", "setPushBaiduTokenAsString", [token]);
 }
-               
+
 // Sets the devices Huawei push token
 CleverTap.prototype.setPushHuaweiToken = function (token) {
     cordova.exec(null, null, "CleverTapPlugin", "setPushHuaweiTokenAsString", [token]);
@@ -133,6 +133,19 @@ CleverTap.prototype.recordEventWithName = function (eventName) {
 // eventName = string
 // eventProps = object
 CleverTap.prototype.recordEventWithNameAndProps = function (eventName, eventProps) {
+    //automatic conversion of date object in suitable CleverTap format
+
+    /*-------------- * -----------------
+    |  input        =>        output    |
+    * --------------------------------- *
+    | new Date()    =>     $D_epoch     |
+    ---------------- * ----------------- */
+
+    for (let [key, value] of Object.entries(eventProps)) {
+        if (Object.prototype.toString.call(value) === '[object Date]') {
+            eventProps[key] = "$D_" + value.getTime()/1000;
+        }
+    }
     cordova.exec(null, null, "CleverTapPlugin", "recordEventWithNameAndProps", [eventName, eventProps]);
 }
                
@@ -564,15 +577,15 @@ CleverTap.prototype.pushDisplayUnitClickedEventForID = function(unitId){
 }
 
 /****************************
-* Feature Flag methods
-****************************/
+ * Feature Flag methods
+ ****************************/
 CleverTap.prototype.getFeatureFlag = function(name,defaultValue,successCallback){
     cordova.exec(successCallback, null, "CleverTapPlugin", "getFeatureFlag", [name,defaultValue]);
 }
 
 /****************************
-* Product Config methods
-****************************/
+ * Product Config methods
+ ****************************/
 CleverTap.prototype.setDefaultsMap = function(jsonMap){
     cordova.exec(null, null, "CleverTapPlugin", "setDefaultsMap", [jsonMap]);
 }
@@ -620,7 +633,7 @@ CleverTap.prototype.getDouble = function(key,successCallback){
 CleverTap.prototype.reset = function(){
     cordova.exec(null, null, "CleverTapPlugin", "reset", []);
 }
-                  
+
 module.exports = new CleverTap();
 
 });

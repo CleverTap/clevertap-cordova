@@ -1,6 +1,6 @@
 {
   "name": "clevertap-cordova",
-  "version": "2.3.1",
+  "version": "2.3.2",
   "description": "CleverTap Plugin for Cordova/PhoneGap",
   "cordova": {
     "id": "clevertap-cordova",
@@ -19,12 +19,15 @@
     "cordova-ios",
     "cordova-android"
   ],
-  "engines": [
-    {
-      "name": "cordova",
-      "version": ">=3.0.0"
+  "engines": {
+  "cordovaDependencies": {
+      "2.3.2": { 
+        "cordova-ios": ">=4.3.0",
+        "cordova-android": ">6.3.0",
+        "cordova": ">=7.0.0"
+      }
     }
-  ],
+  },
   "author": "CleverTap",
   "license": "Commercial",
   "bugs": {

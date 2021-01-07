@@ -48,6 +48,8 @@ onDeviceReady: function() {
     CleverTap.setDebugLevel(3);
     CleverTap.registerPush();
     
+    CleverTap.recordEventWithNameAndProps("foo", {"bar":"zoo"});
+
     // Ionic example usage
     //$rootScope.CleverTap = CleverTap;
     //CleverTap && CleverTap.registerPush();
@@ -192,6 +194,10 @@ onDeviceReady: function() {
     //      }
     //
     //
+
+onCleverTapPushNotificationTappedWithCustomExtras: function(e){
+    console.log(e.customExtras);
+}
     
 onCleverTapProfileSync: function(e) {
     console.log(e.updates);

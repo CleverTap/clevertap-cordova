@@ -2,7 +2,15 @@
   "cordova-plugin-whitelist": {
     "source": {
       "type": "registry",
-      "id": "cordova-plugin-whitelist@1"
+      "id": "cordova-plugin-whitelist@1.3.4"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-android-support-gradle-release": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-android-support-gradle-release@3.0.1"
     },
     "is_top_level": true,
     "variables": {}
@@ -10,20 +18,12 @@
   "clevertap-cordova": {
     "source": {
       "type": "registry",
-      "id": "https://github.com/CleverTap/clevertap-cordova.git#2.1.8"
+      "id": "https://github.com/CleverTap/clevertap-cordova.git#task/SDK-573/update-ios-release-2.3.2"
     },
     "is_top_level": true,
     "variables": {
-      "CLEVERTAP_ACCOUNT_ID": "YOUR CLEVERTAP ACCOUNT ID",
-      "CLEVERTAP_TOKEN": "YOUR CELVERTAP ACCOUNT TOKEN"
+      "CLEVERTAP_ACCOUNT_ID": "48Z-795-765Z",
+      "CLEVERTAP_TOKEN": "5ca-1b4"
     }
-  },
-  "cordova-android-support-gradle-release": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-android-support-gradle-release"
-    },
-    "is_top_level": true,
-    "variables": {}
   }
 }

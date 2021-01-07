@@ -23,11 +23,6 @@
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
     </platform>
-    <plugin name="clevertap-cordova" spec="https://github.com/CleverTap/clevertap-cordova.git">
-        <variable name="CLEVERTAP_ACCOUNT_ID" value="69R-Z7W-W54Z" />
-        <variable name="CLEVERTAP_TOKEN" value="0a1-2c6" />
-        <variable name="CLEVERTAP_REGION" value=" " />
-    </plugin>
     <engine name="android" spec="^7.0.0" />
     <preference name="AndroidXEnabled" value="true" />
 </widget>
