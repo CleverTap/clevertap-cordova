@@ -1,0 +1,24 @@
+import {AppPage} from '../../models/Page'
+import { UserActions } from '../UserActions';
+
+const data = {
+    id:'webview',
+    title: 'WebView',
+    items:[
+        {
+            userAction:UserActions.EventRecord,
+            title:'Record Event'
+        },
+        {
+            userAction:UserActions.EventRecordWithProp,
+            title:'Record Event With Properties'
+        },
+        {
+            id:UserActions.EventRecordCharged,
+            title:'Record Charged Event'
+        }
+]
+
+}as AppPage;
+
+export default data;
