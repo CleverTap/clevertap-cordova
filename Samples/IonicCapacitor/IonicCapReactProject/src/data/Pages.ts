@@ -1,4 +1,4 @@
-import {AppPage} from '../../models/Page'
+import {AppPage} from '../models/Page'
 import Event from './Event'
 import UserLogin from './UserLogin'
 import FeatureFlag from './FeatureFlag'

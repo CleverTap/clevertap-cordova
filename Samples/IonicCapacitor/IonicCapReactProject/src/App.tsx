@@ -1,5 +1,5 @@
-import Menu from './components/leftnav/LeftNav';
-import Page from './components/pages/Page';
+import Menu from './views/leftnav/LeftNav';
+import Page from './views/content/ContentPage';
 import React, {Component} from 'react';
 import {CleverTap} from '@ionic-native/clevertap'
 import { 
@@ -8,7 +8,10 @@ import {
   IonSplitPane 
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { Redirect, Route } from 'react-router-dom';
+import { 
+  Redirect, 
+  Route 
+} from 'react-router-dom';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -27,7 +30,7 @@ import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/display.css';
 
 /* Theme variables */
-import './theme/variables.css';
+import './themes/app.css';
 type Props = {};
 export default class App extends Component<Props> {
 
@@ -106,4 +109,3 @@ componentWillUnmount() {
     );
   }
 }
-

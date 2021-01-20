@@ -1,8 +1,11 @@
-import { IonRippleEffect, IonText } from '@ionic/react';
+import { 
+  IonRippleEffect, 
+  IonText 
+} from '@ionic/react';
 import React from 'react';
-import { CleverTapAction } from '../../clevertap/CleverTapAPIHandler';
+import { CleverTapAction } from '../../controllers/CleverTapAPIController';
 import { ListItem } from '../../models/Page';
-import './PageListItem.css';
+import './../../themes/contentpagelistitem.css'
 interface ContainerProps {
   item: ListItem;
 }

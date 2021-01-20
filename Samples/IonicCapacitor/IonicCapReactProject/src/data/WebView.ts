@@ -1,9 +1,9 @@
-import {AppPage} from '../../models/Page'
-import { UserActions } from '../UserActions';
+import {AppPage} from '../models/Page'
+import { UserActions } from '../helper/CleverTapActions';
 
 const data = {
-    id:'feature-flag',
-    title: 'Feature Flag',
+    id:'webview',
+    title: 'WebView',
     items:[
         {
             userAction:UserActions.EventRecord,

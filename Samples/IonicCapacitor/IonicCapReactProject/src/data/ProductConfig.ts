@@ -1,9 +1,9 @@
-import {AppPage} from '../../models/Page'
-import { UserActions } from '../UserActions';
+import {AppPage} from '../models/Page'
+import { UserActions } from '../helper/CleverTapActions';
 
 const data = {
-    id:'display-unit',
-    title: 'Display Unit',
+    id:'product-config',
+    title: 'Product Config',
     items:[
         {
             userAction:UserActions.EventRecord,

@@ -1,7 +1,8 @@
 import {CleverTap} from '@ionic-native/clevertap'
 import { ListItem } from '../models/Page'
-import {UserActions} from './UserActions'
+import {UserActions} from '../helper/CleverTapActions'
 const clevertap = CleverTap;
+
 function handleUserAction(item:ListItem){
     clevertap.setDebugLevel(3);
     console.log('Click Event:'+ item.title)

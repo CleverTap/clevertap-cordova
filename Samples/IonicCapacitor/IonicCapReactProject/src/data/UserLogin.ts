@@ -1,5 +1,5 @@
-import {AppPage} from '../../models/Page'
-import { UserActions } from '../UserActions'
+import {AppPage} from '../models/Page'
+import { UserActions } from '../helper/CleverTapActions'
 const data =  {
     id:'user-profile',
     title: 'User Profile',

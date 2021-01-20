@@ -13,5 +13,4 @@ export enum UserActions{
     LoginRemoveMultiProp,
     LoginProfileLocation,
     LoginGetUserProfileProp
-   
 }

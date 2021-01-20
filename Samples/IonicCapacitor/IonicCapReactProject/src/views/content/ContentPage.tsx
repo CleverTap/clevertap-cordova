@@ -1,9 +1,21 @@
-import { IonButtons, IonContent, IonHeader, IonItem, IonList, IonMenuButton, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import { 
+  IonButtons, 
+  IonContent, 
+  IonHeader, 
+  IonItem, 
+  IonList, 
+  IonMenuButton, 
+  IonPage, 
+  IonTitle, 
+  IonToolbar 
+} from '@ionic/react';
 import React from 'react';
-import ListUIItem from './PageListItem';
-import { AppPage,ListItem } from '../../models/Page';
-import './Page.css';
-import AppPages from '../../clevertap/data/Pages'
+import ListUIItem from './ContentPageListItem';
+import { 
+  AppPage,
+  ListItem 
+} from '../../models/Page';
+import AppPages from '../../data/Pages'
 interface PageProps {
   match: {params:{
     name: string;

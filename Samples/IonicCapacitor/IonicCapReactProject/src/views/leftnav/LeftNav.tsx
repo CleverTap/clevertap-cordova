@@ -11,8 +11,8 @@ import {
 
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import './LeftNav.css';
-import Pages from '../../clevertap/data/Pages';
+import './../../themes/leftnav.css';
+import Pages from '../../data/Pages';
 
 const Menu: React.FC = () => {
   const location = useLocation();
