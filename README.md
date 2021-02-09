@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/CleverTap/clevertap-cordova/blob/SDK-366-ios-as-podspec/images/clevertap-logo.png" width="300"/>
+  <img src="images/clevertap-logo.png" width="300"/>
 </p>
 
 # CleverTap Cordova Plugin
