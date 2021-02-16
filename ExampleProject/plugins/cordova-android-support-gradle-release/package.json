@@ -1,8 +1,8 @@
 {
   "_from": "cordova-android-support-gradle-release",
-  "_id": "cordova-android-support-gradle-release@3.0.0",
+  "_id": "cordova-android-support-gradle-release@3.0.1",
   "_inBundle": false,
-  "_integrity": "sha512-vyiqQ6N9Qb+4xRizWSpUX/LyJ1HaDN0piWc8xoS9Hx9YodIS3vyi1UpQyfLQmCixoeLVcRieKXjuSMXnUrv1dw==",
+  "_integrity": "sha512-RSW55DkSckmqhX/kjj+a1YeVdy7s/AtlZn6Qa5XMQmmA4Iogq+IF2jvInZqzCF19DbI5YE95AP7VDbRk+DdDRw==",
   "_location": "/cordova-android-support-gradle-release",
   "_phantomChildren": {},
   "_requested": {
@@ -16,13 +16,13 @@
     "fetchSpec": "latest"
   },
   "_requiredBy": [
-    "#USER",
-    "/"
+    "#DEV:/",
+    "#USER"
   ],
-  "_resolved": "https://registry.npmjs.org/cordova-android-support-gradle-release/-/cordova-android-support-gradle-release-3.0.0.tgz",
-  "_shasum": "c5a0180e1fcd7d58d41f84e864c0fac4cd4ed3a0",
+  "_resolved": "https://registry.npmjs.org/cordova-android-support-gradle-release/-/cordova-android-support-gradle-release-3.0.1.tgz",
+  "_shasum": "4f0b7d715280c9bb77785203d410fbe580b210ab",
   "_spec": "cordova-android-support-gradle-release",
-  "_where": "/Users/darshanpania/Desktop/CleverTapApps/Cordova/clevertap-cordova/ExampleProject",
+  "_where": "/Users/aditi/repo/Github/clevertap-cordova/ExampleProject",
   "author": {
     "name": "Dave Alden"
   },
@@ -36,5 +36,5 @@
   "devDependencies": {},
   "license": "MIT",
   "name": "cordova-android-support-gradle-release",
-  "version": "3.0.0"
+  "version": "3.0.1"
 }

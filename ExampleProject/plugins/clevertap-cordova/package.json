@@ -1,5 +1,5 @@
 {
-  "_from": "git+https://github.com/CleverTap/clevertap-cordova.git#task/SDK-573/update-ios-release-2.3.2",
+  "_from": "git+https://github.com/CleverTap/clevertap-cordova.git#bugfix/SDK-637-cordova-ios-fix-click-callbacks",
   "_id": "clevertap-cordova@2.3.2",
   "_inBundle": false,
   "_integrity": "",
@@ -7,19 +7,19 @@
   "_phantomChildren": {},
   "_requested": {
     "type": "git",
-    "raw": "https://github.com/CleverTap/clevertap-cordova.git#task/SDK-573/update-ios-release-2.3.2",
-    "rawSpec": "https://github.com/CleverTap/clevertap-cordova.git#task/SDK-573/update-ios-release-2.3.2",
-    "saveSpec": "git+https://github.com/CleverTap/clevertap-cordova.git#task/SDK-573/update-ios-release-2.3.2",
+    "raw": "https://github.com/CleverTap/clevertap-cordova#bugfix/SDK-637-cordova-ios-fix-click-callbacks",
+    "rawSpec": "https://github.com/CleverTap/clevertap-cordova#bugfix/SDK-637-cordova-ios-fix-click-callbacks",
+    "saveSpec": "git+https://github.com/CleverTap/clevertap-cordova.git#bugfix/SDK-637-cordova-ios-fix-click-callbacks",
     "fetchSpec": "https://github.com/CleverTap/clevertap-cordova.git",
-    "gitCommittish": "task/SDK-573/update-ios-release-2.3.2"
+    "gitCommittish": "bugfix/SDK-637-cordova-ios-fix-click-callbacks"
   },
   "_requiredBy": [
     "#DEV:/",
     "#USER"
   ],
-  "_resolved": "git+https://github.com/CleverTap/clevertap-cordova.git#9b8581f4f747858d9bf95ae674d0504b9da08b9b",
-  "_spec": "https://github.com/CleverTap/clevertap-cordova.git#task/SDK-573/update-ios-release-2.3.2",
-  "_where": "/Users/yogesh/Programming/CleverTap-Cordova/ExampleProject",
+  "_resolved": "git+https://github.com/CleverTap/clevertap-cordova.git#1932d5419f7b33e9fa4ce446f2554d656e5ff41a",
+  "_spec": "https://github.com/CleverTap/clevertap-cordova#bugfix/SDK-637-cordova-ios-fix-click-callbacks",
+  "_where": "/Users/aditi/repo/Github/clevertap-cordova/ExampleProject",
   "author": {
     "name": "CleverTap"
   },

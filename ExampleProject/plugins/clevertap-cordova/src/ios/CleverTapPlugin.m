@@ -11,36 +11,38 @@
 #if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
 @import UserNotifications;
 #endif
-#import "CleverTapPlugin.h"
 
-#import <CoreLocation/CoreLocation.h>
+#import "CleverTapPlugin.h"
 
 #import "CleverTap.h"
 #import "CleverTap+Inbox.h"
+#import "CleverTapUTMDetail.h"
+#import "CleverTapEventDetail.h"
+#import "CleverTap+DisplayUnit.h"
 #import "CleverTapSyncDelegate.h"
 #import "CleverTap+FeatureFlags.h"
 #import "CleverTap+ProductConfig.h"
-#import "CleverTap+DisplayUnit.h"
-#import "CleverTapInAppNotificationDelegate.h"
-#import "CleverTapEventDetail.h"
-#import "CleverTapUTMDetail.h"
 #import "CleverTapPushNotificationDelegate.h"
+#import "CleverTapInAppNotificationDelegate.h"
 
-static NSDateFormatter *dateFormatter;
+#import <CoreLocation/CoreLocation.h>
+
 static CleverTap *clevertap;
-static NSDictionary *launchNotification;
 static NSURL *launchDeepLink;
+static NSDictionary *launchNotification;
+static NSDateFormatter *dateFormatter;
 
-@interface CleverTapPlugin () <CleverTapSyncDelegate, CleverTapInAppNotificationDelegate,CleverTapDisplayUnitDelegate, CleverTapFeatureFlagsDelegate, CleverTapProductConfigDelegate,CleverTapPushNotificationDelegate> {
+@interface CleverTapPlugin () <CleverTapSyncDelegate, CleverTapInAppNotificationDelegate, CleverTapDisplayUnitDelegate, CleverTapFeatureFlagsDelegate, CleverTapProductConfigDelegate, CleverTapPushNotificationDelegate> {
 }
 
 @end
 
 @implementation CleverTapPlugin
 
+
 #pragma mark - Private
 
-+(void)load {
++ (void)load {
     
     // Listen for UIApplicationDidFinishLaunchingNotification to get a hold of launchOptions
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onDidFinishLaunchingNotification:) name:UIApplicationDidFinishLaunchingNotification object:nil];
@@ -51,7 +53,7 @@ static NSURL *launchDeepLink;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onHandleRegisterForRemoteNotification:) name:CTRemoteNotificationDidRegister object:nil];
 }
 
-+(void)onDidFinishLaunchingNotification:(NSNotification *)notification {
++ (void)onDidFinishLaunchingNotification:(NSNotification *)notification {
     
     clevertap = [CleverTap sharedInstance];
     
@@ -68,13 +70,13 @@ static NSURL *launchDeepLink;
     }
 }
 
-+(void)onDidFailToRegisterForRemoteNotificationsWithError:(NSNotification *)notification {
++ (void)onDidFailToRegisterForRemoteNotificationsWithError:(NSNotification *)notification {
     
     //Log Failures
     NSLog(@"onRemoteRegisterFail: %@", notification.object);
 }
 
-+(void)onHandleRegisterForRemoteNotification:(NSNotification *)notification {
++ (void)onHandleRegisterForRemoteNotification:(NSNotification *)notification {
     
     [clevertap setPushTokenAsString:notification.object];
 }
@@ -96,15 +98,15 @@ static NSURL *launchDeepLink;
     [super pluginInitialize];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onHandleOpenURLNotification:) name: CTHandleOpenURLNotification object:nil];
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onHandleNotification:) name:CTDidReceiveNotification object:nil];
     
     [clevertap setSyncDelegate:self];
-    [clevertap setInAppNotificationDelegate:self];
     [clevertap setDisplayUnitDelegate:self];
     [[clevertap featureFlags] setDelegate:self];
     [[clevertap productConfig] setDelegate:self];
     [clevertap setPushNotificationDelegate:self];
+    [clevertap setInAppNotificationDelegate:self];
+
 }
 
 - (NSDictionary*)_eventDetailToDict:(CleverTapEventDetail*)detail {
@@ -205,7 +207,7 @@ static NSURL *launchDeepLink;
 }
 
 // custom helper method to fire push data into the Cordova WebView
--(void)notifyPushNotification:(id)notification {
+- (void)notifyPushNotification:(id)notification {
     
     NSDictionary * _notification;
     if ([notification isKindOfClass:[UILocalNotification class]]) {
@@ -223,6 +225,7 @@ static NSURL *launchDeepLink;
         [self.commandDelegate evalJs:js];
     }
 }
+
 
 #pragma mark - CleverTapInAppNotificationDelegate
 
@@ -312,6 +315,10 @@ static NSURL *launchDeepLink;
     
     if (launchNotification) {
         [self notifyPushNotification:[launchNotification copy]];
+        // notify push notification tapped with custom extras
+        NSMutableDictionary *mutableNotification = [NSMutableDictionary dictionaryWithDictionary:launchNotification];
+        [mutableNotification removeObjectForKey:@"aps"];
+        [self pushNotificationTappedWithCustomExtras:[mutableNotification copy]];
         launchNotification = nil;
     }
     
@@ -320,6 +327,7 @@ static NSURL *launchDeepLink;
         launchDeepLink = nil;
     }
 }
+
 
 #pragma mark - Push
 
@@ -362,15 +370,15 @@ static NSURL *launchDeepLink;
     }];
 }
 
--(void)setPushXiaomiTokenAsString:(CDVInvokedUrlCommand *)command {
+- (void)setPushXiaomiTokenAsString:(CDVInvokedUrlCommand *)command {
     NSLog(@"XiaomiToken is no-op in iOS");
 }
 
--(void)setPushBaiduTokenAsString:(CDVInvokedUrlCommand *)command {
+- (void)setPushBaiduTokenAsString:(CDVInvokedUrlCommand *)command {
     NSLog(@"BaiduToken is no-op in iOS");
 }
 
--(void)setPushHuaweiTokenAsString:(CDVInvokedUrlCommand *)command {
+- (void)setPushHuaweiTokenAsString:(CDVInvokedUrlCommand *)command {
     NSLog(@"HuaweiToken is no-op in iOS");
 }
 
@@ -501,6 +509,7 @@ static NSURL *launchDeepLink;
     }];
 }
 
+
 #pragma mark - Event API
 
 - (void)recordScreenView:(CDVInvokedUrlCommand *)command {
@@ -613,7 +622,8 @@ static NSURL *launchDeepLink;
     }];
 }
 
-#pragma mark Profile API
+
+#pragma mark - Profile API
 
 /**
  Note: the call to CleverTapSDK must be made on the main thread due to start the LocationManager, but thereafter the CleverTapSDK method itself is non-blocking.
@@ -1578,6 +1588,7 @@ static NSURL *launchDeepLink;
                     alpha:alpha];
     return color;
 }
+
 
 @end
 
