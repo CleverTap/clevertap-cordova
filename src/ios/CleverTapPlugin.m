@@ -315,6 +315,10 @@ static NSDateFormatter *dateFormatter;
     
     if (launchNotification) {
         [self notifyPushNotification:[launchNotification copy]];
+        // notify push notification tapped with custom extras
+        NSMutableDictionary *mutableNotification = [NSMutableDictionary dictionaryWithDictionary:launchNotification];
+        [mutableNotification removeObjectForKey:@"aps"];
+        [self pushNotificationTappedWithCustomExtras:[mutableNotification copy]];
         launchNotification = nil;
     }
     
