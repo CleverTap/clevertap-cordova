@@ -1,0 +1,63 @@
+{
+  "_from": "git+https://github.com/CleverTap/clevertap-cordova.git#task/SDK-573/update-ios-release-2.3.2",
+  "_id": "clevertap-cordova@2.3.2",
+  "_inBundle": false,
+  "_integrity": "",
+  "_location": "/clevertap-cordova",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "git",
+    "raw": "https://github.com/CleverTap/clevertap-cordova.git#task/SDK-573/update-ios-release-2.3.2",
+    "rawSpec": "https://github.com/CleverTap/clevertap-cordova.git#task/SDK-573/update-ios-release-2.3.2",
+    "saveSpec": "git+https://github.com/CleverTap/clevertap-cordova.git#task/SDK-573/update-ios-release-2.3.2",
+    "fetchSpec": "https://github.com/CleverTap/clevertap-cordova.git",
+    "gitCommittish": "task/SDK-573/update-ios-release-2.3.2"
+  },
+  "_requiredBy": [
+    "#DEV:/",
+    "#USER"
+  ],
+  "_resolved": "git+https://github.com/CleverTap/clevertap-cordova.git#9b8581f4f747858d9bf95ae674d0504b9da08b9b",
+  "_spec": "https://github.com/CleverTap/clevertap-cordova.git#task/SDK-573/update-ios-release-2.3.2",
+  "_where": "/Users/yogesh/Programming/CleverTap-Cordova/ExampleProject",
+  "author": {
+    "name": "CleverTap"
+  },
+  "bugs": {
+    "url": "https://github.com/CleverTap/clevertap-cordova/issues"
+  },
+  "bundleDependencies": false,
+  "cordova": {
+    "id": "clevertap-cordova",
+    "platforms": [
+      "ios",
+      "android"
+    ]
+  },
+  "dependencies": {},
+  "deprecated": false,
+  "description": "CleverTap Plugin for Cordova/PhoneGap",
+  "engines": {
+    "cordovaDependencies": {
+      "2.3.2": {
+        "cordova": ">=7.0.0",
+        "cordova-android": ">6.3.0",
+        "cordova-ios": ">=4.3.0"
+      }
+    }
+  },
+  "homepage": "https://github.com/CleverTap/clevertap-cordova#readme",
+  "keywords": [
+    "CleverTap",
+    "ecosystem:cordova",
+    "cordova-ios",
+    "cordova-android"
+  ],
+  "license": "Commercial",
+  "name": "clevertap-cordova",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CleverTap/clevertap-cordova.git"
+  },
+  "version": "2.3.2"
+}
