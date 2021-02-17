@@ -304,6 +304,6 @@ Start by adding the following listeners to your Javascript:
 
 Then:  
 
-- [See the included Example Cordova project for usage](https://github.com/CleverTap/clevertap-cordova/blob/master/ExampleProject/www/js/index.js).  
+- [See the included Example Cordova project for usage](/Samples/Cordova/ExampleProject/www/js/index.js).  
 
-- [See the included Ionic3 Example project for usage](https://github.com/CleverTap/clevertap-cordova/blob/master/Ionic3Example/src/app/app.component.ts).  
+- [See the included Ionic Example project for usage](/Samples/IonicCordova/IonicCordovaAngularProject/src/app/app.component.ts).  
