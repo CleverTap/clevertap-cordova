@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+Version 2.3.3 *(19 February, 2021)*
+-------------------------------------------
+* Added Push Notitifcation with Custom Extras callback support in the killed state 
+* Update for CleverTap iOS SDK v3.9.2
+
 Version 2.3.2 *(07 January, 2021)*
 -------------------------------------------
 * Added support for Push Notification Click Callbacks
