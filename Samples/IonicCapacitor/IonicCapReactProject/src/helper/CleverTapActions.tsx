@@ -6,6 +6,7 @@ export enum UserActions{
 
     // user login
     LoginPushProfile,
+    LoginOnUserLogin,
     LoginReplaceSingleProp,
     LoginAddSingleProp,
     LoginRemoveSingleProp,
