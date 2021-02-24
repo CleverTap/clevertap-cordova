@@ -79,36 +79,6 @@ npm install @ionic-native/clevertap --save
 
 ```
 
-##### Using PhoneGap Build
-
-**Starting with v2.0.0, the plugin drops official support for PhoneGap Build.**
-This is because PhoneGap Build does not support install hooks and a hook is required to configure FCM.
-It might be possible by forking this plugin and replacing the placeholder google-services.json in src/android with yours, and then hard coding your google app id and api key in plugin.xml, but you're on your own there.
-
-When using the plugin with PhoneGap Build:
-
-Add the following to your `www/config.xml` file:
-
-```xml
-<preference name="android-build-tool" value="gradle" />
-
-<gap:plugin name="clevertap-cordova" source="npm">
-    <param name="CLEVERTAP_ACCOUNT_ID" value="YOUR CLEVERTAP ACCOUNT ID" />
-    <param name="CLEVERTAP_TOKEN" value="YOUR CLEVERTAP ACCOUNT TOKEN" />
-    <param name="GCM_PROJECT_NUMBER" value="YOUR GCM PROJECT NUMBER" /> // for v1.2.5 and lower of the plugin
-</gap:plugin>
-```            
-
-*For PhoneGap Build Android projects*:  **Extremely Important**:  add `CleverTap.notifyDeviceReady();` to your onDeviceReady callback in `www/js/index.js`:
-
-```javascript
-onDeviceReady: function() {
-    app.receivedEvent('deviceready');
-    CleverTap.notifyDeviceReady();
-    ...
-},
-```
-
 #### Android
 
 Check that the following is inside the `<application></application>` tags of your AndroidManifest.xml:  
