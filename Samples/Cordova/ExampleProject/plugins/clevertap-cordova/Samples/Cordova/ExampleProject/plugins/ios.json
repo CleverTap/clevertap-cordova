@@ -1,0 +1,24 @@
+{
+  "prepare_queue": {
+    "installed": [],
+    "uninstalled": []
+  },
+  "config_munge": {
+    "files": {}
+  },
+  "installed_plugins": {
+    "clevertap-cordova": {
+      "CLEVERTAP_ACCOUNT_ID": "TEST-R59-947-8W5Z",
+      "CLEVERTAP_TOKEN": "TEST-a4c-c52",
+      "CLEVERTAP_REGION": " ",
+      "PACKAGE_NAME": "com.clevertap.example"
+    },
+    "cordova-android-support-gradle-release": {
+      "PACKAGE_NAME": "com.clevertap.example"
+    },
+    "cordova-plugin-whitelist": {
+      "PACKAGE_NAME": "com.clevertap.example"
+    }
+  },
+  "dependent_plugins": {}
+}

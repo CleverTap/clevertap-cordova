@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">IonicCapReactProject</string>
+    <string name="title_activity_main">IonicCapReactProject</string>
+    <string name="package_name">com.clevertap.ionic.cap.react.sample</string>
+    <string name="custom_url_scheme">com.clevertap.ionic.cap.react.sample</string>
+</resources>
