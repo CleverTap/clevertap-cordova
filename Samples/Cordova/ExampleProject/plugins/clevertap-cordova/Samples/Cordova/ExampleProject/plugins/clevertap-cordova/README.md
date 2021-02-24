@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/CleverTap/clevertap-cordova/blob/SDK-366-ios-as-podspec/images/clevertap-logo.png" width="300"/>
+  <img src="images/clevertap-logo.png" width="300"/>
 </p>
 
 # CleverTap Cordova Plugin
@@ -19,10 +19,8 @@ To get started, sign up [here](https://clevertap.com/live-product-demo/).
 
 ## ✅ Supported Versions
 
-Tested on Cordova 10.0.0
-
-- [CleverTap Android SDK version 4.0.0](https://github.com/CleverTap/clevertap-android-sdk/releases/tag/core-v4.0.0)
-- [CleverTap iOS SDK version 3.9.1](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/3.9.1)
+- [CleverTap Android SDK version 4.0.2](https://github.com/CleverTap/clevertap-android-sdk/releases/tag/core-v4.0.2)
+- [CleverTap iOS SDK version 3.9.2](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/3.9.2)
 
 ## 🚀 Install
 
@@ -304,6 +302,6 @@ Start by adding the following listeners to your Javascript:
 
 Then:  
 
-- [See the included Example Cordova project for usage](https://github.com/CleverTap/clevertap-cordova/blob/master/ExampleProject/www/js/index.js).  
+- [See the included Example Cordova project for usage](/Samples/Cordova/ExampleProject/www/js/index.js).  
 
-- [See the included Ionic3 Example project for usage](https://github.com/CleverTap/clevertap-cordova/blob/master/Ionic3Example/src/app/app.component.ts).  
+- [See the included Ionic Example project for usage](/Samples/IonicCordova/IonicCordovaAngularProject/src/app/app.component.ts).  

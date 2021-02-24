@@ -64,6 +64,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
     private static final String LOG_TAG = "CLEVERTAP_PLUGIN";
     private static String CLEVERTAP_API_ERROR;
     private static CleverTapAPI cleverTap;
+    private boolean callbackDone = false;
 
 
     @Override
@@ -139,6 +140,19 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                         webView.loadUrl("javascript:cordova.fireDocumentEvent('onPushNotification'," + json + ");");
                     }
                 });
+
+                if(!callbackDone) {
+                    final String callbackJson = "{'customExtras':" + data.toString() + "}";
+
+                    webView.getView().post(new Runnable() {
+                        public void run() {
+
+                            webView.loadUrl(
+                                    "javascript:cordova.fireDocumentEvent('onCleverTapPushNotificationTappedWithCustomExtras',"
+                                            + callbackJson + ");");
+                        }
+                    });
+                }
 
             }
         }
@@ -2523,6 +2537,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 webView.loadUrl("javascript:cordova.fireDocumentEvent('onCleverTapPushNotificationTappedWithCustomExtras'," + json + ");");
             }
         });
+        callbackDone = true;
     }
 
    public void onPushAmpPayloadReceived(Bundle extras){

@@ -13,10 +13,10 @@
       "CLEVERTAP_REGION": " ",
       "PACKAGE_NAME": "com.clevertap.example"
     },
-    "cordova-android-support-gradle-release": {
+    "cordova-plugin-whitelist": {
       "PACKAGE_NAME": "com.clevertap.example"
     },
-    "cordova-plugin-whitelist": {
+    "cordova-android-support-gradle-release": {
       "PACKAGE_NAME": "com.clevertap.example"
     }
   },

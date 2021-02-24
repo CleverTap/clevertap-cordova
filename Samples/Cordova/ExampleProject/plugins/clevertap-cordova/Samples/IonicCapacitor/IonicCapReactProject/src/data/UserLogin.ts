@@ -9,6 +9,10 @@ const data =  {
             title:'Push Profile'
         },
         {
+            userAction:UserActions.LoginOnUserLogin,
+            title:'OnUserLogin'
+        },
+        {
             userAction:UserActions.LoginReplaceSingleProp,
             title:'Update(Replace) Single-Value Properties'
         },

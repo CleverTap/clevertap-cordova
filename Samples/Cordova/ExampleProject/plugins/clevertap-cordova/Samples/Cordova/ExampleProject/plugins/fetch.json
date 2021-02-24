@@ -18,12 +18,12 @@
   "clevertap-cordova": {
     "source": {
       "type": "registry",
-      "id": "https://github.com/CleverTap/clevertap-cordova.git#task/SDK-573/update-ios-release-2.3.2"
+      "id": "https://github.com/CleverTap/clevertap-cordova#task/SDK-652-release-cordova-2.3.3"
     },
     "is_top_level": true,
     "variables": {
-      "CLEVERTAP_ACCOUNT_ID": "48Z-795-765Z",
-      "CLEVERTAP_TOKEN": "5ca-1b4"
+      "CLEVERTAP_ACCOUNT_ID": "TEST-R59-947-8W5Z",
+      "CLEVERTAP_TOKEN": "TEST-a4c-c52"
     }
   }
 }

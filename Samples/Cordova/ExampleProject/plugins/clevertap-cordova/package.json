@@ -7,8 +7,8 @@
   "_phantomChildren": {},
   "_requested": {
     "type": "git",
-    "raw": "https://github.com/CleverTap/clevertap-cordova#task/SDK-652-release-cordova-2.3.3",
-    "rawSpec": "https://github.com/CleverTap/clevertap-cordova#task/SDK-652-release-cordova-2.3.3",
+    "raw": "git+https://github.com/CleverTap/clevertap-cordova.git#task/SDK-652-release-cordova-2.3.3",
+    "rawSpec": "git+https://github.com/CleverTap/clevertap-cordova.git#task/SDK-652-release-cordova-2.3.3",
     "saveSpec": "git+https://github.com/CleverTap/clevertap-cordova.git#task/SDK-652-release-cordova-2.3.3",
     "fetchSpec": "https://github.com/CleverTap/clevertap-cordova.git",
     "gitCommittish": "task/SDK-652-release-cordova-2.3.3"
@@ -17,8 +17,8 @@
     "#DEV:/",
     "#USER"
   ],
-  "_resolved": "git+https://github.com/CleverTap/clevertap-cordova.git#955281a78494e192757dcb48164540357f045fbe",
-  "_spec": "https://github.com/CleverTap/clevertap-cordova#task/SDK-652-release-cordova-2.3.3",
+  "_resolved": "git+https://github.com/CleverTap/clevertap-cordova.git#a59de46d0474775c210e1fe79255f427fa9ef8f2",
+  "_spec": "git+https://github.com/CleverTap/clevertap-cordova.git#task/SDK-652-release-cordova-2.3.3",
   "_where": "/Users/aditi/repo/Github/clevertap-cordova/Samples/Cordova/ExampleProject",
   "author": {
     "name": "CleverTap"

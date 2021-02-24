@@ -133,19 +133,7 @@ CleverTap.prototype.recordEventWithName = function (eventName) {
 // eventName = string
 // eventProps = object
 CleverTap.prototype.recordEventWithNameAndProps = function (eventName, eventProps) {
-    //automatic conversion of date object in suitable CleverTap format
-
-    /*-------------- * -----------------
-    |  input        =>        output    |
-    * --------------------------------- *
-    | new Date()    =>     $D_epoch     |
-    ---------------- * ----------------- */
-
-    for (let [key, value] of Object.entries(eventProps)) {
-        if (Object.prototype.toString.call(value) === '[object Date]') {
-            eventProps[key] = "$D_" + Math.floor(value.getTime()/1000);
-        }
-    }
+    convertDateToEpochInProperties(eventProps)
     cordova.exec(null, null, "CleverTapPlugin", "recordEventWithNameAndProps", [eventName, eventProps]);
 }
                
@@ -153,6 +141,11 @@ CleverTap.prototype.recordEventWithNameAndProps = function (eventName, eventProp
 // details = object with transaction details
 // items = array of items purchased
 CleverTap.prototype.recordChargedEventWithDetailsAndItems = function (details, items) {
+    convertDateToEpochInProperties(details)
+    // iterate over the array & convert the date items to CleverTap's server supported $D String
+    for (var i = 0; i < items.length; i++) {
+        convertDateToEpochInProperties(items[i])
+    }
     cordova.exec(null, null, "CleverTapPlugin", "recordChargedEventWithDetailsAndItems", [details, items]);
 }
                
@@ -258,12 +251,14 @@ CleverTap.prototype.setLocation = function (lat, lon) {
  profile = object
  */
 CleverTap.prototype.onUserLogin = function (profile) {
+    convertDateToEpochInProperties(profile)
     cordova.exec(null, null, "CleverTapPlugin", "onUserLogin", [profile]);
 }
                
 // Set profile attributes
 // profile = object
 CleverTap.prototype.profileSet = function (profile) {
+    convertDateToEpochInProperties(profile)
     cordova.exec(null, null, "CleverTapPlugin", "profileSet", [profile]);
 }
                
@@ -632,6 +627,21 @@ CleverTap.prototype.getDouble = function(key,successCallback){
 
 CleverTap.prototype.reset = function(){
     cordova.exec(null, null, "CleverTapPlugin", "reset", []);
+}
+
+function convertDateToEpochInProperties(items){
+//Conversion of date object in suitable CleverTap format
+
+    /*-------------- * -----------------
+    |  input        =>        output    |
+    * --------------------------------- *
+    | new Date()    =>     $D_epoch     |
+    ---------------- * ----------------- */
+    for (let [key, value] of Object.entries(items)) {
+            if (Object.prototype.toString.call(value) === '[object Date]') {
+                items[key] = "$D_" + Math.floor(value.getTime()/1000);
+            }
+    }
 }
 
 module.exports = new CleverTap();
