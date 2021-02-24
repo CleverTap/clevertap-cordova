@@ -13,7 +13,7 @@
 ## 👋 Introduction
 The CleverTap Cordova Plugin for Mobile Customer Engagement and Analytics solutions.
 
-For more information check out our [website](https://clevertap.com/ "CleverTap")  and  [documentation](https://developer.clevertap.com/docs/ "CleverTap Technical Documentation").
+For more information check out our [website](https://clevertap.com/ "CleverTap") and [documentation](https://developer.clevertap.com/docs/ "CleverTap Technical Documentation").
 
 To get started, sign up [here](https://clevertap.com/live-product-demo/).
 
@@ -54,13 +54,13 @@ cordova plugin add https://github.com/CleverTap/clevertap-cordova.git --variable
 ionic cordova plugin add clevertap-cordova@latest --variable CLEVERTAP_ACCOUNT_ID="YOUR CLEVERTAP ACCOUNT ID" --variable CLEVERTAP_TOKEN="YOUR CELVERTAP ACCOUNT TOKEN"
 ```
 
-##### For Ionic3
+##### For Ionic 5
 ```sh
 npm install @ionic-native/clevertap --save 
 ```
-- [See the included Ionic3 Example project for usage](https://github.com/CleverTap/clevertap-cordova/blob/master/Ionic3Example/src/app/app.component.ts).
+- [See the included Ionic 5 Example project for usage](/Samples/IonicCordova/IonicCordovaAngularProject/src/app/app.component.ts).
 
-- Be sure to [add CleverTap as a provider in your app module](https://github.com/CleverTap/clevertap-cordova/blob/master/Ionic3Example/src/app/app.module.ts). 
+- Be sure to [add CleverTap as a provider in your app module](/Samples/IonicCordova/IonicCordovaAngularProject/src/app/app.module.ts). 
 ```javascript
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, clevertap: CleverTap) {
     platform.ready().then(() => {
