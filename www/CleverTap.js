@@ -132,7 +132,7 @@ CleverTap.prototype.recordEventWithName = function (eventName) {
 // eventName = string
 // eventProps = object
 CleverTap.prototype.recordEventWithNameAndProps = function (eventName, eventProps) {
-    eventProps = convertDateToEpochInProperties(eventProps)
+    convertDateToEpochInProperties(eventProps)
     cordova.exec(null, null, "CleverTapPlugin", "recordEventWithNameAndProps", [eventName, eventProps]);
 }
                
@@ -140,10 +140,10 @@ CleverTap.prototype.recordEventWithNameAndProps = function (eventName, eventProp
 // details = object with transaction details
 // items = array of items purchased
 CleverTap.prototype.recordChargedEventWithDetailsAndItems = function (details, items) {
-    details = convertDateToEpochInProperties(details)
+    convertDateToEpochInProperties(details)
     // iterate over the array & convert the date items to CleverTap's server supported $D String
     for (var i = 0; i < items.length; i++) {
-        items[i] = convertDateToEpochInProperties(items[i])
+        convertDateToEpochInProperties(items[i])
     }
     cordova.exec(null, null, "CleverTapPlugin", "recordChargedEventWithDetailsAndItems", [details, items]);
 }
@@ -250,14 +250,14 @@ CleverTap.prototype.setLocation = function (lat, lon) {
  profile = object
  */
 CleverTap.prototype.onUserLogin = function (profile) {
-    profile = convertDateToEpochInProperties(profile)
+    convertDateToEpochInProperties(profile)
     cordova.exec(null, null, "CleverTapPlugin", "onUserLogin", [profile]);
 }
                
 // Set profile attributes
 // profile = object
 CleverTap.prototype.profileSet = function (profile) {
-    profile = convertDateToEpochInProperties(profile)
+    convertDateToEpochInProperties(profile)
     cordova.exec(null, null, "CleverTapPlugin", "profileSet", [profile]);
 }
                
@@ -640,8 +640,7 @@ function convertDateToEpochInProperties(items){
             if (Object.prototype.toString.call(value) === '[object Date]') {
                 items[key] = "$D_" + Math.floor(value.getTime()/1000);
             }
-        }
-    return items
+    }
 }
 
 module.exports = new CleverTap();
