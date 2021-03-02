@@ -274,4 +274,6 @@ Then:
 
 - [See the included Example Cordova project for usage](/Samples/Cordova/ExampleProject/www/js/index.js).  
 
-- [See the included Ionic Example project for usage](/Samples/IonicCordova/IonicCordovaAngularProject/src/app/app.component.ts).  
+- [See the included Ionic Example project for usage](/Samples/IonicCordova/IonicCordovaAngularProject/src/app/app.component.ts).
+
+- [See the trobleshooting guide for common integration issues](/docs/Troubleshooting-Guide.md).
