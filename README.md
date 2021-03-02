@@ -276,4 +276,4 @@ Then:
 
 - [See the included Ionic Example project for usage](/Samples/IonicCordova/IonicCordovaAngularProject/src/app/app.component.ts).
 
-- [See the Android Trobleshooting Guide](/docs/Android-Guide.md).
+- [See the trobleshooting guide for common integration issues](/docs/Troubleshooting-Guide.md).
