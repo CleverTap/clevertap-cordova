@@ -280,4 +280,4 @@ Then:
 
  If you have questions or concerns, you can reach out to the CleverTap support team from the CleverTap Dashboard. 
  
-**TroubleShooting Guide:** Please refer [here](docs/Troubleshooting.md) if you are facing common integration issues.
+**TroubleShooting Guide:** Please refer [here](docs/Troubleshooting-Guide.md) if you are facing common integration issues.
