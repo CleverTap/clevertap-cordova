@@ -48,7 +48,7 @@ initialize: function() {
 onDeviceReady: function() {
    
     this.receivedEvent('deviceready');
-
+    
     // Ionic example usage
     //$rootScope.CleverTap = CleverTap;
     //CleverTap && CleverTap.registerPush();
