@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="images/clevertap-logo.png" width="300"/>
+ <img src="https://github.com/CleverTap/clevertap-ios-sdk/blob/master/docs/images/clevertap-logo.png" width = "50%"/>
 </p>
 
 # CleverTap Cordova Plugin
@@ -13,7 +13,7 @@
 ## 👋 Introduction
 The CleverTap Cordova Plugin for Mobile Customer Engagement and Analytics solutions.
 
-For more information check out our [website](https://clevertap.com/ "CleverTap")  and  [documentation](https://developer.clevertap.com/docs/ "CleverTap Technical Documentation").
+For more information check out our [website](https://clevertap.com/ "CleverTap") and [documentation](https://developer.clevertap.com/docs/ "CleverTap Technical Documentation").
 
 To get started, sign up [here](https://clevertap.com/live-product-demo/).
 
@@ -54,13 +54,13 @@ cordova plugin add https://github.com/CleverTap/clevertap-cordova.git --variable
 ionic cordova plugin add clevertap-cordova@latest --variable CLEVERTAP_ACCOUNT_ID="YOUR CLEVERTAP ACCOUNT ID" --variable CLEVERTAP_TOKEN="YOUR CELVERTAP ACCOUNT TOKEN"
 ```
 
-##### For Ionic3
+##### For Ionic 5
 ```sh
 npm install @ionic-native/clevertap --save 
 ```
-- [See the included Ionic3 Example project for usage](https://github.com/CleverTap/clevertap-cordova/blob/master/Ionic3Example/src/app/app.component.ts).
+- [See the included Ionic 5 Example project for usage](/Samples/IonicCordova/IonicCordovaAngularProject/src/app/app.component.ts).
 
-- Be sure to [add CleverTap as a provider in your app module](https://github.com/CleverTap/clevertap-cordova/blob/master/Ionic3Example/src/app/app.module.ts). 
+- Be sure to [add CleverTap as a provider in your app module](/Samples/IonicCordova/IonicCordovaAngularProject/src/app/app.module.ts). 
 ```javascript
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, clevertap: CleverTap) {
     platform.ready().then(() => {
@@ -77,36 +77,6 @@ npm install @ionic-native/clevertap --save
   }
 }
 
-```
-
-##### Using PhoneGap Build
-
-**Starting with v2.0.0, the plugin drops official support for PhoneGap Build.**
-This is because PhoneGap Build does not support install hooks and a hook is required to configure FCM.
-It might be possible by forking this plugin and replacing the placeholder google-services.json in src/android with yours, and then hard coding your google app id and api key in plugin.xml, but you're on your own there.
-
-When using the plugin with PhoneGap Build:
-
-Add the following to your `www/config.xml` file:
-
-```xml
-<preference name="android-build-tool" value="gradle" />
-
-<gap:plugin name="clevertap-cordova" source="npm">
-    <param name="CLEVERTAP_ACCOUNT_ID" value="YOUR CLEVERTAP ACCOUNT ID" />
-    <param name="CLEVERTAP_TOKEN" value="YOUR CLEVERTAP ACCOUNT TOKEN" />
-    <param name="GCM_PROJECT_NUMBER" value="YOUR GCM PROJECT NUMBER" /> // for v1.2.5 and lower of the plugin
-</gap:plugin>
-```            
-
-*For PhoneGap Build Android projects*:  **Extremely Important**:  add `CleverTap.notifyDeviceReady();` to your onDeviceReady callback in `www/js/index.js`:
-
-```javascript
-onDeviceReady: function() {
-    app.receivedEvent('deviceready');
-    CleverTap.notifyDeviceReady();
-    ...
-},
 ```
 
 #### Android
@@ -304,4 +274,10 @@ Then:
 
 - [See the included Example Cordova project for usage](/Samples/Cordova/ExampleProject/www/js/index.js).  
 
-- [See the included Ionic Example project for usage](/Samples/IonicCordova/IonicCordovaAngularProject/src/app/app.component.ts).  
+- [See the included Ionic Example project for usage](/Samples/IonicCordova/IonicCordovaAngularProject/src/app/app.component.ts).
+
+## ⁉️ Questions? #
+
+ If you have questions or concerns, you can reach out to the CleverTap support team from the CleverTap Dashboard. 
+ 
+**TroubleShooting Guide:** Please refer [here](docs/Troubleshooting-Guide.md) if you are facing common integration issues.

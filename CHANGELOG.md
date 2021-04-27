@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+Version 2.3.4 *(27th April 2021)*
+-------------------------------------------
+- Update and Freeze CleverTap Cordova Plugin Podspec to a specific version of a CleverTap iOS SDK
+
 Version 2.3.3 *(24 February, 2021)*
 -------------------------------------------
 * Added Push Notification with Custom Extras callback support in the killed state 

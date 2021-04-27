@@ -13,7 +13,7 @@
   "author": "CleverTap",
   "license": "Apache-2.0",
   "devDependencies": {
-    "clevertap-cordova": "git+https://github.com/CleverTap/clevertap-cordova.git#task/SDK-652-release-cordova-2.3.3",
+    "clevertap-cordova": "git+https://github.com/CleverTap/clevertap-cordova.git#develop",
     "cordova-android": "^9.0.0",
     "cordova-android-support-gradle-release": "^3.0.1",
     "cordova-ios": "^6.2.0",
