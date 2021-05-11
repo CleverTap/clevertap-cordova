@@ -9,7 +9,9 @@ import { CleverTap } from '@ionic-native/clevertap/ngx';
 ```javascript 
 export class HomePage {
   constructor(public clevertap: CleverTap, <other parameters>)
-{//constructor code}
+	{
+		//constructor code
+	}
 //function calls
 }
 ```
