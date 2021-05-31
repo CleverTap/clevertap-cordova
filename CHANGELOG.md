@@ -6,7 +6,7 @@ Version 2.3.5 *(8th June 2021)*
 - Supports CleverTap Android SDK v4.1.1
 - Supports CleverTap iOS SDK v3.9.4
 - Removes Product A/B Testing (Dynamic Variables) code
-- Removes `profileSetGraphUser` method
+- Removes `profileSetGraphUser` and `profileSetGooglePlusUser` method
 
 Version 2.3.4 *(27th April 2021)*
 -------------------------------------------
