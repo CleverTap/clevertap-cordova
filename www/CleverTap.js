@@ -260,18 +260,6 @@ CleverTap.prototype.profileSet = function (profile) {
     convertDateToEpochInProperties(profile)
     cordova.exec(null, null, "CleverTapPlugin", "profileSet", [profile]);
 }
-               
-// Set profile attributes from facebook user
-// profile = facebook graph user object
-CleverTap.prototype.profileSetGraphUser = function (profile) {
-    cordova.exec(null, null, "CleverTapPlugin", "profileSetGraphUser", [profile]);
-}
-               
-// Set profile attributes from google plus user
-// profile = google plus user object
-CleverTap.prototype.profileGooglePlusUser = function (profile) {
-    cordova.exec(null, null, "CleverTapPlugin", "profileSetGooglePlusUser", [profile]);
-}
 
 // Get User Profile Property
 // propertyName = string
