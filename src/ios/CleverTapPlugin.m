@@ -679,26 +679,6 @@ static NSDateFormatter *dateFormatter;
     }];
 }
 
-- (void)profileSetGraphUser:(CDVInvokedUrlCommand *)command {
-    
-    [self.commandDelegate runInBackground:^{
-        NSDictionary *profile = [command argumentAtIndex:0];
-        if (profile != nil && [profile isKindOfClass:[NSDictionary class]]) {
-            [clevertap profilePushGraphUser:profile];
-        }
-    }];
-}
-
-- (void)profileSetGooglePlusUser:(CDVInvokedUrlCommand *)command {
-    
-    [self.commandDelegate runInBackground:^{
-        NSDictionary *profile = [command argumentAtIndex:0];
-        if (profile != nil && [profile isKindOfClass:[NSDictionary class]]) {
-            [clevertap profilePushGooglePlusUser:profile];
-        }
-    }];
-}
-
 - (void)profileGetProperty:(CDVInvokedUrlCommand *)command {
     
     [self.commandDelegate runInBackground:^{
