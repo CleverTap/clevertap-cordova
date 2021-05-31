@@ -1,5 +1,5 @@
 
-## Example Ionic/Cordova Usage
+# Example Ionic/Cordova Usage
 
 #### Import the class
 ```javascript 
