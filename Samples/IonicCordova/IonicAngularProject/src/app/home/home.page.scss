@@ -1,0 +1,54 @@
+.InboxModalClass {
+  ion-label{
+    font-family: serif;
+    color: #0068c6;
+    font-size: 25px;
+  }
+  --background: #93b3ff;
+}
+body {
+  background-color: #0a4966;
+}
+ion-item {
+  --background: #93b3ff;
+}
+ion-button{
+  solid-color: #8c8c8c;
+  color: #0d0d0d;
+}
+ion-toolbar{
+  --background: #0e2c75;
+  color: #f1e6e6;
+}
+
+ion-label {
+  font-family: serif;
+  color: #0068c6;
+  font-size: 25px;
+}
+
+#container {
+  text-align: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+}
+
+#container strong {
+  font-size: 20px;
+  line-height: 26px;
+}
+
+#container p {
+  font-size: 16px;
+  line-height: 22px;
+
+  color: #8c8c8c;
+
+  margin: 0;
+}
+
+#container a {
+  text-decoration: none;
+}
