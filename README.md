@@ -20,7 +20,7 @@ To get started, sign up [here](https://clevertap.com/live-product-demo/).
 ## ✅ Supported Versions
 
 - [CleverTap Android SDK version 4.0.2](https://github.com/CleverTap/clevertap-android-sdk/releases/tag/core-v4.0.2)
-- [CleverTap iOS SDK version 3.9.2](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/3.9.2)
+- [CleverTap iOS SDK version 3.9.4](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/3.9.4)
 
 ## 🚀 Install
 
