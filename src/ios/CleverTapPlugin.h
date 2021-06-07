@@ -203,14 +203,6 @@ static NSString * const CTHandleOpenURLNotification = @"CTHandleOpenURLNotificat
  */
 - (void)profileSet:(CDVInvokedUrlCommand *)command;
 
-/** Set facebook graph user object properties on the CleverTap device user profile
- */
-- (void)profileSetGraphUser:(CDVInvokedUrlCommand *)command;
-
-/** Set google plus user object properties on the CleverTap device user profile
- */
-- (void)profileSetGooglePlusUser:(CDVInvokedUrlCommand *)command;
-
 /** Get property from the CleverTap device user profile
  requires prior enablePersonalization call
  */
