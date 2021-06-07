@@ -20,7 +20,7 @@ To get started, sign up [here](https://clevertap.com/live-product-demo/).
 ## ✅ Supported Versions
 
 - [CleverTap Android SDK version 4.1.1](https://github.com/CleverTap/clevertap-android-sdk/releases/tag/core-v4.1.1)
-- [CleverTap iOS SDK version 3.9.2](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/3.9.2)
+- [CleverTap iOS SDK version 3.9.4](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/3.9.4)
 
 ## 🚀 Install
 
@@ -157,7 +157,7 @@ To support AndroidX libraries, add the following to your `config.xml` file -
     <preference name="AndroidXEnabled" value="true" />
 ```
 
-Also ensure that your app supports `cordova-android@9.0.0` and above
+Also ensure that your app supports `cordova-android@9.0.0` or above
 
 ### 2️⃣ Set up and register for push notifications and deep links
 
