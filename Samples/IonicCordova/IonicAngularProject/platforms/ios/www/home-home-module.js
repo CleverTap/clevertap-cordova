@@ -460,7 +460,7 @@ let HomePage = class HomePage {
     }
     getAllInboxMessages() {
         console.log('getAllInboxMessages');
-        this.clevertap.getAllInboxMessages(false).then(r => {
+        this.clevertap.getAllInboxMessages().then(r => {
             this.clickAlert('getAllInboxMessages', '', JSON.stringify(r));
         });
     }
