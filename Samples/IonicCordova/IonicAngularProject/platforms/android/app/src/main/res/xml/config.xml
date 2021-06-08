@@ -27,9 +27,6 @@
     <feature name="CDVIonicKeyboard">
         <param name="android-package" onload="true" value="io.ionic.keyboard.CDVIonicKeyboard" />
     </feature>
-    <feature name="CleverTapPlugin">
-        <param name="android-package" value="com.clevertap.cordova.CleverTapPlugin" />
-    </feature>
     <name>CT Demo App</name>
     <description>An awesome Ionic/Cordova app.</description>
     <author email="hi@ionicframework.com" href="http://ionicframework.com/">Ionic Framework Team</author>
@@ -73,4 +70,7 @@
     <preference name="SplashShowOnlyFirstTime" value="false" />
     <preference name="SplashScreen" value="screen" />
     <preference name="SplashScreenDelay" value="3000" />
+    <feature name="CleverTapPlugin">
+        <param name="android-package" value="com.clevertap.cordova.CleverTapPlugin" />
+    </feature>
 </widget>

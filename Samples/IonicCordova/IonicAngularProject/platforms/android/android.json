@@ -111,11 +111,11 @@
               "count": 1
             },
             {
-              "xml": "<meta-data android:name=\"CLEVERTAP_ACCOUNT_ID\" android:value=\"6Z4-8R4-RZ6Z\" />",
+              "xml": "<meta-data android:name=\"CLEVERTAP_ACCOUNT_ID\" android:value=\"W9R-486-4W5Z\" />",
               "count": 1
             },
             {
-              "xml": "<meta-data android:name=\"CLEVERTAP_TOKEN\" android:value=\"42b-416\" />",
+              "xml": "<meta-data android:name=\"CLEVERTAP_TOKEN\" android:value=\"6b4-2c0\" />",
               "count": 1
             },
             {
@@ -154,14 +154,14 @@
     "cordova-plugin-battery-status": {
       "PACKAGE_NAME": "io.ionic.starter"
     },
-    "clevertap-cordova": {
-      "CLEVERTAP_ACCOUNT_ID": "6Z4-8R4-RZ6Z",
-      "CLEVERTAP_TOKEN": "42b-416",
-      "CLEVERTAP_REGION": " ",
-      "FIREBASE_MESSAGING_VERSION": "20.2.4",
+    "cordova-plugin-androidx-adapter": {
       "PACKAGE_NAME": "io.ionic.starter"
     },
-    "cordova-plugin-androidx-adapter": {
+    "clevertap-cordova": {
+      "CLEVERTAP_ACCOUNT_ID": "W9R-486-4W5Z",
+      "CLEVERTAP_TOKEN": "6b4-2c0",
+      "CLEVERTAP_REGION": " ",
+      "FIREBASE_MESSAGING_VERSION": "20.2.4",
       "PACKAGE_NAME": "io.ionic.starter"
     }
   },
@@ -232,7 +232,7 @@
     "cordova-plugin-ionic-webview": "4.2.1",
     "cordova-plugin-ionic-keyboard": "2.2.0",
     "cordova-plugin-battery-status": "2.0.3",
-    "clevertap-cordova": "2.3.3",
-    "cordova-plugin-androidx-adapter": "1.1.3"
+    "cordova-plugin-androidx-adapter": "1.1.3",
+    "clevertap-cordova": "2.3.5"
   }
 }

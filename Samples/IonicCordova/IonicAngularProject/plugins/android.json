@@ -29,14 +29,14 @@
     "cordova-plugin-battery-status": {
       "PACKAGE_NAME": "io.ionic.starter"
     },
-    "clevertap-cordova": {
-      "CLEVERTAP_ACCOUNT_ID": "6Z4-8R4-RZ6Z",
-      "CLEVERTAP_TOKEN": "42b-416",
-      "CLEVERTAP_REGION": " ",
-      "FIREBASE_MESSAGING_VERSION": "20.2.4",
+    "cordova-plugin-androidx-adapter": {
       "PACKAGE_NAME": "io.ionic.starter"
     },
-    "cordova-plugin-androidx-adapter": {
+    "clevertap-cordova": {
+      "CLEVERTAP_ACCOUNT_ID": "W9R-486-4W5Z",
+      "CLEVERTAP_TOKEN": "6b4-2c0",
+      "CLEVERTAP_REGION": " ",
+      "FIREBASE_MESSAGING_VERSION": "20.2.4",
       "PACKAGE_NAME": "io.ionic.starter"
     }
   },

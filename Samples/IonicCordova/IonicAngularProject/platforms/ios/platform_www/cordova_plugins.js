@@ -1,14 +1,6 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
   module.exports = [
     {
-      "id": "clevertap-cordova.CleverTap",
-      "file": "plugins/clevertap-cordova/www/CleverTap.js",
-      "pluginId": "clevertap-cordova",
-      "clobbers": [
-        "CleverTap"
-      ]
-    },
-    {
       "id": "cordova-plugin-battery-status.battery",
       "file": "plugins/cordova-plugin-battery-status/www/battery.js",
       "pluginId": "cordova-plugin-battery-status",
@@ -63,10 +55,17 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       "clobbers": [
         "window.StatusBar"
       ]
+    },
+    {
+      "id": "clevertap-cordova.CleverTap",
+      "file": "plugins/clevertap-cordova/www/CleverTap.js",
+      "pluginId": "clevertap-cordova",
+      "clobbers": [
+        "CleverTap"
+      ]
     }
   ];
   module.exports.metadata = {
-    "clevertap-cordova": "2.3.3",
     "cordova-plugin-androidx": "3.0.0",
     "cordova-plugin-androidx-adapter": "1.1.3",
     "cordova-plugin-battery-status": "2.0.3",
@@ -75,6 +74,7 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "cordova-plugin-ionic-webview": "4.2.1",
     "cordova-plugin-splashscreen": "5.0.2",
     "cordova-plugin-statusbar": "2.4.2",
-    "cordova-plugin-whitelist": "1.3.3"
+    "cordova-plugin-whitelist": "1.3.3",
+    "clevertap-cordova": "2.3.5"
   };
 });

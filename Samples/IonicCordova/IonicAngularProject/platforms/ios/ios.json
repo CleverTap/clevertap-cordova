@@ -9,13 +9,13 @@
         "parents": {
           "CleverTapAccountID": [
             {
-              "xml": "<string>6Z4-8R4-RZ6Z</string>",
+              "xml": "<string>W9R-486-4W5Z</string>",
               "count": 1
             }
           ],
           "CleverTapToken": [
             {
-              "xml": "<string>42b-416</string>",
+              "xml": "<string>6b4-2c0</string>",
               "count": 1
             }
           ],
@@ -50,10 +50,6 @@
       "config.xml": {
         "parents": {
           "/*": [
-            {
-              "xml": "<feature name=\"CleverTapPlugin\"><param name=\"ios-package\" value=\"CleverTapPlugin\" /></feature>",
-              "count": 1
-            },
             {
               "xml": "<feature name=\"Battery\"><param name=\"ios-package\" value=\"CDVBattery\" /></feature>",
               "count": 1
@@ -97,6 +93,10 @@
             {
               "xml": "<preference name=\"StatusBarStyle\" value=\"lightcontent\" />",
               "count": 1
+            },
+            {
+              "xml": "<feature name=\"CleverTapPlugin\"><param name=\"ios-package\" value=\"CleverTapPlugin\" /></feature>",
+              "count": 1
             }
           ]
         }
@@ -104,12 +104,6 @@
     }
   },
   "installed_plugins": {
-    "clevertap-cordova": {
-      "CLEVERTAP_ACCOUNT_ID": "6Z4-8R4-RZ6Z",
-      "CLEVERTAP_TOKEN": "42b-416",
-      "CLEVERTAP_REGION": " ",
-      "PACKAGE_NAME": "io.ionic.starter"
-    },
     "cordova-plugin-androidx": {
       "PACKAGE_NAME": "io.ionic.starter"
     },
@@ -136,18 +130,16 @@
     },
     "cordova-plugin-whitelist": {
       "PACKAGE_NAME": "io.ionic.starter"
+    },
+    "clevertap-cordova": {
+      "CLEVERTAP_ACCOUNT_ID": "W9R-486-4W5Z",
+      "CLEVERTAP_TOKEN": "6b4-2c0",
+      "CLEVERTAP_REGION": " ",
+      "PACKAGE_NAME": "io.ionic.starter"
     }
   },
   "dependent_plugins": {},
   "modules": [
-    {
-      "id": "clevertap-cordova.CleverTap",
-      "file": "plugins/clevertap-cordova/www/CleverTap.js",
-      "pluginId": "clevertap-cordova",
-      "clobbers": [
-        "CleverTap"
-      ]
-    },
     {
       "id": "cordova-plugin-battery-status.battery",
       "file": "plugins/cordova-plugin-battery-status/www/battery.js",
@@ -203,10 +195,17 @@
       "clobbers": [
         "window.StatusBar"
       ]
+    },
+    {
+      "id": "clevertap-cordova.CleverTap",
+      "file": "plugins/clevertap-cordova/www/CleverTap.js",
+      "pluginId": "clevertap-cordova",
+      "clobbers": [
+        "CleverTap"
+      ]
     }
   ],
   "plugin_metadata": {
-    "clevertap-cordova": "2.3.3",
     "cordova-plugin-androidx": "3.0.0",
     "cordova-plugin-androidx-adapter": "1.1.3",
     "cordova-plugin-battery-status": "2.0.3",
@@ -215,6 +214,7 @@
     "cordova-plugin-ionic-webview": "4.2.1",
     "cordova-plugin-splashscreen": "5.0.2",
     "cordova-plugin-statusbar": "2.4.2",
-    "cordova-plugin-whitelist": "1.3.3"
+    "cordova-plugin-whitelist": "1.3.3",
+    "clevertap-cordova": "2.3.5"
   }
 }

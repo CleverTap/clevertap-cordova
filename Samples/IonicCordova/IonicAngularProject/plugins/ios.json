@@ -7,12 +7,6 @@
     "files": {}
   },
   "installed_plugins": {
-    "clevertap-cordova": {
-      "CLEVERTAP_ACCOUNT_ID": "6Z4-8R4-RZ6Z",
-      "CLEVERTAP_TOKEN": "42b-416",
-      "CLEVERTAP_REGION": " ",
-      "PACKAGE_NAME": "io.ionic.starter"
-    },
     "cordova-plugin-androidx": {
       "PACKAGE_NAME": "io.ionic.starter"
     },
@@ -38,6 +32,12 @@
       "PACKAGE_NAME": "io.ionic.starter"
     },
     "cordova-plugin-whitelist": {
+      "PACKAGE_NAME": "io.ionic.starter"
+    },
+    "clevertap-cordova": {
+      "CLEVERTAP_ACCOUNT_ID": "W9R-486-4W5Z",
+      "CLEVERTAP_TOKEN": "6b4-2c0",
+      "CLEVERTAP_REGION": " ",
       "PACKAGE_NAME": "io.ionic.starter"
     }
   },

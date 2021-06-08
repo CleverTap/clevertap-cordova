@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="images/clevertap-logo.png" width="300"/>
+ <img src="https://github.com/CleverTap/clevertap-ios-sdk/blob/master/docs/images/clevertap-logo.png" width = "50%"/>
 </p>
 
 # CleverTap Cordova Plugin
@@ -274,4 +274,10 @@ Then:
 
 - [See the included Example Cordova project for usage](/Samples/Cordova/ExampleProject/www/js/index.js).  
 
-- [See the included Ionic Example project for usage](/Samples/IonicCordova/IonicCordovaAngularProject/src/app/app.component.ts).  
+- [See the included Ionic Example project for usage](/Samples/IonicCordova/IonicCordovaAngularProject/src/app/app.component.ts).
+
+## ⁉️ Questions? #
+
+ If you have questions or concerns, you can reach out to the CleverTap support team from the CleverTap Dashboard. 
+ 
+**TroubleShooting Guide:** Please refer [here](docs/Troubleshooting-Guide.md) if you are facing common integration issues.

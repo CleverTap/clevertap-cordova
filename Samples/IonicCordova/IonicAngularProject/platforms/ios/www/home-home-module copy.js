@@ -145,7 +145,7 @@ let HomePage = class HomePage {
         alert.buttons = [{
                 text: 'Okay',
                 handler: () => {
-//                    console.log('Alert OK response');
+                    console.log('Alert OK response');
                 }
             }];
         document.body.appendChild(alert);
@@ -460,7 +460,7 @@ let HomePage = class HomePage {
     }
     getAllInboxMessages() {
         console.log('getAllInboxMessages');
-        this.clevertap.getAllInboxMessages(false).then(r => {
+        this.clevertap.getAllInboxMessages().then(r => {
             this.clickAlert('getAllInboxMessages', '', JSON.stringify(r));
         });
     }

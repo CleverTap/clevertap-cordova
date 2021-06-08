@@ -1,28 +1,25 @@
 {
-  "_from": "clevertap-cordova@latest",
-  "_id": "clevertap-cordova@2.3.3",
+  "_from": "git+https://github.com/CleverTap/clevertap-cordova.git#develop",
+  "_id": "clevertap-cordova@2.3.5",
   "_inBundle": false,
-  "_integrity": "sha512-MPf3ndpkWtT4UVHuDGeok0MH8GDC2dPw+xoU3R4gmZIOmrlo2rrj4x59rewdQKuBIOPzW9ohJSyYgmsxJwyzqA==",
+  "_integrity": "",
   "_location": "/clevertap-cordova",
   "_phantomChildren": {},
   "_requested": {
-    "type": "tag",
-    "registry": true,
-    "raw": "clevertap-cordova@latest",
-    "name": "clevertap-cordova",
-    "escapedName": "clevertap-cordova",
-    "rawSpec": "latest",
-    "saveSpec": null,
-    "fetchSpec": "latest"
+    "type": "git",
+    "raw": "https://github.com/CleverTap/clevertap-cordova.git#develop",
+    "rawSpec": "https://github.com/CleverTap/clevertap-cordova.git#develop",
+    "saveSpec": "git+https://github.com/CleverTap/clevertap-cordova.git#develop",
+    "fetchSpec": "https://github.com/CleverTap/clevertap-cordova.git",
+    "gitCommittish": "develop"
   },
   "_requiredBy": [
     "#DEV:/",
     "#USER"
   ],
-  "_resolved": "https://registry.npmjs.org/clevertap-cordova/-/clevertap-cordova-2.3.3.tgz",
-  "_shasum": "7a0f7f30a8196b8533217f26d2146e85ebc01fb3",
-  "_spec": "clevertap-cordova@latest",
-  "_where": "D:\\Coding\\Cordova\\IonicTestApp",
+  "_resolved": "git+https://github.com/CleverTap/clevertap-cordova.git#ff825c2637770c85e4a3aaba3cc485979168eab2",
+  "_spec": "https://github.com/CleverTap/clevertap-cordova.git#develop",
+  "_where": "/Users/sonal/Documents/Clevertap/clevertap-cordova/Samples/IonicCordova/IonicAngularProject",
   "author": {
     "name": "CleverTap"
   },
@@ -62,5 +59,5 @@
     "type": "git",
     "url": "git+https://github.com/CleverTap/clevertap-cordova.git"
   },
-  "version": "2.3.3"
+  "version": "2.3.5"
 }
