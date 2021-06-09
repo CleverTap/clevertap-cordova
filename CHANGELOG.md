@@ -1,7 +1,7 @@
 Change Log
 ==========
 
-Version 2.3.5 *(8th June 2021)*
+Version 2.3.5 *(9th June 2021)*
 -------------------------------------------
 - Supports CleverTap Android SDK v4.1.1
 - Supports CleverTap iOS SDK v3.9.4
