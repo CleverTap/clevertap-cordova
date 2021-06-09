@@ -9,7 +9,6 @@
 //
 
 #import <Cordova/CDVPlugin.h>
-#import "CleverTap+ABTesting.h"
 
 static NSString * const CTDidReceiveNotification = @"CTDidReceiveNotification";
 static NSString * const CTRemoteNotificationDidRegister = @"CTRemoteNotificationDidRegister";
@@ -204,14 +203,6 @@ static NSString * const CTHandleOpenURLNotification = @"CTHandleOpenURLNotificat
  */
 - (void)profileSet:(CDVInvokedUrlCommand *)command;
 
-/** Set facebook graph user object properties on the CleverTap device user profile
- */
-- (void)profileSetGraphUser:(CDVInvokedUrlCommand *)command;
-
-/** Set google plus user object properties on the CleverTap device user profile
- */
-- (void)profileSetGooglePlusUser:(CDVInvokedUrlCommand *)command;
-
 /** Get property from the CleverTap device user profile
  requires prior enablePersonalization call
  */
@@ -377,134 +368,6 @@ static NSString * const CTHandleOpenURLNotification = @"CTHandleOpenURLNotificat
  This method is called to record Click on Display Unit
  */
 - (void)pushDisplayUnitClickedEventForID:(CDVInvokedUrlCommand *)command;
-
-# pragma mark - Dynamic Variables
-
-/**
- This method enables UI Editor
- */
-- (void)setUIEditorConnectionEnabled: (CDVInvokedUrlCommand *)command;
-
-/**
- This method registers Boolean Variable
- */
-- (void)registerBooleanVariable: (CDVInvokedUrlCommand *)command;
-
-/**
- This method registers Double Variable
- */
-- (void)registerDoubleVariable: (CDVInvokedUrlCommand *)command;
-
-/**
- This method registers Integer Variable
- */
-- (void)registerIntegerVariable: (CDVInvokedUrlCommand *)command;
-
-/**
- This method registers String Variable
- */
-- (void)registerStringVariable: (CDVInvokedUrlCommand *)command;
-
-/**
- This method registers List of Boolean Variable
- */
-- (void)registerListOfBooleanVariable: (CDVInvokedUrlCommand *)command;
-
-/**
- This method registers List of Doubel Variable
- */
-- (void)registerListOfDoubleVariable: (CDVInvokedUrlCommand *)command;
-
-/**
- This method registers List of Integer Variable
- */
-- (void)registerListOfIntegerVariable: (CDVInvokedUrlCommand *)command;
-
-/**
- This method registers List of String Variable
- */
-- (void)registerListOfStringVariable: (CDVInvokedUrlCommand *)command;
-
-/**
- This method registers Dictionary of Boolean Variable
- */
-- (void)registerMapOfBooleanVariable: (CDVInvokedUrlCommand *)command;
-
-/**
- This method registers Dictionary of Double Variable
- */
-- (void)registerMapOfDoubleVariable: (CDVInvokedUrlCommand *)command;
-
-/**
- This method registers Dictionary of Integer Variable
- */
-- (void)registerMapOfIntegerVariable: (CDVInvokedUrlCommand *)command;
-
-/**
- This method registers Dictionary of String Variable
- */
-- (void)registerMapOfStringVariable: (CDVInvokedUrlCommand *)command;
-
-/**
- This method fetches the Boolean Variable
- */
-- (void)getBooleanVariable: (CDVInvokedUrlCommand *)command;
-
-/**
- This method fetches the Double Variable
- */
-- (void)getDoubleVariable: (CDVInvokedUrlCommand *)command;
-
-/**
- This method fetches the Integer Variable
- */
-- (void)getIntegerVariable: (CDVInvokedUrlCommand *)command;
-
-/**
- This method fetches the String Variable
- */
-- (void)getStringVariable: (CDVInvokedUrlCommand *)command;
-
-/**
- This method fetches the list of Boolean Variable
- */
-- (void)getListOfBooleanVariable: (CDVInvokedUrlCommand *)command;
-
-/**
- This method fetches the list of Double Variable
- */
-- (void)getListOfDoubleVariable: (CDVInvokedUrlCommand *)command;
-
-/**
- This method fetches the list of Integer Variable
- */
-- (void)getListOfIntegerVariable: (CDVInvokedUrlCommand *)command;
-
-/**
- This method fetches the list of String  Variable
- */
-- (void)getListOfStringVariable: (CDVInvokedUrlCommand *)command;
-
-/**
- This method fetches the Dictionary of Boolean Variable
- */
-- (void)getMapOfBooleanVariable: (CDVInvokedUrlCommand *)command;
-
-/**
- This method fetches the Dictionary of Double Variable
- */
-- (void)getMapOfDoubleVariable: (CDVInvokedUrlCommand *)command;
-
-/**
- This method fetches the Dictionary of Integer Variable
- */
-- (void)getMapOfIntegerVariable: (CDVInvokedUrlCommand *)command;
-
-/**
- This method fetches the Dictionary of String Variable
- */
-- (void)getMapOfStringVariable: (CDVInvokedUrlCommand *)command;
-
 
 # pragma mark - Feature Flags & Product Config
 

@@ -19,8 +19,8 @@ To get started, sign up [here](https://clevertap.com/live-product-demo/).
 
 ## ✅ Supported Versions
 
-- [CleverTap Android SDK version 4.0.2](https://github.com/CleverTap/clevertap-android-sdk/releases/tag/core-v4.0.2)
-- [CleverTap iOS SDK version 3.9.2](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/3.9.2)
+- [CleverTap Android SDK version 4.1.1](https://github.com/CleverTap/clevertap-android-sdk/releases/tag/core-v4.1.1)
+- [CleverTap iOS SDK version 3.9.4](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/3.9.4)
 
 ## 🚀 Install
 
@@ -157,7 +157,7 @@ To support AndroidX libraries, add the following to your `config.xml` file -
     <preference name="AndroidXEnabled" value="true" />
 ```
 
-Also ensure that your app supports `cordova-android@9.0.0`
+Also ensure that your app supports `cordova-android@9.0.0` or above
 
 ### 2️⃣ Set up and register for push notifications and deep links
 
@@ -211,7 +211,6 @@ Start by adding the following listeners to your Javascript:
     document.addEventListener('onCleverTapProductConfigDidInitialize', this.onCleverTapProductConfigDidInitialize, false); // optional, to check if Product Config was initialized
     document.addEventListener('onCleverTapProductConfigDidFetch', this.onCleverTapProductConfigDidFetch, false); // optional, to check if Product Configs were updated
     document.addEventListener('onCleverTapProductConfigDidActivate', this.onCleverTapProductConfigDidActivate, false); // optional, to check if Product Configs were activated
-    document.addEventListener('onCleverTapExperimentsUpdated', this.onCleverTapExperimentsUpdated, false); // optional, to check if Dynamic Variable Experiments were updated
     document.addEventListener('onCleverTapDisplayUnitsLoaded', this.onCleverTapDisplayUnitsLoaded, false); // optional, to check if Native Display units were loaded
 
 
@@ -257,10 +256,6 @@ Start by adding the following listeners to your Javascript:
 
     onCleverTapProductConfigDidActivate: function() {
         console.log("onCleverTapProductConfigDidActivate");
-    },
-
-    onCleverTapExperimentsUpdated: function() {
-        console.log("onCleverTapExperimentsUpdated");
     },
 
     onCleverTapDisplayUnitsLoaded: function(e) {
