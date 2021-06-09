@@ -226,6 +226,15 @@ static NSDateFormatter *dateFormatter;
     }
 }
 
+/// Helper method to get json array from CleverTapInboxMessage array
+/// @param inboxMessages: NSArray
+- (NSArray*)cleverTapInboxMessagesToArray:(NSArray*) inboxMessages {
+    NSMutableArray *returnArray = [NSMutableArray new];
+    for(CleverTapInboxMessage *unit in inboxMessages){
+        [returnArray addObject:unit.json];
+    }
+    return returnArray;
+}
 
 #pragma mark - CleverTapInAppNotificationDelegate
 
@@ -960,7 +969,8 @@ static NSDateFormatter *dateFormatter;
 - (void)getAllInboxMessages:(CDVInvokedUrlCommand *)command {
     
     [self.commandDelegate runInBackground:^{
-        NSArray *inboxMessages = [clevertap getAllInboxMessages];
+        NSArray<CleverTapInboxMessage *> *messageList = [clevertap getAllInboxMessages];
+        NSArray *inboxMessages = [self cleverTapInboxMessagesToArray: messageList];
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:inboxMessages];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
@@ -972,7 +982,8 @@ static NSDateFormatter *dateFormatter;
 - (void)getUnreadInboxMessages:(CDVInvokedUrlCommand *)command {
     
     [self.commandDelegate runInBackground:^{
-        NSArray *unreadInboxMessages = [clevertap getUnreadInboxMessages];
+        NSArray<CleverTapInboxMessage *> *messageList = [clevertap getUnreadInboxMessages];
+        NSArray *unreadInboxMessages = [self cleverTapInboxMessagesToArray: messageList];
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:unreadInboxMessages];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
