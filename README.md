@@ -72,6 +72,8 @@ npm install @ionic-native/clevertap --save
 }
 ```
 
+See our [Technical Integration Guide for Android](docs/Integrate-Android.md) and [Technical Integration Guide for iOS](docs/Integrate-iOS.md) for integrating CleverTap into your Cordova/ Ionic app.
+
 ## 📑 Documentation & Example
 
 - [See our CleverTap Plugin Usage Documentation](docs/Usage.md)
