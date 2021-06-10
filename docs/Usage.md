@@ -412,6 +412,6 @@ this.clevertap.profileGetCleverTapAttributionIdentifier('Name').then(r => {
 });	
 ```
 
-### For more information,
- - [see included Starter Application](https://github.com/Prem-Sinha/CleverTap-Ionic-App) 
- - [see CleverTap JS interface](https://github.com/CleverTap/clevertap-cordova/blob/master/www/CleverTap.js)
+### For more information:
+ - [See included Starter Application](https://github.com/Prem-Sinha/CleverTap-Ionic-App) 
+ - [See CleverTap JS interface](https://github.com/CleverTap/clevertap-cordova/blob/master/www/CleverTap.js)
