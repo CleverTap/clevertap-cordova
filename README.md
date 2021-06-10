@@ -51,12 +51,11 @@ ionic cordova plugin add clevertap-cordova@latest --variable CLEVERTAP_ACCOUNT_I
 ```
 
 ##### For Ionic 5
+
 ```sh
 npm install @ionic-native/clevertap --save 
 ```
-- [See the included Ionic 5 Example project for usage](/Samples/IonicCordova/IonicCordovaAngularProject/src/app/app.component.ts).
-
-- Be sure to [add CleverTap as a provider in your app module](/Samples/IonicCordova/IonicCordovaAngularProject/src/app/app.module.ts). 
+- Be sure to [add CleverTap as a provider in your app module](/Samples/IonicCordova/IonicAngularProject/src/app/app.component.ts). 
 ```javascript
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, clevertap: CleverTap) {
     platform.ready().then(() => {
