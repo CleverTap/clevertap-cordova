@@ -84,7 +84,7 @@ The `FCMTokenListenerService` of the CleverTap Android SDK registers push tokens
 Add your custom url scheme to the AndroidManifest.xml.
 
 ```xml
-	 <intent-filter android:label="@string/app_name">
+     <intent-filter android:label="@string/app_name">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
@@ -94,4 +94,8 @@ Add your custom url scheme to the AndroidManifest.xml.
 
 See [example AndroidManifest.xml](ihttps://github.com/CleverTap/clevertap-cordova/blob/master/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml).
 
- 
+
+## Integrate Javascript with the Plugin
+
+All calls to the CleverTap plugin should be made from your Javascript.  
+You can checkout [Usage.md](https://github.com/CleverTap/clevertap-cordova/blob/update-example/docs/Usage.md) for implementation.

@@ -212,7 +212,7 @@ this.clevertap.getUnreadInboxMessage().then(r => {
 #### Get inbox message with Id
 
 ```javascript 
-this.clevertap.getInboxMessageForId().then(r => {
+this.clevertap.getInboxMessageForId('message_ID_1234').then(r => {
 console.log('getInboxMessageForId: ' + r);
 });
 				
@@ -336,28 +336,28 @@ this.clevertap.setMinimumFetchIntervalInSeconds(60 * 10);
 #### Get Boolean key
 
 ```javascript 
-this.clevertap.getBoolean().then(r => {
+this.clevertap.getBoolean('key_string').then(r => {
    console.log('getBoolean: ' + r);
 });
 ```
 #### Get Long
 
 ```javascript 
-this.clevertap.getLong().then(r => {
+this.clevertap.getLong('key_string').then(r => {
    console.log('getLong: ' + r);
 });
 ```
 #### Get Double
   
 ```javascript 
-this.clevertap.getDouble().then(r => {
+this.clevertap.getDouble('key_string').then(r => {
    console.log('getDouble: ' + r);
 });	
 ```
 #### Get String
 
 ```javascript 
-this.clevertap.getString().then(r => {
+this.clevertap.getString('key_string').then(r => {
    console.log('getString: ' + r);
 });
 ```

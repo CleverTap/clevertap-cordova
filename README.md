@@ -22,9 +22,11 @@ To get started, sign up [here](https://clevertap.com/live-product-demo/).
 - [CleverTap Android SDK version 4.0.2](https://github.com/CleverTap/clevertap-android-sdk/releases/tag/core-v4.0.2)
 - [CleverTap iOS SDK version 3.9.2](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/3.9.2)
 
-## 🚀 Install
+## 🚀 Installation and Quick Start
 
 To install CleverTap for Cordova, follow the steps mentioned below:
+
+When you create your CleverTap account, you will also get a -Test account.  Use the -Test account for development and the main account for production.
 
 #### Install the Plugin
 
@@ -49,10 +51,10 @@ ionic cordova plugin add clevertap-cordova@latest --variable CLEVERTAP_ACCOUNT_I
 ```
 
 ##### For Ionic 5
-
 ```sh
 npm install @ionic-native/clevertap --save 
 ```
+- [See the included Ionic 5 Example project for usage](/Samples/IonicCordova/IonicCordovaAngularProject/src/app/app.component.ts).
 
 - Be sure to [add CleverTap as a provider in your app module](/Samples/IonicCordova/IonicCordovaAngularProject/src/app/app.module.ts). 
 ```javascript
@@ -70,9 +72,13 @@ npm install @ionic-native/clevertap --save
     });
   }
 }
+
 ```
 
-See our [Technical Integration Guide for Android](docs/Integrate-Android.md) and [Technical Integration Guide for iOS](docs/Integrate-iOS.md) for integrating CleverTap into your Cordova/ Ionic app.
+## 🛠 Integration
+
+See our [Technical Documentation for Android](docs/Integrate-Android.md) and [Technical Documentation for iOS](docs/Integrate-iOS.md) for instructions on integrating CleverTap into your app.
+
 
 ## 📑 Documentation & Example
 
@@ -81,6 +87,7 @@ See our [Technical Integration Guide for Android](docs/Integrate-Android.md) and
 - [See the included Example Cordova project for usage](/Samples/Cordova/ExampleProject/www/js/index.js).  
 
 - [See the included Ionic Example project for usage](/Samples/IonicCordova/IonicAngularProject/src/app/app.component.ts).
+
 
 ## ⁉️ Questions? #
 

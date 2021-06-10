@@ -11,3 +11,9 @@ Call the following from your Javascript.
 ```javascript
 CleverTap.registerPush();
 ```
+
+## Integrate Javascript with the Plugin
+
+All calls to the CleverTap plugin should be made from your Javascript.  
+You can checkout [Usage.md](https://github.com/CleverTap/clevertap-cordova/blob/update-example/docs/Usage.md) for implementation.
+
