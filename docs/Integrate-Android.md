@@ -98,4 +98,4 @@ See [example AndroidManifest.xml](ihttps://github.com/CleverTap/clevertap-cordov
 ## Integrate Javascript with the Plugin
 
 All calls to the CleverTap plugin should be made from your Javascript.  
-You can checkout [Usage.md](https://github.com/CleverTap/clevertap-cordova/blob/update-example/docs/Usage.md) for implementation.
+You can refer to our [Usage.md](/docs/Usage.md) for implementation.
