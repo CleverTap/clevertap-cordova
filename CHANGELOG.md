@@ -1,6 +1,13 @@
 Change Log
 ==========
 
+Version 2.3.5 *(9th June 2021)*
+-------------------------------------------
+- Supports CleverTap Android SDK v4.1.1
+- Supports CleverTap iOS SDK v3.9.4
+- Removes Product A/B Testing (Dynamic Variables) code
+- Removes `profileSetGraphUser` and `profileSetGooglePlusUser` method
+
 Version 2.3.4 *(27th April 2021)*
 -------------------------------------------
 - Update and Freeze CleverTap Cordova Plugin Podspec to a specific version of a CleverTap iOS SDK
