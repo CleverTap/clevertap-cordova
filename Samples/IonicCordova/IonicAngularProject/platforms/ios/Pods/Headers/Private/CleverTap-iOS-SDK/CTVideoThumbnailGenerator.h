@@ -1,0 +1,1 @@
+../../../CleverTap-iOS-SDK/CleverTapSDK/Inbox/views/CTVideoThumbnailGenerator.h
