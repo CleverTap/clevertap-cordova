@@ -92,7 +92,43 @@ Add your custom url scheme to the AndroidManifest.xml.
      </intent-filter>
 ```
 
-See [example AndroidManifest.xml](ihttps://github.com/CleverTap/clevertap-cordova/blob/master/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml).
+See [example AndroidManifest.xml](https://github.com/CleverTap/clevertap-cordova/blob/master/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml).
+
+## Push Notifications Channels
+
+Notification Channels are now mandatory if your app supports Android Oreo and above
+
+#### Creating Notification Channel
+
+Use the following to create a Notification Channel
+
+```javascript 
+this.clevertap.createNotificationChannel('channelID_1234', 'Notification Channel', 'channelDescription', 1, true);      
+```
+
+#### Delete Notification Channel
+
+Use the following to delete a Notification Channel
+
+```javascript 
+this.clevertap.deleteNotificationChannel('channelID_1234');   
+```
+
+#### Creating a group notification channel
+
+Use the following to create a Notification Channel Group
+
+```javascript 
+this.clevertap.createNotificationChannelGroup('groupID_5678', 'Channel Group Name');    
+```
+
+#### Delete a group notification channel
+
+Use the following to delete a Notification Channel Group
+
+```javascript 
+this.clevertap.deleteNotificationChannelGroup('groupID_5678');      
+```
 
 
 ## Integrate Javascript with the Plugin
