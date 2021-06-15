@@ -1,11 +1,3 @@
-<!--<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Hello there!
-    </ion-title>
-  </ion-toolbar>
-</ion-header>-->
-
 <ion-content [fullscreen]="true">
   <ion-header>
     <ion-toolbar>
@@ -14,471 +6,197 @@
     </ion-toolbar>
   </ion-header>
 
-  <!-- functions removed, need to rework -->
   <ion-list>
-    <ion-item>True functions list</ion-item>
-    <ion-item>
-      <ion-button expand="block" (click)="clickAlert()">Button One</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="presentModal()">CT Inbox (WIP)</ion-button>
-    </ion-item>
-    <ion-item>
-      <!-- (click)="pushChargedEvent1(?)" -->
-      <ion-button expand="full" (click)="pushChargedEvent1()">Push Charged Event</ion-button>
-    </ion-item>
     <ion-list-header>
       <ion-label>Events</ion-label>
     </ion-list-header>
-    <ion-item>
-      <ion-button (click)="recordEventWithName()">
-        recordEventWithName</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="recordEventWithNameAndProps()">
-        recordEventWithNameAndProps</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="recordChargedEventWithDetailsAndItems()">
-        recordChargedEventWithDetailsAndItems</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="eventGetFirstTime()">
-        eventGetFirstTime</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="eventGetLastTime()">
-        eventGetLastTime</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="eventGetOccurrences()">
-        eventGetOccurrences</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="eventGetDetails()">
-        eventGetDetails</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="getEventHistory()">
-        getEventHistory</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="recordScreenView()">
-        recordScreenView</ion-button>
-    </ion-item>
+    <ion-item (click)="recordEventWithName()">
+        recordEventWithName</ion-item>
+    <ion-item (click)="recordEventWithNameAndProps()">
+        recordEventWithNameAndProps</ion-item>
+    <ion-item (click)="recordChargedEventWithDetailsAndItems()">
+        recordChargedEventWithDetailsAndItems</ion-item>
+    <ion-item (click)="eventGetFirstTime()">
+        eventGetFirstTime</ion-item>
+    <ion-item (click)="eventGetLastTime()">
+        eventGetLastTime</ion-item>
+    <ion-item (click)="eventGetOccurrences()">
+        eventGetOccurrences</ion-item>
+    <ion-item (click)="eventGetDetails()">
+        eventGetDetails</ion-item>
+    <ion-item (click)="getEventHistory()">
+        getEventHistory</ion-item>
+    <ion-item (click)="recordScreenView()">
+        recordScreenView</ion-item>
     <ion-list-header>
       <ion-label>Profile</ion-label>
     </ion-list-header>
-    <ion-item>
-      <ion-button (click)="getLocation()">
-        getLocation</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="setLocation()">
-        setLocation</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="onUserLogin()">
-        onUserLogin</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="profileSet()">
-        profileSet</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="profileSetGraphUser()">
-        profileSetGraphUser</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="profileGooglePlusUser()">
-        profileGooglePlusUser</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="profileGetProperty()">
-        profileGetProperty</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="profileGetCleverTapAttributionIdentifier()">
-        profileGetCleverTapAttributionIdentifier</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="profileGetCleverTapID()">
-        profileGetCleverTapID</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="profileRemoveValueForKey()">
-        profileRemoveValueForKey</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="profileSetMultiValues()">
-        profileSetMultiValues</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="profileAddMultiValue()">
-        profileAddMultiValue</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="profileAddMultiValues()">
-        profileAddMultiValues</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="profileRemoveMultiValue()">
-        profileRemoveMultiValue</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="profileRemoveMultiValues()">
-        profileRemoveMultiValues</ion-button>
-    </ion-item>
+    <ion-item (click)="getLocation()">
+        getLocation</ion-item>
+    <ion-item (click)="setLocation()">
+        setLocation</ion-item>
+    <ion-item (click)="onUserLogin()">
+        onUserLogin</ion-item>
+    <ion-item (click)="profileSet()">
+        profileSet</ion-item>
+    <ion-item (click)="profileSetGraphUser()">
+        profileSetGraphUser</ion-item>
+    <ion-item (click)="profileGooglePlusUser()">
+        profileGooglePlusUser</ion-item>
+    <ion-item (click)="profileGetProperty()">
+        profileGetProperty</ion-item>
+    <ion-item (click)="profileGetCleverTapAttributionIdentifier()">
+        profileGetCleverTapAttributionIdentifier</ion-item>
+    <ion-item (click)="profileGetCleverTapID()">
+        profileGetCleverTapID</ion-item>
+    <ion-item (click)="profileRemoveValueForKey()">
+        profileRemoveValueForKey</ion-item>
+    <ion-item (click)="profileSetMultiValues()">
+        profileSetMultiValues</ion-item>
+    <ion-item (click)="profileAddMultiValue()">
+        profileAddMultiValue</ion-item>
+    <ion-item (click)="profileAddMultiValues()">
+        profileAddMultiValues</ion-item>
+    <ion-item (click)="profileRemoveMultiValue()">
+        profileRemoveMultiValue</ion-item>
+    <ion-item (click)="profileRemoveMultiValues()">
+        profileRemoveMultiValues</ion-item>
     <ion-list-header>
       <ion-label>Personalization</ion-label>
     </ion-list-header>
-    <ion-item>
-      <ion-button (click)="enablePersonalization()">
-        enablePersonalization</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="disablePersonalization()">
-        disablePersonalization</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="setOptOut()">
-        setOptOut</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="setOffline()">
-        setOffline</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="enableDeviceNetworkInfoReporting()">
-        enableDeviceNetworkInfoReporting</ion-button>
-    </ion-item>
+    <ion-item (click)="enablePersonalization()">
+        enablePersonalization</ion-item>
+    <ion-item (click)="disablePersonalization()">
+        disablePersonalization</ion-item>
+    <ion-item (click)="setOptOut()">
+        setOptOut</ion-item>
+    <ion-item (click)="setOffline()">
+        setOffline</ion-item>
+    <ion-item (click)="enableDeviceNetworkInfoReporting()">
+        enableDeviceNetworkInfoReporting</ion-item>
     <ion-list-header>
       <ion-label>Push</ion-label>
     </ion-list-header>
-    <ion-item>
-      <ion-button (click)="registerPush()">
-        registerPush</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="setPushToken()">
-        setPushToken</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="setPushXiaomiToken()">
-        setPushXiaomiToken</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="setPushBaiduToken()">
-        setPushBaiduToken</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="setPushHuaweiToken()">
-        setPushHuaweiToken</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="createNotification()">
-        createNotification</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="createNotificationChannel()">
-        createNotificationChannel</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="createNotificationChannelWithSound()">
-        createNotificationChannelWithSound</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="createNotificationChannelWithGroupId()">
-        createNotificationChannelWithGroupId</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="createNotificationChannelWithGroupIdAndSound()">
-        createNotificationChannelWithGroupIdAndSound</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="createNotificationChannelGroup()">
-        createNotificationChannelGroup</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="deleteNotificationChannel()">
-        deleteNotificationChannel</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="deleteNotificationChannelGroup()">
-        deleteNotificationChannelGroup</ion-button>
-    </ion-item>
+    <ion-item (click)="registerPush()">
+        registerPush</ion-item>
+    <ion-item (click)="setPushToken()">
+        setPushToken</ion-item>
+    <ion-item (click)="setPushXiaomiToken()">
+        setPushXiaomiToken</ion-item>
+    <ion-item (click)="setPushBaiduToken()">
+        setPushBaiduToken</ion-item>
+    <ion-item (click)="setPushHuaweiToken()">
+        setPushHuaweiToken</ion-item>
+    <ion-item (click)="createNotification()">
+        createNotification</ion-item>
+    <ion-item (click)="createNotificationChannel()">
+        createNotificationChannel</ion-item>
+    <ion-item (click)="createNotificationChannelWithSound()">
+        createNotificationChannelWithSound</ion-item>
+    <ion-item (click)="createNotificationChannelWithGroupId()">
+        createNotificationChannelWithGroupId</ion-item>
+    <ion-item (click)="createNotificationChannelWithGroupIdAndSound()">
+        createNotificationChannelWithGroupIdAndSound</ion-item>
+    <ion-item (click)="createNotificationChannelGroup()">
+        createNotificationChannelGroup</ion-item>
+    <ion-item (click)="deleteNotificationChannel()">
+        deleteNotificationChannel</ion-item>
+    <ion-item (click)="deleteNotificationChannelGroup()">
+        deleteNotificationChannelGroup</ion-item>
     <ion-list-header>
       <ion-label>Session</ion-label>
     </ion-list-header>
-    <ion-item>
-      <ion-button (click)="sessionGetTimeElapsed()">
-        sessionGetTimeElapsed</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="sessionGetTotalVisits()">
-        sessionGetTotalVisits</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="sessionGetScreenCount()">
-        sessionGetScreenCount</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="sessionGetPreviousVisitTime()">
-        sessionGetPreviousVisitTime</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="sessionGetUTMDetails()">
-        sessionGetUTMDetails</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="pushInstallReferrer()">
-        pushInstallReferrer</ion-button>
-    </ion-item>
+    <ion-item (click)="sessionGetTimeElapsed()">
+        sessionGetTimeElapsed</ion-item>
+    <ion-item (click)="sessionGetTotalVisits()">
+        sessionGetTotalVisits</ion-item>
+    <ion-item (click)="sessionGetScreenCount()">
+        sessionGetScreenCount</ion-item>
+    <ion-item (click)="sessionGetPreviousVisitTime()">
+        sessionGetPreviousVisitTime</ion-item>
+    <ion-item (click)="sessionGetUTMDetails()">
+        sessionGetUTMDetails</ion-item>
+    <ion-item (click)="pushInstallReferrer()">
+        pushInstallReferrer</ion-item>
     <ion-list-header>
       <ion-label>In-App Inbox</ion-label>
       <ion-button (click)="infoInbox()">Info</ion-button>
     </ion-list-header>
-    <ion-item>
-      <ion-button (click)="initializeInbox()">
-        initializeInbox</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="getInboxMessageUnreadCount()">
-        getInboxMessageUnreadCount</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="getInboxMessageCount()">
-        getInboxMessageCount</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="showInbox()">
-        showInbox</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="getAllInboxMessages()">
-        getAllInboxMessages</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="getUnreadInboxMessages()">
-        getUnreadInboxMessages</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="getInboxMessageForId()">
-        getInboxMessageForId</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="deleteInboxMessageForId()">
-        deleteInboxMessageForId</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="markReadInboxMessageForId()">
-        markReadInboxMessageForId</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="pushInboxNotificationViewedEventForId()">
-        pushInboxNotificationViewedEventForId</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="pushInboxNotificationClickedEventForId()">
-        pushInboxNotificationClickedEventForId</ion-button>
-    </ion-item>
+    <ion-item (click)="initializeInbox()">
+        initializeInbox</ion-item>
+    <ion-item (click)="getInboxMessageUnreadCount()">
+        getInboxMessageUnreadCount</ion-item>
+    <ion-item (click)="getInboxMessageCount()">
+        getInboxMessageCount</ion-item>
+    <ion-item (click)="showInbox()">
+        showInbox</ion-item>
+    <ion-item (click)="getAllInboxMessages()">
+        getAllInboxMessages</ion-item>
+    <ion-item (click)="getUnreadInboxMessages()">
+        getUnreadInboxMessages</ion-item>
+    <ion-item (click)="getInboxMessageForId()">
+        getInboxMessageForId</ion-item>
+    <ion-item (click)="deleteInboxMessageForId()">
+        deleteInboxMessageForId</ion-item>
+    <ion-item (click)="markReadInboxMessageForId()">
+        markReadInboxMessageForId</ion-item>
+    <ion-item (click)="pushInboxNotificationViewedEventForId()">
+        pushInboxNotificationViewedEventForId</ion-item>
+    <ion-item (click)="pushInboxNotificationClickedEventForId()">
+        pushInboxNotificationClickedEventForId</ion-item>
     <ion-list-header>
-      <ion-label>Miscellaneous Variable Functions</ion-label>
+      <ion-label>Native Display</ion-label>
     </ion-list-header>
-    <ion-item>
-      <ion-button (click)="setUIEditorConnectionEnabled()">
-        setUIEditorConnectionEnabled</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="registerBooleanVariable()">
-        registerBooleanVariable</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="registerDoubleVariable()">
-        registerDoubleVariable</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="registerIntegerVariable()">
-        registerIntegerVariable</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="registerStringVariable()">
-        registerStringVariable</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="registerListOfBooleanVariable()">
-        registerListOfBooleanVariable</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="registerListOfDoubleVariable()">
-        registerListOfDoubleVariable</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="registerListOfIntegerVariable()">
-        registerListOfIntegerVariable</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="registerListOfStringVariable()">
-        registerListOfStringVariable</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="registerMapOfBooleanVariable()">
-        registerMapOfBooleanVariable</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="registerMapOfDoubleVariable()">
-        registerMapOfDoubleVariable</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="registerMapOfIntegerVariable()">
-        registerMapOfIntegerVariable</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="registerMapOfStringVariable()">
-        registerMapOfStringVariable</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="getBooleanVariable()">
-        getBooleanVariable</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="getDoubleVariable()">
-        getDoubleVariable</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="getIntegerVariable()">
-        getIntegerVariable</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="getStringVariable()">
-        getStringVariable</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="getListOfBooleanVariable()">
-        getListOfBooleanVariable</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="getListOfDoubleVariable()">
-        getListOfDoubleVariable</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="getListOfIntegerVariable()">
-        getListOfIntegerVariable</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="getListOfStringVariable()">
-        getListOfStringVariable</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="getMapOfBooleanVariable()">
-        getMapOfBooleanVariable</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="getMapOfDoubleVariable()">
-        getMapOfDoubleVariable</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="getMapOfIntegerVariable()">
-        getMapOfIntegerVariable</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="getMapOfStringVariable()">
-        getMapOfStringVariable</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="getAllDisplayUnits()">
-        getAllDisplayUnits</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="getDisplayUnitForId()">
-        getDisplayUnitForId</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="pushDisplayUnitViewedEventForID()">
-        pushDisplayUnitViewedEventForID</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="pushDisplayUnitClickedEventForID()">
-        pushDisplayUnitClickedEventForID</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="getFeatureFlag()">
-        getFeatureFlag</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="setDefaultsMap()">
-        setDefaultsMap</ion-button>
-    </ion-item>
+    <ion-item (click)="getAllDisplayUnits()">
+        getAllDisplayUnits</ion-item>
+    <ion-item (click)="getDisplayUnitForId()">
+        getDisplayUnitForId</ion-item>
+    <ion-item (click)="pushDisplayUnitViewedEventForID()">
+        pushDisplayUnitViewedEventForID</ion-item>
+    <ion-item (click)="pushDisplayUnitClickedEventForID()">
+        pushDisplayUnitClickedEventForID</ion-item>
+    <ion-list-header>
+      <ion-label>Feature Flag</ion-label>
+    </ion-list-header>
+    <ion-item (click)="getFeatureFlag()">
+        getFeatureFlag</ion-item>
+    <ion-item (click)="setDefaultsMap()">
+        setDefaultsMap</ion-item>
     <ion-list-header>
       <ion-label>ProductConfig</ion-label>
       <ion-button (click)="infoProductConfig()">Info</ion-button>
     </ion-list-header>
-    <ion-item>
-      <ion-button (click)="fetch()">fetch</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="fetchWithMinimumFetchIntervalInSeconds()">
-        fetchWithMinimumFetchIntervalInSeconds</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="activate()">
-        activate</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="fetchAndActivate()">
-        fetchAndActivate</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="setMinimumFetchIntervalInSeconds()">
-        setMinimumFetchIntervalInSeconds</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="getLastFetchTimeStampInMillis()">
-        getLastFetchTimeStampInMillis</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="getString()">
-        getString</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="getBoolean()">
-        getBoolean</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="getLong()">
-        getLong</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="getDouble()">
-        getDouble</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="reset()">
-        reset</ion-button>
-    </ion-item>
+    <ion-item (click)="fetch()">fetch</ion-item>
+    <ion-item (click)="fetchWithMinimumFetchIntervalInSeconds()">
+        fetchWithMinimumFetchIntervalInSeconds</ion-item>
+    <ion-item (click)="activate()">
+        activate</ion-item>
+    <ion-item (click)="fetchAndActivate()">
+        fetchAndActivate</ion-item>
+    <ion-item (click)="setMinimumFetchIntervalInSeconds()">
+        setMinimumFetchIntervalInSeconds</ion-item>
+    <ion-item (click)="getLastFetchTimeStampInMillis()">
+        getLastFetchTimeStampInMillis</ion-item>
+    <ion-item (click)="getString()">
+        getString</ion-item>
+    <ion-item (click)="getBoolean()">
+        getBoolean</ion-item>
+    <ion-item (click)="getLong()">
+        getLong</ion-item>
+    <ion-item (click)="getDouble()">
+        getDouble</ion-item>
+    <ion-item (click)="reset()">
+        reset</ion-item>
     <ion-list-header>
       <ion-label>Developer Options</ion-label>
     </ion-list-header>
-    <ion-item>
-      <ion-button (click)="notifyDeviceReady()">
-        notifyDeviceReady</ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-button (click)="setDebugLevel()">
-        setDebugLevel</ion-button>
-    </ion-item>
+    <ion-item (click)="notifyDeviceReady()">
+        notifyDeviceReady</ion-item>
+    <ion-item (click)="setDebugLevel()">
+        setDebugLevel</ion-item>
   </ion-list>
 </ion-content>
 
-<!--
-<div id="container">
-//id="container" sticks this div to the centre of the screen
-<br/><br/><strong>Ready to create an app?</strong>
-<p>Get started with CleverTap Cordova + Ionic<br/>
-  <a target="_blank" rel="noopener noreferrer" href="https://github.com/CleverTap/clevertap-cordova">
-    View the repository</a></p>
-</div>
--->
 <ion-footer>
   <ion-toolbar>
 

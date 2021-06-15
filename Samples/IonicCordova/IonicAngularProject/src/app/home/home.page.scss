@@ -1,29 +1,30 @@
 .InboxModalClass {
-  ion-label{
-    font-family: serif;
-    color: #0068c6;
-    font-size: 25px;
-  }
   --background: #93b3ff;
 }
 body {
   background-color: #0a4966;
 }
 ion-item {
-  --background: #93b3ff;
+  --background: #ffffff;
+  font-family: arial; 
+  color: #000000; 
+  font-size: 18px;
 }
-ion-button{
+ion-button{		 
   solid-color: #8c8c8c;
   color: #0d0d0d;
+  font-family: arial; 
+  font-size: 18px;
 }
 ion-toolbar{
-  --background: #0e2c75;
+  --background: #dc2626;
   color: #f1e6e6;
+  font-family: arial;
 }
 
 ion-label {
-  font-family: serif;
-  color: #0068c6;
+  font-family: arial;
+  color: #dc2626;
   font-size: 25px;
 }
 
