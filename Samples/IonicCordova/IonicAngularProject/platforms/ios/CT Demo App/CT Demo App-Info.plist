@@ -22,12 +22,23 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>0.0.1</string>
+	<key>CleverTapAccountID</key>
+	<string>W9R-486-4W5Z</string>
+	<key>CleverTapRegion</key>
+	<string></string>
+	<key>CleverTapToken</key>
+	<string>6b4-2c0</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 	<key>NSMainNibFile</key>
-	<string/>
+	<string></string>
 	<key>NSMainNibFile~ipad</key>
-	<string/>
+	<string></string>
 	<key>UILaunchStoryboardName</key>
 	<string>CDVLaunchScreen</string>
 	<key>UIRequiresFullScreen</key>
@@ -45,16 +56,5 @@
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>NSAppTransportSecurity</key>
-	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
-	</dict>
-	<key>CleverTapRegion</key>
-	<string></string>
-	<key>CleverTapAccountID</key>
-	<string>W9R-486-4W5Z</string>
-	<key>CleverTapToken</key>
-	<string>6b4-2c0</string>
 </dict>
 </plist>
