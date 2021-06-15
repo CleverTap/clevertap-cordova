@@ -446,25 +446,25 @@ export class HomePage {
     }
     getString() {
         console.log('getString');
-        this.clevertap.getString('key_string').then(r => {
+        this.clevertap.getString().then(r => {
             this.presentToast('getString: String value found' + r);
         });
     }
     getBoolean() {
         console.log('getBoolean');
-        this.clevertap.getBoolean('key_string').then(r => {
+        this.clevertap.getBoolean().then(r => {
             this.presentToast('getBoolean: Boolean value found' + r);
         });
     }
     getLong() {
         console.log('getLong');
-        this.clevertap.getLong('key_string').then(r => {
+        this.clevertap.getLong().then(r => {
             this.presentToast('getLong: Long value found' + r);
         });
     }
     getDouble() {
         console.log('getDouble');
-        this.clevertap.getDouble('key_string').then(r => {
+        this.clevertap.getDouble().then(r => {
             this.presentToast('getDouble: Double value found' + r);
         });
     }

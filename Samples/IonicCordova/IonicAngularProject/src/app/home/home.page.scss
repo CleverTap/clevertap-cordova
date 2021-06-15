@@ -4,6 +4,12 @@
 body {
   background-color: #0a4966;
 }
+ion-list-header {
+  --background: #ffffff;
+  font-family: arial; 
+  color: #000000; 
+  font-size: 24px;
+}
 ion-item {
   --background: #ffffff;
   font-family: arial; 
