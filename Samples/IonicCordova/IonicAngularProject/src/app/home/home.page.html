@@ -1,0 +1,211 @@
+<ion-content [fullscreen]="true">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title size="large">CleverTap Ionic App</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-list>
+    <ion-list-header>
+      <ion-label>Events</ion-label>
+    </ion-list-header>
+    <ion-item (click)="recordEventWithName()">
+        recordEventWithName</ion-item>
+    <ion-item (click)="recordEventWithNameAndProps()">
+        recordEventWithNameAndProps</ion-item>
+    <ion-item (click)="recordChargedEventWithDetailsAndItems()">
+        recordChargedEventWithDetailsAndItems</ion-item>
+    <ion-item (click)="eventGetFirstTime()">
+        eventGetFirstTime</ion-item>
+    <ion-item (click)="eventGetLastTime()">
+        eventGetLastTime</ion-item>
+    <ion-item (click)="eventGetOccurrences()">
+        eventGetOccurrences</ion-item>
+    <ion-item (click)="eventGetDetails()">
+        eventGetDetails</ion-item>
+    <ion-item (click)="getEventHistory()">
+        getEventHistory</ion-item>
+    <ion-item (click)="recordScreenView()">
+        recordScreenView</ion-item>
+    
+    <ion-list-header>
+      <ion-label>Profile</ion-label>
+    </ion-list-header>
+    <ion-item (click)="getLocation()">
+        getLocation</ion-item>
+    <ion-item (click)="setLocation()">
+        setLocation</ion-item>
+    <ion-item (click)="onUserLogin()">
+        onUserLogin</ion-item>
+    <ion-item (click)="profileSet()">
+        profileSet</ion-item>
+    <ion-item (click)="profileSetGraphUser()">
+        profileSetGraphUser</ion-item>
+    <ion-item (click)="profileGooglePlusUser()">
+        profileGooglePlusUser</ion-item>
+    <ion-item (click)="profileGetProperty()">
+        profileGetProperty</ion-item>
+    <ion-item (click)="profileGetCleverTapAttributionIdentifier()">
+        profileGetCleverTapAttributionIdentifier</ion-item>
+    <ion-item (click)="profileGetCleverTapID()">
+        profileGetCleverTapID</ion-item>
+    <ion-item (click)="profileRemoveValueForKey()">
+        profileRemoveValueForKey</ion-item>
+    <ion-item (click)="profileSetMultiValues()">
+        profileSetMultiValues</ion-item>
+    <ion-item (click)="profileAddMultiValue()">
+        profileAddMultiValue</ion-item>
+    <ion-item (click)="profileAddMultiValues()">
+        profileAddMultiValues</ion-item>
+    <ion-item (click)="profileRemoveMultiValue()">
+        profileRemoveMultiValue</ion-item>
+    <ion-item (click)="profileRemoveMultiValues()">
+        profileRemoveMultiValues</ion-item>
+    
+    <ion-list-header>
+      <ion-label>Personalization</ion-label>
+    </ion-list-header>
+    <ion-item (click)="enablePersonalization()">
+        enablePersonalization</ion-item>
+    <ion-item (click)="disablePersonalization()">
+        disablePersonalization</ion-item>
+    <ion-item (click)="setOptOut()">
+        setOptOut</ion-item>
+    <ion-item (click)="setOffline()">
+        setOffline</ion-item>
+    <ion-item (click)="enableDeviceNetworkInfoReporting()">
+        enableDeviceNetworkInfoReporting</ion-item>
+    
+    <ion-list-header>
+      <ion-label>Push</ion-label>
+    </ion-list-header>
+    <ion-item (click)="registerPush()">
+        registerPush</ion-item>
+    <ion-item (click)="setPushToken()">
+        setPushToken</ion-item>
+    <ion-item (click)="setPushXiaomiToken()">
+        setPushXiaomiToken</ion-item>
+    <ion-item (click)="setPushBaiduToken()">
+        setPushBaiduToken</ion-item>
+    <ion-item (click)="setPushHuaweiToken()">
+        setPushHuaweiToken</ion-item>
+    <ion-item (click)="createNotification()">
+        createNotification</ion-item>
+    <ion-item (click)="createNotificationChannel()">
+        createNotificationChannel</ion-item>
+    <ion-item (click)="createNotificationChannelWithSound()">
+        createNotificationChannelWithSound</ion-item>
+    <ion-item (click)="createNotificationChannelWithGroupId()">
+        createNotificationChannelWithGroupId</ion-item>
+    <ion-item (click)="createNotificationChannelWithGroupIdAndSound()">
+        createNotificationChannelWithGroupIdAndSound</ion-item>
+    <ion-item (click)="createNotificationChannelGroup()">
+        createNotificationChannelGroup</ion-item>
+    <ion-item (click)="deleteNotificationChannel()">
+        deleteNotificationChannel</ion-item>
+    <ion-item (click)="deleteNotificationChannelGroup()">
+        deleteNotificationChannelGroup</ion-item>
+    
+    <ion-list-header>
+      <ion-label>Session</ion-label>
+    </ion-list-header>
+    <ion-item (click)="sessionGetTimeElapsed()">
+        sessionGetTimeElapsed</ion-item>
+    <ion-item (click)="sessionGetTotalVisits()">
+        sessionGetTotalVisits</ion-item>
+    <ion-item (click)="sessionGetScreenCount()">
+        sessionGetScreenCount</ion-item>
+    <ion-item (click)="sessionGetPreviousVisitTime()">
+        sessionGetPreviousVisitTime</ion-item>
+    <ion-item (click)="sessionGetUTMDetails()">
+        sessionGetUTMDetails</ion-item>
+    <ion-item (click)="pushInstallReferrer()">
+        pushInstallReferrer</ion-item>
+    
+    <ion-list-header>
+      <ion-label>In-App Inbox</ion-label>
+      <ion-button (click)="infoInbox()">Info</ion-button>
+    </ion-list-header>
+    <ion-item (click)="initializeInbox()">
+        initializeInbox</ion-item>
+    <ion-item (click)="getInboxMessageUnreadCount()">
+        getInboxMessageUnreadCount</ion-item>
+    <ion-item (click)="getInboxMessageCount()">
+        getInboxMessageCount</ion-item>
+    <ion-item (click)="showInbox()">
+        showInbox</ion-item>
+    <ion-item (click)="getAllInboxMessages()">
+        getAllInboxMessages</ion-item>
+    <ion-item (click)="getUnreadInboxMessages()">
+        getUnreadInboxMessages</ion-item>
+    <ion-item (click)="getInboxMessageForId()">
+        getInboxMessageForId</ion-item>
+    <ion-item (click)="deleteInboxMessageForId()">
+        deleteInboxMessageForId</ion-item>
+    <ion-item (click)="markReadInboxMessageForId()">
+        markReadInboxMessageForId</ion-item>
+    <ion-item (click)="pushInboxNotificationViewedEventForId()">
+        pushInboxNotificationViewedEventForId</ion-item>
+    <ion-item (click)="pushInboxNotificationClickedEventForId()">
+        pushInboxNotificationClickedEventForId</ion-item>
+    
+    <ion-list-header>
+      <ion-label>Native Display</ion-label>
+    </ion-list-header>
+    <ion-item (click)="getAllDisplayUnits()">
+        getAllDisplayUnits</ion-item>
+    <ion-item (click)="getDisplayUnitForId()">
+        getDisplayUnitForId</ion-item>
+    <ion-item (click)="pushDisplayUnitViewedEventForID()">
+        pushDisplayUnitViewedEventForID</ion-item>
+    <ion-item (click)="pushDisplayUnitClickedEventForID()">
+        pushDisplayUnitClickedEventForID</ion-item>
+    
+    <ion-list-header>
+      <ion-label>Feature Flag</ion-label>
+    </ion-list-header>
+    <ion-item (click)="getFeatureFlag()">
+        getFeatureFlag</ion-item>
+    <ion-item (click)="setDefaultsMap()">
+        setDefaultsMap</ion-item>
+    <ion-list-header>
+      <ion-label>ProductConfig</ion-label>
+      <ion-button (click)="infoProductConfig()">Info</ion-button>
+    </ion-list-header>
+    <ion-item (click)="fetch()">
+        fetch</ion-item>
+    <ion-item (click)="fetchWithMinimumFetchIntervalInSeconds()">
+        fetchWithMinimumFetchIntervalInSeconds</ion-item>
+    <ion-item (click)="activate()">
+        activate</ion-item>
+    <ion-item (click)="fetchAndActivate()">
+        fetchAndActivate</ion-item>
+    <ion-item (click)="setMinimumFetchIntervalInSeconds()">
+        setMinimumFetchIntervalInSeconds</ion-item>
+    <ion-item (click)="getLastFetchTimeStampInMillis()">
+        getLastFetchTimeStampInMillis</ion-item>
+    <ion-item (click)="getString()">
+        getString</ion-item>
+    <ion-item (click)="getBoolean()">
+        getBoolean</ion-item>
+    <ion-item (click)="getLong()">
+        getLong</ion-item>
+    <ion-item (click)="getDouble()">
+        getDouble</ion-item>
+    <ion-item (click)="reset()">
+        reset</ion-item>
+    
+    <ion-list-header>
+      <ion-label>Developer Options</ion-label>
+    </ion-list-header>
+    <ion-item (click)="notifyDeviceReady()">
+        notifyDeviceReady</ion-item>
+    <ion-item (click)="setDebugLevel()">
+        setDebugLevel</ion-item>
+  </ion-list>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+  </ion-toolbar>
+</ion-footer>

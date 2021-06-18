@@ -1,0 +1,14 @@
+getAllInboxMessages
+getUnreadInboxMessages
+getInboxMessageForId
+deleteInboxMessageForId
+markReadInboxMessageForId
+pushInboxNotificationViewedEventForId
+pushInboxNotificationClickedEventForId
+
+initializeInbox
+
+onCleverTapInboxDidInitialize
+onCleverTapInboxMessagesDidUpdate
+onCleverTapInAppButtonClick
+onCleverTapInboxButtonClick
