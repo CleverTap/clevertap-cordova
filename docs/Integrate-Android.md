@@ -36,7 +36,7 @@
       <uses-permission android:name="android.permission.WAKE_LOCK" />
   ```
 
-  [Please see the example AndroidManifest.xml here](https://github.com/CleverTap/clevertap-cordova/blob/master/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml).
+  [Please see the example AndroidManifest.xml here](https://github.com/CleverTap/clevertap-cordova/blob/master/Samples/Cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml).
 
 + **Add Dependencies**
 
@@ -92,7 +92,7 @@ Add your custom url scheme to the AndroidManifest.xml.
      </intent-filter>
 ```
 
-See [example AndroidManifest.xml](https://github.com/CleverTap/clevertap-cordova/blob/master/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml).
+See [example AndroidManifest.xml](https://github.com/CleverTap/clevertap-cordova/blob/master/Samples/Cordova/ExampleProject/platforms/android/app/src/main/AndroidManifest.xml).
 
 ## Push Notifications Channels
 
