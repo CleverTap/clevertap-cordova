@@ -39,6 +39,10 @@ export class AppComponent {
         console.log('onPushNotification');
         console.log(JSON.stringify(e.notification));
       });
+      document.addEventListener('onCleverTapPushNotificationTappedWithCustomExtras', function (e: any) {
+         console.log('onCleverTapPushNotificationTappedWithCustomExtras');
+         console.log(JSON.stringify(e.notification));
+      });
 
       clevertap.setDebugLevel(3);
       clevertap.enablePersonalization();
