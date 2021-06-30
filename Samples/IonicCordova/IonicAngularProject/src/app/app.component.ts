@@ -17,6 +17,7 @@ export class AppComponent {
     platform.ready().then(() => {
       // once the platform is ready and plugins are available,
       // do all higher level native things
+      clevertap.notifyDeviceReady();
       statusBar.styleDefault();
       splashScreen.hide();
 
