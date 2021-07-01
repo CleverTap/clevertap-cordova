@@ -17,6 +17,7 @@ export class AppComponent {
     platform.ready().then(() => {
       // once the platform is ready and plugins are available,
       // do all higher level native things
+      clevertap.notifyDeviceReady();
       statusBar.styleDefault();
       splashScreen.hide();
 
@@ -30,12 +31,19 @@ export class AppComponent {
         console.log(JSON.stringify(e.extras));
         console.log(JSON.stringify(e.actionExtras));
       });
+
       document.addEventListener('onDeepLink', (e: any) => {
         console.log('onDeepLink');
         console.log(e.deeplink);
       });
+
       document.addEventListener('onPushNotification', (e: any) => {
         console.log('onPushNotification');
+        console.log(JSON.stringify(e.notification));
+      });
+
+      document.addEventListener('onCleverTapPushNotificationTappedWithCustomExtras', (e: any) => {
+        console.log('onCleverTapPushNotificationTappedWithCustomExtras');
         console.log(JSON.stringify(e.notification));
       });
 
