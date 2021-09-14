@@ -269,18 +269,31 @@ CleverTap.prototype.profileGetProperty = function (propertyName, successCallback
     cordova.exec(successCallback, null, "CleverTapPlugin", "profileGetProperty", [propertyName]);
 }
 
-// Get a unique CleverTap identifier suitable for use with install attribution providers.
-// successCallback = callback function for result
-// success returns the unique CleverTap attribution identifier.
+/**
+* @deprecated This method is deprecated since v2.3.5. Use getCleverTapID() instead.               
+* Get a unique CleverTap identifier suitable for use with install attribution providers
+* successCallback = callback function for result
+* success returns the unique CleverTap attribution identifier
+*/
 CleverTap.prototype.profileGetCleverTapAttributionIdentifier = function (successCallback) {
     cordova.exec(successCallback, null, "CleverTapPlugin", "profileGetCleverTapAttributionIdentifier", []);
 }
-               
+
+/**
+* @deprecated This method is deprecated since v2.3.5. Use getCleverTapID() instead.               
+* Get User Profile CleverTapID
+* successCallback = callback function for result
+* success calls back with CleverTapID or false
+*/
+CleverTap.prototype.profileGetCleverTapID = function (successCallback) {
+    cordova.exec(successCallback, null, "CleverTapPlugin", "profileGetCleverTapID", []);
+}
+
 // Get User Profile CleverTapID
 // successCallback = callback function for result
 // success calls back with CleverTapID or false
-CleverTap.prototype.profileGetCleverTapID = function (successCallback) {
-    cordova.exec(successCallback, null, "CleverTapPlugin", "profileGetCleverTapID", []);
+CleverTap.prototype.getCleverTapID = function (successCallback) {
+    cordova.exec(successCallback, null, "CleverTapPlugin", "getCleverTapID", []);
 }
 
 // Remove the property specified by key from the user profile
@@ -322,6 +335,19 @@ CleverTap.prototype.profileRemoveMultiValue = function (key, value) {
 // values = array of strings
 CleverTap.prototype.profileRemoveMultiValues = function (key, values) {
     cordova.exec(null, null, "CleverTapPlugin", "profileRemoveMultiValues", [key, values]);
+}
+// Method for incrementing a value for a single-value profile property (if it exists).
+// key = string
+// values = array of strings
+CleverTap.prototype.profileIncrementValueBy = function (key, value) {
+    cordova.exec(null, null, "CleverTapPlugin", "profileIncrementValueBy", [key, value]);
+}
+
+// Method for decrementing a value for a single-value profile property (if it exists).
+// key = string
+// values = array of strings
+CleverTap.prototype.profileDecrementValueBy = function (key, value) {
+    cordova.exec(null, null, "CleverTapPlugin", "profileDecrementValueBy", [key, value]);
 }
                
 /*******************
@@ -433,6 +459,31 @@ CleverTap.prototype.pushInboxNotificationViewedEventForId = function (messageId)
 
 CleverTap.prototype.pushInboxNotificationClickedEventForId = function (messageId) {
      cordova.exec(null, null, "CleverTapPlugin", "pushInboxNotificationClickedEventForId", [messageId]);
+}
+
+/*******************
+ * In-App Controls
+ ******************/
+/**
+ Suspends and saves inApp notifications until 'resumeInAppNotifications' is called for current session.
+ Automatically resumes InApp notifications display on CleverTap shared instance creation. Pending inApp notifications are displayed only for current session.
+ */
+CleverTap.prototype.suspendInAppNotifications = function () {
+    cordova.exec(null, null, "CleverTapPlugin", "suspendInAppNotifications", []);
+}
+
+/**
+ Discards inApp notifications until 'resumeInAppNotifications' is called for current session.
+ Automatically resumes InApp notifications display on CleverTap shared instance creation. Pending inApp notifications are not displayed. */
+CleverTap.prototype.discardInAppNotifications = function () {
+    cordova.exec(null, null, "CleverTapPlugin", "discardInAppNotifications", []);
+}
+
+/**
+ Resumes displaying inApps notifications and shows pending inApp notifications if any.
+ */
+CleverTap.prototype.resumeInAppNotifications = function () {
+    cordova.exec(null, null, "CleverTapPlugin", "resumeInAppNotifications", []);
 }
 
 /****************************
