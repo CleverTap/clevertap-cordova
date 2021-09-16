@@ -867,7 +867,7 @@ static NSDateFormatter *dateFormatter;
     [self.commandDelegate runInBackground:^{
         NSString *key = [command argumentAtIndex:0];
         NSString *value = [command argumentAtIndex:1];
-        if (key != nil && [key isKindOfClass:[NSString class]] && value != nil && [value isKindOfClass:[NSString class]]) {
+        if (key != nil && [key isKindOfClass:[NSString class]] && value != nil && [value isKindOfClass:[NSNumber class]]) {
             [clevertap profileIncrementValueBy: value forKey:key];
         }
     }];
@@ -878,7 +878,7 @@ static NSDateFormatter *dateFormatter;
     [self.commandDelegate runInBackground:^{
         NSString *key = [command argumentAtIndex:0];
         NSString *value = [command argumentAtIndex:1];
-        if (key != nil && [key isKindOfClass:[NSString class]] && value != nil && [value isKindOfClass:[NSString class]]) {
+        if (key != nil && [key isKindOfClass:[NSString class]] && value != nil && [value isKindOfClass:[NSNumber class]]) {
             [clevertap profileDecrementValueBy: value forKey:key];
         }
     }];
