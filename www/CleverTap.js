@@ -270,7 +270,7 @@ CleverTap.prototype.profileGetProperty = function (propertyName, successCallback
 }
 
 /**
-* @deprecated This method is deprecated since v2.3.5. Use getCleverTapID() instead.               
+* @deprecated This method is deprecated in v2.3.5. Use getCleverTapID() instead.
 * Get a unique CleverTap identifier suitable for use with install attribution providers
 * successCallback = callback function for result
 * success returns the unique CleverTap attribution identifier
@@ -280,7 +280,7 @@ CleverTap.prototype.profileGetCleverTapAttributionIdentifier = function (success
 }
 
 /**
-* @deprecated This method is deprecated since v2.3.5. Use getCleverTapID() instead.               
+* @deprecated This method is deprecated in v2.3.5. Use getCleverTapID() instead.
 * Get User Profile CleverTapID
 * successCallback = callback function for result
 * success calls back with CleverTapID or false
@@ -338,14 +338,14 @@ CleverTap.prototype.profileRemoveMultiValues = function (key, values) {
 }
 // Method for incrementing a value for a single-value profile property (if it exists).
 // key = string
-// values = number
+// value = number
 CleverTap.prototype.profileIncrementValueBy = function (key, value) {
     cordova.exec(null, null, "CleverTapPlugin", "profileIncrementValueBy", [key, value]);
 }
 
 // Method for decrementing a value for a single-value profile property (if it exists).
 // key = string
-// values = number
+// value = number
 CleverTap.prototype.profileDecrementValueBy = function (key, value) {
     cordova.exec(null, null, "CleverTapPlugin", "profileDecrementValueBy", [key, value]);
 }
