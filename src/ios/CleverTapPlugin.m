@@ -792,7 +792,22 @@ static NSDateFormatter *dateFormatter;
 }
 
 - (void)getCleverTapID:(CDVInvokedUrlCommand *)command {
-    [self profileGetCleverTapID: command];
+    
+    [self.commandDelegate runInBackground:^{
+        CDVPluginResult *pluginResult;
+        
+        NSString *cleverTapID = [clevertap profileGetCleverTapID];
+        
+        if(cleverTapID == nil) {
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:NO];
+        }
+        
+        else  {
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:cleverTapID];
+        }
+        
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
 }
 
 - (void)profileRemoveValueForKey:(CDVInvokedUrlCommand *)command {

@@ -338,14 +338,14 @@ CleverTap.prototype.profileRemoveMultiValues = function (key, values) {
 }
 // Method for incrementing a value for a single-value profile property (if it exists).
 // key = string
-// values = array of strings
+// values = number
 CleverTap.prototype.profileIncrementValueBy = function (key, value) {
     cordova.exec(null, null, "CleverTapPlugin", "profileIncrementValueBy", [key, value]);
 }
 
 // Method for decrementing a value for a single-value profile property (if it exists).
 // key = string
-// values = array of strings
+// values = number
 CleverTap.prototype.profileDecrementValueBy = function (key, value) {
     cordova.exec(null, null, "CleverTapPlugin", "profileDecrementValueBy", [key, value]);
 }

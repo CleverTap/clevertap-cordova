@@ -228,13 +228,11 @@ static NSString * const CTHandleOpenURLNotification = @"CTHandleOpenURLNotificat
 
 /** Get the CleverTap ID of the User Profile. The CleverTap ID is the unique identifier assigned to the User Profile by CleverTap.
  */
-//  @Deprecated("This method is deprecated since v2.3.5. Use getCleverTapID() instead")
-- (void)profileGetCleverTapID:(CDVInvokedUrlCommand *)command;
+- (void)profileGetCleverTapID:(CDVInvokedUrlCommand *)command __attribute__((deprecated("This method is deprecated in v2.3.5. Use getCleverTapID() instead")));
 
 /** Returns a unique CleverTap identifier suitable for use with install attribution providers.
  */
-// @Deprecated("This method is deprecated since v2.3.5. Use getCleverTapID() instead")
-- (void)profileGetCleverTapAttributionIdentifier:(CDVInvokedUrlCommand *)command;
+- (void)profileGetCleverTapAttributionIdentifier:(CDVInvokedUrlCommand *)command __attribute__((deprecated("This method is deprecated in v2.3.5. Use getCleverTapID() instead")));
 
 /** Returns a unique CleverTap identifier suitable for use with install attribution providers.
  */
