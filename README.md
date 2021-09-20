@@ -19,8 +19,8 @@ To get started, sign up [here](https://clevertap.com/live-product-demo/).
 
 ## ✅ Supported Versions
 
-- [CleverTap Android SDK version 4.1.1](https://github.com/CleverTap/clevertap-android-sdk/releases/tag/core-v4.1.1)
-- [CleverTap iOS SDK version 3.9.4](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/3.9.4)
+- [CleverTap Android SDK version 4.2.0](https://github.com/CleverTap/clevertap-android-sdk/releases/tag/core-v4.2.0)
+- [CleverTap iOS SDK version 3.10.0](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/3.10.0)
 
 ## 🚀 Installation and Quick Start
 
@@ -66,7 +66,7 @@ npm install @ionic-native/clevertap --save
 
       ...
       clevertap.setDebugLevel(2);
-      clevertap.profileGetCleverTapID((id) => {console.log(id)});
+      clevertap.getCleverTapID()((id) => {console.log(id)});
       ...
     });
   }

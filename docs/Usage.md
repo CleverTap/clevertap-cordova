@@ -121,6 +121,18 @@ this.clevertap.profileRemoveMultiValue('colors', 'green');
 this.clevertap.profileAddMultiValue('colors', 'green');
 ```
 
+#### Increment Value For Key
+
+```javascript 
+this.clevertap.profileIncrementValueBy('score', 15);
+```
+
+#### Decrement Value For Key
+
+```javascript 
+this.clevertap.profileDecrementValueBy('score', 10);
+```
+
 #### Create a User profile when user logs in (On User Login)
 
 ```javascript 
@@ -275,6 +287,26 @@ this.clevertap.deleteNotificationChannelGroup('groupID_5678');
 this.clevertap.setPushToken('<Token Value>');
 ```
  
+## InApp Notification Controls
+
+#### Suspend InApp Notifications
+
+```javascript 
+this.clevertap.suspendInAppNotifications();
+```
+
+#### Discard InApp Notifications
+
+```javascript 
+this.clevertap.discardInAppNotifications();
+```
+
+#### Resume InApp Notifications
+
+```javascript 
+this.clevertap.resumeInAppNotifications();
+```
+
 ## Native Display
 
 #### Get Display Unit for Id
@@ -402,13 +434,11 @@ this.clevertap.profileGetProperty('Name').then(r => {
 });	
 ```
 
-## Attributions
-
-#### Get CleverTap Attribution Identifier
+#### Get CleverTap Identifier
 
 ```javascript 
-this.clevertap.profileGetCleverTapAttributionIdentifier('Name').then(r => {
-   console.log('profileGetCleverTapAttributionIdentifier: ' + r);
+this.clevertap.getCleverTapID().then(r => {
+   console.log('getCleverTapID: ' + r);
 });	
 ```
 

@@ -157,17 +157,10 @@ export class HomePage {
         });
     }
 
-    profileGetCleverTapAttributionIdentifier() {
-        console.log('profileGetCleverTapAttributionIdentifier');
-        this.clevertap.profileGetCleverTapAttributionIdentifier().then(r => {
-            this.presentToast('profileGetCleverTapAttributionIdentifier' + r)
-        });
-    }
-
-    profileGetCleverTapID() {
-        console.log('profileGetCleverTapID');
-        this.clevertap.profileGetCleverTapID().then(r => {
-                this.presentToast('profileGetCleverTapID' + r);
+    getCleverTapID() {
+        console.log('getCleverTapID');
+        this.clevertap.getCleverTapID().then(r => {
+            this.presentToast('getCleverTapID' + r);
         });
     }
 
@@ -205,6 +198,18 @@ export class HomePage {
         console.log('profileRemoveMultiValues');
         this.clevertap.profileRemoveMultiValues('colors', ['purple', 'pink']);
         this.presentToast('profileRemoveMultiValues: removing value \'[purple, pink]\' for key \'colors\'')
+    }
+
+    profileIncrementValueBy() {
+        console.log('profileIncrementValueBy');
+        this.clevertap.profileIncrementValueBy('score', '15');
+        this.presentToast('profileIncrementValueBy: increment value \'score\' by \'15\'')
+    }
+
+    profileDecrementValueBy() {
+        console.log('profileDecrementValueBy');
+        this.clevertap.profileDecrementValueBy('score', '10');
+        this.presentToast('profileDecrementValueBy: decrement value \'score\' by \'10\'')
     }
 
     enablePersonalization() {
@@ -428,6 +433,21 @@ export class HomePage {
     pushInboxNotificationClickedEventForId() {
         console.log('pushInboxNotificationClickedEventForId');
         this.clevertap.pushInboxNotificationClickedEventForId('Insert message id');
+    }
+
+    suspendInAppNotifications() {
+        console.log('suspendInAppNotifications');
+        this.clevertap.suspendInAppNotifications();
+    }
+
+    discardInAppNotifications() {
+        console.log('discardInAppNotifications');
+        this.clevertap.discardInAppNotifications();
+    }
+
+    resumeInAppNotifications() {
+        console.log('resumeInAppNotifications');
+        this.clevertap.resumeInAppNotifications();
     }
 
     getAllDisplayUnits() {
