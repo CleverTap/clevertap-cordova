@@ -443,5 +443,5 @@ this.clevertap.getCleverTapID().then(r => {
 ```
 
 ### For more information:
- - [See included Starter Application](/Samples) 
- - [See CleverTap JS interface](https://github.com/CleverTap/clevertap-cordova/blob/master/www/CleverTap.js)
+ - [See included Example Projects](/Samples) 
+ - [See CleverTap JS interface](/www/CleverTap.js)
