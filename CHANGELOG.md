@@ -3,6 +3,10 @@ Change Log
 
 Version 2.3.5 *(9th June 2021)*
 -------------------------------------------
+- Fixes a bug where DOB was not getting respected in Android as profile property
+
+Version 2.3.5 *(9th June 2021)*
+-------------------------------------------
 - Supports CleverTap Android SDK v4.1.1
 - Supports CleverTap iOS SDK v3.9.4
 - Removes Product A/B Testing (Dynamic Variables) code
