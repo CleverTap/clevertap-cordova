@@ -1698,20 +1698,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
     private static HashMap<String, Object> formatProfile(JSONObject jsonProfile) {
         try {
             HashMap<String, Object> profile = toMap(jsonProfile);
-            String dob = (String) profile.get("DOB");
-            if (dob != null) {
-                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-                try {
-                    Date date = format.parse(dob);
-                    profile.put("DOB", date);
-                } catch (ParseException e) {
-                    profile.remove("DOB");
-                    Log.d(LOG_TAG, "invalid DOB format in profileSet");
-                }
-            }
-
             return profile;
-
         } catch (Throwable t) {
             return null;
         }

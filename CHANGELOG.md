@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+Version 2.3.6 *(23rd November 2021)*
+-------------------------------------------
+- Fixes a bug where DOB was not getting respected in Android as profile property
+
 Version 2.3.5 *(9th June 2021)*
 -------------------------------------------
 - Supports CleverTap Android SDK v4.1.1
