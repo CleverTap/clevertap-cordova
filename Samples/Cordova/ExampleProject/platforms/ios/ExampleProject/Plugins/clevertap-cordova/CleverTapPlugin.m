@@ -24,6 +24,7 @@
 #import "CleverTap+ProductConfig.h"
 #import "CleverTapPushNotificationDelegate.h"
 #import "CleverTapInAppNotificationDelegate.h"
+#import "CleverTap+InAppNotifications.h"
 
 #import <CoreLocation/CoreLocation.h>
 
@@ -56,7 +57,7 @@ static NSDateFormatter *dateFormatter;
 + (void)onDidFinishLaunchingNotification:(NSNotification *)notification {
     
     clevertap = [CleverTap sharedInstance];
-    
+
     NSDictionary *launchOptions = notification.userInfo;
     if (!launchOptions) return;
     
@@ -106,7 +107,7 @@ static NSDateFormatter *dateFormatter;
     [[clevertap productConfig] setDelegate:self];
     [clevertap setPushNotificationDelegate:self];
     [clevertap setInAppNotificationDelegate:self];
-
+    
 }
 
 - (NSDictionary*)_eventDetailToDict:(CleverTapEventDetail*)detail {
@@ -226,6 +227,15 @@ static NSDateFormatter *dateFormatter;
     }
 }
 
+/// Helper method to get json array from CleverTapInboxMessage array
+/// @param inboxMessages: NSArray
+- (NSArray*)cleverTapInboxMessagesToArray:(NSArray*) inboxMessages {
+    NSMutableArray *returnArray = [NSMutableArray new];
+    for(CleverTapInboxMessage *unit in inboxMessages){
+        [returnArray addObject:unit.json];
+    }
+    return returnArray;
+}
 
 #pragma mark - CleverTapInAppNotificationDelegate
 
@@ -437,6 +447,20 @@ static NSDateFormatter *dateFormatter;
 - (void)deleteNotificationChannelGroup:(CDVInvokedUrlCommand *)command {
     
     NSLog(@"deleteNotificationChannelGroup is no-op in iOS");
+}
+
+#pragma mark - InApp Notification Controls
+
+- (void)suspendInAppNotifications {
+    [clevertap suspendInAppNotifications];
+}
+
+- (void)discardInAppNotifications {
+    [clevertap discardInAppNotifications];
+}
+
+- (void)resumeInAppNotifications {
+    [clevertap resumeInAppNotifications];
 }
 
 
@@ -679,26 +703,6 @@ static NSDateFormatter *dateFormatter;
     }];
 }
 
-- (void)profileSetGraphUser:(CDVInvokedUrlCommand *)command {
-    
-    [self.commandDelegate runInBackground:^{
-        NSDictionary *profile = [command argumentAtIndex:0];
-        if (profile != nil && [profile isKindOfClass:[NSDictionary class]]) {
-            [clevertap profilePushGraphUser:profile];
-        }
-    }];
-}
-
-- (void)profileSetGooglePlusUser:(CDVInvokedUrlCommand *)command {
-    
-    [self.commandDelegate runInBackground:^{
-        NSDictionary *profile = [command argumentAtIndex:0];
-        if (profile != nil && [profile isKindOfClass:[NSDictionary class]]) {
-            [clevertap profilePushGooglePlusUser:profile];
-        }
-    }];
-}
-
 - (void)profileGetProperty:(CDVInvokedUrlCommand *)command {
     
     [self.commandDelegate runInBackground:^{
@@ -787,6 +791,25 @@ static NSDateFormatter *dateFormatter;
     }];
 }
 
+- (void)getCleverTapID:(CDVInvokedUrlCommand *)command {
+    
+    [self.commandDelegate runInBackground:^{
+        CDVPluginResult *pluginResult;
+        
+        NSString *cleverTapID = [clevertap profileGetCleverTapID];
+        
+        if(cleverTapID == nil) {
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:NO];
+        }
+        
+        else  {
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:cleverTapID];
+        }
+        
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
+}
+
 - (void)profileRemoveValueForKey:(CDVInvokedUrlCommand *)command {
     
     [self.commandDelegate runInBackground:^{
@@ -854,6 +877,27 @@ static NSDateFormatter *dateFormatter;
     }];
 }
 
+- (void)profileIncrementValueBy:(CDVInvokedUrlCommand *)command {
+    
+    [self.commandDelegate runInBackground:^{
+        NSString *key = [command argumentAtIndex:0];
+        NSNumber *value = [command argumentAtIndex:1];
+        if (key != nil && [key isKindOfClass:[NSString class]] && value != nil && [value isKindOfClass:[NSNumber class]]) {
+            [clevertap profileIncrementValueBy:value forKey:key];
+        }
+    }];
+}
+
+- (void)profileDecrementValueBy:(CDVInvokedUrlCommand *)command {
+    
+    [self.commandDelegate runInBackground:^{
+        NSString *key = [command argumentAtIndex:0];
+        NSNumber *value = [command argumentAtIndex:1];
+        if (key != nil && [key isKindOfClass:[NSString class]] && value != nil && [value isKindOfClass:[NSNumber class]]) {
+            [clevertap profileDecrementValueBy:value forKey:key];
+        }
+    }];
+}
 
 #pragma mark Session API
 
@@ -980,7 +1024,8 @@ static NSDateFormatter *dateFormatter;
 - (void)getAllInboxMessages:(CDVInvokedUrlCommand *)command {
     
     [self.commandDelegate runInBackground:^{
-        NSArray *inboxMessages = [clevertap getAllInboxMessages];
+        NSArray<CleverTapInboxMessage *> *messageList = [clevertap getAllInboxMessages];
+        NSArray *inboxMessages = [self cleverTapInboxMessagesToArray: messageList];
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:inboxMessages];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
@@ -992,7 +1037,8 @@ static NSDateFormatter *dateFormatter;
 - (void)getUnreadInboxMessages:(CDVInvokedUrlCommand *)command {
     
     [self.commandDelegate runInBackground:^{
-        NSArray *unreadInboxMessages = [clevertap getUnreadInboxMessages];
+        NSArray<CleverTapInboxMessage *> *messageList = [clevertap getUnreadInboxMessages];
+        NSArray *unreadInboxMessages = [self cleverTapInboxMessagesToArray: messageList];
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:unreadInboxMessages];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
@@ -1137,245 +1183,6 @@ static NSDateFormatter *dateFormatter;
         NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onCleverTapDisplayUnitsLoaded', %@);", jsonString];
         [self.commandDelegate evalJs:js];
     }
-}
-
-
-#pragma mark - Dynamic Variables
-
-- (void)setUIEditorConnectionEnabled: (CDVInvokedUrlCommand *)command {
-    
-    [self.commandDelegate runInBackground:^{
-        BOOL enableUIConnection = [command argumentAtIndex:0];
-        [CleverTap setUIEditorConnectionEnabled: enableUIConnection];
-    }];
-}
-
-- (void)registerBooleanVariable: (CDVInvokedUrlCommand *)command {
-    
-    [self.commandDelegate runInBackground:^{
-        NSString *boolVariable = [command argumentAtIndex:0];
-        [clevertap registerBoolVariableWithName: boolVariable];
-    }];
-}
-
-- (void)registerDoubleVariable: (CDVInvokedUrlCommand *)command {
-    
-    [self.commandDelegate runInBackground:^{
-        NSString *doubleVariable = [command argumentAtIndex:0];
-        [clevertap registerDoubleVariableWithName: doubleVariable];
-    }];
-}
-
-- (void)registerIntegerVariable: (CDVInvokedUrlCommand *)command {
-    
-    [self.commandDelegate runInBackground:^{
-        NSString *intVariable = [command argumentAtIndex:0];
-        [clevertap registerIntegerVariableWithName: intVariable];
-    }];
-}
-
-- (void)registerStringVariable: (CDVInvokedUrlCommand *)command {
-    
-    [self.commandDelegate runInBackground:^{
-        NSString *stringVariable = [command argumentAtIndex:0];
-        [clevertap registerStringVariableWithName: stringVariable];
-    }];
-}
-
-- (void)registerListOfBooleanVariable: (CDVInvokedUrlCommand *)command {
-    
-    [self.commandDelegate runInBackground:^{
-        NSString *boolVariable = [command argumentAtIndex:0];
-        [clevertap registerArrayOfBoolVariableWithName: boolVariable];
-    }];
-}
-
-- (void)registerListOfDoubleVariable: (CDVInvokedUrlCommand *)command {
-    
-    [self.commandDelegate runInBackground:^{
-        NSString *doubleVariable = [command argumentAtIndex:0];
-        [clevertap registerArrayOfDoubleVariableWithName:doubleVariable];
-    }];
-}
-
-- (void)registerListOfIntegerVariable: (CDVInvokedUrlCommand *)command {
-    
-    [self.commandDelegate runInBackground:^{
-        NSString *integerVariable = [command argumentAtIndex:0];
-        [clevertap registerArrayOfIntegerVariableWithName:integerVariable];
-    }];
-}
-
-- (void)registerListOfStringVariable: (CDVInvokedUrlCommand *)command {
-    
-    [self.commandDelegate runInBackground:^{
-        NSString *stringVariable = [command argumentAtIndex:0];
-        [clevertap registerArrayOfStringVariableWithName:stringVariable];
-    }];
-}
-
-- (void)registerMapOfBooleanVariable: (CDVInvokedUrlCommand *)command {
-    
-    [self.commandDelegate runInBackground:^{
-        NSString *boolVariable = [command argumentAtIndex:0];
-        [clevertap registerDictionaryOfBoolVariableWithName: boolVariable];
-    }];
-}
-
-- (void)registerMapOfDoubleVariable: (CDVInvokedUrlCommand *)command {
-    
-    [self.commandDelegate runInBackground:^{
-        NSString *doubleVariable = [command argumentAtIndex:0];
-        [clevertap registerDictionaryOfDoubleVariableWithName:doubleVariable];
-    }];
-}
-
-- (void)registerMapOfIntegerVariable: (CDVInvokedUrlCommand *)command {
-    
-    [self.commandDelegate runInBackground:^{
-        NSString *integerVariable = [command argumentAtIndex:0];
-        [clevertap registerDictionaryOfIntegerVariableWithName:integerVariable];
-    }];
-}
-
-- (void)registerMapOfStringVariable: (CDVInvokedUrlCommand *)command {
-    
-    [self.commandDelegate runInBackground:^{
-        NSString *stringVariable = [command argumentAtIndex:0];
-        [clevertap registerDictionaryOfStringVariableWithName:stringVariable];
-    }];
-}
-
-- (void)getBooleanVariable: (CDVInvokedUrlCommand *)command {
-    
-    [self.commandDelegate runInBackground:^{
-        NSString *varName = [command argumentAtIndex:0];
-        BOOL defaultValue = [command argumentAtIndex:1];
-        BOOL boolVariable = [clevertap getBoolVariableWithName:varName defaultValue:defaultValue];
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:boolVariable];
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-    }];
-}
-
-- (void)getDoubleVariable: (CDVInvokedUrlCommand *)command {
-    
-    [self.commandDelegate runInBackground:^{
-        NSString *varName = [command argumentAtIndex:0];
-        double defaultValue = [[command argumentAtIndex:1] doubleValue];
-        double doubleVariable = [clevertap getDoubleVariableWithName:varName defaultValue:defaultValue];
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDouble:doubleVariable];
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-    }];
-}
-
-- (void)getIntegerVariable: (CDVInvokedUrlCommand *)command {
-    
-    [self.commandDelegate runInBackground:^{
-        NSString *varName = [command argumentAtIndex:0];
-        int defaultValue = (int)[command argumentAtIndex:1];
-        int intVariable = [clevertap getIntegerVariableWithName:varName defaultValue:defaultValue];
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:intVariable];
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-    }];
-}
-
-- (void)getStringVariable: (CDVInvokedUrlCommand *)command {
-    
-    [self.commandDelegate runInBackground:^{
-        NSString *varName = [command argumentAtIndex:0];
-        NSString *defaultValue = [command argumentAtIndex:1];
-        NSString *stringVariable = [clevertap getStringVariableWithName:varName defaultValue:defaultValue];
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:stringVariable];
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-    }];
-}
-
-- (void)getListOfBooleanVariable: (CDVInvokedUrlCommand *)command {
-    
-    [self.commandDelegate runInBackground:^{
-        NSString *varName = [command argumentAtIndex:0];
-        NSArray *defaultValue = [command argumentAtIndex:1];
-        NSArray *boolArray = [clevertap getArrayOfBoolVariableWithName:varName defaultValue:defaultValue];
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:boolArray];
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-    }];
-}
-
-- (void)getListOfDoubleVariable: (CDVInvokedUrlCommand *)command {
-    
-    [self.commandDelegate runInBackground:^{
-        NSString *varName = [command argumentAtIndex:0];
-        NSArray *defaultValue = [command argumentAtIndex:1];
-        NSArray *doubleArray = [clevertap getArrayOfDoubleVariableWithName:varName defaultValue:defaultValue];
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:doubleArray];
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-    }];
-}
-
-- (void)getListOfIntegerVariable: (CDVInvokedUrlCommand *)command {
-    
-    [self.commandDelegate runInBackground:^{
-        NSString *varName = [command argumentAtIndex:0];
-        NSArray *defaultValue = [command argumentAtIndex:1];
-        NSArray *intArray = [clevertap getArrayOfIntegerVariableWithName:varName defaultValue:defaultValue];
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:intArray];
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-    }];
-}
-
-- (void)getListOfStringVariable: (CDVInvokedUrlCommand *)command {
-    
-    [self.commandDelegate runInBackground:^{
-        NSString *varName = [command argumentAtIndex:0];
-        NSArray *defaultValue = [command argumentAtIndex:1];
-        NSArray *stringArray = [clevertap getArrayOfStringVariableWithName:varName defaultValue:defaultValue];
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray:stringArray];
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-    }];
-}
-
-- (void)getMapOfBooleanVariable: (CDVInvokedUrlCommand *)command {
-    
-    [self.commandDelegate runInBackground:^{
-        NSString *varName = [command argumentAtIndex:0];
-        NSDictionary *defaultValue = [command argumentAtIndex:1];
-        NSDictionary *boolDict = [clevertap getDictionaryOfBoolVariableWithName:varName defaultValue:defaultValue];
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:boolDict];
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-    }];
-}
-
-- (void)getMapOfDoubleVariable: (CDVInvokedUrlCommand *)command {
-    
-    [self.commandDelegate runInBackground:^{
-        NSString *varName = [command argumentAtIndex:0];
-        NSDictionary *defaultValue = [command argumentAtIndex:1];
-        NSDictionary *doubleDict = [clevertap getDictionaryOfDoubleVariableWithName:varName defaultValue:defaultValue];
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:doubleDict];
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-    }];
-}
-
-- (void)getMapOfIntegerVariable: (CDVInvokedUrlCommand *)command {
-    
-    [self.commandDelegate runInBackground:^{
-        NSString *varName = [command argumentAtIndex:0];
-        NSDictionary *defaultValue = [command argumentAtIndex:1];
-        NSDictionary *intDict = [clevertap getDictionaryOfIntegerVariableWithName:varName defaultValue:defaultValue];
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:intDict];
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-    }];
-}
-
-- (void)getMapOfStringVariable: (CDVInvokedUrlCommand *)command {
-    
-    [self.commandDelegate runInBackground:^{
-        NSString *varName = [command argumentAtIndex:0];
-        NSDictionary *defaultValue = [command argumentAtIndex:1];
-        NSDictionary *stringDict = [clevertap getDictionaryOfStringVariableWithName:varName defaultValue:defaultValue];
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:stringDict];
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-    }];
 }
 
 

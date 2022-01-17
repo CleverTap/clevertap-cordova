@@ -261,18 +261,6 @@ CleverTap.prototype.profileSet = function (profile) {
     convertDateToEpochInProperties(profile)
     cordova.exec(null, null, "CleverTapPlugin", "profileSet", [profile]);
 }
-               
-// Set profile attributes from facebook user
-// profile = facebook graph user object
-CleverTap.prototype.profileSetGraphUser = function (profile) {
-    cordova.exec(null, null, "CleverTapPlugin", "profileSetGraphUser", [profile]);
-}
-               
-// Set profile attributes from google plus user
-// profile = google plus user object
-CleverTap.prototype.profileGooglePlusUser = function (profile) {
-    cordova.exec(null, null, "CleverTapPlugin", "profileSetGooglePlusUser", [profile]);
-}
 
 // Get User Profile Property
 // propertyName = string
@@ -282,18 +270,31 @@ CleverTap.prototype.profileGetProperty = function (propertyName, successCallback
     cordova.exec(successCallback, null, "CleverTapPlugin", "profileGetProperty", [propertyName]);
 }
 
-// Get a unique CleverTap identifier suitable for use with install attribution providers.
-// successCallback = callback function for result
-// success returns the unique CleverTap attribution identifier.
+/**
+* @deprecated This method is deprecated in v2.3.5. Use getCleverTapID() instead.
+* Get a unique CleverTap identifier suitable for use with install attribution providers
+* successCallback = callback function for result
+* success returns the unique CleverTap attribution identifier
+*/
 CleverTap.prototype.profileGetCleverTapAttributionIdentifier = function (successCallback) {
     cordova.exec(successCallback, null, "CleverTapPlugin", "profileGetCleverTapAttributionIdentifier", []);
 }
-               
+
+/**
+* @deprecated This method is deprecated in v2.3.5. Use getCleverTapID() instead.
+* Get User Profile CleverTapID
+* successCallback = callback function for result
+* success calls back with CleverTapID or false
+*/
+CleverTap.prototype.profileGetCleverTapID = function (successCallback) {
+    cordova.exec(successCallback, null, "CleverTapPlugin", "profileGetCleverTapID", []);
+}
+
 // Get User Profile CleverTapID
 // successCallback = callback function for result
 // success calls back with CleverTapID or false
-CleverTap.prototype.profileGetCleverTapID = function (successCallback) {
-    cordova.exec(successCallback, null, "CleverTapPlugin", "profileGetCleverTapID", []);
+CleverTap.prototype.getCleverTapID = function (successCallback) {
+    cordova.exec(successCallback, null, "CleverTapPlugin", "getCleverTapID", []);
 }
 
 // Remove the property specified by key from the user profile
@@ -335,6 +336,19 @@ CleverTap.prototype.profileRemoveMultiValue = function (key, value) {
 // values = array of strings
 CleverTap.prototype.profileRemoveMultiValues = function (key, values) {
     cordova.exec(null, null, "CleverTapPlugin", "profileRemoveMultiValues", [key, values]);
+}
+// Method for incrementing a value for a single-value profile property (if it exists).
+// key = string
+// value = number
+CleverTap.prototype.profileIncrementValueBy = function (key, value) {
+    cordova.exec(null, null, "CleverTapPlugin", "profileIncrementValueBy", [key, value]);
+}
+
+// Method for decrementing a value for a single-value profile property (if it exists).
+// key = string
+// value = number
+CleverTap.prototype.profileDecrementValueBy = function (key, value) {
+    cordova.exec(null, null, "CleverTapPlugin", "profileDecrementValueBy", [key, value]);
 }
                
 /*******************
@@ -448,108 +462,29 @@ CleverTap.prototype.pushInboxNotificationClickedEventForId = function (messageId
      cordova.exec(null, null, "CleverTapPlugin", "pushInboxNotificationClickedEventForId", [messageId]);
 }
 
-/****************************
- * Dynamic Variables methods
- ****************************/
-
-CleverTap.prototype.setUIEditorConnectionEnabled = function(enabled){
-	cordova.exec(null, null, "CleverTapPlugin", "setUIEditorConnectionEnabled", [enabled]);
+/*******************
+ * In-App Controls
+ ******************/
+/**
+ Suspends and saves inApp notifications until 'resumeInAppNotifications' is called for current session.
+ Automatically resumes InApp notifications display on CleverTap shared instance creation. Pending inApp notifications are displayed only for current session.
+ */
+CleverTap.prototype.suspendInAppNotifications = function () {
+    cordova.exec(null, null, "CleverTapPlugin", "suspendInAppNotifications", []);
 }
 
-CleverTap.prototype.registerBooleanVariable = function(name){
-	cordova.exec(null, null, "CleverTapPlugin", "registerBooleanVariable", [name]);
+/**
+ Discards inApp notifications until 'resumeInAppNotifications' is called for current session.
+ Automatically resumes InApp notifications display on CleverTap shared instance creation. Pending inApp notifications are not displayed. */
+CleverTap.prototype.discardInAppNotifications = function () {
+    cordova.exec(null, null, "CleverTapPlugin", "discardInAppNotifications", []);
 }
 
-CleverTap.prototype.registerDoubleVariable = function(name){
-	cordova.exec(null, null, "CleverTapPlugin", "registerDoubleVariable", [name]);
-}
-
-CleverTap.prototype.registerIntegerVariable = function(name){
-	cordova.exec(null, null, "CleverTapPlugin", "registerIntegerVariable", [name]);
-}
-
-CleverTap.prototype.registerStringVariable = function(name){
-	cordova.exec(null, null, "CleverTapPlugin", "registerStringVariable", [name]);
-}
-
-CleverTap.prototype.registerListOfBooleanVariable = function(name){
-	cordova.exec(null, null, "CleverTapPlugin", "registerListOfBooleanVariable", [name]);
-}
-
-CleverTap.prototype.registerListOfDoubleVariable = function(name){
-	cordova.exec(null, null, "CleverTapPlugin", "registerListOfDoubleVariable", [name]);
-}
-
-CleverTap.prototype.registerListOfIntegerVariable = function(name){
-	cordova.exec(null, null, "CleverTapPlugin", "registerListOfIntegerVariable", [name]);
-}
-
-CleverTap.prototype.registerListOfStringVariable = function(name){
-	cordova.exec(null, null, "CleverTapPlugin", "registerListOfStringVariable", [name]);
-}
-
-CleverTap.prototype.registerMapOfBooleanVariable = function(name){
-	cordova.exec(null, null, "CleverTapPlugin", "registerMapOfBooleanVariable", [name]);
-}
-
-CleverTap.prototype.registerMapOfDoubleVariable = function(name){
-	cordova.exec(null, null, "CleverTapPlugin", "registerMapOfDoubleVariable", [name]);
-}
-
-CleverTap.prototype.registerMapOfIntegerVariable = function(name){
-	cordova.exec(null, null, "CleverTapPlugin", "registerMapOfIntegerVariable", [name]);
-}
-
-CleverTap.prototype.registerMapOfStringVariable = function(name){
-	cordova.exec(null, null, "CleverTapPlugin", "registerMapOfStringVariable", [name]);
-}
-
-CleverTap.prototype.getBooleanVariable = function(name,defaultValue,successCallback){
-	cordova.exec(successCallback, null, "CleverTapPlugin", "getBooleanVariable", [name,defaultValue]);
-}
-
-CleverTap.prototype.getDoubleVariable = function(name,defaultValue,successCallback){
-	cordova.exec(successCallback, null, "CleverTapPlugin", "getDoubleVariable", [name,defaultValue]);
-}
-
-CleverTap.prototype.getIntegerVariable = function(name,defaultValue,successCallback){
-	cordova.exec(successCallback, null, "CleverTapPlugin", "getIntegerVariable", [name,defaultValue]);
-}
-
-CleverTap.prototype.getStringVariable = function(name,defaultValue,successCallback){
-	cordova.exec(successCallback, null, "CleverTapPlugin", "getStringVariable", [name,defaultValue]);
-}
-
-CleverTap.prototype.getListOfBooleanVariable = function(name,defaultValue,successCallback){
-	cordova.exec(successCallback, null, "CleverTapPlugin", "getListOfBooleanVariable", [name,defaultValue]);
-}
-
-CleverTap.prototype.getListOfDoubleVariable = function(name,defaultValue,successCallback){
-	cordova.exec(successCallback, null, "CleverTapPlugin", "getListOfDoubleVariable", [name,defaultValue]);
-}
-
-CleverTap.prototype.getListOfIntegerVariable = function(name,defaultValue,successCallback){
-	cordova.exec(successCallback, null, "CleverTapPlugin", "getListOfIntegerVariable", [name,defaultValue]);
-}
-
-CleverTap.prototype.getListOfStringVariable = function(name,defaultValue,successCallback){
-	cordova.exec(successCallback, null, "CleverTapPlugin", "getListOfStringVariable", [name,defaultValue]);
-}
-
-CleverTap.prototype.getMapOfBooleanVariable = function(name,defaultValue,successCallback){
-	cordova.exec(successCallback, null, "CleverTapPlugin", "getMapOfBooleanVariable", [name,defaultValue]);
-}
-
-CleverTap.prototype.getMapOfDoubleVariable = function(name,defaultValue,successCallback){
-	cordova.exec(successCallback, null, "CleverTapPlugin", "getMapOfDoubleVariable", [name,defaultValue]);
-}
-
-CleverTap.prototype.getMapOfIntegerVariable = function(name,defaultValue,successCallback){
-	cordova.exec(successCallback, null, "CleverTapPlugin", "getMapOfIntegerVariable", [name,defaultValue]);
-}
-
-CleverTap.prototype.getMapOfStringVariable = function(name,defaultValue,successCallback){
-	cordova.exec(successCallback, null, "CleverTapPlugin", "getMapOfStringVariable", [name,defaultValue]);
+/**
+ Resumes displaying inApps notifications and shows pending inApp notifications if any.
+ */
+CleverTap.prototype.resumeInAppNotifications = function () {
+    cordova.exec(null, null, "CleverTapPlugin", "resumeInAppNotifications", []);
 }
 
 /****************************
