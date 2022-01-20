@@ -58,11 +58,6 @@
             }
           ]
         }
-      },
-      "res/xml/config.xml": {
-        "parents": {
-          "/*": []
-        }
       }
     }
   },

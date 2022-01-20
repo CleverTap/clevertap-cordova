@@ -1409,7 +1409,13 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
                     CleverTapDisplayUnit displayUnit = cleverTap.getDisplayUnitForId(unitId);
-                    PluginResult _result = new PluginResult(PluginResult.Status.OK, displayUnit.getJsonObject());
+                    PluginResult _result;
+                    if (displayUnit!=null)
+                    {
+                        _result = new PluginResult(PluginResult.Status.OK, displayUnit.getJsonObject());
+                    } else {
+                        _result = new PluginResult(PluginResult.Status.ERROR, "DisplayUnit with ID="+unitId+" not found!");
+                    }
                     _result.setKeepCallback(true);
                     callbackContext.sendPluginResult(_result);
                 }

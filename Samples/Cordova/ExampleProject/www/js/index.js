@@ -143,7 +143,7 @@ onDeviceReady: function() {
     CleverTap.discardInAppNotifications();
     CleverTap.reset();
     CleverTap.getAllDisplayUnits(function(val) {console.log("Native Display units are "+val);});
-    CleverTap.getDisplayUnitForId(function(val) {console.log("Native Display unit is "+val);});
+    CleverTap.getDisplayUnitForId("123456",function(val) {console.log("Native Display unit is "+val);});
     CleverTap.getInboxMessageForID("messageId", function(val) {console.log("Inbox message is "+val);});
    /* CleverTap.recordDisplayUnitViewedEventForID("unitID");
      CleverTap.recordDisplayUnitClickedEventForID("unitID");*/
