@@ -118,12 +118,6 @@ onDeviceReady: function() {
      CleverTap.profileRemoveValueForKey("custom");
      CleverTap.profileGetProperty("multiValue", function(val) {console.log("multiValue profile value is "+val);});
     CleverTap.profileIncrementValueBy("Score",1);
-     CleverTap.getAllInboxMessages(function(val) {console.log("Inbox messages are "+val);});
-     CleverTap.getUnreadInboxMessages(function(val) {console.log("Unread Inbox messages are "+val);});
-     CleverTap.deleteInboxMessageForId("messageId");
-    CleverTap.markReadInboxMessageForId("messageId");
-    CleverTap.pushInboxNotificationViewedEventForId("messageId");
-    CleverTap.pushInboxNotificationClickedEventForId("messageId");
     CleverTap.getFeatureFlag("test",true,function(val) {console.log("Value is "+val);});
     CleverTap.setDefaultsMap({"test":"val1","test1":"val2"});
     CleverTap.fetch();
@@ -144,13 +138,13 @@ onDeviceReady: function() {
     CleverTap.reset();
     CleverTap.getAllDisplayUnits(function(val) {console.log("Native Display units are "+val);});
     CleverTap.getDisplayUnitForId("123456",function(val) {console.log("Native Display unit is "+val);});
-    CleverTap.getInboxMessageForID("messageId", function(val) {console.log("Inbox message is "+val);});
+
    /* CleverTap.recordDisplayUnitViewedEventForID("unitID");
      CleverTap.recordDisplayUnitClickedEventForID("unitID");*/
 
      
      //FOR NOTIFICATION INBOX
-     CleverTap.initializeInbox();
+    CleverTap.initializeInbox();
 
 },
     
@@ -204,7 +198,15 @@ onPushNotification: function(e) {
 },
     
 onCleverTapInboxDidInitialize: function() {
+
+    CleverTap.getInboxMessageForId("1642753141_1642755745", function(val) {console.log("Inbox message is "+JSON.stringify(val));});
     CleverTap.showInbox({"navBarTitle":"My App Inbox","tabs": ["tag1", "tag2"],"navBarColor":"#FF0000"});
+    CleverTap.getAllInboxMessages(function(val) {console.log("Inbox messages are "+val);});
+    CleverTap.getUnreadInboxMessages(function(val) {console.log("Unread Inbox messages are "+val);});
+    CleverTap.deleteInboxMessageForId("messageId");
+    CleverTap.markReadInboxMessageForId("messageId");
+    CleverTap.pushInboxNotificationViewedEventForId("messageId");
+    CleverTap.pushInboxNotificationClickedEventForId("messageId");
 },
     
 onCleverTapInboxMessagesDidUpdate: function() {

@@ -28,6 +28,7 @@ import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import java.lang.Exception;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -1333,9 +1334,15 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
                     CTInboxMessage message = cleverTap.getInboxMessageForId(messageId);
-                    PluginResult _result = new PluginResult(PluginResult.Status.OK, message.getData());
-                    _result.setKeepCallback(true);
-                    callbackContext.sendPluginResult(_result);
+                    try {
+                        PluginResult _result = new PluginResult(PluginResult.Status.OK, message.getData());
+                        _result.setKeepCallback(true);
+                        callbackContext.sendPluginResult(_result);
+                    } catch (Exception e) {
+                        PluginResult _result = new PluginResult(PluginResult.Status.ERROR,"InboxMessage with ID="+messageId+" not found!");
+                        _result.setKeepCallback(true);
+                        callbackContext.sendPluginResult(_result);
+                    }
                 }
             });
             return true;
