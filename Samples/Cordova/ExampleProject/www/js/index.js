@@ -136,9 +136,6 @@ onDeviceReady: function() {
     CleverTap.resumeInAppNotifications();
     CleverTap.discardInAppNotifications();
     CleverTap.reset();
-    CleverTap.getAllDisplayUnits(function(val) {console.log("Native Display units are "+val);});
-    CleverTap.getDisplayUnitForId("123456",function(val) {console.log("Native Display unit is "+val);});
-
    /* CleverTap.recordDisplayUnitViewedEventForID("unitID");
      CleverTap.recordDisplayUnitClickedEventForID("unitID");*/
 
@@ -247,6 +244,9 @@ onCleverTapExperimentsUpdated: function() {
 onCleverTapDisplayUnitsLoaded: function(e) {
     console.log("onCleverTapDisplayUnitsLoaded");
     console.log(e.units);
+    CleverTap.getDisplayUnitForId("1642753742_20220131",function(val) {console.log("Native Display unit is "+JSON.stringify(val));});
+    CleverTap.getAllDisplayUnits(function(val) {console.log("Native Display units are "+JSON.stringify(val));});
+
 },
 
 onCleverTapPushAmpPayloadDidReceived: function(e) {
