@@ -16,6 +16,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.location.Location;
 
+import com.clevertap.android.sdk.pushnotification.CTPushNotificationListener;
+import com.clevertap.android.sdk.pushnotification.amp.CTPushAmpListener;
+import java.util.Set;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaWebView;
 import org.apache.cordova.CordovaPlugin;
@@ -25,6 +28,7 @@ import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import java.lang.Exception;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -41,26 +45,27 @@ import com.clevertap.android.sdk.CTFeatureFlagsListener;
 import com.clevertap.android.sdk.CleverTapAPI;
 import com.clevertap.android.sdk.SyncListener;
 import com.clevertap.android.sdk.InAppNotificationListener;
-import com.clevertap.android.sdk.EventDetail;
+import com.clevertap.android.sdk.events.EventDetail;
 import com.clevertap.android.sdk.UTMDetail;
 import com.clevertap.android.sdk.CTInboxListener;
 import com.clevertap.android.sdk.CTInboxStyleConfig;
-import com.clevertap.android.sdk.CTInboxMessage;
+import com.clevertap.android.sdk.inbox.CTInboxMessage;
 import com.clevertap.android.sdk.InboxMessageButtonListener;
 import com.clevertap.android.sdk.InAppNotificationButtonListener;
-import com.clevertap.android.sdk.CTExperimentsListener;
 import com.clevertap.android.sdk.displayunits.model.CleverTapDisplayUnit;
 import com.clevertap.android.sdk.displayunits.DisplayUnitListener;
 import com.clevertap.android.sdk.product_config.CTProductConfigListener;
+import com.clevertap.android.sdk.interfaces.OnInitCleverTapIDListener;
 
 
-public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAppNotificationListener, CTInboxListener, CTExperimentsListener,
+public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAppNotificationListener, CTInboxListener,
         InboxMessageButtonListener, InAppNotificationButtonListener, DisplayUnitListener,
         CTFeatureFlagsListener, CTProductConfigListener, CTPushNotificationListener, CTPushAmpListener {
 
     private static final String LOG_TAG = "CLEVERTAP_PLUGIN";
     private static String CLEVERTAP_API_ERROR;
     private static CleverTapAPI cleverTap;
+    private boolean callbackDone = false;
 
 
     @Override
@@ -71,7 +76,6 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         cleverTap.setSyncListener(this);
         cleverTap.setInAppNotificationListener(this);
         cleverTap.setCTNotificationInboxListener(this);
-        cleverTap.setCTExperimentsListener(this);
         cleverTap.setInboxMessageButtonListener(this);
         cleverTap.setInAppNotificationButtonListener(this);
         cleverTap.setDisplayUnitListener(this);
@@ -136,6 +140,19 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                         webView.loadUrl("javascript:cordova.fireDocumentEvent('onPushNotification'," + json + ");");
                     }
                 });
+
+                if(!callbackDone) {
+                    final String callbackJson = "{'customExtras':" + data.toString() + "}";
+
+                    webView.getView().post(new Runnable() {
+                        public void run() {
+
+                            webView.loadUrl(
+                                    "javascript:cordova.fireDocumentEvent('onCleverTapPushNotificationTappedWithCustomExtras',"
+                                            + callbackJson + ");");
+                        }
+                    });
+                }
 
             }
         }
@@ -796,69 +813,6 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
                 return true;
             }
-        } else if (action.equals("profileSetGraphUser")) {
-            JSONObject jsonGraphUser = null;
-
-            if (args.length() == 1) {
-                if (!args.isNull(0)) {
-                    jsonGraphUser = args.getJSONObject(0);
-                } else {
-                    haveError = true;
-                    errorMsg = "profile cannot be null";
-                }
-
-            } else {
-                haveError = true;
-                errorMsg = "Expected 1 argument";
-            }
-
-            if (!haveError) {
-                final JSONObject _jsonGraphUser = jsonGraphUser;
-                cordova.getThreadPool().execute(new Runnable() {
-                    public void run() {
-                        cleverTap.pushFacebookUser(_jsonGraphUser);
-                        PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
-                        _result.setKeepCallback(true);
-                        callbackContext.sendPluginResult(_result);
-                    }
-                });
-                return true;
-            }
-        } else if (action.equals("profileSetGooglePlusUser")) {
-            JSONObject jsonGooglePlusUser;
-            HashMap<String, Object> _profile = null;
-
-            if (args.length() == 1) {
-                if (!args.isNull(0)) {
-                    jsonGooglePlusUser = args.getJSONObject(0);
-                    try {
-                        _profile = toMapFromGooglePlusUser(jsonGooglePlusUser);
-                    } catch (JSONException e) {
-                        haveError = true;
-                        errorMsg = "Error parsing arg " + e.getLocalizedMessage();
-                    }
-                } else {
-                    haveError = true;
-                    errorMsg = "profile cannot be null";
-                }
-
-            } else {
-                haveError = true;
-                errorMsg = "Expected 1 argument";
-            }
-
-            if (!haveError) {
-                final HashMap<String, Object> profile = _profile;
-                cordova.getThreadPool().execute(new Runnable() {
-                    public void run() {
-                        cleverTap.pushProfile(profile);
-                        PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
-                        _result.setKeepCallback(true);
-                        callbackContext.sendPluginResult(_result);
-                    }
-                });
-                return true;
-            }
         } else if (action.equals("profileGetProperty")) {
             final String propertyName = (args.length() == 1 ? args.getString(0) : null);
             if (propertyName != null) {
@@ -907,6 +861,22 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                     PluginResult _result = new PluginResult(PluginResult.Status.OK, attributionID);
                     _result.setKeepCallback(true);
                     callbackContext.sendPluginResult(_result);
+                }
+            });
+            return true;
+        } else if (action.equals("getCleverTapID")) {
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    cleverTap.getCleverTapID(new OnInitCleverTapIDListener() {
+                        @Override
+                        public void onInitCleverTapID(final String cleverTapID) {
+                            // Callback on main thread
+                            PluginResult _result = new PluginResult(PluginResult.Status.OK, cleverTapID);
+                            _result.setKeepCallback(true);
+                            callbackContext.sendPluginResult(_result);
+                        }
+        
+                    });
                 }
             });
             return true;
@@ -1145,6 +1115,78 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 });
                 return true;
             }
+        } else if (action.equals("profileIncrementValueBy")) {
+            String key = null;
+            Double value = null;
+
+            if (args.length() == 2) {
+                if (!args.isNull(0)) {
+                    key = args.getString(0);
+                } else {
+                    haveError = true;
+                    errorMsg = "key cannot be null";
+                }
+                if (!args.isNull(1)) {
+                    value = args.getDouble(1);
+                } else {
+                    haveError = true;
+                    errorMsg = "value cannot be null";
+                }
+            } else {
+                haveError = true;
+                errorMsg = "Expected 2 arguments";
+            }
+
+            if (!haveError) {
+                final String _key = key;
+                final Double _value = value;
+
+                cordova.getThreadPool().execute(new Runnable() {
+                    public void run() {
+                        cleverTap.incrementValue(_key, _value);
+                        PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
+                        _result.setKeepCallback(true);
+                        callbackContext.sendPluginResult(_result);
+                    }
+                });
+                return true;
+            }
+        }else if (action.equals("profileDecrementValueBy")) {
+            String key = null;
+            Double value = null;
+
+            if (args.length() == 2) {
+                if (!args.isNull(0)) {
+                    key = args.getString(0);
+                } else {
+                    haveError = true;
+                    errorMsg = "key cannot be null";
+                }
+                if (!args.isNull(1)) {
+                    value = args.getDouble(1);
+                } else {
+                    haveError = true;
+                    errorMsg = "value cannot be null";
+                }
+            } else {
+                haveError = true;
+                errorMsg = "Expected 2 arguments";
+            }
+
+            if (!haveError) {
+                final String _key = key;
+                final Double _value = value;
+
+                cordova.getThreadPool().execute(new Runnable() {
+                    public void run() {
+                        cleverTap.decrementValue(_key, _value);
+                        PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
+                        _result.setKeepCallback(true);
+                        callbackContext.sendPluginResult(_result);
+                    }
+                });
+                return true;
+            }
         } else if (action.equals("sessionGetTimeElapsed")) {
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
@@ -1292,9 +1334,16 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
                     CTInboxMessage message = cleverTap.getInboxMessageForId(messageId);
-                    PluginResult _result = new PluginResult(PluginResult.Status.OK, message.getData());
-                    _result.setKeepCallback(true);
-                    callbackContext.sendPluginResult(_result);
+                    try {
+                        PluginResult _result = new PluginResult(PluginResult.Status.OK, message.getData());
+                        _result.setKeepCallback(true);
+                        callbackContext.sendPluginResult(_result);
+                    } catch (Exception e) {
+                        PluginResult _result = new PluginResult(PluginResult.Status.ERROR,"InboxMessage with ID="+messageId+" not found!");
+                        _result.setKeepCallback(true);
+                        System.out.println("_result is "+_result);
+                        callbackContext.sendPluginResult(_result);
+                    }
                 }
             });
             return true;
@@ -1346,445 +1395,6 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 }
             });
             return true;
-        } else if (action.equals("setUIEditorConnectionEnabled")) {
-            final boolean enabled = args.getBoolean(0);
-            cordova.getThreadPool().execute(new Runnable() {
-                public void run() {
-                    cleverTap.setUIEditorConnectionEnabled(enabled);
-                    PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
-                    _result.setKeepCallback(true);
-                    callbackContext.sendPluginResult(_result);
-                }
-            });
-            return true;
-        } else if (action.equals("registerBooleanVariable")) {
-            final String name = (args.length() == 1 ? args.getString(0) : "");
-            cordova.getThreadPool().execute(new Runnable() {
-                public void run() {
-                    cleverTap.registerBooleanVariable(name);
-                    PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
-                    _result.setKeepCallback(true);
-                    callbackContext.sendPluginResult(_result);
-                }
-            });
-            return true;
-        } else if (action.equals("registerDoubleVariable")) {
-            final String name = (args.length() == 1 ? args.getString(0) : "");
-            cordova.getThreadPool().execute(new Runnable() {
-                public void run() {
-                    cleverTap.registerDoubleVariable(name);
-                    PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
-                    _result.setKeepCallback(true);
-                    callbackContext.sendPluginResult(_result);
-                }
-            });
-            return true;
-        } else if (action.equals("registerIntegerVariable")) {
-            final String name = (args.length() == 1 ? args.getString(0) : "");
-            cordova.getThreadPool().execute(new Runnable() {
-                public void run() {
-                    cleverTap.registerIntegerVariable(name);
-                    PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
-                    _result.setKeepCallback(true);
-                    callbackContext.sendPluginResult(_result);
-                }
-            });
-            return true;
-        } else if (action.equals("registerStringVariable")) {
-            final String name = (args.length() == 1 ? args.getString(0) : "");
-            cordova.getThreadPool().execute(new Runnable() {
-                public void run() {
-                    cleverTap.registerStringVariable(name);
-                    PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
-                    _result.setKeepCallback(true);
-                    callbackContext.sendPluginResult(_result);
-                }
-            });
-            return true;
-        } else if (action.equals("registerListOfBooleanVariable")) {
-            final String name = (args.length() == 1 ? args.getString(0) : "");
-            cordova.getThreadPool().execute(new Runnable() {
-                public void run() {
-                    cleverTap.registerListOfBooleanVariable(name);
-                    PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
-                    _result.setKeepCallback(true);
-                    callbackContext.sendPluginResult(_result);
-                }
-            });
-            return true;
-        } else if (action.equals("registerListOfDoubleVariable")) {
-            final String name = (args.length() == 1 ? args.getString(0) : "");
-            cordova.getThreadPool().execute(new Runnable() {
-                public void run() {
-                    cleverTap.registerBooleanVariable(name);
-                    PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
-                    _result.setKeepCallback(true);
-                    callbackContext.sendPluginResult(_result);
-                }
-            });
-            return true;
-        } else if (action.equals("registerListOfDoubleVariable")) {
-            final String name = (args.length() == 1 ? args.getString(0) : "");
-            cordova.getThreadPool().execute(new Runnable() {
-                public void run() {
-                    cleverTap.registerBooleanVariable(name);
-                    PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
-                    _result.setKeepCallback(true);
-                    callbackContext.sendPluginResult(_result);
-                }
-            });
-            return true;
-        } else if (action.equals("registerListOfIntegerVariable")) {
-            final String name = (args.length() == 1 ? args.getString(0) : "");
-            cordova.getThreadPool().execute(new Runnable() {
-                public void run() {
-                    cleverTap.registerListOfIntegerVariable(name);
-                    PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
-                    _result.setKeepCallback(true);
-                    callbackContext.sendPluginResult(_result);
-                }
-            });
-            return true;
-        } else if (action.equals("registerListOfStringVariable")) {
-            final String name = (args.length() == 1 ? args.getString(0) : "");
-            cordova.getThreadPool().execute(new Runnable() {
-                public void run() {
-                    cleverTap.registerListOfStringVariable(name);
-                    PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
-                    _result.setKeepCallback(true);
-                    callbackContext.sendPluginResult(_result);
-                }
-            });
-            return true;
-        } else if (action.equals("registerMapOfBooleanVariable")) {
-            final String name = (args.length() == 1 ? args.getString(0) : "");
-            cordova.getThreadPool().execute(new Runnable() {
-                public void run() {
-                    cleverTap.registerMapOfBooleanVariable(name);
-                    PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
-                    _result.setKeepCallback(true);
-                    callbackContext.sendPluginResult(_result);
-                }
-            });
-            return true;
-        } else if (action.equals("registerMapOfDoubleVariable")) {
-            final String name = (args.length() == 1 ? args.getString(0) : "");
-            cordova.getThreadPool().execute(new Runnable() {
-                public void run() {
-                    cleverTap.registerMapOfDoubleVariable(name);
-                    PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
-                    _result.setKeepCallback(true);
-                    callbackContext.sendPluginResult(_result);
-                }
-            });
-            return true;
-        } else if (action.equals("registerMapOfIntegerVariable")) {
-            final String name = (args.length() == 1 ? args.getString(0) : "");
-            cordova.getThreadPool().execute(new Runnable() {
-                public void run() {
-                    cleverTap.registerMapOfIntegerVariable(name);
-                    PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
-                    _result.setKeepCallback(true);
-                    callbackContext.sendPluginResult(_result);
-                }
-            });
-            return true;
-        } else if (action.equals("registerMapOfStringVariable")) {
-            final String name = (args.length() == 1 ? args.getString(0) : "");
-            cordova.getThreadPool().execute(new Runnable() {
-                public void run() {
-                    cleverTap.registerMapOfStringVariable(name);
-                    PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
-                    _result.setKeepCallback(true);
-                    callbackContext.sendPluginResult(_result);
-                }
-            });
-            return true;
-        } else if (action.equals("getBooleanVariable")) {
-            final String name = args.getString(0);
-            final boolean defaultValue = args.getBoolean(1);
-
-            cordova.getThreadPool().execute(new Runnable() {
-                public void run() {
-                    boolean value = cleverTap.getBooleanVariable(name, defaultValue);
-                    PluginResult _result = new PluginResult(PluginResult.Status.OK, value);
-                    _result.setKeepCallback(true);
-                    callbackContext.sendPluginResult(_result);
-                }
-            });
-            return true;
-        } else if (action.equals("getDoubleVariable")) {
-            final String name = args.getString(0);
-            final double defaultValue = args.getDouble(1);
-
-            cordova.getThreadPool().execute(new Runnable() {
-                public void run() {
-                    float value = cleverTap.getDoubleVariable(name, defaultValue).floatValue();
-                    PluginResult _result = new PluginResult(PluginResult.Status.OK, value);
-                    _result.setKeepCallback(true);
-                    callbackContext.sendPluginResult(_result);
-                }
-            });
-            return true;
-        } else if (action.equals("getIntegerVariable")) {
-            final String name = args.getString(0);
-            final int defaultValue = args.getInt(1);
-
-            cordova.getThreadPool().execute(new Runnable() {
-                public void run() {
-                    int value = cleverTap.getIntegerVariable(name, defaultValue);
-                    PluginResult _result = new PluginResult(PluginResult.Status.OK, value);
-                    _result.setKeepCallback(true);
-                    callbackContext.sendPluginResult(_result);
-                }
-            });
-            return true;
-        } else if (action.equals("getStringVariable")) {
-            final String name = args.getString(0);
-            final String defaultValue = args.getString(1);
-
-            cordova.getThreadPool().execute(new Runnable() {
-                public void run() {
-                    String value = cleverTap.getStringVariable(name, defaultValue);
-                    PluginResult _result = new PluginResult(PluginResult.Status.OK, value);
-                    _result.setKeepCallback(true);
-                    callbackContext.sendPluginResult(_result);
-                }
-            });
-            return true;
-        } else if (action.equals("getListOfBooleanVariable")) {
-            final String name = args.getString(0);
-
-            try {
-                final List<Boolean> defaultValue = toBooleanList(args.getJSONArray(1));
-
-                cordova.getThreadPool().execute(new Runnable() {
-                    public void run() {
-                        List<Boolean> value = cleverTap.getListOfBooleanVariable(name, defaultValue);
-                        PluginResult _result = null;
-                        try {
-                            _result = new PluginResult(PluginResult.Status.OK, listToJSONArray(value));
-                            _result.setKeepCallback(true);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            _result = new PluginResult(PluginResult.Status.ERROR);
-                            _result.setKeepCallback(true);
-                        }
-
-                        callbackContext.sendPluginResult(_result);
-                    }
-                });
-
-            } catch (JSONException e) {
-                PluginResult _result = new PluginResult(PluginResult.Status.ERROR);
-                _result.setKeepCallback(true);
-                callbackContext.sendPluginResult(_result);
-            }
-
-            return true;
-        } else if (action.equals("getListOfDoubleVariable")) {
-            final String name = args.getString(0);
-
-            try {
-                final List<Double> defaultValue = toDoubleList(args.getJSONArray(1));
-
-                cordova.getThreadPool().execute(new Runnable() {
-                    public void run() {
-                        List<Double> value = cleverTap.getListOfDoubleVariable(name, defaultValue);
-                        PluginResult _result = null;
-                        try {
-                            _result = new PluginResult(PluginResult.Status.OK, listToJSONArray(value));
-                            _result.setKeepCallback(true);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            _result = new PluginResult(PluginResult.Status.ERROR);
-                            _result.setKeepCallback(true);
-                        }
-                        callbackContext.sendPluginResult(_result);
-                    }
-                });
-
-            } catch (JSONException e) {
-                PluginResult _result = new PluginResult(PluginResult.Status.ERROR);
-                _result.setKeepCallback(true);
-                callbackContext.sendPluginResult(_result);
-            }
-
-            return true;
-        } else if (action.equals("getListOfIntegerVariable")) {
-            final String name = args.getString(0);
-
-            try {
-                final List<Integer> defaultValue = toIntegerList(args.getJSONArray(1));
-
-                cordova.getThreadPool().execute(new Runnable() {
-                    public void run() {
-                        List<Integer> value = cleverTap.getListOfIntegerVariable(name, defaultValue);
-                        PluginResult _result = null;
-                        try {
-                            _result = new PluginResult(PluginResult.Status.OK, listToJSONArray(value));
-                            _result.setKeepCallback(true);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            _result = new PluginResult(PluginResult.Status.ERROR);
-                            _result.setKeepCallback(true);
-                        }
-                        callbackContext.sendPluginResult(_result);
-                    }
-                });
-
-            } catch (JSONException e) {
-                PluginResult _result = new PluginResult(PluginResult.Status.ERROR);
-                _result.setKeepCallback(true);
-                callbackContext.sendPluginResult(_result);
-            }
-
-            return true;
-        } else if (action.equals("getListOfStringVariable")) {
-            final String name = args.getString(0);
-
-            try {
-                final List<String> defaultValue = toStringList(args.getJSONArray(1));
-
-                cordova.getThreadPool().execute(new Runnable() {
-                    public void run() {
-                        List<String> value = cleverTap.getListOfStringVariable(name, defaultValue);
-                        PluginResult _result = null;
-                        try {
-                            _result = new PluginResult(PluginResult.Status.OK, listToJSONArray(value));
-                            _result.setKeepCallback(true);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            _result = new PluginResult(PluginResult.Status.ERROR);
-                            _result.setKeepCallback(true);
-                        }
-                        callbackContext.sendPluginResult(_result);
-                    }
-                });
-
-            } catch (JSONException e) {
-                PluginResult _result = new PluginResult(PluginResult.Status.ERROR);
-                _result.setKeepCallback(true);
-                callbackContext.sendPluginResult(_result);
-            }
-
-            return true;
-        } else if (action.equals("getMapOfBooleanVariable")) {
-            final String name = args.getString(0);
-
-            try {
-                final HashMap<String, Boolean> defaultValue = toBooleanMap(args.getJSONObject(1));
-
-                cordova.getThreadPool().execute(new Runnable() {
-                    public void run() {
-                        Map<String, Boolean> value = cleverTap.getMapOfBooleanVariable(name, defaultValue);
-                        PluginResult _result = null;
-                        try {
-                            _result = new PluginResult(PluginResult.Status.OK, getJsonFromMap(value));
-                            _result.setKeepCallback(true);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            _result = new PluginResult(PluginResult.Status.ERROR);
-                            _result.setKeepCallback(true);
-                        }
-                        callbackContext.sendPluginResult(_result);
-                    }
-                });
-
-            } catch (JSONException e) {
-                PluginResult _result = new PluginResult(PluginResult.Status.ERROR);
-                _result.setKeepCallback(true);
-                callbackContext.sendPluginResult(_result);
-            }
-
-            return true;
-        } else if (action.equals("getMapOfDoubleVariable")) {
-            final String name = args.getString(0);
-
-            try {
-                final HashMap<String, Double> defaultValue = toDoubleMap(args.getJSONObject(1));
-
-                cordova.getThreadPool().execute(new Runnable() {
-                    public void run() {
-                        Map<String, Double> value = cleverTap.getMapOfDoubleVariable(name, defaultValue);
-                        PluginResult _result = null;
-                        try {
-                            _result = new PluginResult(PluginResult.Status.OK, getJsonFromMap(value));
-                            _result.setKeepCallback(true);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            _result = new PluginResult(PluginResult.Status.ERROR);
-                            _result.setKeepCallback(true);
-                        }
-                        callbackContext.sendPluginResult(_result);
-                    }
-                });
-
-            } catch (JSONException e) {
-                PluginResult _result = new PluginResult(PluginResult.Status.ERROR);
-                _result.setKeepCallback(true);
-                callbackContext.sendPluginResult(_result);
-            }
-
-            return true;
-        } else if (action.equals("getMapOfIntegerVariable")) {
-            final String name = args.getString(0);
-
-            try {
-                final HashMap<String, Integer> defaultValue = toIntegerMap(args.getJSONObject(1));
-
-                cordova.getThreadPool().execute(new Runnable() {
-                    public void run() {
-                        Map<String, Integer> value = cleverTap.getMapOfIntegerVariable(name, defaultValue);
-                        PluginResult _result = null;
-                        try {
-                            _result = new PluginResult(PluginResult.Status.OK, getJsonFromMap(value));
-                            _result.setKeepCallback(true);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            _result = new PluginResult(PluginResult.Status.ERROR);
-                            _result.setKeepCallback(true);
-                        }
-                        callbackContext.sendPluginResult(_result);
-                    }
-                });
-
-            } catch (JSONException e) {
-                PluginResult _result = new PluginResult(PluginResult.Status.ERROR);
-                _result.setKeepCallback(true);
-                callbackContext.sendPluginResult(_result);
-            }
-
-            return true;
-        } else if (action.equals("getMapOfStringVariable")) {
-            final String name = args.getString(0);
-
-            try {
-                final HashMap<String, String> defaultValue = toStringMap(args.getJSONObject(1));
-
-                cordova.getThreadPool().execute(new Runnable() {
-                    public void run() {
-                        Map<String, String> value = cleverTap.getMapOfStringVariable(name, defaultValue);
-                        PluginResult _result = null;
-                        try {
-                            _result = new PluginResult(PluginResult.Status.OK, getJsonFromMap(value));
-                            _result.setKeepCallback(true);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            _result = new PluginResult(PluginResult.Status.ERROR);
-                            _result.setKeepCallback(true);
-                        }
-                        callbackContext.sendPluginResult(_result);
-                    }
-                });
-
-            } catch (JSONException e) {
-                PluginResult _result = new PluginResult(PluginResult.Status.ERROR);
-                _result.setKeepCallback(true);
-                callbackContext.sendPluginResult(_result);
-            }
-
-            return true;
         } else if (action.equals("getAllDisplayUnits")) {
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
@@ -1807,7 +1417,13 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
                     CleverTapDisplayUnit displayUnit = cleverTap.getDisplayUnitForId(unitId);
-                    PluginResult _result = new PluginResult(PluginResult.Status.OK, displayUnit.getJsonObject());
+                    PluginResult _result;
+                    if (displayUnit!=null)
+                    {
+                        _result = new PluginResult(PluginResult.Status.OK, displayUnit.getJsonObject());
+                    } else {
+                        _result = new PluginResult(PluginResult.Status.ERROR, "DisplayUnit with ID="+unitId+" not found!");
+                    }
                     _result.setKeepCallback(true);
                     callbackContext.sendPluginResult(_result);
                 }
@@ -2006,6 +1622,36 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 }
             });
             return true;
+        } else if (action.equals("suspendInAppNotifications")) {
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    cleverTap.suspendInAppNotifications();
+                    PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
+                    _result.setKeepCallback(true);
+                    callbackContext.sendPluginResult(_result);
+                }
+            });
+            return true;
+        } else if (action.equals("discardInAppNotifications")) {
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    cleverTap.discardInAppNotifications();
+                    PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
+                    _result.setKeepCallback(true);
+                    callbackContext.sendPluginResult(_result);
+                }
+            });
+            return true;
+        } else if (action.equals("resumeInAppNotifications")) {
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    cleverTap.resumeInAppNotifications();
+                    PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
+                    _result.setKeepCallback(true);
+                    callbackContext.sendPluginResult(_result);
+                }
+            });
+            return true;
         }
 
         result = new PluginResult(PluginResult.Status.ERROR, errorMsg);
@@ -2033,16 +1679,6 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             Log.d(LOG_TAG, "JSONException in onDisplayUnitsLoaded" + e);
         }
 
-    }
-
-    //CTExperimentsListener
-
-    public void CTExperimentsUpdated() {
-        webView.getView().post(new Runnable() {
-            public void run() {
-                webView.loadUrl("javascript:cordova.fireDocumentEvent('onCleverTapExperimentsUpdated');");
-            }
-        });
     }
 
     //CTInboxListener
@@ -2274,72 +1910,6 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         return map;
     }
 
-    private static HashMap<String, Object> toMapFromGooglePlusUser(JSONObject object) throws JSONException {
-
-        HashMap<String, Object> map = new HashMap<String, Object>();
-
-        JSONObject nameObj = (JSONObject) object.get("name");
-        if (nameObj != null) {
-            String name = (String) nameObj.get("formatted");
-            if (name != null) {
-                map.put("gpName", name);
-            }
-        }
-
-        String id1 = (String) object.get("id");
-        if (id1 != null) {
-            map.put("gpID", id1);
-        }
-
-        String gender1 = (String) object.get("gender");
-        if (gender1 != null) {
-            if (gender1.toLowerCase().startsWith("m")) {
-                gender1 = "M";
-            } else if (gender1.toLowerCase().startsWith("f")) {
-                gender1 = "F";
-            } else {
-                gender1 = "";
-            }
-            map.put("gpGender", gender1);
-        }
-
-        JSONArray organizations = (JSONArray) object.get("organizations");
-        if (organizations != null) {
-            String work1 = "N";
-            for (int i = 0; i < organizations.length(); i++) {
-                JSONObject org = organizations.getJSONObject(i);
-                String type = (String) org.get("type");
-                if (type.equals("work")) {
-                    work1 = "Y";
-                    break;
-                }
-            }
-            map.put("gpEmployed", work1);
-        }
-
-        String birthday = (String) object.get("birthday");
-        if (birthday != null) {
-            Date DOB = null;
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-            try {
-                DOB = format.parse(birthday);
-            } catch (ParseException e) {
-                Log.d(LOG_TAG, "invalid DOB format");
-            }
-            if (DOB != null) {
-                map.put("gpDOB", DOB);
-            }
-        }
-
-        String relationshipStatus = (String) object.get("relationshipStatus");
-        if (relationshipStatus != null) {
-            String married1 = relationshipStatus.equals("married") ? "Y" : "N";
-            map.put("gpRS", married1);
-        }
-
-        return map;
-    }
-
     private static ArrayList<HashMap<String, Object>> toArrayListOfStringObjectMaps(JSONArray array) throws JSONException {
         ArrayList<HashMap<String, Object>> aList = new ArrayList<HashMap<String, Object>>();
 
@@ -2508,7 +2078,6 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         return array;
     }
 
-    @Overide
     public void onNotificationClickedPayloadReceived(HashMap<String, Object> payload){
 
         JSONObject jsonPayload = new JSONObject(payload);
@@ -2517,13 +2086,14 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
         webView.getView().post(new Runnable() {
             public void run() {
-                webView.loadUrl("javascript:cordova.fireDocumentEvent('onCleverTapNotificationClickedPayloadDidReceived'," + json + ");");
+
+                webView.loadUrl("javascript:cordova.fireDocumentEvent('onCleverTapPushNotificationTappedWithCustomExtras'," + json + ");");
             }
         });
+        callbackDone = true;
     }
 
-    @Overide
-    void onPushAmpPayloadReceived(Bundle extras){
+   public void onPushAmpPayloadReceived(Bundle extras){
         JSONObject jsonPayload = toJson(extras);
 
         final String json = "{'customExtras':" + jsonPayload.toString() + "}";
@@ -2535,7 +2105,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         });
     }
 
-    private JsonObject toJson(Bundle bundle){
+    private JSONObject toJson(Bundle bundle){
         JSONObject json = new JSONObject();
         Set<String> keys = bundle.keySet();
         for (String key : keys) {
@@ -2546,5 +2116,6 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 //Handle exception here
             }
         }
+        return json;
     }
 }

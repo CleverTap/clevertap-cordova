@@ -5,7 +5,7 @@
         "CleverTap-iOS-SDK": {
             "name": "CleverTap-iOS-SDK",
             "type": "podspec",
-            "spec": "3.9.2",
+            "spec": "3.10.0",
             "count": 1
         }
     }
