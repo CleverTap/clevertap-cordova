@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 /*
        Licensed to the Apache Software Foundation (ASF) under one
        or more contributor license agreements.  See the NOTICE file
@@ -19,16 +17,22 @@
        under the License.
 */
 
-var emulators = require('cordova-android/lib/emulator');
+package org.apache.cordova;
 
-// Usage support for when args are given
-require('cordova-android/lib/check_reqs').check_android().then(function () {
-    emulators.list_images().then(function (emulator_list) {
-        emulator_list && emulator_list.forEach(function (emu) {
-            console.log(emu.name);
-        });
-    }, function (err) {
-        console.error('ERROR: ' + err);
-        process.exit(2);
-    });
-});
+import androidx.webkit.WebViewAssetLoader;
+
+/**
+ * Wrapper class for path and handler
+ */
+public class CordovaPluginPathHandler {
+
+    private final WebViewAssetLoader.PathHandler handler;
+
+    public  CordovaPluginPathHandler(WebViewAssetLoader.PathHandler handler) {
+        this.handler = handler;
+    }
+
+    public WebViewAssetLoader.PathHandler getPathHandler() {
+        return handler;
+    }
+}

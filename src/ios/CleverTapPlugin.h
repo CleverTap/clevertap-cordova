@@ -95,6 +95,24 @@ static NSString * const CTHandleOpenURLNotification = @"CTHandleOpenURLNotificat
 - (void)pushNotificationTappedWithCustomExtras:(NSDictionary *)customExtras;
 
 
+#pragma mark - InApp Notification Controls
+
+/**
+ Suspends and saves inApp notifications until 'resumeInAppNotifications' is called for current session.
+ Automatically resumes InApp notifications display on CleverTap shared instance creation. Pending inApp notifications are displayed only for current session.
+ */
+- (void)suspendInAppNotifications;
+
+/**
+ Discards inApp notifications until 'resumeInAppNotifications' is called for current session.
+ Automatically resumes InApp notifications display on CleverTap shared instance creation. Pending inApp notifications are not displayed. */
+- (void)discardInAppNotifications;
+
+/**
+ Resumes displaying inApps notifications and shows pending inApp notifications if any.
+ */
+- (void)resumeInAppNotifications;
+
 #pragma mark - CleverTapInAppNotificationDelegate
 
 /**
@@ -210,11 +228,15 @@ static NSString * const CTHandleOpenURLNotification = @"CTHandleOpenURLNotificat
 
 /** Get the CleverTap ID of the User Profile. The CleverTap ID is the unique identifier assigned to the User Profile by CleverTap.
  */
-- (void)profileGetCleverTapID:(CDVInvokedUrlCommand *)command;
+- (void)profileGetCleverTapID:(CDVInvokedUrlCommand *)command __attribute__((deprecated("This method is deprecated in v2.3.5. Use getCleverTapID() instead")));
 
 /** Returns a unique CleverTap identifier suitable for use with install attribution providers.
  */
-- (void)profileGetCleverTapAttributionIdentifier:(CDVInvokedUrlCommand *)command;
+- (void)profileGetCleverTapAttributionIdentifier:(CDVInvokedUrlCommand *)command __attribute__((deprecated("This method is deprecated in v2.3.5. Use getCleverTapID() instead")));
+
+/** Returns a unique CleverTap identifier suitable for use with install attribution providers.
+ */
+- (void)getCleverTapID:(CDVInvokedUrlCommand *)command;
 
 /** Remove the property specified by key from the user profile.
  */
@@ -257,6 +279,14 @@ static NSString * const CTHandleOpenURLNotification = @"CTHandleOpenURLNotificat
  If the multi-value property is empty after the remove operation, the key will be removed.
  */
 - (void)profileRemoveMultiValues:(CDVInvokedUrlCommand *)command;
+
+/** Method for incrementing a value for a single-value profile property (if it exists).
+*/
+- (void)profileIncrementValueBy:(CDVInvokedUrlCommand *)command;
+
+/** Method for decrementing a value for a single-value profile property (if it exists).
+*/
+- (void)profileDecrementValueBy:(CDVInvokedUrlCommand *)command;
 
 #pragma mark - Session API
 

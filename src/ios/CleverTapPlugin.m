@@ -24,6 +24,7 @@
 #import "CleverTap+ProductConfig.h"
 #import "CleverTapPushNotificationDelegate.h"
 #import "CleverTapInAppNotificationDelegate.h"
+#import "CleverTap+InAppNotifications.h"
 
 #import <CoreLocation/CoreLocation.h>
 
@@ -56,7 +57,7 @@ static NSDateFormatter *dateFormatter;
 + (void)onDidFinishLaunchingNotification:(NSNotification *)notification {
     
     clevertap = [CleverTap sharedInstance];
-    
+
     NSDictionary *launchOptions = notification.userInfo;
     if (!launchOptions) return;
     
@@ -448,6 +449,20 @@ static NSDateFormatter *dateFormatter;
     NSLog(@"deleteNotificationChannelGroup is no-op in iOS");
 }
 
+#pragma mark - InApp Notification Controls
+
+- (void)suspendInAppNotifications {
+    [clevertap suspendInAppNotifications];
+}
+
+- (void)discardInAppNotifications {
+    [clevertap discardInAppNotifications];
+}
+
+- (void)resumeInAppNotifications {
+    [clevertap resumeInAppNotifications];
+}
+
 
 #pragma mark - Push Notification Delegate
 
@@ -776,6 +791,25 @@ static NSDateFormatter *dateFormatter;
     }];
 }
 
+- (void)getCleverTapID:(CDVInvokedUrlCommand *)command {
+    
+    [self.commandDelegate runInBackground:^{
+        CDVPluginResult *pluginResult;
+        
+        NSString *cleverTapID = [clevertap profileGetCleverTapID];
+        
+        if(cleverTapID == nil) {
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:NO];
+        }
+        
+        else  {
+            pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:cleverTapID];
+        }
+        
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
+}
+
 - (void)profileRemoveValueForKey:(CDVInvokedUrlCommand *)command {
     
     [self.commandDelegate runInBackground:^{
@@ -843,6 +877,27 @@ static NSDateFormatter *dateFormatter;
     }];
 }
 
+- (void)profileIncrementValueBy:(CDVInvokedUrlCommand *)command {
+    
+    [self.commandDelegate runInBackground:^{
+        NSString *key = [command argumentAtIndex:0];
+        NSNumber *value = [command argumentAtIndex:1];
+        if (key != nil && [key isKindOfClass:[NSString class]] && value != nil && [value isKindOfClass:[NSNumber class]]) {
+            [clevertap profileIncrementValueBy:value forKey:key];
+        }
+    }];
+}
+
+- (void)profileDecrementValueBy:(CDVInvokedUrlCommand *)command {
+    
+    [self.commandDelegate runInBackground:^{
+        NSString *key = [command argumentAtIndex:0];
+        NSNumber *value = [command argumentAtIndex:1];
+        if (key != nil && [key isKindOfClass:[NSString class]] && value != nil && [value isKindOfClass:[NSNumber class]]) {
+            [clevertap profileDecrementValueBy:value forKey:key];
+        }
+    }];
+}
 
 #pragma mark Session API
 

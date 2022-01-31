@@ -1,1 +1,0 @@
-../../../CleverTap-iOS-SDK/CleverTapSDK/ABTesting/models/CTABVariant.h

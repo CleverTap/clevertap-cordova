@@ -2,11 +2,11 @@
 
 ## Set up and register for push notifications and deep links
 
-[Set up push notifications for your app](https://developer.apple.com/documentation/usernotifications/registering_your_app_with_apns).
+- [Set up push notifications for your app](https://developer.apple.com/documentation/usernotifications/registering_your_app_with_apns).
 
-If you plan on using deep links, [please register your custom url scheme as described here](https://developer.apple.com/documentation/xcode/defining-a-custom-url-scheme-for-your-app).
+- If you plan on using deep links, [please register your custom url scheme as described here](https://developer.apple.com/documentation/xcode/defining-a-custom-url-scheme-for-your-app).
 
-Call the following from your Javascript.
+- Call the following from your Javascript.
 
 ```javascript
 CleverTap.registerPush();
@@ -14,6 +14,5 @@ CleverTap.registerPush();
 
 ## Integrate Javascript with the Plugin
 
-All calls to the CleverTap plugin should be made from your Javascript.  
-You can refer to our [Usage.md](/docs/Usage.md) for implementation.
+- Refer to our [Usage Documentation](/docs/Usage.md) for implementation.
 
