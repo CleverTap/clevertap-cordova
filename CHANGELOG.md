@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+Version 2.4.1 *(May 15, 2022)*
+-------------------------------------------
+- Fixes a bug where push notifications were not being rendered in the foreground and notification clicked events were fired automatically.
+
 Version 2.4.0 *(January 31, 2022)*
 -------------------------------------------
 - Adds public methods for suspending, discarding & resuming InApp Notifications
