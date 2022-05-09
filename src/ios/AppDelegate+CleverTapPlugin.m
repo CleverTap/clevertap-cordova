@@ -49,8 +49,9 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center
        willPresentNotification:(UNNotification *)notification
          withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler {
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:CTDidReceiveNotification object:notification.request.content.userInfo];
+    completionHandler(UNNotificationPresentationOptionSound
+                      | UNNotificationPresentationOptionAlert
+                      | UNNotificationPresentationOptionBadge);
 }
 #endif
 
