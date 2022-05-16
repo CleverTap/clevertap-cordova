@@ -10,6 +10,8 @@ node_modules
 .gradle
 Samples/Cordova/ExampleProject/plugins/clevertap-cordova/ExampleProject/platforms/android/app/build
 Samples/Cordova/ExampleProject/plugins/clevertap-cordova/ExampleProject/platforms/android/CordovaLib/build
+Samples/Cordova/ExampleProject/plugins/clevertap-cordova/ExampleProject/platforms/ios/Pods
+Samples/Cordova/ExampleProject/plugins/clevertap-cordova/ExampleProject/platforms/ios/Podfile.lock
 
 Samples/IonicCapacitor/IonicCapReactProject/.idea
 Samples/IonicCapacitor/IonicCapReactProject/.gradle
