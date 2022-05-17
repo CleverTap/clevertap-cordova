@@ -12,7 +12,7 @@
   "clevertap-cordova": {
     "source": {
       "type": "registry",
-      "id": "git+https://github.com/CleverTap/clevertap-cordova.git#develop"
+      "id": "https://github.com/CleverTap/clevertap-cordova.git#task/cordova/SDK-1601"
     },
     "is_top_level": true,
     "variables": {
