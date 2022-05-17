@@ -67,7 +67,7 @@ onDeviceReady: function() {
      CleverTap.setPushBaiduToken("foo");
      CleverTap.setPushHuaweiToken("foo");
      
-     CleverTap.onUserLogin({"Identity":098767, "custom":1.3});
+     CleverTap.onUserLogin({"Identity":98767, "custom":1.3});
      
      CleverTap.profileSet({"Identity":123456, "DOB":"1950-10-15", "custom":1.3});
      

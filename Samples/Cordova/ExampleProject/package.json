@@ -14,7 +14,7 @@
   "license": "Apache-2.0",
   "devDependencies": {
     "clevertap-cordova": "git+https://github.com/CleverTap/clevertap-cordova.git#develop",
-    "cordova-android": "^10.1.1",
+    "cordova-android": "^10.1.2",
     "cordova-android-support-gradle-release": "^3.0.1",
     "cordova-ios": "^6.2.0",
     "ios": "0.0.1"

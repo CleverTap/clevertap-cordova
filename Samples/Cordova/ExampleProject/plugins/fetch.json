@@ -11,8 +11,8 @@
   },
   "clevertap-cordova": {
     "source": {
-      "type": "local",
-      "path": "/Users/piyush.kukadiya/projects-clevertap/clevertap-cordova/Samples/Cordova/ExampleProject/node_modules/clevertap-cordova"
+      "type": "registry",
+      "id": "git+https://github.com/CleverTap/clevertap-cordova.git#develop"
     },
     "is_top_level": true,
     "variables": {
