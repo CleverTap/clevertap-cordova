@@ -16,139 +16,132 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-var app = {
-    // Application Constructor
-initialize: function() {
-    document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
-    document.addEventListener('onCleverTapProfileSync', this.onCleverTapProfileSync, false);
-    document.addEventListener('onCleverTapProfileDidInitialize', this.onCleverTapProfileDidInitialize, false);
-    document.addEventListener('onCleverTapInAppNotificationDismissed', this.onCleverTapInAppNotificationDismissed, false);
-    // deeplink handler
-    document.addEventListener('onDeepLink', this.onDeepLink, false);
-    //push notification handler
-    document.addEventListener('onPushNotification', this.onPushNotification, false);
-    document.addEventListener('onCleverTapInboxDidInitialize', this.onCleverTapInboxDidInitialize, false);
-    document.addEventListener('onCleverTapInboxMessagesDidUpdate', this.onCleverTapInboxMessagesDidUpdate, false);
-    document.addEventListener('onCleverTapInboxButtonClick', this.onCleverTapInboxButtonClick, false);
-    document.addEventListener('onCleverTapInAppButtonClick', this.onCleverTapInAppButtonClick, false);
-    document.addEventListener('onCleverTapFeatureFlagsDidUpdate', this.onCleverTapFeatureFlagsDidUpdate, false);
-    document.addEventListener('onCleverTapProductConfigDidInitialize', this.onCleverTapProductConfigDidInitialize, false);
-    document.addEventListener('onCleverTapProductConfigDidFetch', this.onCleverTapProductConfigDidFetch, false);
-    document.addEventListener('onCleverTapProductConfigDidActivate', this.onCleverTapProductConfigDidActivate, false);
-    document.addEventListener('onCleverTapExperimentsUpdated', this.onCleverTapExperimentsUpdated, false);
-    document.addEventListener('onCleverTapDisplayUnitsLoaded', this.onCleverTapDisplayUnitsLoaded, false);
-    document.addEventListener('onCleverTapPushNotificationTappedWithCustomExtras', this.onCleverTapPushNotificationTappedWithCustomExtras, false);
-    document.addEventListener('onCleverTapPushAmpPayloadDidReceived', this.onCleverTapPushAmpPayloadDidReceived, false);
-},
-    
-    // deviceready Event Handler
-    //
-    // Bind any cordova events here. Common events are:
-    // 'pause', 'resume', etc.
-onDeviceReady: function() {
-   
-    this.receivedEvent('deviceready');
-    
-    // Ionic example usage
-    //$rootScope.CleverTap = CleverTap;
-    //CleverTap && CleverTap.registerPush();
-    
-     CleverTap.setDebugLevel(3);
-     CleverTap.notifyDeviceReady();
-     CleverTap.registerPush();
-     CleverTap.enablePersonalization();
-     CleverTap.disablePersonalization();
-     CleverTap.recordScreenView("HomeView");
-     
-     CleverTap.pushInstallReferrer("source", "medium", "campaign");
-     
-     CleverTap.setPushToken("foo");
-     CleverTap.setPushXiaomiToken("foo");
-     CleverTap.setPushBaiduToken("foo");
-     CleverTap.setPushHuaweiToken("foo");
-     
-     CleverTap.onUserLogin({"Identity":98767, "custom":1.3});
-     
-     CleverTap.profileSet({"Identity":123456, "DOB":"1950-10-15", "custom":1.3});
-     
-     CleverTap.profileSetMultiValues("multiValue", ["one", "two", "three", "four"]);
-     
-     CleverTap.getLocation(function(loc) {
-     console.log("CleverTapLocation is " + loc.lat + loc.lon);
-     CleverTap.setLocation(loc.lat, loc.lon);
-     },
-     function(error) {
-     console.log("CleverTapLocation error is "+error);
-     });
-     
-     CleverTap.recordEventWithName("foo");
-     CleverTap.recordEventWithNameAndProps("boo", {"bar":"zoo"});
-     CleverTap.recordChargedEventWithDetailsAndItems({"amount":300, "Charged ID":1234}, [{"Category":"Books", "Quantity":1, "Title":"Book Title"}]);
-     CleverTap.eventGetFirstTime("foo", function (time) {console.log("foo event first time is "+time);});
-     CleverTap.eventGetLastTime("App Launched", function (time) {console.log("app launched last time is "+time);});
-     CleverTap.eventGetOccurrences("foo", function (num) {console.log("foo event occurrences "+num);});
-     CleverTap.eventGetDetails("Charged", function (res) {console.log(res);});
-     CleverTap.getEventHistory(function (history) {console.log(history);});
-     
-     CleverTap.eventGetFirstTime("noevent", function (time) {console.log("noevent event first time is "+time);});
-     CleverTap.eventGetLastTime("noevent", function (time) {console.log("noevent last time is "+time);});
-     CleverTap.eventGetOccurrences("noevent", function (num) {console.log("noevent occurrences "+num);});
-     CleverTap.eventGetDetails("noevent", function (res) {console.log(res);});
-     
-     CleverTap.profileGetProperty("DOB", function(val) {console.log("DOB profile value is "+val);});
-     
-     CleverTap.profileGetProperty("Identity", function(val) {console.log("Identity profile value is "+val);});
-     
-     CleverTap.profileGetProperty("custom", function(val) {console.log("custom profile value is "+val);});
-     
-     CleverTap.sessionGetTimeElapsed(function(val) {console.log("session elapsed time is "+val);});
-     CleverTap.sessionGetTotalVisits(function(val) {console.log("session total visits is "+val);});
-     CleverTap.sessionGetScreenCount(function(val) {console.log("session screen count is "+val);});
-     CleverTap.sessionGetPreviousVisitTime(function(val) {console.log("session previous visit time is "+val);});
-     CleverTap.sessionGetUTMDetails(function(val) {console.log(val);});
-     
-     //CleverTap.profileGetCleverTapID(function(val) {console.log("CleverTapID is "+val);});
-     
-     //CleverTap.profileGetCleverTapAttributionIdentifier(function(val) {console.log("CleverTapAttributionIdentifier is "+val);});
-     CleverTap.getCleverTapID(function(val) {console.log("getCleverTapID is "+val);});
 
-     CleverTap.profileAddMultiValue("multiValue", "five");
-     CleverTap.profileRemoveMultiValues("multiValue", ["one", "two"]);
-     CleverTap.profileRemoveMultiValue("multiValue", "three");
-     CleverTap.profileRemoveValueForKey("custom");
-     CleverTap.profileGetProperty("multiValue", function(val) {console.log("multiValue profile value is "+val);});
-    CleverTap.profileIncrementValueBy("Score",1);
-    CleverTap.getFeatureFlag("test",true,function(val) {console.log("Value is "+val);});
-    CleverTap.setDefaultsMap({"test":"val1","test1":"val2"});
-    CleverTap.fetch();
-    CleverTap.fetchWithMinimumFetchIntervalInSeconds(100);
-    CleverTap.activate();
-    CleverTap.fetchAndActivate();
-    CleverTap.setMinimumFetchIntervalInSeconds(100);
-    CleverTap.getLastFetchTimeStampInMillis(function(val) {console.log("Value is "+val);});
-    CleverTap.getString("test", function(val) {console.log("Value is "+val);});
-    CleverTap.getBoolean("test", function(val) {console.log("Value is "+val);});
-    CleverTap.getLong("test", function(val) {console.log("Value is "+val);});
-    CleverTap.getDouble("test", function(val) {console.log("Value is "+val);});
-    CleverTap.profileIncrementValueBy("Score",1);
-    CleverTap.profileDecrementValueBy("pageview",1);
-    CleverTap.suspendInAppNotifications();
-    CleverTap.resumeInAppNotifications();
-    CleverTap.discardInAppNotifications();
-    CleverTap.reset();
-   /* CleverTap.recordDisplayUnitViewedEventForID("unitID");
-     CleverTap.recordDisplayUnitClickedEventForID("unitID");*/
+function log(param){
+    if(arguments.length>1){
+        for (let i = 0; i < arguments.length; i++) {
+            log(arguments[i])
+        }
+    }
+    else{
+        if (typeof param === 'object') {
+            console.log("object:",JSON.stringify(param))
+        } else if (typeof param === 'function') {
+            console.log('function:', param)
+        } else {
+            console.log(String(param))
+        }
+    }
+}
 
-     
-     //FOR NOTIFICATION INBOX
-    CleverTap.initializeInbox();
+function setupButtons() {
+    let eventsMap = {
+        "Push tokens manually" : ()=>{
+            CleverTap.setPushToken("foo")
+            CleverTap.setPushXiaomiToken("foo")
+            CleverTap.setPushBaiduToken("foo")
+            CleverTap.setPushHuaweiToken("foo")
+        },
+        "Run All Actions": ()=> {
+            CleverTap.setDebugLevel(3)
+            CleverTap.notifyDeviceReady()
+            CleverTap.registerPush()
+            CleverTap.enablePersonalization()
+            CleverTap.disablePersonalization()
+            CleverTap.recordScreenView("HomeView")
 
-},
-    
+            CleverTap.pushInstallReferrer("source", "medium", "campaign")
+
+
+            CleverTap.onUserLogin({"Identity":20500, "custom":1.3})
+
+            CleverTap.profileSet({"Identity":20501, "DOB":"1950-10-15", "custom":1.3})
+
+            CleverTap.profileSetMultiValues("multiValue", ["one", "two", "three", "four"])
+
+            CleverTap.getLocation(loc => {
+                    log("CleverTapLocation is " + loc.lat + loc.lon)
+                    CleverTap.setLocation(loc.lat, loc.lon)
+                },
+                error => log("CleverTapLocation error is " + error))
+
+            CleverTap.recordEventWithName("foo")
+            CleverTap.recordEventWithNameAndProps("boo", {"bar":"zoo"})
+            CleverTap.recordChargedEventWithDetailsAndItems({"amount":300, "Charged ID":1234}, [{"Category":"Books", "Quantity":1, "Title":"Book Title"}])
+            CleverTap.eventGetFirstTime("foo", time => log("foo event first time is " + time))
+            CleverTap.eventGetLastTime("App Launched", time => log("app launched last time is " + time))
+            CleverTap.eventGetOccurrences("foo", num => log("foo event occurrences " + num))
+            CleverTap.eventGetDetails("Charged", res => log(res))
+            CleverTap.getEventHistory(history => log(history))
+
+            CleverTap.eventGetFirstTime("noevent", time => log("noevent event first time is " + time))
+            CleverTap.eventGetLastTime("noevent", time => log("noevent last time is " + time))
+            CleverTap.eventGetOccurrences("noevent", num => log("noevent occurrences " + num))
+            CleverTap.eventGetDetails("noevent", res => log(res))
+
+            CleverTap.profileGetProperty("DOB", val => log("DOB profile value is " + val))
+
+            CleverTap.profileGetProperty("Identity", val => log("Identity profile value is " + val))
+
+            CleverTap.profileGetProperty("custom", val => log("custom profile value is " + val))
+
+            CleverTap.sessionGetTimeElapsed(val => log("session elapsed time is " + val))
+            CleverTap.sessionGetTotalVisits(val => log("session total visits is " + val))
+            CleverTap.sessionGetScreenCount(val => log("session screen count is " + val))
+            CleverTap.sessionGetPreviousVisitTime(val => log("session previous visit time is " + val))
+            CleverTap.sessionGetUTMDetails(val => log(val))
+
+            //CleverTap.profileGetCleverTapID(function(val) {log("CleverTapID is "+val)})
+
+            //CleverTap.profileGetCleverTapAttributionIdentifier(function(val) {log("CleverTapAttributionIdentifier is "+val)})
+            CleverTap.getCleverTapID(val => log("getCleverTapID is " + val))
+
+            CleverTap.profileAddMultiValue("multiValue", "five")
+            CleverTap.profileRemoveMultiValues("multiValue", ["one", "two"])
+            CleverTap.profileRemoveMultiValue("multiValue", "three")
+            CleverTap.profileRemoveValueForKey("custom")
+            CleverTap.profileGetProperty("multiValue", val => log("multiValue profile value is " + val))
+            CleverTap.profileIncrementValueBy("Score",1)
+            CleverTap.getFeatureFlag("test",true, val => log("Value is " + val))
+            CleverTap.setDefaultsMap({"test":"val1","test1":"val2"})
+            CleverTap.fetch()
+            CleverTap.fetchWithMinimumFetchIntervalInSeconds(100)
+            CleverTap.activate()
+            CleverTap.fetchAndActivate()
+            CleverTap.setMinimumFetchIntervalInSeconds(100)
+            CleverTap.getLastFetchTimeStampInMillis(val => log("Value is " + val))
+            CleverTap.getString("test", val => log("Value is " + val))
+            CleverTap.getBoolean("test", val => log("Value is " + val))
+            CleverTap.getLong("test", val => log("Value is " + val))
+            CleverTap.getDouble("test", val => log("Value is " + val))
+            CleverTap.profileIncrementValueBy("Score",1)
+            CleverTap.profileDecrementValueBy("pageview",1)
+            CleverTap.suspendInAppNotifications()
+            CleverTap.resumeInAppNotifications()
+            CleverTap.discardInAppNotifications()
+            CleverTap.reset()
+            /* CleverTap.recordDisplayUnitViewedEventForID("unitID")
+              CleverTap.recordDisplayUnitClickedEventForID("unitID")*/
+
+
+            //FOR NOTIFICATION INBOX
+            CleverTap.initializeInbox()
+
+        }
+    }
+
+    for (let key in eventsMap) {
+        const buttonElement = document.createElement("button")
+        buttonElement.innerText = key
+        const buttonOnClick = eventsMap[key]
+        buttonElement.addEventListener('click',buttonOnClick)
+        document.querySelector('.ct_button').appendChild(buttonElement)
+    }
+
     // onCleverTapProfileSync Event Handler
     // CleverTap provides a mechanism for notifying your application about synchronization-related changes to the User Profile/Event History.
     // You can subscribe to these notifications by listening for the onCleverTapProfile Sync event,
-    // i.e. document.addEventListener('onCleverTapProfileSync', this.onCleverTapProfileSync, false);
+    // i.e. document.addEventListener('onCleverTapProfileSync', this.onCleverTapProfileSync, false)
     // the updates property of the onCleverTapProfileSync event represents the changed data and is of the form:
     //      {
     //          "profile":{"<property1>":{"oldValue":<value>, "newValue":<value>}, ...},
@@ -164,107 +157,105 @@ onDeviceReady: function() {
     //      }
     //
     //
-    
-onCleverTapProfileSync: function(e) {
-    console.log(e.updates);
-},
-    
-onCleverTapProfileDidInitialize: function(e) {
-    console.log(e.CleverTapID);
-},
-    
-onCleverTapInAppNotificationDismissed: function(e) {
-    console.log("onCleverTapInAppNotificationDismissed");
-    console.log(e.extras);
-    console.log(e.actionExtras);
-},
-
-onCleverTapPushNotificationTappedWithCustomExtras: function(e) {
-    console.log("onCleverTapPushNotificationTappedWithCustomExtras");
-    console.log(e.customExtras);
-}, 
-
-    // deep link handling
-onDeepLink: function(e) {
-    console.log(e.deeplink);
-},
-    
-    // push notification payload handling
-onPushNotification: function(e) {
-    console.log(e.notification);
-},
-    
-onCleverTapInboxDidInitialize: function() {
-
-    CleverTap.getInboxMessageForId("1642753141_1642755745", function(val) {console.log("Inbox message is "+JSON.stringify(val));});
-    CleverTap.showInbox({"navBarTitle":"My App Inbox","tabs": ["tag1", "tag2"],"navBarColor":"#FF0000"});
-    CleverTap.getAllInboxMessages(function(val) {console.log("Inbox messages are "+val);});
-    CleverTap.getUnreadInboxMessages(function(val) {console.log("Unread Inbox messages are "+val);});
-    CleverTap.deleteInboxMessageForId("messageId");
-    CleverTap.markReadInboxMessageForId("messageId");
-    CleverTap.pushInboxNotificationViewedEventForId("messageId");
-    CleverTap.pushInboxNotificationClickedEventForId("messageId");
-},
-    
-onCleverTapInboxMessagesDidUpdate: function() {
-    CleverTap.getInboxMessageUnreadCount(function(val) {console.log("Inbox unread message count"+val);})
-    CleverTap.getInboxMessageCount(function(val) {console.log("Inbox read message count"+val);});
-},
-
-onCleverTapInAppButtonClick: function(e) {
-    console.log("onCleverTapInAppButtonClick");
-    console.log(e.customExtras);
-},
-
-onCleverTapInboxButtonClick: function(e) {
-    console.log("onCleverTapInboxButtonClick");
-    console.log(e.customExtras);
-},
-
-onCleverTapFeatureFlagsDidUpdate: function() {
-    console.log("onCleverTapFeatureFlagsDidUpdate");
-},
-
-onCleverTapProductConfigDidInitialize: function() {
-    console.log("onCleverTapProductConfigDidInitialize");
-},
-
-onCleverTapProductConfigDidFetch: function() {
-    console.log("onCleverTapProductConfigDidFetch");
-},
-
-onCleverTapProductConfigDidActivate: function() {
-    console.log("onCleverTapProductConfigDidActivate");
-},
-
-onCleverTapExperimentsUpdated: function() {
-    console.log("onCleverTapExperimentsUpdated");
-},
-
-onCleverTapDisplayUnitsLoaded: function(e) {
-    console.log("onCleverTapDisplayUnitsLoaded");
-    console.log(e.units);
-    CleverTap.getDisplayUnitForId("1642753742_20220131",function(val) {console.log("Native Display unit is "+JSON.stringify(val));});
-    CleverTap.getAllDisplayUnits(function(val) {console.log("Native Display units are "+JSON.stringify(val));});
-
-},
-
-onCleverTapPushAmpPayloadDidReceived: function(e) {
-    console.log("onCleverTapPushAmpPayloadDidReceived");
-    console.log(e.customExtras);
-},
-
-    // Update DOM on a Received Event
-receivedEvent: function(id) {
-    var parentElement = document.getElementById(id);
-    var listeningElement = parentElement.querySelector('.listening');
-    var receivedElement = parentElement.querySelector('.received');
-    
-    listeningElement.setAttribute('style', 'display:none;');
-    receivedElement.setAttribute('style', 'display:block;');
-    
-    console.log('Received Event: ' + id);
 }
-};
 
-app.initialize();
+
+
+
+function initLogging() {
+    log('Running cordova-' + cordova.platformId + '@' + cordova.version)
+    CleverTap.setDebugLevel(3)
+}
+
+
+function initListeners() {
+    log("setting listeners")
+    document.addEventListener('onCleverTapProfileSync', e => log(e.updates))
+    document.addEventListener('onCleverTapProfileDidInitialize', e => log(e.CleverTapID))
+    document.addEventListener('onCleverTapInAppNotificationDismissed', e => {
+            log("onCleverTapInAppNotificationDismissed")
+            log(e.extras)
+            log(e.actionExtras)
+        }
+    )
+    // deeplink handler
+    document.addEventListener('onDeepLink', e => log(e.deeplink))
+    //push notification handler
+    document.addEventListener('onPushNotification', e => log(e.notification))
+    document.addEventListener('onCleverTapInboxDidInitialize', () => {
+            CleverTap.getInboxMessageForId("1642753141_1642755745", val => log("Inbox message is " + JSON.stringify(val)))
+            CleverTap.showInbox({"navBarTitle": "My App Inbox", "tabs": ["tag1", "tag2"], "navBarColor": "#FF0000"})
+            CleverTap.getAllInboxMessages(val => log("Inbox messages are " + val))
+            CleverTap.getUnreadInboxMessages(val => log("Unread Inbox messages are " + val))
+            CleverTap.deleteInboxMessageForId("messageId")
+            CleverTap.markReadInboxMessageForId("messageId")
+            CleverTap.pushInboxNotificationViewedEventForId("messageId")
+            CleverTap.pushInboxNotificationClickedEventForId("messageId")
+        }
+    )
+    document.addEventListener('onCleverTapInboxMessagesDidUpdate', () => {
+            CleverTap.getInboxMessageUnreadCount(val => log("Inbox unread message count" + val))
+            CleverTap.getInboxMessageCount(val => log("Inbox read message count" + val))
+        }
+    )
+    document.addEventListener('onCleverTapInboxButtonClick', e => {
+            log("onCleverTapInboxButtonClick")
+            log(e.customExtras)
+        }
+    )
+    document.addEventListener('onCleverTapInAppButtonClick', e => {
+            log("onCleverTapInAppButtonClick")
+            log(e.customExtras)
+        }
+    )
+    document.addEventListener('onCleverTapFeatureFlagsDidUpdate', () => log("onCleverTapFeatureFlagsDidUpdate"))
+    document.addEventListener('onCleverTapProductConfigDidInitialize', () => log("onCleverTapProductConfigDidInitialize"))
+    document.addEventListener('onCleverTapProductConfigDidFetch', () => log("onCleverTapProductConfigDidFetch"))
+    document.addEventListener('onCleverTapProductConfigDidActivate', () => log("onCleverTapProductConfigDidActivate"))
+    document.addEventListener('onCleverTapExperimentsUpdated', () => log("onCleverTapExperimentsUpdated"))
+    document.addEventListener('onCleverTapDisplayUnitsLoaded', e => {
+            log("onCleverTapDisplayUnitsLoaded")
+            log(e.units)
+            CleverTap.getDisplayUnitForId("1642753742_20220131", val => log("Native Display unit is " + JSON.stringify(val)))
+            CleverTap.getAllDisplayUnits(val => log("Native Display units are " + JSON.stringify(val)))
+
+        }
+    )
+    document.addEventListener('onCleverTapPushNotificationTappedWithCustomExtras', e => {
+            log("onCleverTapPushNotificationTappedWithCustomExtras")
+            log(e.customExtras)
+        }
+    )
+    document.addEventListener('onCleverTapPushAmpPayloadDidReceived', e => {
+            log("onCleverTapPushAmpPayloadDidReceived")
+            log(e.customExtras)
+        }
+    )
+}
+
+
+
+function updateUi() {
+    document.getElementById('deviceready').classList.add('ready')
+    let parentElement = document.getElementById("deviceready")
+    let listeningElement = parentElement.querySelector('.listening')
+    let receivedElement = parentElement.querySelector('.received')
+
+    listeningElement.setAttribute('style', 'display:none')
+    receivedElement.setAttribute('style', 'display:block')
+}
+
+
+initListeners()
+document.addEventListener(
+    'deviceready',
+    param => {
+        log("on device ready, received param:", param)
+        initLogging()
+        setupButtons()
+        updateUi()
+    },
+    false
+)
+
+// following tag combination gives a very clean log stream under logcat(make sure to check regex) : chromium|CleverTap
