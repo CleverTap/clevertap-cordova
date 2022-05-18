@@ -17,6 +17,8 @@
  * under the License.
  */
 
+//  build android code : cordova build android --release -- --gradleArg=-PcdvCompileSdkVersion=30
+
 function log(param){
     if(arguments.length>1){
         for (let i = 0; i < arguments.length; i++) {

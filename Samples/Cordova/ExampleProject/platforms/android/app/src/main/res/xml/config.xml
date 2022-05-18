@@ -21,4 +21,5 @@
     <allow-intent href="market:*" />
     <preference name="loglevel" value="DEBUG" />
     <preference name="AndroidXEnabled" value="true" />
+    <preference name="android-targetSdkVersion" value="30" />
 </widget>

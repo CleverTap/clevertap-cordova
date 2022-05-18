@@ -49,16 +49,16 @@
           releaseCompile(project(path: "CordovaLib", configuration: "release"))
           // SUB-PROJECT DEPENDENCIES START
           implementation "com.google.firebase:firebase-core:+"
-          implementation "com.google.firebase:firebase-messaging:20.2.4"
+          implementation "com.google.firebase:firebase-messaging:22.0.0"
           implementation 'androidx.core:core:1.3.0'
-          implementation 'androidx.fragment:fragment:1.1.0'
-          implementation "com.android.installreferrer:installreferrer:2.1" //Mandatory for v2.1.8 and above
+          implementation 'androidx.fragment:fragment:1.3.6'
+          implementation "com.android.installreferrer:installreferrer:2.2" //Mandatory for v2.1.8 and above
           //MANDATORY for App Inbox
-          implementation 'androidx.appcompat:appcompat:1.2.0'
-          implementation 'androidx.recyclerview:recyclerview:1.1.0'
+          implementation 'androidx.appcompat:appcompat:1.3.1'
+          implementation 'androidx.recyclerview:recyclerview:1.2.1'
           implementation 'androidx.viewpager:viewpager:1.0.0'
-          implementation 'com.google.android.material:material:1.2.1'
-          implementation 'com.github.bumptech.glide:glide:4.11.0'
+          implementation 'com.google.android.material:material:1.4.0'
+          implementation 'com.github.bumptech.glide:glide:4.12.0'
           //Optional ExoPlayer Libraries for Audio/Video Inbox Messages. Audio/Video messages will be dropped without these dependencies
           implementation 'com.google.android.exoplayer:exoplayer:2.11.5'
           implementation 'com.google.android.exoplayer:exoplayer-hls:2.11.5'
@@ -73,6 +73,14 @@
   ```xml
       <preference name="AndroidXEnabled" value="true" />
   ```
+
+
++ **Supporting push notifications from FCM:**
+  + Add the following Preference in `config.xml` file : `<preference name="GradlePluginGoogleServicesEnabled" value="true" />`
+  + Register your app with a firebase project and put `google-services.json` inside `platforms/android/app` folder
+
+
+
 
   Also ensure that your app supports `cordova-android@9.0.0`
 
