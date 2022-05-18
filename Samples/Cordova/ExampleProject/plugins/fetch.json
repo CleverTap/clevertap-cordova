@@ -1,14 +1,4 @@
 {
-  "cordova-android-support-gradle-release": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-android-support-gradle-release@^3.0.1"
-    },
-    "is_top_level": true,
-    "variables": {
-      "ANDROID_SUPPORT_VERSION": "27.+"
-    }
-  },
   "clevertap-cordova": {
     "source": {
       "type": "registry",
@@ -17,7 +7,19 @@
     "is_top_level": true,
     "variables": {
       "CLEVERTAP_ACCOUNT_ID": "48Z-795-765Z",
-      "CLEVERTAP_TOKEN": "5ca-1b4"
+      "CLEVERTAP_TOKEN": "5ca-1b4",
+      "CLEVERTAP_REGION": " ",
+      "FIREBASE_MESSAGING_VERSION": "21.0.0"
+    }
+  },
+  "cordova-android-support-gradle-release": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-android-support-gradle-release@^3.0.1"
+    },
+    "is_top_level": true,
+    "variables": {
+      "ANDROID_SUPPORT_VERSION": "27.+"
     }
   }
 }

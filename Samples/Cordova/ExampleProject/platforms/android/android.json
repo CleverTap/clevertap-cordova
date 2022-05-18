@@ -66,7 +66,7 @@
       "CLEVERTAP_ACCOUNT_ID": "48Z-795-765Z",
       "CLEVERTAP_TOKEN": "5ca-1b4",
       "CLEVERTAP_REGION": " ",
-      "FIREBASE_MESSAGING_VERSION": "20.2.4",
+      "FIREBASE_MESSAGING_VERSION": "21.0.0",
       "PACKAGE_NAME": "com.clevertap.example"
     },
     "cordova-android-support-gradle-release": {
@@ -86,7 +86,7 @@
     }
   ],
   "plugin_metadata": {
-    "clevertap-cordova": "2.4.0",
+    "clevertap-cordova": "2.5.0",
     "cordova-android-support-gradle-release": "3.0.1"
   }
 }

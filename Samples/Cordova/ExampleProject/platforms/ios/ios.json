@@ -65,6 +65,9 @@
       "CLEVERTAP_TOKEN": "5ca-1b4",
       "CLEVERTAP_REGION": " ",
       "PACKAGE_NAME": "com.clevertap.example"
+    },
+    "cordova-android-support-gradle-release": {
+      "PACKAGE_NAME": "com.clevertap.example"
     }
   },
   "dependent_plugins": {},
@@ -79,6 +82,7 @@
     }
   ],
   "plugin_metadata": {
-    "clevertap-cordova": "2.4.0"
+    "clevertap-cordova": "2.4.0",
+    "cordova-android-support-gradle-release": "3.0.1"
   }
 }
