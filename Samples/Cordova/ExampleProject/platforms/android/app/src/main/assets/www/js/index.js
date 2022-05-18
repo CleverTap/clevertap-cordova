@@ -35,14 +35,97 @@ function log(param){
 }
 
 function setupButtons() {
-    let eventsMap = {
-        "Push tokens manually" : ()=>{
+    let eventsMap = [
+        ["title","--------Events---------"],
+        ["record Event With Name", () => CleverTap.recordEventWithName("foo")],
+        ["record Event With NameAndProps", () => CleverTap.recordEventWithNameAndProps("boo", {"bar": "zoo"})],
+        ["record Charged Event With Details And Items", () => CleverTap.recordChargedEventWithDetailsAndItems({
+            "amount": 300,
+            "Charged ID": 1234
+        }, [{"Category": "Books", "Quantity": 1, "Title": "Book Title"}])],
+        ["recordScreenView", () => CleverTap.recordScreenView("HomeView")],
+
+
+        ["title","--------User Profile---------"],
+        ["profile Set", () => CleverTap.profileSet({"Identity": 20501, "DOB": "1950-10-15", "custom": 1.3})],
+        ["profile SetMultiValues", () => CleverTap.profileSetMultiValues("multiValue", ["one", "two", "three", "four"])],
+        ["profile getLocation/setLocation", () => CleverTap.getLocation(loc => {
+            log("CleverTapLocation is " + loc.lat + loc.lon)
+            CleverTap.setLocation(loc.lat, loc.lon)
+        }, error => log("CleverTapLocation error is " + error))],
+        ["profile GetProperty - DOB", () => CleverTap.profileGetProperty("DOB", val => log("DOB profile value is " + val))],
+        ["profile GetProperty - Identity", () => CleverTap.profileGetProperty("Identity", val => log("Identity profile value is " + val))],
+        ["profile GetProperty - custom", () => CleverTap.profileGetProperty("custom", val => log("custom profile value is " + val))],
+        ["profile onUserLogin", () => CleverTap.onUserLogin({"Identity": 20500, "custom": 1.3})],
+        ["profile Add MultiValue", () => CleverTap.profileAddMultiValue("multiValue", "five")],
+        ["profile Remove MultiValues", () => CleverTap.profileRemoveMultiValues("multiValue", ["one", "two"])],
+        ["profile Remove MultiValuE", () => CleverTap.profileRemoveMultiValue("multiValue", "three")],
+        ["profile Remove Value For Key", () => CleverTap.profileRemoveValueForKey("custom")],
+        ["profile GetProperty (multivalue)", () => CleverTap.profileGetProperty("multiValue", val => log("multiValue profile value is " + val))],
+        ["profile Increment ValueBy", () => CleverTap.profileIncrementValueBy("Score", 1)],
+        ["profile Increment ValueBy(2)", () => CleverTap.profileIncrementValueBy("Score", 2)],
+        ["profile Decrement ValueBy", () => CleverTap.profileDecrementValueBy("pageview", 1)],
+        ["profile getString", () => CleverTap.getString("test", val => log("Value is " + val))],
+        ["profile getBoolean", () => CleverTap.getBoolean("test", val => log("Value is " + val))],
+        ["profile getLong", () => CleverTap.getLong("test", val => log("Value is " + val))],
+        ["profile getDouble", () => CleverTap.getDouble("test", val => log("Value is " + val))],
+
+
+        ["title","--------In App--------"],
+        ["suspend InApp Notifications", () => CleverTap.suspendInAppNotifications()],
+        ["resume InApp Notifications", () => CleverTap.resumeInAppNotifications()],
+        ["discard InApp Notifications", () => CleverTap.discardInAppNotifications()],
+
+        ["title","--------productConfig--------"],
+        ["productConfig fetch", () => CleverTap.fetch()],
+        ["productConfig fetchWithMinimumInterval", () => CleverTap.fetchWithMinimumFetchIntervalInSeconds(100)],
+        ["productConfig activate", () => CleverTap.activate()],
+        ["productConfig fetchAndActivate", () => CleverTap.fetchAndActivate()],
+        ["productConfig reset", () => CleverTap.reset()],
+        ["productConfig setMinimumFetchInterval", () => CleverTap.setMinimumFetchIntervalInSeconds(100)],
+        ["productConfig getLastFetchTimeStamp", () => CleverTap.getLastFetchTimeStampInMillis(val => log("Value is " + val))],
+
+        ["title","--------inbox--------"],
+        ["initialize Inbox", () => CleverTap.initializeInbox()],
+
+        ["title","--------Feature flag--------"],
+        ["get Feature Flag", () => CleverTap.getFeatureFlag("test", true, val => log("Value is " + val))],
+
+        ["title","--------Device Identifiers--------"],
+        ["get CleverTap ID", () => CleverTap.getCleverTapID(val => log("getCleverTapID is " + val))],
+
+
+        ["title","--------special functions for cordova sdk---------"],
+        ["Push tokens manually", () => {
             CleverTap.setPushToken("foo")
             CleverTap.setPushXiaomiToken("foo")
             CleverTap.setPushBaiduToken("foo")
             CleverTap.setPushHuaweiToken("foo")
-        },
-        "Run All Actions": ()=> {
+        }],
+        ["set Debug Level", () => CleverTap.setDebugLevel(3)],
+        ["notify Device Ready", () => CleverTap.notifyDeviceReady()],
+        ["register Push", () => CleverTap.registerPush()],
+        ["pushInstallReferrer", () => CleverTap.pushInstallReferrer("source", "medium", "campaign")],
+        ["event GetFirstTime - foo", () => CleverTap.eventGetFirstTime("foo", time => log("foo event first time is " + time))],
+        ["event GetFirstTime - noevent", () => CleverTap.eventGetFirstTime("noevent", time => log("noevent event first time is " + time))],
+        ["event GetLastTime - App Launched", () => CleverTap.eventGetLastTime("App Launched", time => log("app launched last time is " + time))],
+        ["event GetLastTime - noevent", () => CleverTap.eventGetLastTime("noevent", time => log("noevent last time is " + time))],
+        ["event GetOccurrences foo", () => CleverTap.eventGetOccurrences("foo", num => log("foo event occurrences " + num))],
+        ["event GetDetails - Charged", () => CleverTap.eventGetDetails("Charged", res => log(res))],
+        ["getEventHistory", () => CleverTap.getEventHistory(history => log(history))],
+        ["event GetOccurrences noevent", () => CleverTap.eventGetOccurrences("noevent", num => log("noevent occurrences " + num))],
+        ["event GetDetails - noevent", () => CleverTap.eventGetDetails("noevent", res => log(res))],
+        ["session GetTimeElapsed", () => CleverTap.sessionGetTimeElapsed(val => log("session elapsed time is " + val))],
+        ["session GetTotalVisits", () => CleverTap.sessionGetTotalVisits(val => log("session total visits is " + val))],
+        ["session GetScreenCount", () => CleverTap.sessionGetScreenCount(val => log("session screen count is " + val))],
+        ["session GetPreviousVisitTime", () => CleverTap.sessionGetPreviousVisitTime(val => log("session previous visit time is " + val))],
+        ["session GetUTMDetails", () => CleverTap.sessionGetUTMDetails(val => log(val))],
+        ["enable Personalization", () => CleverTap.enablePersonalization()],
+        ["disable Personalization", () => CleverTap.disablePersonalization()],
+        ["set Defaults Map", () => CleverTap.setDefaultsMap({"test": "val1", "test1": "val2"})],
+
+
+        ["Run All Actions", () => {
             CleverTap.setDebugLevel(3)
             CleverTap.notifyDeviceReady()
             CleverTap.registerPush()
@@ -53,21 +136,27 @@ function setupButtons() {
             CleverTap.pushInstallReferrer("source", "medium", "campaign")
 
 
-            CleverTap.onUserLogin({"Identity":20500, "custom":1.3})
+            CleverTap.onUserLogin({"Identity": 20500, "custom": 1.3})
 
-            CleverTap.profileSet({"Identity":20501, "DOB":"1950-10-15", "custom":1.3})
+            CleverTap.profileSet({"Identity": 20501, "DOB": "1950-10-15", "custom": 1.3})
 
             CleverTap.profileSetMultiValues("multiValue", ["one", "two", "three", "four"])
 
-            CleverTap.getLocation(loc => {
+            CleverTap.getLocation(
+                loc => {
                     log("CleverTapLocation is " + loc.lat + loc.lon)
                     CleverTap.setLocation(loc.lat, loc.lon)
                 },
-                error => log("CleverTapLocation error is " + error))
+                error => log("CleverTapLocation error is " + error)
+            )
 
             CleverTap.recordEventWithName("foo")
-            CleverTap.recordEventWithNameAndProps("boo", {"bar":"zoo"})
-            CleverTap.recordChargedEventWithDetailsAndItems({"amount":300, "Charged ID":1234}, [{"Category":"Books", "Quantity":1, "Title":"Book Title"}])
+            CleverTap.recordEventWithNameAndProps("boo", {"bar": "zoo"})
+            CleverTap.recordChargedEventWithDetailsAndItems({"amount": 300, "Charged ID": 1234}, [{
+                "Category": "Books",
+                "Quantity": 1,
+                "Title": "Book Title"
+            }])
             CleverTap.eventGetFirstTime("foo", time => log("foo event first time is " + time))
             CleverTap.eventGetLastTime("App Launched", time => log("app launched last time is " + time))
             CleverTap.eventGetOccurrences("foo", num => log("foo event occurrences " + num))
@@ -101,9 +190,9 @@ function setupButtons() {
             CleverTap.profileRemoveMultiValue("multiValue", "three")
             CleverTap.profileRemoveValueForKey("custom")
             CleverTap.profileGetProperty("multiValue", val => log("multiValue profile value is " + val))
-            CleverTap.profileIncrementValueBy("Score",1)
-            CleverTap.getFeatureFlag("test",true, val => log("Value is " + val))
-            CleverTap.setDefaultsMap({"test":"val1","test1":"val2"})
+            CleverTap.profileIncrementValueBy("Score", 1)
+            CleverTap.getFeatureFlag("test", true, val => log("Value is " + val))
+            CleverTap.setDefaultsMap({"test": "val1", "test1": "val2"})
             CleverTap.fetch()
             CleverTap.fetchWithMinimumFetchIntervalInSeconds(100)
             CleverTap.activate()
@@ -114,8 +203,8 @@ function setupButtons() {
             CleverTap.getBoolean("test", val => log("Value is " + val))
             CleverTap.getLong("test", val => log("Value is " + val))
             CleverTap.getDouble("test", val => log("Value is " + val))
-            CleverTap.profileIncrementValueBy("Score",1)
-            CleverTap.profileDecrementValueBy("pageview",1)
+            CleverTap.profileIncrementValueBy("Score", 1)
+            CleverTap.profileDecrementValueBy("pageview", 1)
             CleverTap.suspendInAppNotifications()
             CleverTap.resumeInAppNotifications()
             CleverTap.discardInAppNotifications()
@@ -127,13 +216,14 @@ function setupButtons() {
             //FOR NOTIFICATION INBOX
             CleverTap.initializeInbox()
 
-        }
-    }
+        }],
+    ]
 
-    for (let key in eventsMap) {
-        const buttonElement = document.createElement("button")
-        buttonElement.innerText = key
-        const buttonOnClick = eventsMap[key]
+    for (let element of eventsMap) {
+
+        const buttonElement = element[0]==="title"? document.createElement("p") : document.createElement("button")
+        buttonElement.innerText = element[0]==="title" ? element[1]:element[0]
+        const buttonOnClick = element[0]==="title" ? ()=>{} : element[1]
         buttonElement.addEventListener('click',buttonOnClick)
         document.querySelector('.ct_button').appendChild(buttonElement)
     }
