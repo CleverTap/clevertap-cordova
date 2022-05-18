@@ -33,7 +33,7 @@
           ],
           "/manifest/application": [
             {
-              "xml": "<service android:name=\"com.clevertap.android.sdk.pushnotification.fcm.FcmMessageListenerService\"><intent-filter><action android:name=\"com.google.firebase.MESSAGING_EVENT\" /></intent-filter></service>",
+              "xml": "<service android:exported=\"true\" android:name=\"com.clevertap.android.sdk.pushnotification.fcm.FcmMessageListenerService\"><intent-filter><action android:name=\"com.google.firebase.MESSAGING_EVENT\" /></intent-filter></service>",
               "count": 1
             },
             {
@@ -62,15 +62,15 @@
     }
   },
   "installed_plugins": {
+    "cordova-android-support-gradle-release": {
+      "ANDROID_SUPPORT_VERSION": "27.+",
+      "PACKAGE_NAME": "com.clevertap.example"
+    },
     "clevertap-cordova": {
       "CLEVERTAP_ACCOUNT_ID": "48Z-795-765Z",
       "CLEVERTAP_TOKEN": "5ca-1b4",
       "CLEVERTAP_REGION": " ",
       "FIREBASE_MESSAGING_VERSION": "22.0.0",
-      "PACKAGE_NAME": "com.clevertap.example"
-    },
-    "cordova-android-support-gradle-release": {
-      "ANDROID_SUPPORT_VERSION": "27.+",
       "PACKAGE_NAME": "com.clevertap.example"
     }
   },
@@ -86,7 +86,7 @@
     }
   ],
   "plugin_metadata": {
-    "clevertap-cordova": "2.5.0",
-    "cordova-android-support-gradle-release": "3.0.1"
+    "cordova-android-support-gradle-release": "3.0.1",
+    "clevertap-cordova": "2.5.0"
   }
 }

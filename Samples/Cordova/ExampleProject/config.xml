@@ -23,5 +23,5 @@
         <allow-intent href="itms-apps:*" />
     </platform>
     <preference name="AndroidXEnabled" value="true" />
-    <preference name="android-targetSdkVersion" value="30" />
+    <preference name="android-targetSdkVersion" value="31" />
 </widget>
