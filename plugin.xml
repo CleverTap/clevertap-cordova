@@ -55,7 +55,7 @@
     </platform>
 
     <platform name="android">
-        <preference name="FIREBASE_MESSAGING_VERSION" default="21.0.0"/>
+        <preference name="FIREBASE_MESSAGING_VERSION" default="22.0.0"/>
 
         <config-file target="config.xml" parent="/*">
             <feature name="CleverTapPlugin" >
