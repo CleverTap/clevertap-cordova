@@ -1,7 +1,7 @@
 Change Log
 ==========
 
-Version 2.4.1 *(May 15, 2022)*
+Version 2.5.0 *(May 18, 2022)*
 -------------------------------------------
 - Fixes a bug where push notifications were not being rendered in the foreground and notification clicked events were fired automatically.
 - Supports [CleverTap iOS SDK v4.0.1](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/4.0.1)
