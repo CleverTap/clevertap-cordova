@@ -56,7 +56,6 @@ import com.clevertap.android.sdk.displayunits.model.CleverTapDisplayUnit;
 import com.clevertap.android.sdk.displayunits.DisplayUnitListener;
 import com.clevertap.android.sdk.product_config.CTProductConfigListener;
 import com.clevertap.android.sdk.interfaces.OnInitCleverTapIDListener;
-import com.clevertap.android.pushtemplates.PushTemplateNotificationHandler;
 import com.clevertap.android.sdk.interfaces.NotificationHandler;
 
 
@@ -87,8 +86,14 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         cleverTap.setCTPushAmpListener(this);
         cleverTap.setLibrary("Cordova");
 
-        // todo : first check if PushTemplateNotificationHandler  is available
-        CleverTapAPI.setNotificationHandler((NotificationHandler)(new PushTemplateNotificationHandler()));
+        try {
+            String ptHandler = "com.clevertap.android.pushtemplates.PushTemplateNotificationHandler";
+            Class.forName(ptHandler);
+            CleverTapAPI.setNotificationHandler((NotificationHandler) (new com.clevertap.android.pushtemplates.PushTemplateNotificationHandler()));
+        }
+        catch (Exception e){
+            System.out.println("Push templates dependency not found");
+        }
 
         onNewIntent(cordova.getActivity().getIntent());
 
@@ -147,7 +152,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                     }
                 });
 
-                if(!callbackDone) {
+                if (!callbackDone) {
                     final String callbackJson = "{'customExtras':" + data.toString() + "}";
 
                     webView.getView().post(new Runnable() {
@@ -881,7 +886,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                             _result.setKeepCallback(true);
                             callbackContext.sendPluginResult(_result);
                         }
-        
+
                     });
                 }
             });
@@ -1157,7 +1162,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 });
                 return true;
             }
-        }else if (action.equals("profileDecrementValueBy")) {
+        } else if (action.equals("profileDecrementValueBy")) {
             String key = null;
             Double value = null;
 
@@ -1345,7 +1350,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                         _result.setKeepCallback(true);
                         callbackContext.sendPluginResult(_result);
                     } catch (Exception e) {
-                        PluginResult _result = new PluginResult(PluginResult.Status.ERROR,"InboxMessage with ID="+messageId+" not found!");
+                        PluginResult _result = new PluginResult(PluginResult.Status.ERROR, "InboxMessage with ID=" + messageId + " not found!");
                         _result.setKeepCallback(true);
                         callbackContext.sendPluginResult(_result);
                     }
@@ -1423,11 +1428,10 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 public void run() {
                     CleverTapDisplayUnit displayUnit = cleverTap.getDisplayUnitForId(unitId);
                     PluginResult _result;
-                    if (displayUnit!=null)
-                    {
+                    if (displayUnit != null) {
                         _result = new PluginResult(PluginResult.Status.OK, displayUnit.getJsonObject());
                     } else {
-                        _result = new PluginResult(PluginResult.Status.ERROR, "DisplayUnit with ID="+unitId+" not found!");
+                        _result = new PluginResult(PluginResult.Status.ERROR, "DisplayUnit with ID=" + unitId + " not found!");
                     }
                     _result.setKeepCallback(true);
                     callbackContext.sendPluginResult(_result);
@@ -2070,7 +2074,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         return array;
     }
 
-    public void onNotificationClickedPayloadReceived(HashMap<String, Object> payload){
+    public void onNotificationClickedPayloadReceived(HashMap<String, Object> payload) {
 
         JSONObject jsonPayload = new JSONObject(payload);
 
@@ -2085,7 +2089,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         callbackDone = true;
     }
 
-   public void onPushAmpPayloadReceived(Bundle extras){
+    public void onPushAmpPayloadReceived(Bundle extras) {
         JSONObject jsonPayload = toJson(extras);
 
         final String json = "{'customExtras':" + jsonPayload.toString() + "}";
@@ -2097,14 +2101,14 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         });
     }
 
-    private JSONObject toJson(Bundle bundle){
+    private JSONObject toJson(Bundle bundle) {
         JSONObject json = new JSONObject();
         Set<String> keys = bundle.keySet();
         for (String key : keys) {
             try {
                 // json.put(key, bundle.get(key)); see edit below
                 json.put(key, JSONObject.wrap(bundle.get(key)));
-            } catch(JSONException e) {
+            } catch (JSONException e) {
                 //Handle exception here
             }
         }
