@@ -56,6 +56,8 @@ import com.clevertap.android.sdk.displayunits.model.CleverTapDisplayUnit;
 import com.clevertap.android.sdk.displayunits.DisplayUnitListener;
 import com.clevertap.android.sdk.product_config.CTProductConfigListener;
 import com.clevertap.android.sdk.interfaces.OnInitCleverTapIDListener;
+import com.clevertap.android.pushtemplates.PushTemplateNotificationHandler;
+import com.clevertap.android.sdk.interfaces.NotificationHandler;
 
 
 public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAppNotificationListener, CTInboxListener,
@@ -84,6 +86,10 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         cleverTap.setCTPushNotificationListener(this);
         cleverTap.setCTPushAmpListener(this);
         cleverTap.setLibrary("Cordova");
+
+        // todo : first check if PushTemplateNotificationHandler  is available
+        CleverTapAPI.setNotificationHandler((NotificationHandler)(new PushTemplateNotificationHandler()));
+
         onNewIntent(cordova.getActivity().getIntent());
 
     }
