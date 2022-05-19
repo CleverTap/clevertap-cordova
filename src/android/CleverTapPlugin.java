@@ -88,8 +88,8 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
         try {
             String ptHandler = "com.clevertap.android.pushtemplates.PushTemplateNotificationHandler";
-            Class.forName(ptHandler);
-            CleverTapAPI.setNotificationHandler((NotificationHandler) (new com.clevertap.android.pushtemplates.PushTemplateNotificationHandler()));
+            CleverTapAPI.setNotificationHandler((NotificationHandler) (Class.forName(ptHandler).getConstructor().newInstance()));
+            System.out.println("Push templates dependency available");
         }
         catch (Throwable e){
             System.out.println("Push templates dependency not found");
