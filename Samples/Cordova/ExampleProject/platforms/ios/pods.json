@@ -1,0 +1,12 @@
+{
+    "declarations": {},
+    "sources": {},
+    "libraries": {
+        "CleverTap-iOS-SDK": {
+            "name": "CleverTap-iOS-SDK",
+            "type": "podspec",
+            "spec": "3.10.0",
+            "count": 1
+        }
+    }
+}

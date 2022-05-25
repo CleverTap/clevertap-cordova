@@ -15,7 +15,9 @@
   "devDependencies": {
     "clevertap-cordova": "github:CleverTap/clevertap-cordova#task/cordova/SDK-1601",
     "cordova-android": "^10.1.2",
-    "cordova-android-support-gradle-release": "^3.0.1"
+    "cordova-android-support-gradle-release": "^3.0.1",
+    "cordova-ios": "^6.2.0",
+    "ios": "0.0.1"
   },
   "cordova": {
     "plugins": {
@@ -28,7 +30,8 @@
       }
     },
     "platforms": [
-      "android"
+      "android",
+      "ios"
     ]
   },
   "dependencies": {
