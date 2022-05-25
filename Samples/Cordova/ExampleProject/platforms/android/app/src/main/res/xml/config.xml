@@ -22,4 +22,7 @@
     <preference name="loglevel" value="DEBUG" />
     <preference name="AndroidXEnabled" value="true" />
     <preference name="android-targetSdkVersion" value="31" />
+    <preference name="android-maxSdkVersion" value="31" />
+    <preference name="android-minSdkVersion" value="21" />
+    <preference name="GradlePluginGoogleServicesEnabled" value="true" />
 </widget>
