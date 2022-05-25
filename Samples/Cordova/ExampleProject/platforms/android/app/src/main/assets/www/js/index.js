@@ -1,24 +1,3 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
-
-//  build android code : cordova build android --release -- --gradleArg=-PcdvCompileSdkVersion=30
-
 function log(param){
     if(arguments.length>1){
         for (let i = 0; i < arguments.length; i++) {
@@ -38,7 +17,7 @@ function log(param){
 
 function setupButtons() {
     let eventsMap = [
-        ["title","--------Events---------"],
+        ["title","Events"],
         ["record Event With Name", () => CleverTap.recordEventWithName("foo")],
         ["record Event With NameAndProps", () => CleverTap.recordEventWithNameAndProps("boo", {"bar": "zoo"})],
         ["record Charged Event With Details And Items", () => CleverTap.recordChargedEventWithDetailsAndItems({
@@ -48,8 +27,8 @@ function setupButtons() {
         ["recordScreenView", () => CleverTap.recordScreenView("HomeView")],
 
 
-        ["title","--------User Profile---------"],
-        ["profile Set", () => CleverTap.profileSet({"Identity": 20501, "DOB": "1950-10-15", "custom": 1.3})],
+        ["title","User Profile"],
+        ["profile Set", () => CleverTap.profileSet({"Identity": 20701, "DOB": "1951-10-15", "custom": 1.3})],
         ["profile SetMultiValues", () => CleverTap.profileSetMultiValues("multiValue", ["one", "two", "three", "four"])],
         ["profile getLocation/setLocation", () => CleverTap.getLocation(loc => {
             log("CleverTapLocation is " + loc.lat + loc.lon)
@@ -58,7 +37,7 @@ function setupButtons() {
         ["profile GetProperty - DOB", () => CleverTap.profileGetProperty("DOB", val => log("DOB profile value is " + val))],
         ["profile GetProperty - Identity", () => CleverTap.profileGetProperty("Identity", val => log("Identity profile value is " + val))],
         ["profile GetProperty - custom", () => CleverTap.profileGetProperty("custom", val => log("custom profile value is " + val))],
-        ["profile onUserLogin", () => CleverTap.onUserLogin({"Identity": 20500, "custom": 1.3})],
+        ["profile onUserLogin", () => CleverTap.onUserLogin({"Identity": 20700, "custom": 1.3})],
         ["profile Add MultiValue", () => CleverTap.profileAddMultiValue("multiValue", "five")],
         ["profile Remove MultiValues", () => CleverTap.profileRemoveMultiValues("multiValue", ["one", "two"])],
         ["profile Remove MultiValuE", () => CleverTap.profileRemoveMultiValue("multiValue", "three")],
@@ -73,12 +52,35 @@ function setupButtons() {
         ["profile getDouble", () => CleverTap.getDouble("test", val => log("Value is " + val))],
 
 
-        ["title","--------In App--------"],
+        ["title","In App"],
         ["suspend InApp Notifications", () => CleverTap.suspendInAppNotifications()],
         ["resume InApp Notifications", () => CleverTap.resumeInAppNotifications()],
         ["discard InApp Notifications", () => CleverTap.discardInAppNotifications()],
+        ["create notification channel GSTTesting", ()=> CleverTap.createNotificationChannel("GSTTesting", "GSTTesting", "", 5, true)],
+        ["create notification channel BRTesting", ()=> CleverTap.createNotificationChannel("BRTesting", "Core", "", 5, true)],
+        ["create notification channel PTTesting", ()=> CleverTap.createNotificationChannel("PTTesting", "Push templates", "", 5, true)],
+        ["Send Basic Push", () => CleverTap.recordEventWithName("Send Basic Push")],
+        ["Send Carousel Push", () => CleverTap.recordEventWithName("Send Carousel Push")],
+        ["Send Manual Carousel Pus", () => CleverTap.recordEventWithName("Send Manual Carousel Pus")],
+        ["Send Filmstrip Carousel Push", () => CleverTap.recordEventWithName("Send Filmstrip Carousel Push")],
+        ["Send Rating Push", () => CleverTap.recordEventWithName("Send Rating Push")],
+        ["Send Product Display Notification", () => CleverTap.recordEventWithName("Send Product Display Notification")],
+        ["Send Linear Product Display Push", () => CleverTap.recordEventWithName("Send Linear Product Display Push")],
+        ["Send CTA Notification", () => CleverTap.recordEventWithName("Send CTA Notification")],
+        ["Send Zero Bezel Notification", () => CleverTap.recordEventWithName("Send Zero Bezel Notification")],
+        ["Send Zero Bezel Text Only Notification", () => CleverTap.recordEventWithName("Send Zero Bezel Text Only Notification")],
+        ["Send Timer Notification", () => CleverTap.recordEventWithName("Send Timer Notification")],
+        ["Send Input Box Notification", () => CleverTap.recordEventWithName("Send Input Box Notification")],
+        ["Send Input Box Reply with Event Notification", () => CleverTap.recordEventWithName("Send Input Box Reply with Event Notification")],
+        ["Send Input Box Reply with Auto Open Notification", () => CleverTap.recordEventWithName("Send Input Box Reply with Auto Open Notification")],
+        ["Send Input Box Remind Notification DOC FALSE", () => CleverTap.recordEventWithName("Send Input Box Remind Notification DOC FALSE")],
+        ["Send Input Box CTA DOC true", () => CleverTap.recordEventWithName("Send Input Box CTA DOC true")],
+        ["Send Input Box CTA DOC false", () => CleverTap.recordEventWithName("Send Input Box CTA DOC false")],
+        ["Send Input Box Reminder DOC true", () => CleverTap.recordEventWithName("Send Input Box Reminder DOC true")],
+        ["Send Input Box Reminder DOC false", () => CleverTap.recordEventWithName("Send Input Box Reminder DOC false")],
+        ["Send Input Box Reminder DOC false", () => CleverTap.recordEventWithName("Send Input Box Reminder DOC false")],
 
-        ["title","--------productConfig--------"],
+        ["title","productConfig"],
         ["productConfig fetch", () => CleverTap.fetch()],
         ["productConfig fetchWithMinimumInterval", () => CleverTap.fetchWithMinimumFetchIntervalInSeconds(100)],
         ["productConfig activate", () => CleverTap.activate()],
@@ -87,17 +89,17 @@ function setupButtons() {
         ["productConfig setMinimumFetchInterval", () => CleverTap.setMinimumFetchIntervalInSeconds(100)],
         ["productConfig getLastFetchTimeStamp", () => CleverTap.getLastFetchTimeStampInMillis(val => log("Value is " + val))],
 
-        ["title","--------inbox--------"],
+        ["title","inbox"],
         ["initialize Inbox", () => CleverTap.initializeInbox()],
 
-        ["title","--------Feature flag--------"],
+        ["title","Feature flag"],
         ["get Feature Flag", () => CleverTap.getFeatureFlag("test", true, val => log("Value is " + val))],
 
-        ["title","--------Device Identifiers--------"],
+        ["title","Device Identifiers"],
         ["get CleverTap ID", () => CleverTap.getCleverTapID(val => log("getCleverTapID is " + val))],
 
 
-        ["title","--------special functions for cordova sdk---------"],
+        ["title","special functions for cordova sdk"],
         ["Push tokens manually", () => {
             CleverTap.setPushToken("foo")
             CleverTap.setPushXiaomiToken("foo")
@@ -349,5 +351,5 @@ document.addEventListener(
     },
     false
 )
-
+//TEST-R78-ZZK-955Z TEST-311-ba2
 // following tag combination gives a very clean log stream under logcat(make sure to check regex) : chromium|CleverTap

@@ -48,25 +48,7 @@ body {
 /* Portrait layout (default) */
 .app {
     background:url(../img/logo.png) no-repeat center top; /* 170px x 200px */
-    position:absolute;             /* position in the center of the screen */
-    left:50%;
-    top:50%;
-    height:50px;                   /* text area height */
-    width:225px;                   /* text area width */
     text-align:center;
-    padding:180px 0px 0px 0px;     /* image height is 200px (bottom 20px are overlapped with text) */
-    margin:-115px 0px 0px -112px;  /* offset vertical: half of image height and text area height */
-                                   /* offset horizontal: half of text area width */
-}
-
-/* Landscape layout (with min-width) */
-@media screen and (min-aspect-ratio: 1/1) and (min-width:400px) {
-    .app {
-        background-position:left center;
-        padding:75px 0px 75px 170px;  /* padding-top + padding-bottom + text area = image height */
-        margin:-90px 0px 0px -198px;  /* offset vertical: half of image height */
-                                      /* offset horizontal: half of image width and text area width */
-    }
 }
 
 h1 {
@@ -114,26 +96,40 @@ h1 {
     -webkit-animation:fade 3000ms infinite;
 }
 
+.ct_button{
+    margin-top: 24px;
+    margin-left: 8px;
+    margin-right: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
 button{
+    display: inline-block;
+    width: 100%;
     padding: 12px 16px;
     background: #9c00ad;
+    border-radius: 8px;
     color: white;
-    text-transform: uppercase;
+    text-transform: capitalize;
+    letter-spacing: 1px;
     font-size: 12px;
     border: none;
-    min-width: 40vw;
-    margin: 4px 8px;
+    margin: 4px 30px;
+    box-shadow: rgba(0, 0, 0, 0.15) 5px 5px 7px;
 }
 
 p{
+    width: 100%;
     padding: 12px 16px;
     background: #ffe7c7;
     color: #000000;
     text-transform: uppercase;
     font-size: 12px;
     border: none;
-    min-width: 40vw;
     margin: 4px 8px;
+    border-radius: 28px;
 }
 
 
@@ -141,4 +137,5 @@ button:active{
     background: #fce1ff;
     color: black;
     padding: 11px 15px;
+    box-shadow: none;
 }
