@@ -1,0 +1,38 @@
+{
+  "name": "clevertap-cordova",
+  "version": "2.4.0",
+  "description": "CleverTap Plugin for Cordova/PhoneGap",
+  "cordova": {
+    "id": "clevertap-cordova",
+    "platforms": [
+      "ios",
+      "android"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CleverTap/clevertap-cordova.git"
+  },
+  "keywords": [
+    "CleverTap",
+    "ecosystem:cordova",
+    "cordova-ios",
+    "cordova-android"
+  ],
+  "engines": {
+  "cordovaDependencies": {
+      "2.3.2": { 
+        "cordova-ios": ">=4.3.0",
+        "cordova-android": ">6.3.0",
+        "cordova": ">=7.0.0"
+      }
+    }
+  },
+  "author": "CleverTap",
+  "license": "Commercial",
+  "bugs": {
+    "url": "https://github.com/CleverTap/clevertap-cordova/issues"
+  },
+  "homepage": "https://github.com/CleverTap/clevertap-cordova#readme",
+  "dependencies": {}
+}

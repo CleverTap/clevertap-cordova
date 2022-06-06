@@ -33,7 +33,7 @@
           ],
           "/manifest/application": [
             {
-              "xml": "<service android:name=\"com.clevertap.android.sdk.pushnotification.fcm.FcmMessageListenerService\"><intent-filter><action android:name=\"com.google.firebase.MESSAGING_EVENT\" /></intent-filter></service>",
+              "xml": "<service android:exported=\"true\" android:name=\"com.clevertap.android.sdk.pushnotification.fcm.FcmMessageListenerService\"><intent-filter><action android:name=\"com.google.firebase.MESSAGING_EVENT\" /></intent-filter></service>",
               "count": 1
             },
             {
@@ -41,11 +41,11 @@
               "count": 1
             },
             {
-              "xml": "<meta-data android:name=\"CLEVERTAP_ACCOUNT_ID\" android:value=\"48Z-795-765Z\" />",
+              "xml": "<meta-data android:name=\"CLEVERTAP_ACCOUNT_ID\" android:value=\"TEST-R78-ZZK-955Z\" />",
               "count": 1
             },
             {
-              "xml": "<meta-data android:name=\"CLEVERTAP_TOKEN\" android:value=\"5ca-1b4\" />",
+              "xml": "<meta-data android:name=\"CLEVERTAP_TOKEN\" android:value=\"TEST-311-ba2\" />",
               "count": 1
             },
             {
@@ -63,10 +63,10 @@
   },
   "installed_plugins": {
     "clevertap-cordova": {
-      "CLEVERTAP_ACCOUNT_ID": "48Z-795-765Z",
-      "CLEVERTAP_TOKEN": "5ca-1b4",
+      "CLEVERTAP_ACCOUNT_ID": "TEST-R78-ZZK-955Z",
+      "CLEVERTAP_TOKEN": "TEST-311-ba2",
       "CLEVERTAP_REGION": " ",
-      "FIREBASE_MESSAGING_VERSION": "20.2.4",
+      "FIREBASE_MESSAGING_VERSION": "22.0.0",
       "PACKAGE_NAME": "com.clevertap.example"
     },
     "cordova-android-support-gradle-release": {
@@ -86,7 +86,7 @@
     }
   ],
   "plugin_metadata": {
-    "clevertap-cordova": "2.4.0",
+    "clevertap-cordova": "2.5.0",
     "cordova-android-support-gradle-release": "3.0.1"
   }
 }
