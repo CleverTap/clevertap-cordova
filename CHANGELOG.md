@@ -3,9 +3,11 @@ Change Log
 
 Version 2.5.0 *(June 6, 2022)*
 -------------------------------------------
-- Supports [CleverTap Android SDK v4.4.0](https://github.com/CleverTap/clevertap-android-sdk/releases/tag/core-v4.4.0)
+- Supports [CleverTap Android SDK v4.4.0](https://github.com/CleverTap/clevertap-android-sdk/releases/tag/core-v4.4.0) .
+- Support for Android 12.
+- Support for [Android Push Templates](https://github.com/CleverTap/clevertap-cordova/blob/master/docs/Troubleshooting-Guide.md#supporting-clevertap-push-templates) .
 - Fixes an iOS bug where push notifications were not being rendered in the foreground and notification clicked events were fired automatically.
-- Supports [CleverTap iOS SDK v4.0.1](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/4.0.1)
+- Supports [CleverTap iOS SDK v4.0.1](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/4.0.1).
 
 Version 2.4.0 *(January 31, 2022)*
 -------------------------------------------
