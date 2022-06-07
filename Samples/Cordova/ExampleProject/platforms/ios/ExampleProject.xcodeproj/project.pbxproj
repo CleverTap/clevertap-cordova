@@ -14,8 +14,8 @@
 		302D95F114D2391D003F00A1 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 302D95EF14D2391D003F00A1 /* MainViewController.m */; };
 		302D95F214D2391D003F00A1 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 302D95F014D2391D003F00A1 /* MainViewController.xib */; };
 		6AFF5BF91D6E424B00AB3073 /* CDVLaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6AFF5BF81D6E424B00AB3073 /* CDVLaunchScreen.storyboard */; };
-		648D063DF2004E2A9103BBA3 /* AppDelegate+CleverTapPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = BC4F5662A4D44859AEFD927F /* AppDelegate+CleverTapPlugin.m */; };
-		DA4F8AB8A4404C7283E0F2D9 /* CleverTapPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = AD7886167F2D4AAF8FDFA77E /* CleverTapPlugin.m */; };
+		1FF440E76D504B60BF2AAE9E /* AppDelegate+CleverTapPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 18471099DD4C4C3793EDEDA4 /* AppDelegate+CleverTapPlugin.m */; };
+		C8D522B72D114F89B021F1F9 /* CleverTapPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 00100D23DD4D4C1F99AAFA2B /* CleverTapPlugin.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,10 +63,10 @@
 		EB87FDF41871DAF40020F90C /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = ../../config.xml; sourceTree = "<group>"; };
 		ED33DF2A687741AEAF9F8254 /* Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		F840E1F0165FE0F500CFE078 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = "ExampleProject/config.xml"; sourceTree = "<group>"; };
-		BC4F5662A4D44859AEFD927F /* AppDelegate+CleverTapPlugin.m */ = {isa = PBXFileReference; name = "AppDelegate+CleverTapPlugin.m"; path = "clevertap-cordova/AppDelegate+CleverTapPlugin.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
-		AD7886167F2D4AAF8FDFA77E /* CleverTapPlugin.m */ = {isa = PBXFileReference; name = "CleverTapPlugin.m"; path = "clevertap-cordova/CleverTapPlugin.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
-		7F7182B21CE64EEEBF2C65DD /* AppDelegate+CleverTapPlugin.h */ = {isa = PBXFileReference; name = "AppDelegate+CleverTapPlugin.h"; path = "clevertap-cordova/AppDelegate+CleverTapPlugin.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
-		F2A81B19F3574F61877F4866 /* CleverTapPlugin.h */ = {isa = PBXFileReference; name = "CleverTapPlugin.h"; path = "clevertap-cordova/CleverTapPlugin.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		18471099DD4C4C3793EDEDA4 /* AppDelegate+CleverTapPlugin.m */ = {isa = PBXFileReference; name = "AppDelegate+CleverTapPlugin.m"; path = "clevertap-cordova/AppDelegate+CleverTapPlugin.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		00100D23DD4D4C1F99AAFA2B /* CleverTapPlugin.m */ = {isa = PBXFileReference; name = "CleverTapPlugin.m"; path = "clevertap-cordova/CleverTapPlugin.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		25426CB613B146E1806EA641 /* AppDelegate+CleverTapPlugin.h */ = {isa = PBXFileReference; name = "AppDelegate+CleverTapPlugin.h"; path = "clevertap-cordova/AppDelegate+CleverTapPlugin.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		E6632341592F474F8215BC09 /* CleverTapPlugin.h */ = {isa = PBXFileReference; name = "CleverTapPlugin.h"; path = "clevertap-cordova/CleverTapPlugin.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -171,10 +171,10 @@
 		307C750510C5A3420062BCA9 /* Plugins */ = {
 			isa = PBXGroup;
 			children = (
-				BC4F5662A4D44859AEFD927F /* AppDelegate+CleverTapPlugin.m */,
-				AD7886167F2D4AAF8FDFA77E /* CleverTapPlugin.m */,
-				7F7182B21CE64EEEBF2C65DD /* AppDelegate+CleverTapPlugin.h */,
-				F2A81B19F3574F61877F4866 /* CleverTapPlugin.h */,
+				18471099DD4C4C3793EDEDA4 /* AppDelegate+CleverTapPlugin.m */,
+				00100D23DD4D4C1F99AAFA2B /* CleverTapPlugin.m */,
+				25426CB613B146E1806EA641 /* AppDelegate+CleverTapPlugin.h */,
+				E6632341592F474F8215BC09 /* CleverTapPlugin.h */,
 			);
 			name = Plugins;
 			path = "ExampleProject/Plugins";
@@ -303,8 +303,8 @@
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* AppDelegate.m in Sources */,
 				302D95F114D2391D003F00A1 /* MainViewController.m in Sources */,
-				648D063DF2004E2A9103BBA3 /* AppDelegate+CleverTapPlugin.m in Sources */,
-				DA4F8AB8A4404C7283E0F2D9 /* CleverTapPlugin.m in Sources */,
+				1FF440E76D504B60BF2AAE9E /* AppDelegate+CleverTapPlugin.m in Sources */,
+				C8D522B72D114F89B021F1F9 /* CleverTapPlugin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

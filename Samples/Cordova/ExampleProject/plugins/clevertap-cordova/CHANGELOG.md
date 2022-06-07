@@ -1,6 +1,13 @@
 Change Log
 ==========
 
+Version 2.5.0 *(May 31, 2022)*
+-------------------------------------------
+- Supports [CleverTap Android SDK v4.4.0](https://github.com/CleverTap/clevertap-android-sdk/releases/tag/core-v4.4.0)
+- Supports [CleverTap iOS SDK v3.10.0](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/3.10.0)
+
+
+
 Version 2.4.0 *(January 31, 2022)*
 -------------------------------------------
 - Adds public methods for suspending, discarding & resuming InApp Notifications
