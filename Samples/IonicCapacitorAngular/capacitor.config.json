@@ -1,0 +1,6 @@
+{
+	"appId": "com.clevertap.ionic.capacitor.angular.starter",
+	"appName": "IonicCapacitorAngular",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}
