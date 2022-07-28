@@ -69,7 +69,10 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
     if (!url) {
         return NO;
     }
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CTHandleOpenURLNotification object:url]];
+    // FOR KILLED STATE, THIS NOTIFICATION GETS BROADCASTED BEFORE OBSERVERS ARE SET INSIDE THE CODROVA PLUGIN, HENCE A SLIGHT DELAY IS ADDED
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CTHandleOpenURLNotification object:url]];
+    });
     return YES;
 }
 
