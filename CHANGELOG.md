@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+Version 2.5.2 *(July 29, 2022)*
+-------------------------------------------
+- Fixes an iOS bug where `onDeepLink` callback wasn't being called when triggered from killed state.
+- Supports [CleverTap iOS SDK v4.1.1](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/4.1.1).
+
 Version 2.5.1 *(June 7, 2022)*
 -------------------------------------------
 - Supports [CleverTap Android SDK v4.4.0](https://github.com/CleverTap/clevertap-android-sdk/releases/tag/core-v4.4.0) .

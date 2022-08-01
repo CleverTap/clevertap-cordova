@@ -18,7 +18,9 @@
 #define CLEVERTAP_NO_GEOFENCE_SUPPORT 1
 #endif
 
+@protocol CleverTapDomainDelegate;
 @protocol CleverTapSyncDelegate;
+@protocol CleverTapURLDelegate;
 @protocol CleverTapPushNotificationDelegate;
 #if !CLEVERTAP_NO_INAPP_SUPPORT
 @protocol CleverTapInAppNotificationDelegate;
@@ -39,6 +41,18 @@ typedef NS_ENUM(int, CleverTapLogLevel) {
     CleverTapLogDebug = 1
 };
 
+typedef NS_ENUM(int, CleverTapChannel) {
+    CleverTapPushNotification = 0,
+    CleverTapAppInbox = 1,
+    CleverTapInAppNotification = 2
+};
+
+typedef NS_ENUM(int, CTDirectCallEvent) {
+    DIRECT_CALL_OUTGOING_EVENT = 0,
+    DIRECT_CALL_INCOMING_EVENT,
+    DIRECT_CALL_END_EVENT
+};
+
 @interface CleverTap : NSObject
 
 #pragma mark - Properties
@@ -52,6 +66,12 @@ typedef NS_ENUM(int, CleverTapLogLevel) {
  */
 
 @property (nonatomic, strong, readonly, nonnull) CleverTapInstanceConfig *config;
+
+/**
+ CleverTap region/ domain value for direct call domain setup
+ */
+@property (nonatomic, strong, readwrite, nullable) NSString *directCallDomain;
+
 
 /* ------------------------------------------------------------------------------------------------------
  * Initialization
@@ -214,6 +234,39 @@ typedef NS_ENUM(int, CleverTapLogLevel) {
  
  */
 + (void)setCredentialsWithAccountID:(NSString * _Nonnull)accountID token:(NSString * _Nonnull)token region:(NSString * _Nonnull)region;
+
+/*!
+ @method
+ 
+ @abstract
+ Sets the CleverTap AccountID, token and proxy domain URL
+ 
+ @discussion
+ Sets the CleverTap account credentials and proxy domain URL. Once the default shared instance is intialized subsequent calls will be ignored.
+ Only has effect on the default shared instance.
+ 
+ @param accountID  the CleverTap account id
+ @param token the CleverTap account token
+ @param proxyDomain the domain of the proxy server eg: example.com or subdomain.example.com
+ */
++ (void)setCredentialsWithAccountID:(NSString * _Nonnull)accountID token:(NSString * _Nonnull)token proxyDomain:(NSString * _Nonnull)proxyDomain;
+
+/*!
+ @method
+ 
+ @abstract
+ Sets the CleverTap AccountID, token, proxy domain URL for APIs and spiky proxy domain URL for push impression APIs
+ 
+ @discussion
+ Sets the CleverTap account credentials and proxy domain URL. Once the default shared instance is intialized subsequent calls will be ignored.
+ Only has effect on the default shared instance.
+ 
+ @param accountID  the CleverTap account id
+ @param token the CleverTap account token
+ @param proxyDomain the domain of the proxy server eg: example.com or subdomain.example.com
+ @param spikyProxyDomain the domain of the proxy server for push impression eg: example.com or subdomain.example.com
+ */
++ (void)setCredentialsWithAccountID:(NSString * _Nonnull)accountID token:(NSString * _Nonnull)token proxyDomain:(NSString * _Nonnull)proxyDomain spikyProxyDomain:(NSString * _Nonnull)spikyProxyDomain;
 
 /*!
  @method
@@ -540,6 +593,28 @@ extern NSString * _Nonnull const CleverTapGeofencesDidUpdateNotification;
  @method
  
  @abstract
+ Method for incrementing a value for a single-value profile property (if it exists).
+ 
+ @param key       key string
+ @param value     value number
+ */
+- (void)profileIncrementValueBy:(NSNumber *_Nonnull)value forKey:(NSString *_Nonnull)key;
+
+/*!
+ @method
+ 
+ @abstract
+ Method for decrementing a value for a single-value profile property (if it exists).
+ 
+ @param key       key string
+ @param value     value number
+ */
+- (void)profileDecrementValueBy:(NSNumber *_Nonnull)value forKey:(NSString *_Nonnull)key;
+
+/*!
+ @method
+ 
+ @abstract
  Get a user profile property.
  
  @discussion
@@ -565,6 +640,18 @@ extern NSString * _Nonnull const CleverTapGeofencesDidUpdateNotification;
  
  */
 - (NSString *_Nullable)profileGetCleverTapID;
+
+/*!
+ @method
+ 
+ @abstract
+ Get CleverTap account Id.
+ 
+ @discussion
+ The CleverTap account Id is the unique identifier assigned to the Account by CleverTap.
+ 
+ */
+- (NSString *_Nullable)getAccountID;
 
 /*!
  @method
@@ -868,20 +955,20 @@ extern NSString * _Nonnull const CleverTapProfileDidInitializeNotification;
 
 
 /*!
-
-@method
-
-@abstract
-The `CleverTapPushNotificationDelegate` protocol provides methods for notifying
-your application (the adopting delegate) about push notifications.
-
-@see CleverTapPushNotificationDelegate.h
-
-@discussion
-This sets the CleverTapPushNotificationDelegate.
-
-@param delegate     an object conforming to the CleverTapPushNotificationDelegate Protocol
-*/
+ 
+ @method
+ 
+ @abstract
+ The `CleverTapPushNotificationDelegate` protocol provides methods for notifying
+ your application (the adopting delegate) about push notifications.
+ 
+ @see CleverTapPushNotificationDelegate.h
+ 
+ @discussion
+ This sets the CleverTapPushNotificationDelegate.
+ 
+ @param delegate     an object conforming to the CleverTapPushNotificationDelegate Protocol
+ */
 
 - (void)setPushNotificationDelegate:(id <CleverTapPushNotificationDelegate> _Nullable)delegate;
 
@@ -903,6 +990,22 @@ This sets the CleverTapPushNotificationDelegate.
  */
 - (void)setInAppNotificationDelegate:(id <CleverTapInAppNotificationDelegate> _Nullable)delegate;
 #endif
+
+/*!
+ 
+ @method
+ 
+ @abstract
+ The `CleverTapURLDelegate` protocol provides a method for the confirming class to implement custom handling for URLs in case of in-app notification CTAs, push notifications and App inbox.
+ 
+ @see CleverTapURLDelegate.h
+ 
+ @discussion
+ This sets the CleverTapURLDelegate.
+ 
+ @param delegate     an object conforming to the CleverTapURLDelegate Protocol
+ */
+- (void)setUrlDelegate:(id <CleverTapURLDelegate> _Nullable)delegate;
 
 /* ------------------------------------------------------------------------------------------------------
  * Notifications
@@ -997,7 +1100,7 @@ This sets the CleverTapPushNotificationDelegate.
  Manually initiate the display of any pending in app notifications.
  
  */
-- (void)showInAppNotificationIfAny;
+- (void)showInAppNotificationIfAny __attribute__((deprecated("Use resumeInAppNotifications to show pending InApp notifications. This will be removed soon.")));
 
 #endif
 
@@ -1090,14 +1193,14 @@ This sets the CleverTapPushNotificationDelegate.
 + (CleverTapLogLevel)getDebugLevel;
 
 /*!
-@method
-
-@abstract
-Set the Library name for Auxiliary SDKs
-
-@discussion
-Call this to method to set library name in the Auxiliary SDK
-*/
+ @method
+ 
+ @abstract
+ Set the Library name for Auxiliary SDKs
+ 
+ @discussion
+ Call this to method to set library name in the Auxiliary SDK
+ */
 - (void)setLibrary:(NSString * _Nonnull)name;
 
 /*!
@@ -1149,6 +1252,50 @@ Call this to method to set library name in the Auxiliary SDK
  */
 - (BOOL)handleMessage:(NSDictionary<NSString *, id> *)message forWatchSession:(WCSession *)session API_AVAILABLE(ios(9.0));
 #endif
+
+/*!
+ @method
+ 
+ @abstract
+ Record Direct Call System Events.
+ 
+ @param calldetails call details dictionary
+ */
+- (void)recordDirectCallEvent:(int)eventRawValue forCallDetails:(NSDictionary *_Nonnull)calldetails;
+
+/*!
+ @method
+ 
+ @abstract
+ Record Direct Call SDK version.
+ 
+ @param version Direct call SDK version
+ */
+- (void)setDirectCallVersion:(NSString* _Nullable)version;
+
+/*!
+ @method
+ 
+ @abstract
+ The `CTDomainDelegate` protocol provides methods for notifying your application (the adopting delegate) about domain/ region changes.
+ 
+ @see CleverTap+DCDomain.h
+ 
+ @discussion
+ This sets the CTDomainDelegate
+ 
+ @param delegate  an object conforming to the CTDomainDelegate Protocol
+ */
+- (void)setDomainDelegate:(id <CleverTapDomainDelegate> _Nullable)delegate;
+
+/*!
+ @method
+ 
+ @abstract
+ Get region/ domain string value
+ */
+- (NSString *_Nullable)getDomainString;
+
 
 @end
 
