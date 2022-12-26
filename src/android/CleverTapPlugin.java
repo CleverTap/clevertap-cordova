@@ -221,7 +221,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             return true;
         } else if (action.equals("setPushXiaomiTokenAsString")) {
             final String token = args.getString(0);
-            final String region = args.getString(1);
+            String region = args.getString(1);
 
             if (region!=null && region.equalsIgnoreCase("null"))
                 region = null;
