@@ -73,6 +73,11 @@ CleverTap.prototype.setPushHuaweiToken = function (token) {
     cordova.exec(null, null, "CleverTapPlugin", "setPushHuaweiTokenAsString", [token]);
 }
 
+// Change xiaomiCredentials
+CleverTap.prototype.changeXiaomiCredentials = function (xiaomiAppID, xiaomiAppKey) {
+    cordova.exec(null, null, "CleverTapPlugin", "changeXiaomiCredentials", [xiaomiAppID, xiaomiAppKey]);
+}
+
 //Create Notification Channel for Android O
 
 CleverTap.prototype.createNotification = function (extras) {
