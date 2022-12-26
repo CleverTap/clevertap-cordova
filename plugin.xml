@@ -9,12 +9,6 @@
         <clobbers target="CleverTap" />
     </js-module>
 
-    <engines>
-        <engine name="cordova" version=">=7.0.0" />
-        <engine name="cordova-android" version=">=6.3.0" />
-        <engine name="cordova-ios" version=">=4.3.0" />
-    </engines>
-
     <preference name="CLEVERTAP_ACCOUNT_ID" />
     <preference name="CLEVERTAP_TOKEN" />
     <preference name="CLEVERTAP_REGION" default=" "/>
