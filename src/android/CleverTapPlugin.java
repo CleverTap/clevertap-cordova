@@ -51,6 +51,7 @@ import com.clevertap.android.sdk.CTInboxListener;
 import com.clevertap.android.sdk.CTInboxStyleConfig;
 import com.clevertap.android.sdk.inbox.CTInboxMessage;
 import com.clevertap.android.sdk.InboxMessageButtonListener;
+import com.clevertap.android.sdk.InboxMessageListener;
 import com.clevertap.android.sdk.InAppNotificationButtonListener;
 import com.clevertap.android.sdk.displayunits.model.CleverTapDisplayUnit;
 import com.clevertap.android.sdk.displayunits.DisplayUnitListener;
@@ -61,7 +62,7 @@ import com.clevertap.android.sdk.interfaces.NotificationHandler;
 
 public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAppNotificationListener, CTInboxListener,
         InboxMessageButtonListener, InAppNotificationButtonListener, DisplayUnitListener,
-        CTFeatureFlagsListener, CTProductConfigListener, CTPushNotificationListener, CTPushAmpListener {
+        CTFeatureFlagsListener, CTProductConfigListener, CTPushNotificationListener, CTPushAmpListener, InboxMessageListener {
 
     private static final String LOG_TAG = "CLEVERTAP_PLUGIN";
     private static String CLEVERTAP_API_ERROR;
@@ -1788,8 +1789,18 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 webView.loadUrl("javascript:cordova.fireDocumentEvent('onCleverTapInboxButtonClick'," + json + ");");
             }
         });
+    }
 
-
+    public void onInboxItemClicked(CTInboxMessage message){
+        if(message != null &&  message.getData() != null){
+            //Read the values
+            final String json = "{'customExtras':" + message.getData().toString() + "}";
+            webView.getView().post(new Runnable() {
+                public void run() {
+                    webView.loadUrl("javascript:cordova.fireDocumentEvent('onCleverTapInboxItemClick'," + json + ");");
+                }
+            });
+        }
     }
 
     //InApp Notification callback
