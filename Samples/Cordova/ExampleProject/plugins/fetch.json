@@ -2,14 +2,12 @@
   "clevertap-cordova": {
     "source": {
       "type": "registry",
-      "id": "https://github.com/CleverTap/clevertap-cordova.git#task/cordova/SDK-1601"
+      "id": "https://github.com/CleverTap/clevertap-cordova#feat/release/2.6.0/SDK-2467"
     },
     "is_top_level": true,
     "variables": {
       "CLEVERTAP_ACCOUNT_ID": "TEST-R78-ZZK-955Z",
-      "CLEVERTAP_TOKEN": "TEST-311-ba2",
-      "CLEVERTAP_REGION": " ",
-      "FIREBASE_MESSAGING_VERSION": "22.0.0"
+      "CLEVERTAP_TOKEN": "TEST-311-ba2"
     }
   },
   "cordova-android-support-gradle-release": {

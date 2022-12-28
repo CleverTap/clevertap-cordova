@@ -98,11 +98,10 @@ function setupButtons() {
         ["title","Device Identifiers"],
         ["get CleverTap ID", () => CleverTap.getCleverTapID(val => log("getCleverTapID is " + val))],
 
-
         ["title","special functions for cordova sdk"],
         ["Push tokens manually", () => {
             CleverTap.setPushToken("foo")
-            CleverTap.setPushXiaomiToken("foo")
+            CleverTap.setPushXiaomiToken("foo","in")
             CleverTap.setPushBaiduToken("foo")
             CleverTap.setPushHuaweiToken("foo")
         }],
@@ -297,6 +296,12 @@ function initListeners() {
             log(e.customExtras)
         }
     )
+    document.addEventListener('onCleverTapInboxItemClick', e => {
+            log("onCleverTapInboxItemClick")
+            log(e.customExtras)
+        }
+    )
+    
     document.addEventListener('onCleverTapInAppButtonClick', e => {
             log("onCleverTapInAppButtonClick")
             log(e.customExtras)
