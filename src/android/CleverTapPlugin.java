@@ -255,18 +255,6 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 }
             });
             return true;
-        } else if (action.equals("changeXiaomiCredentials")) {
-            final String xiaomiAppID = args.getString(0);
-            final String xiaomiAppKey = args.getString(1);
-            cordova.getThreadPool().execute(new Runnable() {
-                public void run() {
-                    cleverTap.changeXiaomiCredentials(xiaomiAppID, xiaomiAppKey);
-                    PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
-                    _result.setKeepCallback(true);
-                    callbackContext.sendPluginResult(_result);
-                }
-            });
-            return true;
         } else if (action.equals("createNotification")) {
             final String extras = args.getString(0);
             JSONObject json = new JSONObject(extras);
