@@ -1070,6 +1070,17 @@ static NSDateFormatter *dateFormatter;
 }
 
 /**
+ Delete messages from the Inbox. Message id must be a String
+ */
+- (void)deleteInboxMessagesForIds:(CDVInvokedUrlCommand *)command {
+    
+    [self.commandDelegate runInBackground:^{
+        NSArray *messageIds = [command argumentAtIndex:0];
+        [clevertap deleteInboxMessagesForIDs: messageIds];
+    }];
+}
+
+/**
  Mark Message as Read
  */
 - (void)markReadInboxMessageForId:(CDVInvokedUrlCommand *)command {
@@ -1115,6 +1126,22 @@ static NSDateFormatter *dateFormatter;
     
     if (jsonString != nil) {
         NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onCleverTapInboxButtonClick', %@);", jsonString];
+        [self.commandDelegate evalJs:js];
+    }
+}
+
+- (void)messageTappedWithCustomExtras:(NSDictionary *_Nullable)customExtras {
+    
+    NSMutableDictionary *jsonDict = [NSMutableDictionary new];
+    
+    if (customExtras != nil) {
+        jsonDict[@"customExtras"] = customExtras;
+    }
+    
+    NSString *jsonString = [self _dictToJson:jsonDict];
+    
+    if (jsonString != nil) {
+        NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onCleverTapInboxItemClick', %@);", jsonString];
         [self.commandDelegate evalJs:js];
     }
 }
