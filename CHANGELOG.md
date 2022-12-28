@@ -1,6 +1,14 @@
 Change Log
 ==========
 
+Version 2.6.0 *(December 29, 2022)*
+-------------------------------------------
+- Supports [CleverTap Android SDK v4.6.6](https://github.com/CleverTap/clevertap-android-sdk/releases/tag/corev4.6.6)
+- Supports [cordova android 11.0.0](https://cordova.apache.org/announcements/2022/07/12/cordova-android-release-11.0.0.html)
+- Supports exoplayer [`v2.17.1`](https://github.com/google/ExoPlayer/releases/tag/r2.17.1). Note : this upgrade will result in minor ui changes for interstitial in app and inbox notifications that uses exoplayer.
+- Adds new callback `onCleverTapInboxItemClick` to receive inbox item click.
+- Breaks `setPushXiaomiToken()` API where new changes adds `region` as second mandatory parameter to specify server region.If you are using this method make sure you pass region while calling `setPushXiaomiToken()`.
+
 Version 2.5.2 *(July 29, 2022)*
 -------------------------------------------
 - Fixes an iOS bug where `onDeepLink` callback wasn't being called when triggered from killed state.
