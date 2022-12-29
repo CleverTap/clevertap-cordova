@@ -236,6 +236,12 @@ console.log('getInboxMessageForId: ' + r);
 this.clevertap.deleteInboxMessageForId('message_ID_1234');		
 ```
 
+#### Delete bulk messages with Ids
+
+```javascript 
+this.clevertap.deleteInboxMessagesForIds(['message_ID_1234','message_ID_xyz']);        
+```
+
 #### Mark a message as Read for Inbox Id
 
 ```javascript 
