@@ -10,7 +10,6 @@ Version 2.6.0 *(December 29, 2022)*
 - Breaks Android `setPushXiaomiToken()` API where new changes adds `region` as second mandatory parameter to specify server region.If you are using this method make sure you pass region while calling `setPushXiaomiToken()`.
 - Supports [CleverTap iOS SDK v4.2.0](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/4.2.0).
 - Adds a public method `deleteInboxMessagesForIds()` for deleting multiple App Inbox messages by passing a collection of messageIDs. Please note that this is only for iOS, and NO-OP for Android as of now.
-- Adds iOS helper method for CleverTapDisplayUnit
 
 Version 2.5.2 *(July 29, 2022)*
 -------------------------------------------
