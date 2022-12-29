@@ -1,5 +1,11 @@
 Change Log
 ==========
+Version 2.6.0 *(December 29, 2022)*
+-------------------------------------------
+- Supports [CleverTap iOS SDK v4.2.0](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/4.2.0).
+- Adds a public method deleteInboxMessagesforIds for deleting multiple App Inbox messages by passing a collection of messageIDs.
+- Adds callback for onCleverTapInboxItemClick
+- Adds helper method for CleverTapDisplayUnit
 
 Version 2.5.2 *(July 29, 2022)*
 -------------------------------------------
