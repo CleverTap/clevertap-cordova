@@ -449,6 +449,10 @@ CleverTap.prototype.deleteInboxMessageForId = function (messageId) {
      cordova.exec(null, null, "CleverTapPlugin", "deleteInboxMessageForId", [messageId]);
 }
 
+CleverTap.prototype.deleteInboxMessagesForIds = function (messageIds) {
+    cordova.exec(null, null, "CleverTapPlugin", "deleteInboxMessagesForIds", [messageIds]);
+}
+
 CleverTap.prototype.markReadInboxMessageForId = function (messageId) {
      cordova.exec(null, null, "CleverTapPlugin", "markReadInboxMessageForId", [messageId]);
 }
