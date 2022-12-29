@@ -237,6 +237,16 @@ static NSDateFormatter *dateFormatter;
     return returnArray;
 }
 
+/// Helper method to get json array from CleverTapDisplayUnit array
+/// @param displayUnits: NSArray
+- (NSArray*)cleverTapDisplayUnitsToArray:(NSArray*) displayUnits {
+    NSMutableArray *returnArray = [NSMutableArray new];
+    for(CleverTapDisplayUnit *unit in displayUnits){
+        [returnArray addObject:unit.json];
+    }
+    return returnArray;
+}
+
 #pragma mark - CleverTapInAppNotificationDelegate
 
 /**
@@ -1156,7 +1166,8 @@ static NSDateFormatter *dateFormatter;
     
     [self.commandDelegate runInBackground:^{
         NSArray *displayUnits = [clevertap getAllDisplayUnits];
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray: displayUnits];
+        NSArray *displayUnitsArray = [self cleverTapDisplayUnitsToArray: displayUnits];
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray: displayUnitsArray];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
 }
