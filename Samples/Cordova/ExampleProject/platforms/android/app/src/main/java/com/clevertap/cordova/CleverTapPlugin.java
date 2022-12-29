@@ -51,6 +51,7 @@ import com.clevertap.android.sdk.CTInboxListener;
 import com.clevertap.android.sdk.CTInboxStyleConfig;
 import com.clevertap.android.sdk.inbox.CTInboxMessage;
 import com.clevertap.android.sdk.InboxMessageButtonListener;
+import com.clevertap.android.sdk.InboxMessageListener;
 import com.clevertap.android.sdk.InAppNotificationButtonListener;
 import com.clevertap.android.sdk.displayunits.model.CleverTapDisplayUnit;
 import com.clevertap.android.sdk.displayunits.DisplayUnitListener;
@@ -61,7 +62,7 @@ import com.clevertap.android.sdk.interfaces.NotificationHandler;
 
 public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAppNotificationListener, CTInboxListener,
         InboxMessageButtonListener, InAppNotificationButtonListener, DisplayUnitListener,
-        CTFeatureFlagsListener, CTProductConfigListener, CTPushNotificationListener, CTPushAmpListener {
+        CTFeatureFlagsListener, CTProductConfigListener, CTPushNotificationListener, CTPushAmpListener, InboxMessageListener {
 
     private static final String LOG_TAG = "CLEVERTAP_PLUGIN";
     private static String CLEVERTAP_API_ERROR;
@@ -78,6 +79,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         cleverTap.setInAppNotificationListener(this);
         cleverTap.setCTNotificationInboxListener(this);
         cleverTap.setInboxMessageButtonListener(this);
+        cleverTap.setCTInboxMessageListener(this);
         cleverTap.setInAppNotificationButtonListener(this);
         cleverTap.setDisplayUnitListener(this);
         cleverTap.setCTFeatureFlagsListener(this);
@@ -221,9 +223,10 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             return true;
         } else if (action.equals("setPushXiaomiTokenAsString")) {
             final String token = args.getString(0);
+            final String region = args.getString(1);
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
-                    cleverTap.pushXiaomiRegistrationId(token, true);
+                    cleverTap.pushXiaomiRegistrationId(token,(region!=null && region.equalsIgnoreCase("null")) ? null : region, true);
                     PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
                     _result.setKeepCallback(true);
                     callbackContext.sendPluginResult(_result);
@@ -246,6 +249,18 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
                     cleverTap.pushHuaweiRegistrationId(token, true);
+                    PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
+                    _result.setKeepCallback(true);
+                    callbackContext.sendPluginResult(_result);
+                }
+            });
+            return true;
+        } else if (action.equals("changeXiaomiCredentials")) {
+            final String xiaomiAppID = args.getString(0);
+            final String xiaomiAppKey = args.getString(1);
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    cleverTap.changeXiaomiCredentials(xiaomiAppID, xiaomiAppKey);
                     PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
                     _result.setKeepCallback(true);
                     callbackContext.sendPluginResult(_result);
@@ -1775,8 +1790,18 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 webView.loadUrl("javascript:cordova.fireDocumentEvent('onCleverTapInboxButtonClick'," + json + ");");
             }
         });
+    }
 
-
+    public void onInboxItemClicked(CTInboxMessage message){
+        if(message != null &&  message.getData() != null){
+            //Read the values
+            final String json = "{'customExtras':" + message.getData().toString() + "}";
+            webView.getView().post(new Runnable() {
+                public void run() {
+                    webView.loadUrl("javascript:cordova.fireDocumentEvent('onCleverTapInboxItemClick'," + json + ");");
+                }
+            });
+        }
     }
 
     //InApp Notification callback

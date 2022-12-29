@@ -17,14 +17,15 @@
     <allow-intent href="geo:*" />
     <platform name="android">
         <allow-intent href="market:*" />
+        <preference name="AndroidWindowSplashScreenAnimatedIcon" value="res/screen/android/splashscreen.xml" />
     </platform>
     <platform name="ios">
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
     </platform>
     <preference name="AndroidXEnabled" value="true" />
-    <preference name="android-targetSdkVersion" value="31" />
-    <preference name="android-maxSdkVersion" value="31"/>
+    <preference name="android-targetSdkVersion" value="32" />
+    <preference name="android-maxSdkVersion" value="32"/>
     <preference name="android-minSdkVersion" value="21"/>
     <preference name="GradlePluginGoogleServicesEnabled" value="true" />
 </widget>
