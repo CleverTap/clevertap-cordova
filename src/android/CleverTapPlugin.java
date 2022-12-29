@@ -1372,6 +1372,14 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 }
             });
             return true;
+        } else if (action.equals("deleteInboxMessagesForIds")) {// NO-OP for Android
+
+            PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
+            _result.setKeepCallback(true);
+            callbackContext.sendPluginResult(_result);
+
+            return true;
+
         } else if (action.equals("markReadInboxMessageForId")) {
             final String messageId = (args.length() == 1 ? args.getString(0) : "");
 

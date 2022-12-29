@@ -281,6 +281,7 @@ function initListeners() {
             CleverTap.getAllInboxMessages(val => log("Inbox messages are " + val))
             CleverTap.getUnreadInboxMessages(val => log("Unread Inbox messages are " + val))
             CleverTap.deleteInboxMessageForId("messageId")
+            CleverTap.deleteInboxMessagesForIds(["id1", "id2"])
             CleverTap.markReadInboxMessageForId("messageId")
             CleverTap.pushInboxNotificationViewedEventForId("messageId")
             CleverTap.pushInboxNotificationClickedEventForId("messageId")

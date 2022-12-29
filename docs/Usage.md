@@ -237,7 +237,7 @@ console.log('getInboxMessageForId: ' + r);
 this.clevertap.deleteInboxMessageForId('message_ID_1234');		
 ```
 
-#### Delete bulk messages with Ids
+#### Delete bulk messages with Ids - Only for iOS, NO-OP for Android.
 
 ```javascript 
 this.clevertap.deleteInboxMessagesForIds(['message_ID_1234','message_ID_xyz']);        
