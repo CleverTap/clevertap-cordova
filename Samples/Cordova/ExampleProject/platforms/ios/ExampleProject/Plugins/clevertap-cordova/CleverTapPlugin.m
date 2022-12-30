@@ -342,6 +342,7 @@ static NSDateFormatter *dateFormatter;
 #pragma mark - Push
 
 - (void)registerPush:(CDVInvokedUrlCommand *)command {
+    [UNUserNotificationCenter currentNotificationCenter].delegate = [UIApplication sharedApplication].delegate;
     
     if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_9_x_Max) {
         if ([[UIApplication sharedApplication] respondsToSelector:@selector(registerUserNotificationSettings:)]) {

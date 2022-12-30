@@ -59,8 +59,8 @@ CleverTap.prototype.setPushToken = function (token) {
 }
 
 // Sets the devices Xiaomi push token
-CleverTap.prototype.setPushXiaomiToken = function (token) {
-    cordova.exec(null, null, "CleverTapPlugin", "setPushXiaomiTokenAsString", [token]);
+CleverTap.prototype.setPushXiaomiToken = function (token,region) {
+    cordova.exec(null, null, "CleverTapPlugin", "setPushXiaomiTokenAsString", [token,region]);
 }
 
 // Sets the devices Baidu push token
@@ -447,6 +447,10 @@ CleverTap.prototype.getInboxMessageForId = function (messageId, successCallback)
 
 CleverTap.prototype.deleteInboxMessageForId = function (messageId) {
      cordova.exec(null, null, "CleverTapPlugin", "deleteInboxMessageForId", [messageId]);
+}
+
+CleverTap.prototype.deleteInboxMessagesForIds = function (messageIds) {
+    cordova.exec(null, null, "CleverTapPlugin", "deleteInboxMessagesForIds", [messageIds]);
 }
 
 CleverTap.prototype.markReadInboxMessageForId = function (messageId) {

@@ -10,7 +10,7 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     }
   ];
   module.exports.metadata = {
-    "clevertap-cordova": "2.5.1",
-    "cordova-android-support-gradle-release": "3.0.1"
+    "cordova-android-support-gradle-release": "3.0.1",
+    "clevertap-cordova": "2.5.1"
   };
 });

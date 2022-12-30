@@ -62,15 +62,15 @@
     }
   },
   "installed_plugins": {
+    "cordova-android-support-gradle-release": {
+      "ANDROID_SUPPORT_VERSION": "27.+",
+      "PACKAGE_NAME": "com.clevertap.example"
+    },
     "clevertap-cordova": {
       "CLEVERTAP_ACCOUNT_ID": "TEST-R78-ZZK-955Z",
       "CLEVERTAP_TOKEN": "TEST-311-ba2",
       "CLEVERTAP_REGION": " ",
       "FIREBASE_MESSAGING_VERSION": "22.0.0",
-      "PACKAGE_NAME": "com.clevertap.example"
-    },
-    "cordova-android-support-gradle-release": {
-      "ANDROID_SUPPORT_VERSION": "27.+",
       "PACKAGE_NAME": "com.clevertap.example"
     }
   },
@@ -86,7 +86,7 @@
     }
   ],
   "plugin_metadata": {
-    "clevertap-cordova": "2.5.1",
-    "cordova-android-support-gradle-release": "3.0.1"
+    "cordova-android-support-gradle-release": "3.0.1",
+    "clevertap-cordova": "2.5.1"
   }
 }
