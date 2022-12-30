@@ -1140,15 +1140,9 @@ static NSDateFormatter *dateFormatter;
     }
 }
 
-- (void)messageTappedWithCustomExtras:(NSDictionary *_Nullable)customExtras {
+- (void)messageDidSelect:(CleverTapInboxMessage *_Nonnull)message{
     
-    NSMutableDictionary *jsonDict = [NSMutableDictionary new];
-    
-    if (customExtras != nil) {
-        jsonDict[@"customExtras"] = customExtras;
-    }
-    
-    NSString *jsonString = [self _dictToJson:jsonDict];
+    NSString *jsonString = message.jsonString;
     
     if (jsonString != nil) {
         NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onCleverTapInboxItemClick', %@);", jsonString];
