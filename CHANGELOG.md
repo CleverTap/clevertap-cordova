@@ -2,7 +2,7 @@ Change Log
 ==========
 Version 2.6.1 *(January 25, 2023)*
 -------------------------------------------
-- Fixes an iOS inbox callback method `messageDidSelect`.
+- Fixes a compilation error with iOS app inbox callback method `messageDidSelect`.
 
 Version 2.6.0 *(December 29, 2022)*
 -------------------------------------------
