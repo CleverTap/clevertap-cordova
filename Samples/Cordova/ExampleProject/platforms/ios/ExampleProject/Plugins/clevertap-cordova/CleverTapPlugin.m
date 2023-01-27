@@ -237,6 +237,16 @@ static NSDateFormatter *dateFormatter;
     return returnArray;
 }
 
+/// Helper method to get json array from CleverTapDisplayUnit array
+/// @param displayUnits: NSArray
+- (NSArray*)cleverTapDisplayUnitsToArray:(NSArray*) displayUnits {
+    NSMutableArray *returnArray = [NSMutableArray new];
+    for(CleverTapDisplayUnit *unit in displayUnits){
+        [returnArray addObject:unit.json];
+    }
+    return returnArray;
+}
+
 #pragma mark - CleverTapInAppNotificationDelegate
 
 /**
@@ -1070,6 +1080,17 @@ static NSDateFormatter *dateFormatter;
 }
 
 /**
+ Delete messages from the Inbox. Message id must be a String
+ */
+- (void)deleteInboxMessagesForIds:(CDVInvokedUrlCommand *)command {
+    
+    [self.commandDelegate runInBackground:^{
+        NSArray *messageIds = [command argumentAtIndex:0];
+        [clevertap deleteInboxMessagesForIDs: messageIds];
+    }];
+}
+
+/**
  Mark Message as Read
  */
 - (void)markReadInboxMessageForId:(CDVInvokedUrlCommand *)command {
@@ -1119,6 +1140,16 @@ static NSDateFormatter *dateFormatter;
     }
 }
 
+- (void)messageDidSelect:(CleverTapInboxMessage *_Nonnull)message{
+    
+    NSString *jsonString = [self _dictToJson:message.json];
+    
+    if (jsonString != nil) {
+        NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onCleverTapInboxItemClick', %@);", jsonString];
+        [self.commandDelegate evalJs:js];
+    }
+}
+
 
 #pragma mark - Native Display
 
@@ -1129,7 +1160,8 @@ static NSDateFormatter *dateFormatter;
     
     [self.commandDelegate runInBackground:^{
         NSArray *displayUnits = [clevertap getAllDisplayUnits];
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray: displayUnits];
+        NSArray *displayUnitsArray = [self cleverTapDisplayUnitsToArray: displayUnits];
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray: displayUnitsArray];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
 }

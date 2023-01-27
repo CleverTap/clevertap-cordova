@@ -363,6 +363,11 @@ static NSString * const CTHandleOpenURLNotification = @"CTHandleOpenURLNotificat
 - (void)deleteInboxMessageForId:(CDVInvokedUrlCommand *)command;
 
 /**
+ This method delete bulk Inbox Messages for Given Message Ids
+ */
+- (void)deleteInboxMessagesForIds:(CDVInvokedUrlCommand *)command;
+
+/**
  This method Mark a message as Read for Given Message Id
  */
 - (void)markReadInboxMessageForId:(CDVInvokedUrlCommand *)command;
