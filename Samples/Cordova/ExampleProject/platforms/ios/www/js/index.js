@@ -98,11 +98,10 @@ function setupButtons() {
         ["title","Device Identifiers"],
         ["get CleverTap ID", () => CleverTap.getCleverTapID(val => log("getCleverTapID is " + val))],
 
-
         ["title","special functions for cordova sdk"],
         ["Push tokens manually", () => {
             CleverTap.setPushToken("foo")
-            CleverTap.setPushXiaomiToken("foo")
+            CleverTap.setPushXiaomiToken("foo","in")
             CleverTap.setPushBaiduToken("foo")
             CleverTap.setPushHuaweiToken("foo")
         }],
@@ -282,6 +281,7 @@ function initListeners() {
             CleverTap.getAllInboxMessages(val => log("Inbox messages are " + val))
             CleverTap.getUnreadInboxMessages(val => log("Unread Inbox messages are " + val))
             CleverTap.deleteInboxMessageForId("messageId")
+            CleverTap.deleteInboxMessagesForIds(["id1", "id2"])
             CleverTap.markReadInboxMessageForId("messageId")
             CleverTap.pushInboxNotificationViewedEventForId("messageId")
             CleverTap.pushInboxNotificationClickedEventForId("messageId")
@@ -297,6 +297,12 @@ function initListeners() {
             log(e.customExtras)
         }
     )
+    document.addEventListener('onCleverTapInboxItemClick', e => {
+            log("onCleverTapInboxItemClick")
+            log(e.customExtras)
+        }
+    )
+    
     document.addEventListener('onCleverTapInAppButtonClick', e => {
             log("onCleverTapInAppButtonClick")
             log(e.customExtras)
