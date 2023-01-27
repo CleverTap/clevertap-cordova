@@ -13,7 +13,7 @@
   "author": "CleverTap",
   "license": "Apache-2.0",
   "devDependencies": {
-    "clevertap-cordova": "git+https://github.com/CleverTap/clevertap-cordova.git#feat/release/2.6.0/SDK-2467",
+    "clevertap-cordova": "git+https://github.com/CleverTap/clevertap-cordova.git#SDK-2617-FixInboxCallback",
     "cordova-android": "^11.0.0",
     "cordova-android-support-gradle-release": "^3.0.1",
     "cordova-ios": "^6.2.0",
