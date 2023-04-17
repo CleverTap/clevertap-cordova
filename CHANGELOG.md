@@ -1,5 +1,10 @@
 Change Log
 ==========
+Version 2.6.2 *(April 17, 2023)*
+-------------------------------------------
+- Fixed compilation errors in xcode 14.3+ in iOS.
+- Supports [CleverTap iOS SDK v4.2.2](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/4.2.2).
+
 Version 2.6.1 *(January 25, 2023)*
 -------------------------------------------
 - Fixes a compilation error with iOS app inbox callback method `messageDidSelect`.
