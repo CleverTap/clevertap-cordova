@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" id="clevertap-cordova" version="2.6.1">
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" id="clevertap-cordova" version="2.6.2">
     <name>CleverTap</name>
     <description>CleverTap Plugin for Cordova/PhoneGap</description>
     <license>Commercial</license>
@@ -40,7 +40,7 @@
             </feature>
         </config-file>
 
-        <framework src="CleverTap-iOS-SDK" type="podspec" spec="4.2.0" />
+        <framework src="CleverTap-iOS-SDK" type="podspec" spec="4.2.2" />
         <header-file src="src/ios/AppDelegate+CleverTapPlugin.h" />
         <source-file src="src/ios/AppDelegate+CleverTapPlugin.m" />
         <header-file src="src/ios/CleverTapPlugin.h" />
