@@ -49,7 +49,7 @@
     ]
   },
   "devDependencies": {
-    "@capacitor/cli": "2.4.6"
+    "@capacitor/cli": "5.0.4"
   },
   "description": "A CleverTap Sample Ionic Capacitor React Project"
 }
