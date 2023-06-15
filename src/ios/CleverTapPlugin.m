@@ -1357,6 +1357,13 @@ static NSDateFormatter *dateFormatter;
     }];
 }
 
+- (void)setLibrary: (CDVInvokedUrlCommand *)command {
+    NSString *libName = [command argumentAtIndex:0];
+    int libVersion = [[command argumentAtIndex:1]intValue];
+    [clevertap setLibrary:libName];
+    [clevertap setCustomSdkVersion:libName version:libVersion];
+}
+
 
 #pragma mark Product Config Delegate
 

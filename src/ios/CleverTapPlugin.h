@@ -473,5 +473,7 @@ static NSString * const CTHandleOpenURLNotification = @"CTHandleOpenURLNotificat
  */
 - (void)reset;
 
+- (void)setLibrary: (CDVInvokedUrlCommand *)command;
+
 @end
 
