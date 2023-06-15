@@ -26,7 +26,9 @@
 #import "CleverTapInAppNotificationDelegate.h"
 #import "CleverTap+InAppNotifications.h"
 
-#import <CoreLocation/CoreLocation.h>
+#if __has_include(<CleverTapLocation/CTLocationManager.h>)
+#import <CleverTapLocation/CTLocationManager.h>
+#endif
 
 static CleverTap *clevertap;
 static NSURL *launchDeepLink;
@@ -666,7 +668,8 @@ static NSDateFormatter *dateFormatter;
 
 - (void)getLocation:(CDVInvokedUrlCommand *)command {
     
-    [CleverTap getLocationWithSuccess:^(CLLocationCoordinate2D loc){
+#if __has_include(<CleverTapLocation/CTLocationManager.h>)
+    [CTLocationManager getLocationWithSuccess:^(CLLocationCoordinate2D loc){
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:@{@"lat":@(loc.latitude), @"lon":@(loc.longitude)}];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
         
@@ -674,6 +677,12 @@ static NSDateFormatter *dateFormatter;
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:error];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
+#else
+    NSString *error = @"Please install the pod CleverTapLocation or intregrate the CleverTapLocation project manually to use the getLocation method. For more details, please refer to the link: https://github.com/CleverTap/clevertap-ios-sdk/blob/location-api/docs/CleverTapLocation.md";
+    NSLog(@"%@", error);
+    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:error];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+#endif
 }
 
 - (void)setLocation:(CDVInvokedUrlCommand *)command {

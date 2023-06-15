@@ -12,7 +12,6 @@
     <preference name="CLEVERTAP_ACCOUNT_ID" />
     <preference name="CLEVERTAP_TOKEN" />
     <preference name="CLEVERTAP_REGION" default=" "/>
-    <preference name="CleverTapLocation" default=""/>
 
     <platform name="ios">
 		
@@ -42,7 +41,6 @@
         </config-file>
 
         <framework src="CleverTap-iOS-SDK" type="podspec" spec="5.0.1" />
-        <framework src="$CleverTapLocation" type="podspec" spec="5.0.1" />
         <header-file src="src/ios/AppDelegate+CleverTapPlugin.h" />
         <source-file src="src/ios/AppDelegate+CleverTapPlugin.m" />
         <header-file src="src/ios/CleverTapPlugin.h" />
