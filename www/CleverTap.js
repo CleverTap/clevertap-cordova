@@ -550,6 +550,73 @@ CleverTap.prototype.getLastFetchTimeStampInMillis = function(successCallback){
     cordova.exec(successCallback, null, "CleverTapPlugin", "getLastFetchTimeStampInMillis", []);
 }
 
+/****************************
+ * Product Experiences methods
+ ****************************/
+
+/**
+ Uploads variables to the server. Requires Development/Debug build/configuration.
+*/
+CleverTap.prototype.syncVariables = function(){
+    cordova.exec(null, null, "CleverTapPlugin", "syncVariables", []); 
+}
+
+/**
+Uploads variables to the server.
+@param {boolean} isProduction Provide `true` if variables must be sync in Productuon build/configuration.
+*/
+CleverTap.prototype.syncVariablesinProd = function(isProduction){
+    cordova.exec(null, null, "CleverTapPlugin", "syncVariablesinProd", [isProduction]); 
+}
+
+/**
+Forces variables to update from the server.
+*/
+CleverTap.prototype.fetchVariables = function(successCallback){
+    cordova.exec(successCallback, null, "CleverTapPlugin", "fetchVariables", []);
+}
+
+/**
+Create variables. 
+@param {object} variables The JSON Object specifying the varibles to be created.
+*/
+CleverTap.prototype.defineVariables = function (variables) {
+    cordova.exec(null, null, "CleverTapPlugin", "defineVariables", [variables]);
+}
+
+/**
+Get a variable or a group for the specified name.
+@param {string} name - name.
+*/
+CleverTap.prototype.getVariable = function (name, successCallback) {
+    cordova.exec(successCallback, null, "CleverTapPlugin", "getVariable", [name]);
+}
+
+/**
+Get all variables via a JSON object.
+*/
+CleverTap.prototype.getVariables = function (successCallback) {
+    cordova.exec(successCallback, null, "CleverTapPlugin", "getVariables", []);
+}
+
+ /**
+Adds a callback to be invoked when variables are initialised with server values. Will be called each time new values are fetched.
+@param {function} handler The callback to add
+*/
+CleverTap.prototype.onVariablesChanged = function (handler) {
+    cordova.exec(handler, null, "CleverTapPlugin", "onVariablesChanged", []);
+}
+
+/**
+Called when the value of the variable changes.
+@param {name} string the name of the variable
+@param {function} handler The callback to add
+*/
+CleverTap.prototype.onValueChanged = function (name, handler) {
+    cordova.exec(handler, null, "CleverTapPlugin", "onValueChanged", [name]);
+}
+
+
 CleverTap.prototype.getString = function(key,successCallback){
     cordova.exec(successCallback, null, "CleverTapPlugin", "getString", [key]);
 }

@@ -8,15 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		0207DA581B56EA530066E2B4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0207DA571B56EA530066E2B4 /* Images.xcassets */; };
+		07C1814A10684A59A63EA88C /* AppDelegate+CleverTapPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 33B75B307CDF42D084552838 /* AppDelegate+CleverTapPlugin.m */; };
 		1D3623260D0F684500981E51 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* AppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
+		23359B7087D00D38A2E4CC7A /* libPods-ExampleProject.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B11C9B6506953004E6BB4F3C /* libPods-ExampleProject.a */; };
 		301BF552109A68D80062928A /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 301BF535109A57CC0062928A /* libCordova.a */; settings = {ATTRIBUTES = (Required, ); }; };
 		302D95F114D2391D003F00A1 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 302D95EF14D2391D003F00A1 /* MainViewController.m */; };
 		302D95F214D2391D003F00A1 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 302D95F014D2391D003F00A1 /* MainViewController.xib */; };
 		6AFF5BF91D6E424B00AB3073 /* CDVLaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6AFF5BF81D6E424B00AB3073 /* CDVLaunchScreen.storyboard */; };
-		AD72400BD15B4D16A8BD05A9 /* AppDelegate+CleverTapPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = C8520E2D94124E4C9E379DF9 /* AppDelegate+CleverTapPlugin.m */; };
-		F443F68E20C643D0B20FDCBD /* CleverTapPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = C60E37BF58D944AEB25A6BC3 /* CleverTapPlugin.m */; };
-		F5C587BEDEEFB99395C0C57D /* libPods-ExampleProject.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EDEC84873A4FB62AB153BED /* libPods-ExampleProject.a */; };
+		EA0F3B32565C4B7B948A2DD2 /* CleverTapPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = F7E69D551BD74726ADB8574E /* CleverTapPlugin.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +48,7 @@
 		1D3623240D0F684500981E51 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		1D6058910D05DD3D006BFB54 /* ExampleProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExampleProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1F7C81A81E5E688719FC9465 /* Pods-ExampleProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ExampleProject.debug.xcconfig"; path = "Target Support Files/Pods-ExampleProject/Pods-ExampleProject.debug.xcconfig"; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		301BF52D109A57CC0062928A /* CordovaLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CordovaLib.xcodeproj; path = CordovaLib/CordovaLib.xcodeproj; sourceTree = "<group>"; };
 		301BF56E109A69640062928A /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = SOURCE_ROOT; };
@@ -58,19 +59,18 @@
 		3047A5101AB8059700498E2A /* build-release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "build-release.xcconfig"; path = "cordova/build-release.xcconfig"; sourceTree = SOURCE_ROOT; };
 		3047A5111AB8059700498E2A /* build.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = build.xcconfig; path = cordova/build.xcconfig; sourceTree = SOURCE_ROOT; };
 		32CA4F630368D1EE00C91783 /* ExampleProject-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ExampleProject-Prefix.pch"; sourceTree = "<group>"; };
-		34095DC61A85023B420313D0 /* Pods-ExampleProject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ExampleProject.release.xcconfig"; path = "Target Support Files/Pods-ExampleProject/Pods-ExampleProject.release.xcconfig"; sourceTree = "<group>"; };
-		36C68E7C744A4B49ADA24C00 /* CleverTapPlugin.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CleverTapPlugin.h; path = "clevertap-cordova/CleverTapPlugin.h"; sourceTree = "<group>"; };
+		33B75B307CDF42D084552838 /* AppDelegate+CleverTapPlugin.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = "AppDelegate+CleverTapPlugin.m"; path = "clevertap-cordova/AppDelegate+CleverTapPlugin.m"; sourceTree = "<group>"; };
+		5E9CBD5B00EE4A309310F22B /* AppDelegate+CleverTapPlugin.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "AppDelegate+CleverTapPlugin.h"; path = "clevertap-cordova/AppDelegate+CleverTapPlugin.h"; sourceTree = "<group>"; };
 		6AFF5BF81D6E424B00AB3073 /* CDVLaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = CDVLaunchScreen.storyboard; path = ExampleProject/CDVLaunchScreen.storyboard; sourceTree = SOURCE_ROOT; };
-		6EDEC84873A4FB62AB153BED /* libPods-ExampleProject.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ExampleProject.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		70BFF993E5BB0A552D8673E6 /* Pods-ExampleProject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ExampleProject.release.xcconfig"; path = "Target Support Files/Pods-ExampleProject/Pods-ExampleProject.release.xcconfig"; sourceTree = "<group>"; };
+		7E3F831F42124872A5830E8B /* CleverTapPlugin.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CleverTapPlugin.h; path = "clevertap-cordova/CleverTapPlugin.h"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* ExampleProject-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "ExampleProject-Info.plist"; path = "ExampleProject/ExampleProject-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = SOURCE_ROOT; };
-		96822B858E1C4257A69E8942 /* AppDelegate+CleverTapPlugin.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "AppDelegate+CleverTapPlugin.h"; path = "clevertap-cordova/AppDelegate+CleverTapPlugin.h"; sourceTree = "<group>"; };
-		C60E37BF58D944AEB25A6BC3 /* CleverTapPlugin.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CleverTapPlugin.m; path = "clevertap-cordova/CleverTapPlugin.m"; sourceTree = "<group>"; };
-		C8520E2D94124E4C9E379DF9 /* AppDelegate+CleverTapPlugin.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = "AppDelegate+CleverTapPlugin.m"; path = "clevertap-cordova/AppDelegate+CleverTapPlugin.m"; sourceTree = "<group>"; };
+		B11C9B6506953004E6BB4F3C /* libPods-ExampleProject.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ExampleProject.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB87FDF31871DA8E0020F90C /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; name = www; path = ../../www; sourceTree = "<group>"; };
 		EB87FDF41871DAF40020F90C /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = ../../config.xml; sourceTree = "<group>"; };
 		ED33DF2A687741AEAF9F8254 /* Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
+		F7E69D551BD74726ADB8574E /* CleverTapPlugin.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CleverTapPlugin.m; path = "clevertap-cordova/CleverTapPlugin.m"; sourceTree = "<group>"; };
 		F840E1F0165FE0F500CFE078 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = ExampleProject/config.xml; sourceTree = "<group>"; };
-		FA1E1E296A52A30137B44167 /* Pods-ExampleProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ExampleProject.debug.xcconfig"; path = "Target Support Files/Pods-ExampleProject/Pods-ExampleProject.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,7 +79,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				301BF552109A68D80062928A /* libCordova.a in Frameworks */,
-				F5C587BEDEEFB99395C0C57D /* libPods-ExampleProject.a in Frameworks */,
+				23359B7087D00D38A2E4CC7A /* libPods-ExampleProject.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,16 +98,6 @@
 			name = Classes;
 			path = ExampleProject/Classes;
 			sourceTree = SOURCE_ROOT;
-		};
-		0971A1313E1931542696B3D4 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				FA1E1E296A52A30137B44167 /* Pods-ExampleProject.debug.xcconfig */,
-				34095DC61A85023B420313D0 /* Pods-ExampleProject.release.xcconfig */,
-			);
-			name = Pods;
-			path = Pods;
-			sourceTree = "<group>";
 		};
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
@@ -130,7 +120,7 @@
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
-				0971A1313E1931542696B3D4 /* Pods */,
+				A32A96CC7322D6D525A7BB10 /* Pods */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -161,7 +151,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				6EDEC84873A4FB62AB153BED /* libPods-ExampleProject.a */,
+				B11C9B6506953004E6BB4F3C /* libPods-ExampleProject.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -188,14 +178,24 @@
 		307C750510C5A3420062BCA9 /* Plugins */ = {
 			isa = PBXGroup;
 			children = (
-				C8520E2D94124E4C9E379DF9 /* AppDelegate+CleverTapPlugin.m */,
-				C60E37BF58D944AEB25A6BC3 /* CleverTapPlugin.m */,
-				96822B858E1C4257A69E8942 /* AppDelegate+CleverTapPlugin.h */,
-				36C68E7C744A4B49ADA24C00 /* CleverTapPlugin.h */,
+				33B75B307CDF42D084552838 /* AppDelegate+CleverTapPlugin.m */,
+				F7E69D551BD74726ADB8574E /* CleverTapPlugin.m */,
+				5E9CBD5B00EE4A309310F22B /* AppDelegate+CleverTapPlugin.h */,
+				7E3F831F42124872A5830E8B /* CleverTapPlugin.h */,
 			);
 			name = Plugins;
 			path = ExampleProject/Plugins;
 			sourceTree = SOURCE_ROOT;
+		};
+		A32A96CC7322D6D525A7BB10 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				1F7C81A81E5E688719FC9465 /* Pods-ExampleProject.debug.xcconfig */,
+				70BFF993E5BB0A552D8673E6 /* Pods-ExampleProject.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
 		};
 		EB87FDF11871DA420020F90C /* Staging */ = {
 			isa = PBXGroup;
@@ -213,12 +213,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "ExampleProject" */;
 			buildPhases = (
-				7F1A6C3AB510EE7B5BAA379D /* [CP] Check Pods Manifest.lock */,
+				AF9C36026265283215BD9761 /* [CP] Check Pods Manifest.lock */,
 				304B58A110DAC018002A0835 /* Copy www directory */,
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
 				1D60588F0D05DD3D006BFB54 /* Frameworks */,
-				EE1DE85F4E80EC58910804B9 /* [CP] Copy Pods Resources */,
+				BF1A6704AEF19F92846F359D /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -313,7 +313,7 @@
 			shellScript = "\"$SRCROOT/ExampleProject/Scripts/copy-www-build-step.sh\"";
 			showEnvVarsInLog = 0;
 		};
-		7F1A6C3AB510EE7B5BAA379D /* [CP] Check Pods Manifest.lock */ = {
+		AF9C36026265283215BD9761 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -335,7 +335,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		EE1DE85F4E80EC58910804B9 /* [CP] Copy Pods Resources */ = {
+		BF1A6704AEF19F92846F359D /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -362,8 +362,8 @@
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* AppDelegate.m in Sources */,
 				302D95F114D2391D003F00A1 /* MainViewController.m in Sources */,
-				AD72400BD15B4D16A8BD05A9 /* AppDelegate+CleverTapPlugin.m in Sources */,
-				F443F68E20C643D0B20FDCBD /* CleverTapPlugin.m in Sources */,
+				07C1814A10684A59A63EA88C /* AppDelegate+CleverTapPlugin.m in Sources */,
+				EA0F3B32565C4B7B948A2DD2 /* CleverTapPlugin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

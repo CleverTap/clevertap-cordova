@@ -2,34 +2,9 @@
 
 @implementation CTUtils
 
-+ (NSString *)dictionaryToJsonString:(NSDictionary *)dict {
-    if (dict == nil) return nil;
-    
-    NSData *jsonData;
-    @try {
-        NSError *error;
-        NSMutableDictionary *_cleaned = [NSMutableDictionary new];
-        
-        for (NSString *key in dict) {
-            id value = dict[key];
-            if ([value isKindOfClass:[NSDate class]]) {
-                continue;
-            }
-            _cleaned[key] = value;
-        }
-        
-        jsonData = [NSJSONSerialization dataWithJSONObject:_cleaned
-                                                   options:0
-                                                     error:&error];
-        
-        return jsonData != nil ? [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding] : nil;
-        
-    } @catch (NSException *e) {
-        return nil;
-    }
-}
-
 + (NSString *)urlEncodeString:(NSString*)s {
+    
+    if (!s) return nil;    
     NSMutableString *output = [NSMutableString string];
     const unsigned char *source = (const unsigned char *) [s UTF8String];
     int sourceLen = (int) strlen((const char *) source);
@@ -78,6 +53,36 @@
     result = round(result);
     result = result / 100;
     return result;
+}
+
++ (BOOL)isNullOrEmpty:(id)obj
+{
+    // Need to check for NSString to support RubyMotion.
+    // Ruby String respondsToSelector(count) is true for count: in RubyMotion
+    return obj == nil
+    || ([obj respondsToSelector:@selector(length)] && [obj length] == 0)
+    || ([obj respondsToSelector:@selector(count)]
+        && ![obj isKindOfClass:[NSString class]] && [obj count] == 0);
+}
+
++ (NSString *)jsonObjectToString:(id)object {
+    if ([object isKindOfClass:[NSString class]]) {
+        return object;
+    }
+    @try {
+        NSError *error;
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:object
+                                                           options:0
+                                                             error:&error];
+        if (error) {
+            return @"";
+        }
+        NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+        return jsonString;
+    }
+    @catch (NSException *exception) {
+        return @"";
+    }
 }
 
 @end
