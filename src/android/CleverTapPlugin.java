@@ -16,6 +16,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.location.Location;
 
+import com.clevertap.android.sdk.PushPermissionResponseListener;
+import com.clevertap.android.sdk.inapp.CTInAppNotification;
+import com.clevertap.android.sdk.inapp.CTLocalInApp;
+import com.clevertap.android.sdk.inapp.CTLocalInApp.Builder;
+import com.clevertap.android.sdk.inapp.CTLocalInApp.Builder.Builder1;
+import com.clevertap.android.sdk.inapp.CTLocalInApp.InAppType;
 import com.clevertap.android.sdk.pushnotification.CTPushNotificationListener;
 import com.clevertap.android.sdk.pushnotification.amp.CTPushAmpListener;
 import java.util.Set;
@@ -62,7 +68,8 @@ import com.clevertap.android.sdk.interfaces.NotificationHandler;
 
 public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAppNotificationListener, CTInboxListener,
         InboxMessageButtonListener, InAppNotificationButtonListener, DisplayUnitListener,
-        CTFeatureFlagsListener, CTProductConfigListener, CTPushNotificationListener, CTPushAmpListener, InboxMessageListener {
+        CTFeatureFlagsListener, CTProductConfigListener, CTPushNotificationListener, CTPushAmpListener, InboxMessageListener,
+        PushPermissionResponseListener {
 
     private static final String LOG_TAG = "CLEVERTAP_PLUGIN";
     private static String CLEVERTAP_API_ERROR;
@@ -86,6 +93,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         cleverTap.setCTProductConfigListener(this);
         cleverTap.setCTPushNotificationListener(this);
         cleverTap.setCTPushAmpListener(this);
+        cleverTap.registerPushPermissionNotificationResponseListener(this);
         cleverTap.setLibrary("Cordova");
 
         try {
@@ -1672,6 +1680,73 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 }
             });
             return true;
+        } else if (action.equals("promptPushPrimer")) {
+            JSONObject pushPrimerJsonObject = null;
+            if (args.length() == 1) {
+                if (!args.isNull(0)) {
+                    try {
+                        pushPrimerJsonObject = processPushPrimerArgument(args.getJSONObject(0));
+                        if (pushPrimerJsonObject == null)
+                        {
+                            haveError = true;
+                            errorMsg = "Invalid parameters in push primer config";
+                        }
+                    } catch (Exception e) {
+                        haveError = true;
+                        errorMsg = e.getLocalizedMessage();
+                    }
+                } else {
+                    haveError = true;
+                    errorMsg = "object passed to promptPushPrimer can not be null!";
+                }
+            } else {
+                haveError = true;
+                errorMsg = "Expected 1 argument";
+            }
+
+            if (!haveError) {
+                final JSONObject finalPushPrimerJsonObject = pushPrimerJsonObject;
+                cordova.getThreadPool().execute(new Runnable() {
+                    public void run() {
+                        cleverTap.promptPushPrimer(finalPushPrimerJsonObject);
+                        PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
+                        _result.setKeepCallback(true);
+                        callbackContext.sendPluginResult(_result);
+                    }
+                });
+                return true;
+            }
+        } else if (action.equals("promptForPushPermission")) {
+            boolean showFallbackSettings = false;
+
+            if (args.length() == 1) {
+                showFallbackSettings = args.getBoolean(0);
+            } else {
+                haveError = true;
+                errorMsg = "Expected 1 argument";
+            }
+            if (!haveError) {
+                final boolean finalShowFallbackSettings = showFallbackSettings;
+                cordova.getThreadPool().execute(new Runnable() {
+                    public void run() {
+                        cleverTap.promptForPushPermission(finalShowFallbackSettings);
+                        PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
+                        _result.setKeepCallback(true);
+                        callbackContext.sendPluginResult(_result);
+                    }
+                });
+                return true;
+            }
+        } else if (action.equals("isPushPermissionGranted")) {
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    boolean value = cleverTap.isPushPermissionGranted();
+                    PluginResult _result = new PluginResult(PluginResult.Status.OK, value);
+                    _result.setKeepCallback(true);
+                    callbackContext.sendPluginResult(_result);
+                }
+            });
+            return true;
         }
 
         result = new PluginResult(PluginResult.Status.ERROR, errorMsg);
@@ -1745,6 +1820,16 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         });
     }
 
+    @Override
+    public void onPushPermissionResponse(final boolean accepted) {
+        final String json = "{'accepted':" + accepted + "}";
+        webView.getView().post(new Runnable() {
+            public void run() {
+                webView.loadUrl("javascript:cordova.fireDocumentEvent('onCleverTapPushPermissionResponse'," + json + ");");
+            }
+        });
+    }
+
     // SyncListener
     public void profileDataUpdated(JSONObject updates) {
 
@@ -1788,7 +1873,20 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         });
     }
 
-    public void onInboxItemClicked(CTInboxMessage message){
+    @Override
+    public void onShow(CTInAppNotification inAppNotification) {
+        if(inAppNotification != null &&  inAppNotification.getJsonDescription() != null){
+            //Read the values
+            final String json = "{'customExtras':" + inAppNotification.getJsonDescription().toString() + "}";
+            webView.getView().post(new Runnable() {
+                public void run() {
+                    webView.loadUrl("javascript:cordova.fireDocumentEvent('onCleverTapInAppNotificationShow'," + json + ");");
+                }
+            });
+        }
+    }
+
+    public void onInboxItemClicked(CTInboxMessage message, int contentPageIndex, int buttonIndex){
         if(message != null &&  message.getData() != null){
             //Read the values
             final String json = "{'customExtras':" + message.getData().toString() + "}";
@@ -2134,5 +2232,150 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             }
         }
         return json;
+    }
+
+    private JSONObject processPushPrimerArgument(JSONObject jsonObject) {
+        CTLocalInApp.InAppType inAppType = null;
+        String titleText = null, messageText = null, positiveBtnText = null, negativeBtnText = null,
+                backgroundColor = null, btnBorderColor = null, titleTextColor = null, messageTextColor = null,
+                btnTextColor = null, imageUrl = null, btnBackgroundColor = null, btnBorderRadius = null;
+        boolean fallbackToSettings = false, followDeviceOrientation = false;
+
+        final Iterator<String> iterator = jsonObject.keys();
+        while (iterator.hasNext()) {
+            try {
+                final String configKey = iterator.next();
+                switch (configKey) {
+                    case "inAppType":
+                        inAppType = inAppTypeFromString(jsonObject.getString(configKey));
+                        break;
+                    case "titleText":
+                        titleText = jsonObject.getString(configKey);
+                        break;
+                    case "messageText":
+                        messageText = jsonObject.getString(configKey);
+                        break;
+                    case "followDeviceOrientation":
+                        followDeviceOrientation = jsonObject.getBoolean(configKey);
+                        break;
+                    case "positiveBtnText":
+                        positiveBtnText = jsonObject.getString(configKey);
+                        break;
+                    case "negativeBtnText":
+                        negativeBtnText = jsonObject.getString(configKey);
+                        break;
+                    case "fallbackToSettings":
+                        fallbackToSettings = jsonObject.getBoolean(configKey);
+                        break;
+                    case "backgroundColor":
+                        backgroundColor = jsonObject.getString(configKey);
+                        break;
+                    case "btnBorderColor":
+                        btnBorderColor = jsonObject.getString(configKey);
+                        break;
+                    case "titleTextColor":
+                        titleTextColor = jsonObject.getString(configKey);
+                        break;
+                    case "messageTextColor":
+                        messageTextColor = jsonObject.getString(configKey);
+                        break;
+                    case "btnTextColor":
+                        btnTextColor = jsonObject.getString(configKey);
+                        break;
+                    case "imageUrl":
+                        imageUrl = jsonObject.getString(configKey);
+                        break;
+                    case "btnBackgroundColor":
+                        btnBackgroundColor = jsonObject.getString(configKey);
+                        break;
+                    case "btnBorderRadius":
+                        btnBorderRadius = jsonObject.getString(configKey);
+                        break;
+                }
+            } catch (Throwable t) {
+                Log.e(LOG_TAG, "invalid parameters in push primer config" + t.getLocalizedMessage());
+                return null;
+            }
+        }
+
+        //creates the builder instance of localInApp with all the required parameters
+        CTLocalInApp.Builder.Builder6 builderWithRequiredParams = getLocalInAppBuilderWithRequiredParam(
+                inAppType, titleText, messageText, followDeviceOrientation, positiveBtnText, negativeBtnText
+        );
+
+        //adds the optional parameters to the builder instance
+        if (backgroundColor != null) {
+            builderWithRequiredParams.setBackgroundColor(backgroundColor);
+        }
+        if (btnBorderColor != null) {
+            builderWithRequiredParams.setBtnBorderColor(btnBorderColor);
+        }
+        if (titleTextColor != null) {
+            builderWithRequiredParams.setTitleTextColor(titleTextColor);
+        }
+        if (messageTextColor != null) {
+            builderWithRequiredParams.setMessageTextColor(messageTextColor);
+        }
+        if (btnTextColor != null) {
+            builderWithRequiredParams.setBtnTextColor(btnTextColor);
+        }
+        if (imageUrl != null) {
+            builderWithRequiredParams.setImageUrl(imageUrl);
+        }
+        if (btnBackgroundColor != null) {
+            builderWithRequiredParams.setBtnBackgroundColor(btnBackgroundColor);
+        }
+        if (btnBorderRadius != null) {
+            builderWithRequiredParams.setBtnBorderRadius(btnBorderRadius);
+        }
+        builderWithRequiredParams.setFallbackToSettings(fallbackToSettings);
+
+        JSONObject localInAppConfig = builderWithRequiredParams.build();
+        Log.i(LOG_TAG, "LocalInAppConfig for push primer prompt: " + localInAppConfig);
+        return localInAppConfig;
+
+
+    }
+
+    /**
+     * Creates an instance of the {@link CTLocalInApp.Builder.Builder6} with the required parameters.
+     *
+     * @return the {@link CTLocalInApp.Builder.Builder6} instance
+     */
+    private CTLocalInApp.Builder.Builder6 getLocalInAppBuilderWithRequiredParam(CTLocalInApp.InAppType inAppType,
+            String titleText,
+            String messageText,
+            boolean followDeviceOrientation,
+            String positiveBtnText,
+            String negativeBtnText) {
+        //throws exception if any of the required parameter is missing
+        if (inAppType == null || titleText == null || messageText == null || positiveBtnText == null
+                || negativeBtnText == null) {
+            throw new IllegalArgumentException("mandatory parameters are missing in push primer config");
+        }
+
+        CTLocalInApp.Builder builder = CTLocalInApp.builder();
+
+        return builder.setInAppType(inAppType)
+                .setTitleText(titleText)
+                .setMessageText(messageText)
+                .followDeviceOrientation(followDeviceOrientation)
+                .setPositiveBtnText(positiveBtnText)
+                .setNegativeBtnText(negativeBtnText);
+    }
+
+    //returns InAppType type from the given string
+    private CTLocalInApp.InAppType inAppTypeFromString(String inAppType) {
+        if (inAppType == null) {
+            return null;
+        }
+        switch (inAppType) {
+            case "half-interstitial":
+                return CTLocalInApp.InAppType.HALF_INTERSTITIAL;
+            case "alert":
+                return CTLocalInApp.InAppType.ALERT;
+            default:
+                return null;
+        }
     }
 }
