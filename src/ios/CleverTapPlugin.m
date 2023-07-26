@@ -25,6 +25,8 @@
 #import "CleverTapPushNotificationDelegate.h"
 #import "CleverTapInAppNotificationDelegate.h"
 #import "CleverTap+InAppNotifications.h"
+#import "CleverTap+CTVar.h"
+#import "CTVar.h"
 
 #if __has_include(<CleverTapLocation/CTLocationManager.h>)
 #import <CleverTapLocation/CTLocationManager.h>
@@ -34,6 +36,7 @@ static CleverTap *clevertap;
 static NSURL *launchDeepLink;
 static NSDictionary *launchNotification;
 static NSDateFormatter *dateFormatter;
+static NSMutableDictionary *allVariables;
 
 @interface CleverTapPlugin () <CleverTapSyncDelegate, CleverTapInAppNotificationDelegate, CleverTapDisplayUnitDelegate, CleverTapFeatureFlagsDelegate, CleverTapProductConfigDelegate, CleverTapPushNotificationDelegate> {
 }
@@ -1383,6 +1386,130 @@ static NSDateFormatter *dateFormatter;
     
     NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onCleverTapProductConfigDidInitialize')"];
     [self.commandDelegate evalJs:js];
+}
+
+#pragma mark Product Experience
+
+- (void)syncVariables: (CDVInvokedUrlCommand *)command {
+    
+    [self.commandDelegate runInBackground:^{
+        [clevertap syncVariables];
+    }];
+}
+
+- (void)syncVariablesinProd: (CDVInvokedUrlCommand *)command {
+    
+    [self.commandDelegate runInBackground:^{
+        BOOL *isProduction = [command argumentAtIndex:0].boolValue;
+        [clevertap syncVariables:isProduction];
+    }];
+}
+
+- (void)fetchVariables:(CDVInvokedUrlCommand *)command {
+    
+    [self.commandDelegate runInBackground:^{
+        [clevertap fetchVariables:^(BOOL success){
+            CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:(BOOL)success];
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        }]
+    }];
+}
+
+- (void)defineVariables: (CDVInvokedUrlCommand *)command {
+    
+    [self.commandDelegate runInBackground:^{
+        NSDictionary *variables = [command argumentAtIndex:0];
+
+        if(variables == nil){
+            return;
+        }
+        [variables enumerateKeysAndObjectsUsingBlock:^(NSString*  _Nonnull key, id  _Nonnull value, BOOL * _Nonnull stop) {
+            CTVar *var = [self createVarForName:key andValue:value];
+
+            if (var) {
+                self.allVariables = [NSMutableDictionary new];
+                self.allVariables[key] = var;
+            }
+        }];
+    }];
+}
+
+- (void)getVariable:(CDVInvokedUrlCommand *)command {
+    
+    [self.commandDelegate runInBackground:^{
+        NSString *name = [command argumentAtIndex:0];
+        CTVar *var = self.allVariables[name];
+
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK message:var.value];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
+}
+
+- (void)getVariables:(CDVInvokedUrlCommand *)command {
+    
+    [self.commandDelegate runInBackground:^{
+        NSMutableDictionary *varValues = [self getVariableValues];
+
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:varValues];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
+}
+
+- (void)onVariablesChanged:(CDVInvokedUrlCommand *)command {
+    
+        [self.commandDelegate runInBackground:^{
+            [clevertap onVariablesChanged:^{
+                NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onVariablesChanged')"];
+                [self.commandDelegate evalJs:js];
+            }];
+        }];
+}
+
+- (void)onValueChanged:(CDVInvokedUrlCommand *)command {
+    
+        [self.commandDelegate runInBackground:^{
+            NSString *name = [command argumentAtIndex:0];
+            CTVar *var = self.allVariables[name];
+            if (var) {
+                [var onValueChanged:^{
+                    NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onValueChanged')"];
+                    [self.commandDelegate evalJs:js];
+                }];
+            }
+        }];
+}
+
+#pragma mark Private Helper methods
+
+- (CTVar *)createVarForName:(NSString *)name andValue:(id)value {
+
+    if ([value isKindOfClass:[NSString class]]) {
+        return [clevertap defineVar:name withString:value];
+    }
+    if ([value isKindOfClass:[NSDictionary class]]) {
+        return [clevertap defineVar:name withDictionary:value];
+    }
+    if ([value isKindOfClass:[NSNumber class]]) {
+        if ([self isBoolNumber:value]) {
+            return [clevertap defineVar:name withBool:value];
+        }
+        return [clevertap defineVar:name withNumber:value];
+    }
+    return nil;
+}
+
+- (BOOL)isBoolNumber:(NSNumber *)number {
+    CFTypeID boolID = CFBooleanGetTypeID();
+    CFTypeID numID = CFGetTypeID(CFBridgingRetain(number));
+    return (numID == boolID);
+}
+
+- (NSMutableDictionary *)getVariableValues {
+    NSMutableDictionary *varValues = [NSMutableDictionary dictionary];
+    [self.allVariables enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, CTVar*  _Nonnull var, BOOL * _Nonnull stop) {
+        varValues[key] = var.value;
+    }];
+    return varValues;
 }
 
 - (CleverTapInboxStyleConfig*)_dictToInboxStyleConfig: (NSDictionary *)dict {
