@@ -34,7 +34,7 @@
     ]
   },
   "dependencies": {
-    "clevertap-cordova": "git+https://github.com/CleverTap/clevertap-cordova.git",
+    "clevertap-cordova": "git+https://github.com/CleverTap/clevertap-cordova.git#SDK-3108-Support_iOS_SDK_5.1.1",
     "lru-cache": "^6.0.0",
     "q": "^1.5.1"
   }
