@@ -1479,7 +1479,7 @@ static NSMutableDictionary *allVariables;
         }];
 }
 
-#pragma mark Private Helper methods
+#pragma mark Helper methods
 
 - (CTVar *)createVarForName:(NSString *)name andValue:(id)value {
 
