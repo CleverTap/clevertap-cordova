@@ -1385,14 +1385,6 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 }
             });
             return true;
-        } else if (action.equals("deleteInboxMessagesForIds")) {// NO-OP for Android
-
-            PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
-            _result.setKeepCallback(true);
-            callbackContext.sendPluginResult(_result);
-
-            return true;
-
         } else if (action.equals("markReadInboxMessageForId")) {
             final String messageId = (args.length() == 1 ? args.getString(0) : "");
 
@@ -1405,6 +1397,65 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 }
             });
             return true;
+        }  else if (action.equals("markReadInboxMessagesForIds")) {
+            JSONArray jsonArray = null;
+            if (args.length() == 1) {
+                jsonArray = args.getJSONArray(0);
+            } else {
+                haveError = true;
+                errorMsg = "Expected 1 argument";
+            }
+            if (!haveError) {
+                final JSONArray finalJsonArray = jsonArray;
+                cordova.getThreadPool().execute(() -> {
+                    try {
+                        cleverTap.markReadInboxMessagesForIDs((ArrayList<String>) toStringList(finalJsonArray));
+
+                        PluginResult _result = new PluginResult(Status.NO_RESULT);
+                        _result.setKeepCallback(true);
+                        callbackContext.sendPluginResult(_result);
+                    } catch (Exception e) {
+                        PluginResult _result = new PluginResult(Status.ERROR, e.getLocalizedMessage());
+                        _result.setKeepCallback(true);
+                        callbackContext.sendPluginResult(_result);
+                    }
+                });
+                return true;
+            }
+        }  else if (action.equals("deleteInboxMessagesForIds")) {
+            JSONArray jsonArray = null;
+            if (args.length() == 1) {
+                jsonArray = args.getJSONArray(0);
+            } else {
+                haveError = true;
+                errorMsg = "Expected 1 argument";
+            }
+            if (!haveError) {
+                final JSONArray finalJsonArray = jsonArray;
+                cordova.getThreadPool().execute(() -> {
+                    try {
+                        cleverTap.deleteInboxMessagesForIDs((ArrayList<String>) toStringList(finalJsonArray));
+
+                        PluginResult _result = new PluginResult(Status.NO_RESULT);
+                        _result.setKeepCallback(true);
+                        callbackContext.sendPluginResult(_result);
+                    } catch (Exception e) {
+                        PluginResult _result = new PluginResult(Status.ERROR, e.getLocalizedMessage());
+                        _result.setKeepCallback(true);
+                        callbackContext.sendPluginResult(_result);
+                    }
+                });
+                return true;
+            }
+        } else if (action.equals("dismissInbox")) {
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    cleverTap.dismissAppInbox();
+                    PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
+                    _result.setKeepCallback(true);
+                    callbackContext.sendPluginResult(_result);
+                }
+            });
         } else if (action.equals("pushInboxNotificationViewedEventForId")) {
             final String messageId = (args.length() == 1 ? args.getString(0) : "");
 
@@ -2090,10 +2141,18 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
     public void onInboxItemClicked(CTInboxMessage message, int contentPageIndex, int buttonIndex){
         if(message != null &&  message.getData() != null){
             //Read the values
-            final String json = "{'customExtras':" + message.getData().toString() + "}";
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("data",message.getData());
+                jsonObject.put("contentPageIndex",contentPageIndex);
+                jsonObject.put("buttonIndex",buttonIndex);
+            } catch (JSONException e) {
+               Log.e(LOG_TAG,"Failed to parse inbox message.");
+            }
+
             webView.getView().post(new Runnable() {
                 public void run() {
-                    webView.loadUrl("javascript:cordova.fireDocumentEvent('onCleverTapInboxItemClick'," + json + ");");
+                    webView.loadUrl("javascript:cordova.fireDocumentEvent('onCleverTapInboxItemClick'," + jsonObject + ");");
                 }
             });
         }
