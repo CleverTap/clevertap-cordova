@@ -16,14 +16,17 @@ import android.os.Bundle;
 import android.util.Log;
 import android.location.Location;
 
+import androidx.annotation.NonNull;
 import com.clevertap.android.sdk.PushPermissionResponseListener;
 import com.clevertap.android.sdk.inapp.CTInAppNotification;
 import com.clevertap.android.sdk.inapp.CTLocalInApp;
-import com.clevertap.android.sdk.inapp.CTLocalInApp.Builder;
-import com.clevertap.android.sdk.inapp.CTLocalInApp.Builder.Builder1;
-import com.clevertap.android.sdk.inapp.CTLocalInApp.InAppType;
 import com.clevertap.android.sdk.pushnotification.CTPushNotificationListener;
 import com.clevertap.android.sdk.pushnotification.amp.CTPushAmpListener;
+import com.clevertap.android.sdk.variables.CTVariableUtils;
+import com.clevertap.android.sdk.variables.Var;
+import com.clevertap.android.sdk.variables.callbacks.VariableCallback;
+import com.clevertap.android.sdk.variables.callbacks.VariablesChangedCallback;
+import java.util.Objects;
 import java.util.Set;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaWebView;
@@ -31,6 +34,7 @@ import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.PluginResult;
 
+import org.apache.cordova.PluginResult.Status;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -75,6 +79,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
     private static String CLEVERTAP_API_ERROR;
     private static CleverTapAPI cleverTap;
     private boolean callbackDone = false;
+    public static Map<String, Object> variables = new HashMap<>();
 
 
     @Override
@@ -1747,12 +1752,208 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 }
             });
             return true;
+        } else if (action.equals("setLibrary")) {
+            String libName = args.getString(0);
+            int libVersion = args.getInt(1);
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    cleverTap.setCustomSdkVersion(libName,libVersion);
+                    PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
+                    _result.setKeepCallback(true);
+                    callbackContext.sendPluginResult(_result);
+                }
+            });
+            return true;
+        } else if (action.equals("syncVariables")) {
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    cleverTap.syncVariables();
+                    PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
+                    _result.setKeepCallback(true);
+                    callbackContext.sendPluginResult(_result);
+                }
+            });
+            return true;
+        } else if (action.equals("syncVariablesinProd")) {
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    Log.d(LOG_TAG, "syncVariablesinProd is no-op in Android");
+                    PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
+                    _result.setKeepCallback(true);
+                    callbackContext.sendPluginResult(_result);
+                }
+            });
+            return true;
+        } else if (action.equals("fetchVariables")) {
+            cordova.getThreadPool().execute(() -> {
+                cleverTap.fetchVariables(isSuccess -> {
+                    PluginResult _result = new PluginResult(PluginResult.Status.OK, isSuccess);
+                    _result.setKeepCallback(true);
+                    callbackContext.sendPluginResult(_result);
+                });
+
+            });
+            return true;
+        } else if (action.equals("defineVariables")) {
+            Map<String,Object> variablesMap = null;
+            if (args.length() == 1) {
+                if (!args.isNull(0)) {
+                    try {
+                        variablesMap = toMap(args.getJSONObject(0));
+                    } catch (Exception e) {
+                        haveError = true;
+                        errorMsg = e.getLocalizedMessage();
+                    }
+                } else {
+                    haveError = true;
+                    errorMsg = "object passed to defineVariables can not be null!";
+                }
+            } else {
+                haveError = true;
+                errorMsg = "Expected 1 argument";
+            }
+
+            if (!haveError) {
+                final Map<String,Object> finalVariablesJsonObject = variablesMap;
+                cordova.getThreadPool().execute(() -> {
+                    for (Map.Entry<String, Object> entry : finalVariablesJsonObject.entrySet()) {
+                        String key = entry.getKey();
+                        Object value = entry.getValue();
+                        variables.put(key, cleverTap.defineVariable(key, value));
+                    }
+                    PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
+                    _result.setKeepCallback(true);
+                    callbackContext.sendPluginResult(_result);
+                });
+                return true;
+            }
+        } else if (action.equals("getVariable")) {
+            String variableName = null;
+
+            if (args.length() == 1) {
+                variableName = args.getString(0);
+            } else {
+                haveError = true;
+                errorMsg = "Expected 1 argument";
+            }
+
+            if (!haveError) {
+                final String finalVariableName = variableName;
+                cordova.getThreadPool().execute(() -> {
+                    try {
+                        Object value = getVariableValue(finalVariableName);
+                        PluginResult _result = getPluginResult(Status.OK, value);
+                        _result.setKeepCallback(true);
+                        callbackContext.sendPluginResult(_result);
+                    } catch (Exception e) {
+                        PluginResult _result = new PluginResult(Status.ERROR, e.getLocalizedMessage());
+                        _result.setKeepCallback(true);
+                        callbackContext.sendPluginResult(_result);
+                    }
+                });
+                return true;
+            }
+        } else if (action.equals("getVariables")) {
+            cordova.getThreadPool().execute(() -> {
+                JSONObject jsonVariables = getVariablesAsJson();
+                PluginResult _result = new PluginResult(PluginResult.Status.OK, jsonVariables);
+                _result.setKeepCallback(true);
+                callbackContext.sendPluginResult(_result);
+            });
+            return true;
+        } else if (action.equals("onVariablesChanged")) {
+            cordova.getThreadPool().execute(() -> {
+                cleverTap.addVariablesChangedCallback(new VariablesChangedCallback() {
+                    @Override
+                    public void variablesChanged() {
+                        JSONObject jsonVariables = getVariablesAsJson();
+                        PluginResult _result = new PluginResult(PluginResult.Status.OK,jsonVariables);
+                        _result.setKeepCallback(true);
+                        callbackContext.sendPluginResult(_result);
+                    }
+                });
+            });
+            return true;
+        } else if (action.equals("onValueChanged")) {
+
+            String variableName = null;
+
+            if (args.length() == 1) {
+                variableName = args.getString(0);
+            } else {
+                haveError = true;
+                errorMsg = "Expected 1 argument";
+            }
+
+            if (!haveError) {
+                final String finalVariableName = variableName;
+                cordova.getThreadPool().execute(() -> {
+                    try {
+                        if (variables.containsKey(finalVariableName)) {
+                            Var<Object> variable = (Var<Object>) variables.get(finalVariableName);
+                            variable.addValueChangedCallback(new VariableCallback<Object>() {
+                                @Override
+                                public void onValueChanged(final Var<Object> variable) {
+                                    Object value = getVariableValue(finalVariableName);
+                                    PluginResult _result = getPluginResult(Status.OK, value);
+                                    _result.setKeepCallback(true);
+                                    callbackContext.sendPluginResult(_result);
+
+                                }
+                            });
+                        }
+                    } catch (Exception e) {
+                        PluginResult _result = new PluginResult(Status.ERROR, e.getLocalizedMessage());
+                        _result.setKeepCallback(true);
+                        callbackContext.sendPluginResult(_result);
+                    }
+                });
+                return true;
+            }
+
         }
 
         result = new PluginResult(PluginResult.Status.ERROR, errorMsg);
         result.setKeepCallback(true);
         callbackContext.sendPluginResult(result);
         return true;
+    }
+
+    @NonNull
+    private JSONObject getVariablesAsJson() {
+        JSONObject jsonVariables = new JSONObject();
+        for (String key : variables.keySet()) {
+            try {
+                jsonVariables.put(key,getVariableValue(key));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return jsonVariables;
+    }
+
+    @NonNull
+    private PluginResult getPluginResult(final Status ok, final Object value) {
+        PluginResult _result;
+        if (value instanceof Boolean) {
+           _result  = new PluginResult(ok, (Boolean) value);
+        } else if (value instanceof Double) {
+            _result  = new PluginResult(ok, ((Double) value).floatValue());
+        } else if (value instanceof Float) {
+            _result  = new PluginResult(ok, (Float) value);
+        } else if (value instanceof Integer) {
+            _result  = new PluginResult(ok, (Integer) value);
+        } else if (value instanceof Long) {
+            _result  = new PluginResult(ok, ((Long) value).intValue());
+        } else if (value instanceof String) {
+            _result  = new PluginResult(ok, (String) value);
+        } else if (value instanceof JSONObject) {
+            _result  = new PluginResult(ok, (JSONObject) value);
+        } else {
+            _result  = new PluginResult(PluginResult.Status.ERROR, "unknown value type");
+        }
+
+        return _result;
     }
 
     //DisplayUnitListener
@@ -2157,16 +2358,20 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         return map;
     }
 
-    private JSONObject getJsonFromMap(Map<String, ?> map) throws JSONException {
-        JSONObject jsonData = new JSONObject();
-        for (String key : map.keySet()) {
-            Object value = map.get(key);
-            if (value instanceof Map<?, ?>) {
-                value = getJsonFromMap((Map<String, ?>) value);
+    private Object getVariableValue(String name) {
+        if (variables.containsKey(name)) {
+            Var<?> variable = (Var<?>) variables.get(name);
+            Object variableValue = variable.value();
+            Object value;
+            if (CTVariableUtils.DICTIONARY.equals(variable.kind())) {
+                value = new JSONObject((Map<String, Object>) variableValue);
+            } else {
+                value = variableValue;
             }
-            jsonData.put(key, value);
+            return value;
         }
-        return jsonData;
+        throw new IllegalArgumentException(
+                "Variable name = " + name + " does not exist. Make sure you set variable first.");
     }
 
     private JSONArray displayUnitListToJSONArray(ArrayList<CleverTapDisplayUnit> displayUnits) throws JSONException {
