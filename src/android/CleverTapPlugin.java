@@ -2077,7 +2077,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         final String json = "{'accepted':" + accepted + "}";
         webView.getView().post(new Runnable() {
             public void run() {
-                webView.loadUrl("javascript:cordova.fireDocumentEvent('onCleverTapPushPermissionResponse'," + json + ");");
+                webView.loadUrl("javascript:cordova.fireDocumentEvent('onCleverTapPushPermissionResponseReceived'," + json + ");");
             }
         });
     }
