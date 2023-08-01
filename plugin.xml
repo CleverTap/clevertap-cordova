@@ -40,7 +40,15 @@
             </feature>
         </config-file>
 
-        <framework src="CleverTap-iOS-SDK" type="podspec" spec="5.1.2" />
+        <podspec>
+            <config>
+                <source url="https://github.com/CocoaPods/Specs.git" />
+            </config>
+            <pods>
+                <pod name="CleverTap-iOS-SDK" spec="5.1.2" />
+            </pods>
+        </podspec>
+<!--        <framework src="CleverTap-iOS-SDK" type="podspec" spec="5.1.2" />-->
         <header-file src="src/ios/AppDelegate+CleverTapPlugin.h" />
         <source-file src="src/ios/AppDelegate+CleverTapPlugin.m" />
         <header-file src="src/ios/CleverTapPlugin.h" />

@@ -373,6 +373,16 @@ static NSString * const CTHandleOpenURLNotification = @"CTHandleOpenURLNotificat
 - (void)markReadInboxMessageForId:(CDVInvokedUrlCommand *)command;
 
 /**
+ This method Mark bulk messages as Read for Given Message Ids
+ */
+- (void)markReadInboxMessagesForIds:(CDVInvokedUrlCommand *)command;
+
+/**
+ Dismisses Appinbox 
+ */
+- (void)dismissInbox:(CDVInvokedUrlCommand *)command;
+
+/**
  This method Marks Inbox Notification Viewed for Given Message Id
  */
 - (void)pushInboxNotificationViewedEventForId:(CDVInvokedUrlCommand *)command;

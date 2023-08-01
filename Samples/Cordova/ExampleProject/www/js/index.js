@@ -94,7 +94,18 @@ function setupButtons() {
 
         ["title","Feature flag"],
         ["get Feature Flag", () => CleverTap.getFeatureFlag("test", true, val => log("Value is " + val))],
-
+        
+        ["title","Product Experiences"],
+        ["define variables", () => CleverTap.defineVariables({
+            "cordova_var_string": "cordova_var_string_value"
+        })],
+        ["Sync Variables", () => CleverTap.syncVariables],
+        ["get variables", () => CleverTap.getVariables(val => log("Variables are: " + val)) ],
+        ["get variable for name cordova_var_string_value", () => CleverTap.getVariable("cordova_var_string_value",val => log("Variable value for cordova_var_string_value: " + val))],
+        ["fetch variables", () => CleverTap.fetchVariables(val => log("Fetch variables result is: " + val))],
+        ["add onVariablesChanged", () => CleverTap.onVariablesChanged(val => log("onVariablesChanged: " + val))],
+        ["add onValueChanged for variable cordova_var_string_value ", () => CleverTap.onValueChanged("cordova_var_string_value",val => log("onValueChanged: " + val))],
+        
         ["title","Device Identifiers"],
         ["get CleverTap ID", () => CleverTap.getCleverTapID(val => log("getCleverTapID is " + val))],
 
