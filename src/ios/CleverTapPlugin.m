@@ -1174,20 +1174,20 @@ static NSMutableDictionary *allVariables;
 
 - (void)messageDidSelect:(CleverTapInboxMessage *_Nonnull)message atIndex:(int)index withButtonIndex:(int)buttonIndex{
     
-    JSONObject jsonObject = new JSONObject();
-    try {
-        jsonObject.put("data",message.getData());
-        jsonObject.put("contentPageIndex",index);
-        jsonObject.put("buttonIndex",buttonIndex);
-    } catch (JSONException e) {
-        Log.e(LOG_TAG,"Failed to parse inbox message.");
+    NSMutableDictionary *jsonObject = [NSMutableDictionary new];
+    if ([message json] != nil) {
+        jsonObject[@"data"] = [NSMutableDictionary dictionaryWithDictionary:[message json]];
+    } else {
+        jsonObject[@"data"] = [NSMutableDictionary new];
     }
+    jsonObject[@"contentPageIndex"] = @(index);
+    jsonObject[@"buttonIndex"] = @(buttonIndex);
+    
     if (jsonObject != nil) {
         NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onCleverTapInboxItemClick', %@);", jsonObject];
         [self.commandDelegate evalJs:js];
     }
 }
-
 
 #pragma mark - Native Display
 
@@ -1627,8 +1627,10 @@ static NSMutableDictionary *allVariables;
 
 - (void)onPushPermissionResponse:(BOOL)accepted {
 
-    NSString *json = "{'accepted':" + accepted + "}";
-    NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onCleverTapPushPermissionResponseReceived'," + json + ");"];
+    NSMutableDictionary *json = [NSMutableDictionary new];
+    json[@"accepted"] = [NSNumber numberWithBool:accepted];
+
+    NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onCleverTapPushPermissionResponseReceived', %@);", json];
     [self.commandDelegate evalJs:js]; 
 }
 
@@ -1659,7 +1661,7 @@ static NSMutableDictionary *allVariables;
 
 - (NSMutableDictionary *)getVariableValues {
     NSMutableDictionary *varValues = [NSMutableDictionary dictionary];
-    [self.allVariables enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, CTVar*  _Nonnull var, BOOL * _Nonnull stop) {
+    [allVariables enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, CTVar*  _Nonnull var, BOOL * _Nonnull stop) {
         varValues[key] = var.value;
     }];
     return varValues;
