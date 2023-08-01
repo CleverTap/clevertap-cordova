@@ -684,6 +684,21 @@ CleverTap.prototype.onValueChanged = function (name, handler) {
     cordova.exec(handler, null, "CleverTapPlugin", "onValueChanged", [name]);
 }
 
+/****************************
+ *Push Primer
+ ****************************/
+ 
+CleverTap.prototype.promptPushPrimer = function(localInAppObject){
+    cordova.exec(null, null, "CleverTapPlugin", "promptPushPrimer", [localInAppObject]);
+}
+
+CleverTap.prototype.promptForPushPermission = function(showFallbackSettings){
+    cordova.exec(null, null, "CleverTapPlugin", "promptForPushPermission", [showFallbackSettings]);
+}
+
+CleverTap.prototype.isPushPermissionGranted = function(successCallback){
+    cordova.exec(successCallback, null, "CleverTapPlugin", "isPushPermissionGranted", []);
+}
 
 function convertDateToEpochInProperties(items){
 //Conversion of date object in suitable CleverTap format
