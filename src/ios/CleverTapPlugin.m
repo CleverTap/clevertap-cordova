@@ -1177,7 +1177,7 @@ static NSMutableDictionary *allVariables;
     JSONObject jsonObject = new JSONObject();
     try {
         jsonObject.put("data",message.getData());
-        jsonObject.put("Index",index);
+        jsonObject.put("contentPageIndex",index);
         jsonObject.put("buttonIndex",buttonIndex);
     } catch (JSONException e) {
         Log.e(LOG_TAG,"Failed to parse inbox message.");
