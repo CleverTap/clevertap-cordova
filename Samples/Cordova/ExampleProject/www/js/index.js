@@ -97,9 +97,9 @@ function setupButtons() {
         
         ["title","Product Experiences"],
         ["define variables", () => CleverTap.defineVariables({
-            "cordova_var_string": "cordova_var_string_value"
+            "cordova_var_string_ios": "cordova_var_string_value_ios"
         })],
-        ["Sync Variables", () => CleverTap.syncVariables],
+        ["Sync Variables", () => CleverTap.syncVariables()],
         ["get variables", () => CleverTap.getVariables(val => log("Variables are: " + val)) ],
         ["get variable for name cordova_var_string_value", () => CleverTap.getVariable("cordova_var_string_value",val => log("Variable value for cordova_var_string_value: " + val))],
         ["fetch variables", () => CleverTap.fetchVariables(val => log("Fetch variables result is: " + val))],

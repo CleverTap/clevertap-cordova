@@ -1445,6 +1445,9 @@ static NSMutableDictionary *allVariables;
     
     [self.commandDelegate runInBackground:^{
         NSDictionary *variables = [command argumentAtIndex:0];
+        if (!allVariables){
+            allVariables = [NSMutableDictionary new];
+        }
 
         if(variables == nil){
             return;
@@ -1453,7 +1456,6 @@ static NSMutableDictionary *allVariables;
             CTVar *var = [self createVarForName:key andValue:value];
 
             if (var) {
-                allVariables = [NSMutableDictionary new];
                 allVariables[key] = var;
             }
         }];
@@ -1485,8 +1487,9 @@ static NSMutableDictionary *allVariables;
     
         [self.commandDelegate runInBackground:^{
             [clevertap onVariablesChanged:^{
-                NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onVariablesChanged')"];
-                [self.commandDelegate evalJs:js];
+                NSMutableDictionary *varValues = [self getVariableValues];
+                CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:varValues];
+                [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
             }];
         }];
 }
@@ -1498,8 +1501,8 @@ static NSMutableDictionary *allVariables;
             CTVar *var = allVariables[name];
             if (var) {
                 [var onValueChanged:^{
-                    NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onValueChanged')"];
-                    [self.commandDelegate evalJs:js];
+                    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:var.value];
+                    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
                 }];
             }
         }];
