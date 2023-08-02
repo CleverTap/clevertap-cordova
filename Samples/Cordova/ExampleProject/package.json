@@ -13,10 +13,10 @@
   "author": "CleverTap",
   "license": "Apache-2.0",
   "devDependencies": {
-    "clevertap-cordova": "git+https://github.com/CleverTap/clevertap-cordova.git#SDK-2617-FixInboxCallback",
+    "clevertap-cordova": "git+https://github.com/CleverTap/clevertap-cordova.git#SDK-3108-Support_iOS_SDK_5.1.1",
     "cordova-android": "^11.0.0",
     "cordova-android-support-gradle-release": "^3.0.1",
-    "cordova-ios": "^6.2.0",
+    "cordova-ios": "^7.0.0",
     "ios": "0.0.1"
   },
   "cordova": {
@@ -25,13 +25,13 @@
         "ANDROID_SUPPORT_VERSION": "27.+"
       },
       "clevertap-cordova": {
-        "CLEVERTAP_ACCOUNT_ID": "TEST-R78-ZZK-955Z",
-        "CLEVERTAP_TOKEN": "TEST-311-ba2"
+        "CLEVERTAP_ACCOUNT_ID": "TEST-R55-999-486Z",
+        "CLEVERTAP_TOKEN": "TEST-ccc-552"
       }
     },
     "platforms": [
-      "ios",
-      "android"
+      "android",
+      "ios"
     ]
   },
   "dependencies": {

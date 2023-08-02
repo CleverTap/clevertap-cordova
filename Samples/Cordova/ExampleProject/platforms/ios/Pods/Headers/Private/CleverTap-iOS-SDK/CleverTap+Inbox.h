@@ -1,1 +1,1 @@
-../../../CleverTap-iOS-SDK/CleverTapSDK/include/CleverTap+Inbox.h
+../../../CleverTap-iOS-SDK/CleverTapSDK/CleverTap+Inbox.h

@@ -1,1 +1,1 @@
-../../../CleverTap-iOS-SDK/CleverTapSDK/include/CleverTap+PushPermission.h
+../../../CleverTap-iOS-SDK/CleverTapSDK/CleverTap+PushPermission.h

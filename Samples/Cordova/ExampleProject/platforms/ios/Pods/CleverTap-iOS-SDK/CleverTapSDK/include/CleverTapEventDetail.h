@@ -1,1 +1,0 @@
-../CleverTapEventDetail.h

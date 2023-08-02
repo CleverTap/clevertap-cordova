@@ -1,1 +1,1 @@
-../../../CleverTap-iOS-SDK/CleverTapSDK/include/CTLocalInApp.h
+../../../CleverTap-iOS-SDK/CleverTapSDK/InApps/CTLocalInApp.h

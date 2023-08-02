@@ -1,5 +1,6 @@
 *.xcuserstate
 Samples/Cordova/ExampleProject/platforms/android/.idea/
+Samples/Cordova/ExampleProject/plugins/
 Samples/Cordova/ExampleProject/platforms/android/.gradle/
 Samples/Cordova/ExampleProject/platforms/android/build/
 Samples/Cordova/ExampleProject/platforms/android/CordovaLib/build/

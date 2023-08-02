@@ -16,7 +16,70 @@ function log(param){
 }
 
 function setupButtons() {
+    let variables = {
+        'cordova_var_string': 'cordova_var_string_value',
+        'cordova_var_map': {
+          cordova_var_map_string: 'cordova_var_map_value',
+          cordova_var_map_float: 10.11,
+          cordova_var_map_nested:{
+            cordova_var_map_nested_float:3.14
+          }
+        },
+        'cordova_var_int': 6,
+        'cordova_var_float': 6.9,
+        'cordova_var_boolean': true
+      };
+      
+
     let eventsMap = [
+
+        ["title","Android 13 Push Primer"],
+        ["promptPushPrimer",()=> CleverTap.promptPushPrimer({
+            inAppType: 'alert',
+            titleText: 'Get Notified',
+            messageText:
+              'Please enable notifications on your device to use Push Notifications.',
+            followDeviceOrientation: true,
+            positiveBtnText: 'Allow',
+            negativeBtnText: 'Cancel',
+            backgroundColor: '#FFFFFF',
+            btnBorderColor: '#FF0000',
+            titleTextColor: '#0000FF',
+            messageTextColor: '#000000',
+            btnTextColor: '#FFFFFF',
+            btnBackgroundColor: '#0000FF',
+            btnBorderRadius: '5',
+            imageUrl:"https://icons.iconarchive.com/icons/treetog/junior/64/camera-icon.png",
+            fallbackToSettings: true
+          })
+      ],
+      ["promptForPushPermission",()=> CleverTap.promptForPushPermission(true)],
+      ["isPushPermissionGranted",()=> CleverTap.isPushPermissionGranted(val => log("isPushPermissionGranted value is " + val))],
+
+      ["title","Product Experiences"],
+      ["defineVariables", () => CleverTap.defineVariables(variables)],
+      ["syncVariables", () => CleverTap.syncVariables()],
+      ["syncVariablesinProd", () => CleverTap.syncVariablesinProd()],
+      ["fetchVariables", () => CleverTap.fetchVariables(success => log("fetchVariables success = " + success))],
+      ["getVariable", () => { 
+        let key = prompt("Please enter key", "cordova_var_string");
+         CleverTap.getVariable(key,val => log(key+" value is "+JSON.stringify(val)));
+       }
+      ],
+      ["getVariables", () => { 
+         CleverTap.getVariables(val => log("getVariables value is "+val.cordova_var_map.cordova_var_map_nested.cordova_var_map_nested_float));
+       }
+      ],
+      ["onVariablesChanged", () => { 
+        CleverTap.onVariablesChanged(val => log("onVariablesChanged value is "+JSON.stringify(val)));
+      }
+     ],
+     ["onValueChanged", () => { 
+        let key = prompt("Please enter key", "cordova_var_string");
+        CleverTap.onValueChanged(key,val => log("onValueChanged value is "+JSON.stringify(val)));
+      }
+     ],
+        
         ["title","Events"],
         ["record Event With Name", () => CleverTap.recordEventWithName("foo")],
         ["record Event With NameAndProps", () => CleverTap.recordEventWithNameAndProps("boo", {"bar": "zoo"})],
@@ -283,8 +346,10 @@ function initListeners() {
             CleverTap.deleteInboxMessageForId("messageId")
             CleverTap.deleteInboxMessagesForIds(["id1", "id2"])
             CleverTap.markReadInboxMessageForId("messageId")
+            CleverTap.markReadInboxMessagesForIds(["id1", "id2"])
             CleverTap.pushInboxNotificationViewedEventForId("messageId")
             CleverTap.pushInboxNotificationClickedEventForId("messageId")
+            CleverTap.dismissInbox()
         }
     )
     document.addEventListener('onCleverTapInboxMessagesDidUpdate', () => {
@@ -299,7 +364,7 @@ function initListeners() {
     )
     document.addEventListener('onCleverTapInboxItemClick', e => {
             log("onCleverTapInboxItemClick")
-            log(e.customExtras)
+            log(JSON.stringify(e))
         }
     )
     
@@ -331,6 +396,15 @@ function initListeners() {
             log(e.customExtras)
         }
     )
+    document.addEventListener('onCleverTapPushPermissionResponseReceived', e => {
+        log("onCleverTapPushPermissionResponseReceived")
+        log(e.accepted)
+    })
+
+    document.addEventListener('onCleverTapInAppNotificationShow', e => {
+        log("onCleverTapInAppNotificationShow")
+        log(e.customExtras)
+    })
 }
 
 

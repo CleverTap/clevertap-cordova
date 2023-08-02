@@ -1,1 +1,0 @@
-../CleverTapInstanceConfig.h

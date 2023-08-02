@@ -25,13 +25,20 @@
 #import "CleverTapPushNotificationDelegate.h"
 #import "CleverTapInAppNotificationDelegate.h"
 #import "CleverTap+InAppNotifications.h"
+#import "CleverTap+CTVar.h"
+#import "CTVar.h"
+#import "CTLocalInApp.h"
+#import "Clevertap+PushPermission.h"
 
-#import <CoreLocation/CoreLocation.h>
+#if __has_include(<CleverTapLocation/CTLocationManager.h>)
+#import <CleverTapLocation/CTLocationManager.h>
+#endif
 
 static CleverTap *clevertap;
 static NSURL *launchDeepLink;
 static NSDictionary *launchNotification;
 static NSDateFormatter *dateFormatter;
+static NSMutableDictionary *allVariables;
 
 @interface CleverTapPlugin () <CleverTapSyncDelegate, CleverTapInAppNotificationDelegate, CleverTapDisplayUnitDelegate, CleverTapFeatureFlagsDelegate, CleverTapProductConfigDelegate, CleverTapPushNotificationDelegate> {
 }
@@ -666,7 +673,8 @@ static NSDateFormatter *dateFormatter;
 
 - (void)getLocation:(CDVInvokedUrlCommand *)command {
     
-    [CleverTap getLocationWithSuccess:^(CLLocationCoordinate2D loc){
+#if __has_include(<CleverTapLocation/CTLocationManager.h>)
+    [CTLocationManager getLocationWithSuccess:^(CLLocationCoordinate2D loc){
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:@{@"lat":@(loc.latitude), @"lon":@(loc.longitude)}];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
         
@@ -674,6 +682,12 @@ static NSDateFormatter *dateFormatter;
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:error];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
+#else
+    NSString *error = @"Please install the pod CleverTapLocation or intregrate the CleverTapLocation project manually to use the getLocation method. For more details, please refer to the link: https://github.com/CleverTap/clevertap-ios-sdk/blob/location-api/docs/CleverTapLocation.md";
+    NSLog(@"%@", error);
+    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:error];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+#endif
 }
 
 - (void)setLocation:(CDVInvokedUrlCommand *)command {
@@ -1102,6 +1116,24 @@ static NSDateFormatter *dateFormatter;
 }
 
 /**
+ Mark Messages as Read in bulk
+ */
+- (void)markReadInboxMessagesForIds:(CDVInvokedUrlCommand *)command {
+    
+    [self.commandDelegate runInBackground:^{
+        NSString *messageIds = [command argumentAtIndex:0];
+        [clevertap markReadInboxMessagesForIDs: messageIds];
+    }];
+}
+
+/**
+ Dismisses Appinbox 
+ */
+- (void)dismissInbox:(CDVInvokedUrlCommand *)command {
+    [clevertap dismissAppInbox];
+}
+
+/**
  Record Inbox Notification Viewed for MessageID
  */
 - (void)pushInboxNotificationViewedEventForId:(CDVInvokedUrlCommand *)command {
@@ -1140,16 +1172,22 @@ static NSDateFormatter *dateFormatter;
     }
 }
 
-- (void)messageDidSelect:(CleverTapInboxMessage *_Nonnull)message{
+- (void)messageDidSelect:(CleverTapInboxMessage *_Nonnull)message atIndex:(int)index withButtonIndex:(int)buttonIndex{
     
-    NSString *jsonString = [self _dictToJson:message.json];
+    NSMutableDictionary *jsonObject = [NSMutableDictionary new];
+    if ([message json] != nil) {
+        jsonObject[@"data"] = [NSMutableDictionary dictionaryWithDictionary:[message json]];
+    } else {
+        jsonObject[@"data"] = [NSMutableDictionary new];
+    }
+    jsonObject[@"contentPageIndex"] = @(index);
+    jsonObject[@"buttonIndex"] = @(buttonIndex);
     
-    if (jsonString != nil) {
-        NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onCleverTapInboxItemClick', %@);", jsonString];
+    if (jsonObject != nil) {
+        NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onCleverTapInboxItemClick', %@);", jsonObject];
         [self.commandDelegate evalJs:js];
     }
 }
-
 
 #pragma mark - Native Display
 
@@ -1348,6 +1386,13 @@ static NSDateFormatter *dateFormatter;
     }];
 }
 
+- (void)setLibrary: (CDVInvokedUrlCommand *)command {
+    NSString *libName = [command argumentAtIndex:0];
+    int libVersion = [[command argumentAtIndex:1]intValue];
+    [clevertap setLibrary:libName];
+    [clevertap setCustomSdkVersion:libName version:libVersion];
+}
+
 
 #pragma mark Product Config Delegate
 
@@ -1367,6 +1412,262 @@ static NSDateFormatter *dateFormatter;
     
     NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onCleverTapProductConfigDidInitialize')"];
     [self.commandDelegate evalJs:js];
+}
+
+#pragma mark Product Experience
+
+- (void)syncVariables: (CDVInvokedUrlCommand *)command {
+    
+    [self.commandDelegate runInBackground:^{
+        [clevertap syncVariables];
+    }];
+}
+
+- (void)syncVariablesinProd: (CDVInvokedUrlCommand *)command {
+    
+    [self.commandDelegate runInBackground:^{
+        BOOL isProduction = [[command argumentAtIndex:0] boolValue];
+        [clevertap syncVariables:isProduction];
+    }];
+}
+
+- (void)fetchVariables:(CDVInvokedUrlCommand *)command {
+    
+    [self.commandDelegate runInBackground:^{
+        [clevertap fetchVariables:^(BOOL success){
+            CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:(BOOL)success];
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        }];
+    }];
+}
+
+- (void)defineVariables: (CDVInvokedUrlCommand *)command {
+    
+    [self.commandDelegate runInBackground:^{
+        NSDictionary *variables = [command argumentAtIndex:0];
+        if (!allVariables){
+            allVariables = [NSMutableDictionary new];
+        }
+
+        if(variables == nil){
+            return;
+        }
+        [variables enumerateKeysAndObjectsUsingBlock:^(NSString*  _Nonnull key, id  _Nonnull value, BOOL * _Nonnull stop) {
+            CTVar *var = [self createVarForName:key andValue:value];
+
+            if (var) {
+                allVariables[key] = var;
+            }
+        }];
+    }];
+}
+
+- (void)getVariable:(CDVInvokedUrlCommand *)command {
+    
+    [self.commandDelegate runInBackground:^{
+        NSString *name = [command argumentAtIndex:0];
+        CTVar *var = allVariables[name];
+
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:var.value];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
+}
+
+- (void)getVariables:(CDVInvokedUrlCommand *)command {
+    
+    [self.commandDelegate runInBackground:^{
+        NSMutableDictionary *varValues = [self getVariableValues];
+
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:varValues];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
+}
+
+- (void)onVariablesChanged:(CDVInvokedUrlCommand *)command {
+    
+        [self.commandDelegate runInBackground:^{
+            [clevertap onVariablesChanged:^{
+                NSMutableDictionary *varValues = [self getVariableValues];
+                CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:varValues];
+                [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+            }];
+        }];
+}
+
+- (void)onValueChanged:(CDVInvokedUrlCommand *)command {
+    
+        [self.commandDelegate runInBackground:^{
+            NSString *name = [command argumentAtIndex:0];
+            CTVar *var = allVariables[name];
+            if (var) {
+                [var onValueChanged:^{
+                    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:var.value];
+                    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+                }];
+            }
+        }];
+}
+
+#pragma mark Push primer
+
+- (CTLocalInApp*)_localInAppConfigFromReadableMap: (NSDictionary *)json {
+    CTLocalInApp *inAppBuilder;
+    CTLocalInAppType inAppType = HALF_INTERSTITIAL;
+    //Required parameters
+    NSString *titleText = nil, *messageText = nil, *followDeviceOrientation = nil, *positiveBtnText = nil, *negativeBtnText = nil;
+    //Additional parameters
+    NSString *fallbackToSettings = nil, *backgroundColor = nil, *btnBorderColor = nil, *titleTextColor = nil, *messageTextColor = nil, *btnTextColor = nil, *imageUrl = nil, *btnBackgroundColor = nil, *btnBorderRadius = nil;
+    
+    if ([json[@"inAppType"]  isEqual: @"half-interstitial"]){
+        inAppType = HALF_INTERSTITIAL;
+    }
+    else {
+        inAppType = ALERT;
+    }
+    if (json[@"titleText"]) {
+        titleText = [json valueForKey:@"titleText"];
+    }
+    if (json[@"messageText"]) {
+        messageText = [json valueForKey:@"messageText"];
+    }
+    if (json[@"followDeviceOrientation"]) {
+        followDeviceOrientation = [json valueForKey:@"followDeviceOrientation"];
+    }
+    if (json[@"positiveBtnText"]) {
+        positiveBtnText = [json valueForKey:@"positiveBtnText"];
+    }
+    
+    if (json[@"negativeBtnText"]) {
+        negativeBtnText = [json valueForKey:@"negativeBtnText"];
+    }
+    
+    //creates the builder instance with all the required parameters
+    inAppBuilder = [[CTLocalInApp alloc] initWithInAppType:inAppType
+                                                 titleText:titleText
+                                               messageText:messageText
+                                   followDeviceOrientation:followDeviceOrientation
+                                           positiveBtnText:positiveBtnText
+                                           negativeBtnText:negativeBtnText];
+    
+    //adds optional parameters to the builder instance
+    if (json[@"fallbackToSettings"]) {
+        fallbackToSettings = [json valueForKey:@"fallbackToSettings"];
+        [inAppBuilder setFallbackToSettings:fallbackToSettings];
+    }
+    if (json[@"backgroundColor"]) {
+        backgroundColor = [json valueForKey:@"backgroundColor"];
+        [inAppBuilder setBackgroundColor:backgroundColor];
+    }
+    if (json[@"btnBorderColor"]) {
+        btnBorderColor = [json valueForKey:@"btnBorderColor"];
+        [inAppBuilder setBtnBorderColor:btnBorderColor];
+    }
+    if (json[@"titleTextColor"]) {
+        titleTextColor = [json valueForKey:@"titleTextColor"];
+        [inAppBuilder setTitleTextColor:titleTextColor];
+    }
+    if (json[@"messageTextColor"]) {
+        messageTextColor = [json valueForKey:@"messageTextColor"];
+        [inAppBuilder setMessageTextColor:messageTextColor];
+    }
+    if (json[@"btnTextColor"]) {
+        btnTextColor = [json valueForKey:@"btnTextColor"];
+        [inAppBuilder setBtnTextColor:btnTextColor];
+    }
+    if (json[@"imageUrl"]) {
+        imageUrl = [json valueForKey:@"imageUrl"];
+        [inAppBuilder setImageUrl:imageUrl];
+    }
+    if (json[@"btnBackgroundColor"]) {
+        btnBackgroundColor = [json valueForKey:@"btnBackgroundColor"];
+        [inAppBuilder setBtnBackgroundColor:btnBackgroundColor];
+    }
+    if (json[@"btnBorderRadius"]) {
+        btnBorderRadius = [json valueForKey:@"btnBorderRadius"];
+        [inAppBuilder setBtnBorderRadius:btnBorderRadius];
+    }
+    return inAppBuilder;
+}
+
+- (void)promptForPushPermission: (CDVInvokedUrlCommand *)command {
+    
+    [self.commandDelegate runInBackground:^{
+        BOOL showFallbackSettings = [[command argumentAtIndex:0] boolValue];
+        [clevertap promptForPushPermission:showFallbackSettings];
+    }];
+}
+
+- (void)promptPushPrimer: (CDVInvokedUrlCommand *)command {
+    
+    [self.commandDelegate runInBackground:^{
+        NSDictionary *json = [command argumentAtIndex:0];
+        if(json == nil){
+            return;
+        }
+        CTLocalInApp *localInAppBuilder = [self _localInAppConfigFromReadableMap:json];
+        [clevertap promptPushPrimer:localInAppBuilder.getLocalInAppSettings];
+    }];
+}
+
+- (void)isPushPermissionGranted:(CDVInvokedUrlCommand *)command {
+    
+    [self.commandDelegate runInBackground:^{
+        if (@available(iOS 10.0, *)) {
+        [clevertap getNotificationPermissionStatusWithCompletionHandler:^(UNAuthorizationStatus status) {
+                BOOL result = (status == UNAuthorizationStatusAuthorized);
+                NSLog(@"[CleverTap isPushPermissionGranted: %i]", result);
+                CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:result];
+                [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+            }];
+        } else {
+        // Fallback on earlier versions
+        NSLog(@"Push Notification is available from iOS v10.0 or later");
+        }   
+    }];
+}
+
+#pragma mark - CleverTapPushPermissionDelegate
+
+- (void)onPushPermissionResponse:(BOOL)accepted {
+
+    NSMutableDictionary *json = [NSMutableDictionary new];
+    json[@"accepted"] = [NSNumber numberWithBool:accepted];
+
+    NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onCleverTapPushPermissionResponseReceived', %@);", json];
+    [self.commandDelegate evalJs:js]; 
+}
+
+#pragma mark Helper methods
+
+- (CTVar *)createVarForName:(NSString *)name andValue:(id)value {
+
+    if ([value isKindOfClass:[NSString class]]) {
+        return [clevertap defineVar:name withString:value];
+    }
+    if ([value isKindOfClass:[NSDictionary class]]) {
+        return [clevertap defineVar:name withDictionary:value];
+    }
+    if ([value isKindOfClass:[NSNumber class]]) {
+        if ([self isBoolNumber:value]) {
+            return [clevertap defineVar:name withBool:value];
+        }
+        return [clevertap defineVar:name withNumber:value];
+    }
+    return nil;
+}
+
+- (BOOL)isBoolNumber:(NSNumber *)number {
+    CFTypeID boolID = CFBooleanGetTypeID();
+    CFTypeID numID = CFGetTypeID(CFBridgingRetain(number));
+    return (numID == boolID);
+}
+
+- (NSMutableDictionary *)getVariableValues {
+    NSMutableDictionary *varValues = [NSMutableDictionary dictionary];
+    [allVariables enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, CTVar*  _Nonnull var, BOOL * _Nonnull stop) {
+        varValues[key] = var.value;
+    }];
+    return varValues;
 }
 
 - (CleverTapInboxStyleConfig*)_dictToInboxStyleConfig: (NSDictionary *)dict {

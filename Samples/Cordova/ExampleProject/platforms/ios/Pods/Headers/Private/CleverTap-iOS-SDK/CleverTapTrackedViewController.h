@@ -1,1 +1,1 @@
-../../../CleverTap-iOS-SDK/CleverTapSDK/include/CleverTapTrackedViewController.h
+../../../CleverTap-iOS-SDK/CleverTapSDK/CleverTapTrackedViewController.h
