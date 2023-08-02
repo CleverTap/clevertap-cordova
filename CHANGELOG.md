@@ -1,5 +1,61 @@
 Change Log
 ==========
+Version 2.7.0 *(August 2, 2023)*
+-------------------------------------------
+#### New Features
+
+* Supports [CleverTap Android SDK v5.1.0](https://github.com/CleverTap/clevertap-android-sdk/releases/tag/corev5.1.0_ptv1.1.0).
+* Supports [cordova android 12.0.0](https://cordova.apache.org/announcements/2023/05/22/cordova-android-12.0.0.html)
+* Adds below new public APIs for supporting [Android 13 notification runtime permission](https://developer.android.com/develop/ui/views/notifications/notification-permission)
+  * `isPushPermissionGranted(successCallback)` [Usage can be found here](docs/pushprimer.md#get-the-push-notification-permission-status)
+  * `promptPushPrimer(JSONObject)` [Usage can be found here](docs/pushprimer.md#push-primer-using-half-interstitial-local-in-app)
+  * `promptForPushPermission(boolean)` [Usage can be found here](docs/pushprimer.md#prompt-the-notification-permission-dialog-without-push-primer)
+  * New callback `onCleverTapPushPermissionResponseReceived` available which returns after user Allows/Denies notification permission [Usage can be found here](docs/pushprimer.md#available-callbacks-for-push-primer)
+  * New callback `onCleverTapInAppNotificationShow(JSONObject)`
+* Adds support for Remote Config Variables. Please refer to the [Variables.md](docs/Variables.md) file to
+  read more on how to integrate this to your app.
+* Adds new API, `markReadInboxMessagesForIds(messageIDs)` to mark read an array of
+  Inbox Messages.
+* `deleteInboxMessagesForIds(messageIDs)` is now supported in Android as well.
+* Adds new API, `dismissInbox()` to dismiss the App Inbox.
+
+#### API Changes
+
+* **Deprecated:** The following methods and callbacks related to Product Config and Feature Flags have
+  been marked as deprecated in this release, instead use new remote config variables feature. These
+  methods and callbacks will be removed in the future versions with prior notice.
+    * Product config
+        - `setDefaultsMap()`
+        - `fetch()`
+        - `fetchWithMinimumFetchIntervalInSeconds()`
+        - `activate()`
+        - `fetchAndActivate()`
+        - `setMinimumFetchIntervalInSeconds()`
+        - `getLastFetchTimeStampInMillis()`
+        - `getString()`
+        - `getBoolean()`
+        - `getLong()`
+        - `getDouble()`
+        - `reset()`
+        - callback `onCleverTapProductConfigDidInitialize`
+        - callback `onCleverTapProductConfigDidFetch`
+        - callback `onCleverTapProductConfigDidActivate`
+ 
+    * Feature flags
+        - `getFeatureFlag()`
+        - callback `onCleverTapFeatureFlagsDidUpdate`
+
+#### Breaking API Changes
+
+* **Return value change of `onCleverTapInboxItemClick` callback**: callback returns `JSONObject` with below entries
+    - `data` corresponds to the payload of clicked inbox item
+    - The `contentPageIndex` corresponds to the page index of the content, which ranges from 0 to the total number of pages for carousel templates. For non-carousel templates, the value is always 0, as they only have one page of content.
+    - The `buttonIndex` represents the index of the App Inbox button clicked (0, 1, or 2). A value of -1 indicates the App Inbox item is clicked.
+* **Behavioral change of `onCleverTapInboxItemClick` callback**:
+  - Previously, the callback was raised when the App Inbox Item is clicked.
+  - Now, it is also raised when the App Inbox button and Item is clicked.
+
+
 Version 2.6.2 *(April 18, 2023)*
 -------------------------------------------
 - Fixed compilation errors in xcode 14.3+ in iOS.
