@@ -685,7 +685,7 @@ CleverTap.prototype.onValueChanged = function (name, handler) {
 }
 
 /****************************
- *Push Primer
+ * Android 13 Push Primer
  ****************************/
  
 CleverTap.prototype.promptPushPrimer = function(localInAppObject){
