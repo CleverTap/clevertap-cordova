@@ -1,1 +1,1 @@
-../../../CleverTap-iOS-SDK/CleverTapSDK/include/CleverTapJSInterface.h
+../../../CleverTap-iOS-SDK/CleverTapSDK/CleverTapJSInterface.h

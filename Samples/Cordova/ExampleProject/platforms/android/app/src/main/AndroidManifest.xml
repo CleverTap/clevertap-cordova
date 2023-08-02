@@ -22,6 +22,8 @@
         <meta-data android:name="CLEVERTAP_TOKEN" android:value="YOUR_ACCT_TOKEN" />
         <meta-data android:name="CLEVERTAP_REGION" android:value=" " />
         <receiver android:enabled="true" android:exported="false" android:name="com.clevertap.android.sdk.pushnotification.CTPushNotificationReceiver" />
+        <meta-data android:name="CLEVERTAP_ACCOUNT_ID" android:value="TEST-R78-ZZK-955Z" />
+        <meta-data android:name="CLEVERTAP_TOKEN" android:value="TEST-311-ba2" />
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />

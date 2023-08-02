@@ -373,6 +373,16 @@ static NSString * const CTHandleOpenURLNotification = @"CTHandleOpenURLNotificat
 - (void)markReadInboxMessageForId:(CDVInvokedUrlCommand *)command;
 
 /**
+ This method Mark bulk messages as Read for Given Message Ids
+ */
+- (void)markReadInboxMessagesForIds:(CDVInvokedUrlCommand *)command;
+
+/**
+ Dismisses Appinbox 
+ */
+- (void)dismissInbox:(CDVInvokedUrlCommand *)command;
+
+/**
  This method Marks Inbox Notification Viewed for Given Message Id
  */
 - (void)pushInboxNotificationViewedEventForId:(CDVInvokedUrlCommand *)command;
@@ -448,6 +458,51 @@ static NSString * const CTHandleOpenURLNotification = @"CTHandleOpenURLNotificat
  */
 - (void)getLastFetchTimeStampInMillis: (CDVInvokedUrlCommand *)command;
 
+# pragma mark - Product experiences
+
+/**
+ Uploads variables to the server. Requires Development/Debug build/configuration.
+*/
+- (void)syncVariables: (CDVInvokedUrlCommand *)command;
+
+/**
+Uploads variables to the server.
+@param {boolean} isProduction Provide `true` if variables must be sync in Productuon build/configuration.
+*/
+- (void)syncVariablesinProd: (CDVInvokedUrlCommand *)command;
+
+/**
+Forces variables to update from the server.
+*/
+- (void)fetchVariables:(CDVInvokedUrlCommand *)command;
+
+/**
+Create variables. 
+@param {object} variables The JSON Object specifying the varibles to be created.
+*/
+- (void)defineVariables: (CDVInvokedUrlCommand *)command;
+
+/**
+Get a variable or a group for the specified name.
+@param {string} name - name.
+*/
+- (void)getVariable:(CDVInvokedUrlCommand *)command;
+
+/**
+Get all variables via a JSON object.
+*/
+- (void)getVariables:(CDVInvokedUrlCommand *)command;
+
+ /**
+Adds a callback to be invoked when variables are initialised with server values. Will be called each time new values are fetched.
+*/
+- (void)onVariablesChanged:(CDVInvokedUrlCommand *)command;
+
+/**
+Called when the value of the variable changes.
+*/
+- (void)onValueChanged:(CDVInvokedUrlCommand *)command;
+
 /**
  This method fetches String Value for a given key
  */
@@ -472,6 +527,8 @@ static NSString * const CTHandleOpenURLNotification = @"CTHandleOpenURLNotificat
  This method resets the product Config stored locally
  */
 - (void)reset;
+
+- (void)setLibrary: (CDVInvokedUrlCommand *)command;
 
 @end
 

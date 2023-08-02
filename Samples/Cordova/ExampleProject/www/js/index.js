@@ -32,6 +32,7 @@ function setupButtons() {
       
 
     let eventsMap = [
+
         ["title","Android 13 Push Primer"],
         ["promptPushPrimer",()=> CleverTap.promptPushPrimer({
             inAppType: 'alert',
@@ -78,7 +79,7 @@ function setupButtons() {
         CleverTap.onValueChanged(key,val => log("onValueChanged value is "+JSON.stringify(val)));
       }
      ],
-
+        
         ["title","Events"],
         ["record Event With Name", () => CleverTap.recordEventWithName("foo")],
         ["record Event With NameAndProps", () => CleverTap.recordEventWithNameAndProps("boo", {"bar": "zoo"})],
@@ -159,8 +160,6 @@ function setupButtons() {
 
         ["title","Device Identifiers"],
         ["get CleverTap ID", () => CleverTap.getCleverTapID(val => log("getCleverTapID is " + val))],
-
-        
 
         ["title","special functions for cordova sdk"],
         ["Push tokens manually", () => {

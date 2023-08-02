@@ -1,1 +1,0 @@
-../CleverTapJSInterface.h
