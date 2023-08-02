@@ -28,6 +28,8 @@ import com.clevertap.android.sdk.variables.callbacks.VariableCallback;
 import com.clevertap.android.sdk.variables.callbacks.VariablesChangedCallback;
 import java.util.Objects;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaWebView;
 import org.apache.cordova.CordovaPlugin;
@@ -124,6 +126,10 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_VIEW)) {
             Uri data = intent.getData();
             if (data != null) {
+                if(!isDeepLinkValid(data)){
+                    Log.w(LOG_TAG, "Found malicious deep link. Not processing further.");
+                    return;
+                }
                 final String json = "{'deeplink':'" + data.toString() + "'}";
 
                 cordova.getActivity().runOnUiThread(new Runnable() {
@@ -2496,6 +2502,14 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             }
         }
         return json;
+    }
+
+    private boolean isDeepLinkValid(Uri data) {
+        String link = Uri.decode(data.toString());
+        String patternString = "[{}\\[\\]()\"';]|javascript";
+        Pattern pattern = Pattern.compile(patternString);
+        Matcher matcher = pattern.matcher(link);
+        return !matcher.find();
     }
 
     private JSONObject processPushPrimerArgument(JSONObject jsonObject) {
