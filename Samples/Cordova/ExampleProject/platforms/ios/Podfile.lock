@@ -9,7 +9,7 @@ DEPENDENCIES:
   - CleverTap-iOS-SDK (= 5.1.2)
 
 SPEC REPOS:
-  trunk:
+  https://github.com/CocoaPods/Specs.git:
     - CleverTap-iOS-SDK
     - SDWebImage
 
@@ -17,6 +17,6 @@ SPEC CHECKSUMS:
   CleverTap-iOS-SDK: 1731f365b7822458c346fb812bd0f0edbf076856
   SDWebImage: 750adf017a315a280c60fde706ab1e552a3ae4e9
 
-PODFILE CHECKSUM: e9da12ba9171107bbbacdc391f2baaf05a633e62
+PODFILE CHECKSUM: 838d8d904fc779a1bc0bea04c3377f1d39ea9144
 
 COCOAPODS: 1.11.2

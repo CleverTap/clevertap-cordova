@@ -31,6 +31,7 @@ document.addEventListener('onPushNotification', this.onPushNotification, false);
 document.addEventListener('onCleverTapInboxDidInitialize', this.onCleverTapInboxDidInitialize, false); // optional, to check if CleverTap Inbox intialized
 document.addEventListener('onCleverTapInboxMessagesDidUpdate', this.onCleverTapInboxMessagesDidUpdate, false); // optional, to check if CleverTap Inbox Messages were updated
 document.addEventListener('onCleverTapInboxButtonClick', this.onCleverTapInboxButtonClick, false); // optional, to check if Inbox button was clicked with custom payload
+document.addEventListener('onCleverTapInboxItemClick', this.onCleverTapInboxItemClick, false); // optional, to check if Inbox message was clicked
 document.addEventListener('onCleverTapInAppButtonClick', this.onCleverTapInAppButtonClick, false); // optional, to check if InApp button was clicked with custom payload
 document.addEventListener('onCleverTapFeatureFlagsDidUpdate', this.onCleverTapFeatureFlagsDidUpdate, false); // optional, to check if Feature Flags were updated
 document.addEventListener('onCleverTapProductConfigDidInitialize', this.onCleverTapProductConfigDidInitialize, false); // optional, to check if Product Config was initialized
@@ -234,6 +235,12 @@ console.log('getInboxMessageForId: ' + r);
 
 ```javascript 
 this.clevertap.deleteInboxMessageForId('message_ID_1234');		
+```
+
+#### Delete bulk messages with Ids - Only for iOS, NO-OP for Android.
+
+```javascript 
+this.clevertap.deleteInboxMessagesForIds(['message_ID_1234','message_ID_xyz']);        
 ```
 
 #### Mark a message as Read for Inbox Id

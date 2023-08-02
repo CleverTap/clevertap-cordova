@@ -9,6 +9,10 @@ Version 2.7.0 *(August 2, 2023)*
 * Supports [cordova android 12.0.0](https://cordova.apache.org/announcements/2023/05/22/cordova-android-12.0.0.html)
 * `deleteInboxMessagesForIds(messageIDs)` is now supported in Android as well.
 * New callback `onCleverTapInAppNotificationShow(JSONObject)` 
+* **Behavioral change of `onCleverTapInboxItemClick`**:
+  - Previously, the callback was raised when the App Inbox Item is clicked.
+  - Now, it is also raised when the App Inbox button and Item is clicked.
+
 
 **iOS specific**
 * Supports [CleverTap iOS SDK v5.1.2](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/5.1.2).
@@ -58,10 +62,6 @@ Version 2.7.0 *(August 2, 2023)*
     - `data` corresponds to the payload of clicked inbox item
     - The `contentPageIndex` corresponds to the page index of the content, which ranges from 0 to the total number of pages for carousel templates. For non-carousel templates, the value is always 0, as they only have one page of content.
     - The `buttonIndex` represents the index of the App Inbox button clicked (0, 1, or 2). A value of -1 indicates the App Inbox item is clicked.
-* **Behavioral change of `onCleverTapInboxItemClick` callback in android and `messageDidSelect` callback in iOS**:
-  - Previously, the callback was raised when the App Inbox Item is clicked.
-  - Now, it is also raised when the App Inbox button and Item is clicked.
-
 
 Version 2.6.2 *(April 18, 2023)*
 -------------------------------------------

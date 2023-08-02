@@ -17,6 +17,31 @@ function log(param){
 
 function setupButtons() {
     let eventsMap = [
+
+        ["title","Android 13 Push Primer"],
+            ["promptPushPrimer",()=> CleverTap.promptPushPrimer({
+                inAppType: 'alert',
+                titleText: 'Get Notified',
+                messageText:
+                  'Please enable notifications on your device to use Push Notifications.',
+                followDeviceOrientation: true,
+                positiveBtnText: 'Allow',
+                negativeBtnText: 'Cancel',
+                backgroundColor: '#FFFFFF',
+                btnBorderColor: '#FF0000',
+                titleTextColor: '#0000FF',
+                messageTextColor: '#000000',
+                btnTextColor: '#FFFFFF',
+                btnBackgroundColor: '#0000FF',
+                btnBorderRadius: '5',
+                imageUrl:"https://icons.iconarchive.com/icons/treetog/junior/64/camera-icon.png",
+                fallbackToSettings: true
+              })
+          ],
+          ["promptForPushPermission",()=> CleverTap.promptForPushPermission(true)],
+          ["isPushPermissionGranted",()=> CleverTap.isPushPermissionGranted(val => log("isPushPermissionGranted value is " + val))],
+
+
         ["title","Events"],
         ["record Event With Name", () => CleverTap.recordEventWithName("foo")],
         ["record Event With NameAndProps", () => CleverTap.recordEventWithNameAndProps("boo", {"bar": "zoo"})],
@@ -100,12 +125,12 @@ function setupButtons() {
             "cordova_var_string_ios": "cordova_var_string_value_ios"
         })],
         ["Sync Variables", () => CleverTap.syncVariables()],
-        ["get variables", () => CleverTap.getVariables(val => log("Variables are: " + val)) ],
-        ["get variable for name cordova_var_string_value", () => CleverTap.getVariable("cordova_var_string_value",val => log("Variable value for cordova_var_string_value: " + val))],
+        ["get variables", () => CleverTap.getVariables(val => log("Variables are: " +val)) ],
+        ["get variable for name cordova_var_string_ios", () => CleverTap.getVariable("cordova_var_string_ios",val => log("Variable value for cordova_var_string_ios: " + val))],
         ["fetch variables", () => CleverTap.fetchVariables(val => log("Fetch variables result is: " + val))],
         ["add onVariablesChanged", () => CleverTap.onVariablesChanged(val => log("onVariablesChanged: " + val))],
-        ["add onValueChanged for variable cordova_var_string_value ", () => CleverTap.onValueChanged("cordova_var_string_value",val => log("onValueChanged: " + val))],
-        
+        ["add onValueChanged for variable cordova_var_string_ios ", () => CleverTap.onValueChanged("cordova_var_string_ios",val => log("onValueChanged: " + val))],
+
         ["title","Device Identifiers"],
         ["get CleverTap ID", () => CleverTap.getCleverTapID(val => log("getCleverTapID is " + val))],
 

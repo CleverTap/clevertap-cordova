@@ -25,9 +25,9 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSMainNibFile</key>
-	<string/>
+	<string></string>
 	<key>NSMainNibFile~ipad</key>
-	<string/>
+	<string></string>
 	<key>UILaunchStoryboardName</key>
 	<string>CDVLaunchScreen</string>
 	<key>UIRequiresFullScreen</key>
@@ -51,10 +51,10 @@
 		<true/>
 	</dict>
 	<key>CleverTapAccountID</key>
-	<string>TEST-R78-ZZK-955Z</string>
+	<string>TEST-R55-999-486Z</string>
 	<key>CleverTapToken</key>
-	<string>TEST-311-ba2</string>
+	<string>TEST-ccc-552</string>
 	<key>CleverTapRegion</key>
-	<string/>
+	<string>sk1</string>
 </dict>
 </plist>

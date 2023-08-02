@@ -1,12 +1,36 @@
 Change Log
 ==========
+Version 2.6.2 *(April 18, 2023)*
+-------------------------------------------
+- Fixed compilation errors in xcode 14.3+ in iOS.
+- Supports [CleverTap iOS SDK v4.2.2](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/4.2.2).
+
+Version 2.6.1 *(January 25, 2023)*
+-------------------------------------------
+- Fixes a compilation error with iOS app inbox callback method `messageDidSelect`.
+
+Version 2.6.0 *(December 29, 2022)*
+-------------------------------------------
+- Supports [CleverTap Android SDK v4.6.6](https://github.com/CleverTap/clevertap-android-sdk/releases/tag/corev4.6.6)
+- Supports [cordova android 11.0.0](https://cordova.apache.org/announcements/2022/07/12/cordova-android-release-11.0.0.html)
+- Supports Android exoplayer [`v2.17.1`](https://github.com/google/ExoPlayer/releases/tag/r2.17.1). Note : this upgrade will result in minor ui changes for interstitial in app and inbox notifications that uses exoplayer.
+- Adds new callback `onCleverTapInboxItemClick` to receive inbox item click.
+- Breaks Android `setPushXiaomiToken()` API where new changes adds `region` as second mandatory parameter to specify server region.If you are using this method make sure you pass region while calling `setPushXiaomiToken()`.
+- Supports [CleverTap iOS SDK v4.2.0](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/4.2.0).
+- Adds a public method `deleteInboxMessagesForIds()` for deleting multiple App Inbox messages by passing a collection of messageIDs. Please note that this is only for iOS, and NO-OP for Android as of now.
+
+Version 2.5.2 *(July 29, 2022)*
+-------------------------------------------
+- Fixes an iOS bug where `onDeepLink` callback wasn't being called when triggered from killed state.
+- Supports [CleverTap iOS SDK v4.1.1](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/4.1.1).
 
 Version 2.5.1 *(June 7, 2022)*
 -------------------------------------------
-- Supports [CleverTap Android SDK v4.4.0](https://github.com/CleverTap/clevertap-android-sdk/releases/tag/core-v4.4.0)
-- Supports [CleverTap iOS SDK v3.10.0](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/3.10.0)
-
-
+- Supports [CleverTap Android SDK v4.4.0](https://github.com/CleverTap/clevertap-android-sdk/releases/tag/core-v4.4.0) .
+- Support for Android 12.
+- Support for [Android Push Templates](https://github.com/CleverTap/clevertap-cordova/blob/master/docs/Troubleshooting-Guide.md#supporting-clevertap-push-templates) .
+- Fixes an iOS bug where push notifications were not being rendered in the foreground and notification clicked events were fired automatically.
+- Supports [CleverTap iOS SDK v4.0.1](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/4.0.1).
 
 Version 2.4.0 *(January 31, 2022)*
 -------------------------------------------
