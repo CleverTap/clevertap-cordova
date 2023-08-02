@@ -1,1 +1,1 @@
-../../../CleverTap-iOS-SDK/CleverTapSDK/include/CleverTap+FeatureFlags.h
+../../../CleverTap-iOS-SDK/CleverTapSDK/CleverTap+FeatureFlags.h

@@ -1,1 +1,1 @@
-../../../CleverTap-iOS-SDK/CleverTapSDK/include/CleverTap+SSLPinning.h
+../../../CleverTap-iOS-SDK/CleverTapSDK/CleverTap+SSLPinning.h

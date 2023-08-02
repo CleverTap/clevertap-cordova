@@ -6,6 +6,9 @@
 //
 
 var CleverTap = function () {
+    const libName = 'Cordova';
+    const libVersion = 20603; 
+    cordova.exec(null, null, "CleverTapPlugin", "setLibrary", [libName, libVersion]);
 }
                
 /*******************
@@ -457,6 +460,14 @@ CleverTap.prototype.markReadInboxMessageForId = function (messageId) {
      cordova.exec(null, null, "CleverTapPlugin", "markReadInboxMessageForId", [messageId]);
 }
 
+CleverTap.prototype.markReadInboxMessagesForIds = function (messageIds) {
+    cordova.exec(null, null, "CleverTapPlugin", "markReadInboxMessagesForIds", [messageIds]);
+}
+
+CleverTap.prototype.dismissInbox= function () {
+    cordova.exec(null, null, "CleverTapPlugin", "dismissInbox", []);
+}
+
 CleverTap.prototype.pushInboxNotificationViewedEventForId = function (messageId) {
      cordova.exec(null, null, "CleverTapPlugin", "pushInboxNotificationViewedEventForId", [messageId]);
 }
@@ -512,6 +523,9 @@ CleverTap.prototype.pushDisplayUnitClickedEventForID = function(unitId){
 /****************************
  * Feature Flag methods
  ****************************/
+/** 
+ * @deprecated - Since version 2.7.0 and will be removed in the future versions of this SDK.
+ */
 CleverTap.prototype.getFeatureFlag = function(name,defaultValue,successCallback){
     cordova.exec(successCallback, null, "CleverTapPlugin", "getFeatureFlag", [name,defaultValue]);
 }
@@ -519,52 +533,171 @@ CleverTap.prototype.getFeatureFlag = function(name,defaultValue,successCallback)
 /****************************
  * Product Config methods
  ****************************/
+/** 
+ * @deprecated - Since version 2.7.0 and will be removed in the future versions of this SDK.
+ */
 CleverTap.prototype.setDefaultsMap = function(jsonMap){
     cordova.exec(null, null, "CleverTapPlugin", "setDefaultsMap", [jsonMap]);
 }
 
+/** 
+ * @deprecated - Since version 2.7.0 and will be removed in the future versions of this SDK.
+ */
 CleverTap.prototype.fetch = function(){
     cordova.exec(null, null, "CleverTapPlugin", "fetch", []);
 }
 
+/** 
+ * @deprecated - Since version 2.7.0 and will be removed in the future versions of this SDK.
+ */
 CleverTap.prototype.fetchWithMinimumFetchIntervalInSeconds = function(interval){
     cordova.exec(null, null, "CleverTapPlugin", "fetchWithMinimumFetchIntervalInSeconds", [interval]);
 }
 
+/** 
+ * @deprecated - Since version 2.7.0 and will be removed in the future versions of this SDK.
+ */
 CleverTap.prototype.activate = function(){
     cordova.exec(null, null, "CleverTapPlugin", "activate", []);
 }
 
+/** 
+ * @deprecated - Since version 2.7.0 and will be removed in the future versions of this SDK.
+ */
 CleverTap.prototype.fetchAndActivate = function(){
     cordova.exec(null, null, "CleverTapPlugin", "fetchAndActivate", []);
 }
 
+/** 
+ * @deprecated - Since version 2.7.0 and will be removed in the future versions of this SDK.
+ */
 CleverTap.prototype.setMinimumFetchIntervalInSeconds = function(interval){
     cordova.exec(null, null, "CleverTapPlugin", "setMinimumFetchIntervalInSeconds", [interval]);
 }
 
+/** 
+ * @deprecated - Since version 2.7.0 and will be removed in the future versions of this SDK.
+ */
 CleverTap.prototype.getLastFetchTimeStampInMillis = function(successCallback){
     cordova.exec(successCallback, null, "CleverTapPlugin", "getLastFetchTimeStampInMillis", []);
 }
 
+/** 
+ * @deprecated - Since version 2.7.0 and will be removed in the future versions of this SDK.
+ */
 CleverTap.prototype.getString = function(key,successCallback){
     cordova.exec(successCallback, null, "CleverTapPlugin", "getString", [key]);
 }
 
+/** 
+ * @deprecated - Since version 2.7.0 and will be removed in the future versions of this SDK.
+ */
 CleverTap.prototype.getBoolean = function(key,successCallback){
     cordova.exec(successCallback, null, "CleverTapPlugin", "getBoolean", [key]);
 }
 
+/** 
+ * @deprecated - Since version 2.7.0 and will be removed in the future versions of this SDK.
+ */
 CleverTap.prototype.getLong = function(key,successCallback){
     cordova.exec(successCallback, null, "CleverTapPlugin", "getLong", [key]);
 }
 
+/** 
+ * @deprecated - Since version 2.7.0 and will be removed in the future versions of this SDK.
+ */
 CleverTap.prototype.getDouble = function(key,successCallback){
     cordova.exec(successCallback, null, "CleverTapPlugin", "getDouble", [key]);
 }
 
+/** 
+ * @deprecated - Since version 2.7.0 and will be removed in the future versions of this SDK.
+ */
 CleverTap.prototype.reset = function(){
     cordova.exec(null, null, "CleverTapPlugin", "reset", []);
+}
+
+
+/****************************
+ * Product Experiences methods
+ ****************************/
+
+/**
+ Uploads variables to the server. Requires Development/Debug build/configuration.
+*/
+CleverTap.prototype.syncVariables = function(){
+    cordova.exec(null, null, "CleverTapPlugin", "syncVariables", []); 
+}
+
+/**
+Uploads variables to the server.
+@param {boolean} isProduction Provide `true` if variables must be sync in Productuon build/configuration.
+*/
+CleverTap.prototype.syncVariablesinProd = function(isProduction){
+    cordova.exec(null, null, "CleverTapPlugin", "syncVariablesinProd", [isProduction]); 
+}
+
+/**
+Forces variables to update from the server.
+*/
+CleverTap.prototype.fetchVariables = function(successCallback){
+    cordova.exec(successCallback, null, "CleverTapPlugin", "fetchVariables", []);
+}
+
+/**
+Create variables. 
+@param {object} variables The JSON Object specifying the varibles to be created.
+*/
+CleverTap.prototype.defineVariables = function (variables) {
+    cordova.exec(null, null, "CleverTapPlugin", "defineVariables", [variables]);
+}
+
+/**
+Get a variable or a group for the specified name.
+@param {string} name - name.
+*/
+CleverTap.prototype.getVariable = function (name, successCallback) {
+    cordova.exec(successCallback, null, "CleverTapPlugin", "getVariable", [name]);
+}
+
+/**
+Get all variables via a JSON object.
+*/
+CleverTap.prototype.getVariables = function (successCallback) {
+    cordova.exec(successCallback, null, "CleverTapPlugin", "getVariables", []);
+}
+
+ /**
+Adds a callback to be invoked when variables are initialised with server values. Will be called each time new values are fetched.
+@param {function} handler The callback to add
+*/
+CleverTap.prototype.onVariablesChanged = function (handler) {
+    cordova.exec(handler, null, "CleverTapPlugin", "onVariablesChanged", []);
+}
+
+/**
+Called when the value of the variable changes.
+@param {name} string the name of the variable
+@param {function} handler The callback to add
+*/
+CleverTap.prototype.onValueChanged = function (name, handler) {
+    cordova.exec(handler, null, "CleverTapPlugin", "onValueChanged", [name]);
+}
+
+/****************************
+ * Android 13 Push Primer
+ ****************************/
+ 
+CleverTap.prototype.promptPushPrimer = function(localInAppObject){
+    cordova.exec(null, null, "CleverTapPlugin", "promptPushPrimer", [localInAppObject]);
+}
+
+CleverTap.prototype.promptForPushPermission = function(showFallbackSettings){
+    cordova.exec(null, null, "CleverTapPlugin", "promptForPushPermission", [showFallbackSettings]);
+}
+
+CleverTap.prototype.isPushPermissionGranted = function(successCallback){
+    cordova.exec(successCallback, null, "CleverTapPlugin", "isPushPermissionGranted", []);
 }
 
 function convertDateToEpochInProperties(items){

@@ -94,7 +94,14 @@ function setupButtons() {
 
         ["title","Feature flag"],
         ["get Feature Flag", () => CleverTap.getFeatureFlag("test", true, val => log("Value is " + val))],
-
+        
+        ["title","Product Experiences"],
+        ["get Feature Flag", () => CleverTap.getFeatureFlag("test", true, val => log("Value is " + val))],
+         
+//         defineVariables({
+//            "cordova_var_string": "cordova_var_string_value"
+//          })],
+        
         ["title","Device Identifiers"],
         ["get CleverTap ID", () => CleverTap.getCleverTapID(val => log("getCleverTapID is " + val))],
 
@@ -281,6 +288,7 @@ function initListeners() {
             CleverTap.getAllInboxMessages(val => log("Inbox messages are " + val))
             CleverTap.getUnreadInboxMessages(val => log("Unread Inbox messages are " + val))
             CleverTap.deleteInboxMessageForId("messageId")
+            CleverTap.deleteInboxMessagesForIds(["id1", "id2"])
             CleverTap.markReadInboxMessageForId("messageId")
             CleverTap.pushInboxNotificationViewedEventForId("messageId")
             CleverTap.pushInboxNotificationClickedEventForId("messageId")

@@ -25,7 +25,7 @@
     [defaults synchronize];
 }
 
-+ (NSString *)getStringForKey:(NSString *)key withResetValue:(NSString *)resetValue {
++ (NSString *_Nullable)getStringForKey:(NSString *_Nonnull)key withResetValue:(NSString *_Nullable)resetValue {
     key = [NSString stringWithFormat:@"%@%@", PREF_PREFIX, key];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     id value = [defaults objectForKey:key];
@@ -92,7 +92,7 @@
     }
 }
 
-+ (id)unarchiveFromFile:(NSString *)filename ofTypes:(nonnull NSSet<Class> *)classes removeFile:(BOOL)remove {
++ (id _Nullable)unarchiveFromFile:(NSString *_Nonnull)filename ofTypes:(nonnull NSSet<Class> *)classes removeFile:(BOOL)remove {
     id data = nil;
     NSError *error = nil;
     NSString *filePath = [self filePathfromFileName:filename];
@@ -119,7 +119,7 @@
     return data;
 }
 
-+ (id)unarchiveFromFile:(NSString *)filename ofType:(Class)cls  removeFile:(BOOL)remove {
++ (id _Nullable)unarchiveFromFile:(NSString *_Nonnull)filename ofType:(Class _Nonnull)cls  removeFile:(BOOL)remove{
     id data = nil;
     NSError *error = nil;
     
@@ -161,7 +161,7 @@
     
     if (@available(iOS 11.0, tvOS 11.0, *)) {
         NSData *data = [NSKeyedArchiver archivedDataWithRootObject:object requiringSecureCoding:NO error:&archiveError];
-        [data writeToFile:filePath options:NSDataWritingAtomic error:&writeError];
+        success = [data writeToFile:filePath options:NSDataWritingAtomic error:&writeError];
         if (archiveError) {
             CleverTapLogStaticInternal(@"%@ failed to archive data at %@: %@", self, filePath, archiveError);
         }
@@ -177,7 +177,7 @@
     return success;
 }
 
-+ (NSString *)storageKeyWithSuffix: (NSString *)suffix config: (CleverTapInstanceConfig*)config {
++ (NSString * _Nonnull)storageKeyWithSuffix: (NSString * _Nonnull)suffix config: (CleverTapInstanceConfig* _Nonnull)config {
     return [NSString stringWithFormat:@"%@:%@", config.accountId, suffix];
 }
 

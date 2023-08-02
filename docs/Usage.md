@@ -22,6 +22,8 @@ All calls to the CleverTap SDK should be made from your Javascript.
 
 
 ```javascript
+document.addEventListener('onCleverTapPushPermissionResponse', this.onCleverTapPushPermissionResponse,false);
+document.addEventListener('onCleverTapInAppNotificationShow', this.onCleverTapInAppNotificationShow,false);// Only for Android, NO-OP for iOS
 document.addEventListener('deviceready', this.onDeviceReady, false);
 document.addEventListener('onCleverTapProfileSync', this.onCleverTapProfileSync, false); // optional: to be notified of CleverTap user profile synchronization updates
 document.addEventListener('onCleverTapProfileDidInitialize', this.onCleverTapProfileDidInitialize, false); // optional, to be notified when the CleverTap user profile is initialized
@@ -40,6 +42,16 @@ document.addEventListener('onCleverTapProductConfigDidActivate', this.onCleverTa
 document.addEventListener('onCleverTapExperimentsUpdated', this.onCleverTapExperimentsUpdated, false); // optional, to check if Dynamic Variable Experiments were updated
 document.addEventListener('onCleverTapDisplayUnitsLoaded', this.onCleverTapDisplayUnitsLoaded, false); // optional, to check if Native Display units were loaded
 
+// Push Permission
+onCleverTapPushPermissionResponse: function(e) {
+   console.log(e.accepted)
+},
+
+// on inapp displayed, Only for Android, NO-OP for iOS
+onCleverTapInAppNotificationShow: function(e) {
+   log("onCleverTapInAppNotificationShow")
+   log(e.customExtras)
+},
 
 // deep link handling  
 onDeepLink: function(e) {
@@ -237,7 +249,7 @@ console.log('getInboxMessageForId: ' + r);
 this.clevertap.deleteInboxMessageForId('message_ID_1234');		
 ```
 
-#### Delete bulk messages with Ids - Only for iOS, NO-OP for Android.
+#### Delete bulk messages with Ids - Only for iOS, NO-OP for Android [*v2.7.0* onwards Android adds support for this method].
 
 ```javascript 
 this.clevertap.deleteInboxMessagesForIds(['message_ID_1234','message_ID_xyz']);        
@@ -247,6 +259,18 @@ this.clevertap.deleteInboxMessagesForIds(['message_ID_1234','message_ID_xyz']);
 
 ```javascript 
 this.clevertap.markReadInboxMessageForId('message_ID_1234');		
+```
+
+#### Mark bulk Inbox messages with Ids as Read
+
+```javascript 
+this.clevertap.markReadInboxMessagesForIds(['message_ID_1234','message_ID_xyz']);        
+```
+
+#### Dismiss the App Inbox
+
+```javascript 
+this.clevertap.dismissInbox();        
 ```
 
 #### pushInbox Notification Viewed Event For Id

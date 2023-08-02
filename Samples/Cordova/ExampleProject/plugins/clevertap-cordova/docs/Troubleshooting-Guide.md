@@ -26,4 +26,15 @@
 
 
 
+## Supporting [Clevertap Push Templates](https://developer.clevertap.com/docs/push-templates-android)
+
+To support push templates for corodova android app:
+1. add support for normal push notifications by [adding CleverTap SDK as well as google services plugin](Integrate-Android.md)
+2. in `platforms/android/project.properties` file , add : `cordova.system.library.11=com.clevertap.android:push-templates:1.0.5` ( the number in `library.<number>` should be in sequence with other libraries)
+3. rerun project (`cordova run android`)
+4. ensure that push template dependency (`implementation "com.clevertap.android:push-templates:1.0.5"`) is getting added in your app's `build.gradle` file.
+
+
+
+
 
