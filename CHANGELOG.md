@@ -7,11 +7,12 @@ Version 2.7.0 *(August 2, 2023)*
 **Android specific**
 * Supports [CleverTap Android SDK v5.1.0](https://github.com/CleverTap/clevertap-android-sdk/releases/tag/corev5.1.0_ptv1.1.0).
 * Supports [cordova android 12.0.0](https://cordova.apache.org/announcements/2023/05/22/cordova-android-12.0.0.html)
+* `deleteInboxMessagesForIds(messageIDs)` is now supported in Android as well.
+* New callback `onCleverTapInAppNotificationShow(JSONObject)` 
 
 **iOS specific**
 * Supports [CleverTap iOS SDK v5.1.2](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/5.1.2).
 * Supports [cordova ios 7.0.0](https://cordova.apache.org/announcements/2023/07/10/cordova-ios-7.0.0.html)
-* `deleteInboxMessagesForIds(messageIDs)` is now supported in Android as well.
 
 **Common for both android and iOS**
 * Adds below new public APIs for supporting [Android 13 notification runtime permission](https://developer.android.com/develop/ui/views/notifications/notification-permission)
@@ -19,7 +20,6 @@ Version 2.7.0 *(August 2, 2023)*
   * `promptPushPrimer(JSONObject)` [Usage can be found here](docs/pushprimer.md#push-primer-using-half-interstitial-local-in-app)
   * `promptForPushPermission(boolean)` [Usage can be found here](docs/pushprimer.md#prompt-the-notification-permission-dialog-without-push-primer)
   * New callback `onCleverTapPushPermissionResponseReceived` available which returns after user Allows/Denies notification permission [Usage can be found here](docs/pushprimer.md#available-callbacks-for-push-primer)
-  * New callback `onCleverTapInAppNotificationShow(JSONObject)` -*Only for android*
 * Adds support for Remote Config Variables. Please refer to the [Variables.md](docs/Variables.md) file to
   read more on how to integrate this to your app.
 * Adds new API, `markReadInboxMessagesForIds(messageIDs)` to mark read an array of
