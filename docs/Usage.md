@@ -23,8 +23,7 @@ All calls to the CleverTap SDK should be made from your Javascript.
 
 ```javascript
 document.addEventListener('onCleverTapPushPermissionResponse', this.onCleverTapPushPermissionResponse,false);
-document.addEventListener('onCleverTapInAppNotificationShow', this.onCleverTapInAppNotificationShow,false);
-
+document.addEventListener('onCleverTapInAppNotificationShow', this.onCleverTapInAppNotificationShow,false);// Only for Android, NO-OP for iOS
 document.addEventListener('deviceready', this.onDeviceReady, false);
 document.addEventListener('onCleverTapProfileSync', this.onCleverTapProfileSync, false); // optional: to be notified of CleverTap user profile synchronization updates
 document.addEventListener('onCleverTapProfileDidInitialize', this.onCleverTapProfileDidInitialize, false); // optional, to be notified when the CleverTap user profile is initialized
@@ -48,7 +47,7 @@ onCleverTapPushPermissionResponse: function(e) {
    console.log(e.accepted)
 },
 
-// on inapp displayed
+// on inapp displayed, Only for Android, NO-OP for iOS
 onCleverTapInAppNotificationShow: function(e) {
    log("onCleverTapInAppNotificationShow")
    log(e.customExtras)
