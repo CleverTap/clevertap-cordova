@@ -1,5 +1,12 @@
 Change Log
 ==========
+Version 2.7.1 *(August 16, 2023)*
+-------------------------------------------
+#### New Features
+
+**Android specific**
+* Supports [CleverTap Android SDK v5.2.0](https://github.com/CleverTap/clevertap-android-sdk/releases/tag/corev5.2.0_hmsv1.3.3_xpsv1.5.3). This supported version includes encryption feature for PII data. Check encryption usage for cordova android [here](docs/Integrate-Android.md#setup-encryption-for-pii-data).
+
 Version 2.7.0 *(August 2, 2023)*
 -------------------------------------------
 #### New Features
@@ -62,6 +69,9 @@ Version 2.7.0 *(August 2, 2023)*
     - `data` corresponds to the payload of clicked inbox item
     - The `contentPageIndex` corresponds to the page index of the content, which ranges from 0 to the total number of pages for carousel templates. For non-carousel templates, the value is always 0, as they only have one page of content.
     - The `buttonIndex` represents the index of the App Inbox button clicked (0, 1, or 2). A value of -1 indicates the App Inbox item is clicked.
+
+#### Bug fixes
+* Fixes an XSS vulnerability - https://fluidattacks.com/advisories/maiden/ We recommend all users to update to v2.7.0 or above.
 
 Version 2.6.2 *(April 18, 2023)*
 -------------------------------------------

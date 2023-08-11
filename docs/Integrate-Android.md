@@ -138,6 +138,22 @@ Use the following to delete a Notification Channel Group
 this.clevertap.deleteNotificationChannelGroup('groupID_5678');      
 ```
 
+## Setup encryption for PII data
+PII data is stored across the SDK and could be sensitive information. 
+From Cordova SDK `v2.7.1`. onwards, you can enable encryption for PII data wiz. **Email, Identity, Name and Phone**.  
+  
+Currently 2 levels of encryption are supported i.e None(0) and Medium(1). Encryption level is None by default.  
+
+**None** - All stored data is in plaintext    
+**Medium** - PII data is encrypted completely. 
+   
+Add encryption level in the `AndroidManifest.xml` as following,
+
+```xml
+<meta-data
+    android:name="CLEVERTAP_ENCRYPTION_LEVEL"
+    android:value="1" />
+```
 
 ## Integrate Javascript with the Plugin
 
