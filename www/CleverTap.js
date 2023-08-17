@@ -7,7 +7,7 @@
 
 var CleverTap = function () {
     const libName = 'Cordova';
-    const libVersion = 20603; 
+    const libVersion = 20701; 
     cordova.exec(null, null, "CleverTapPlugin", "setLibrary", [libName, libVersion]);
 }
                
