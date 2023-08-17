@@ -10,6 +10,9 @@ Version 2.7.1 *(August 17, 2023)*
 **iOS specific**
 * Supports [CleverTap iOS SDK v5.2.0](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/5.2.0). This supported version includes encryption feature for PII data. Check encryption usage for cordova ios [here](docs/Integrate-iOS.md#setup-encryption-for-pii-data).
 
+#### Bug Fixes
+* Fixes `NSInvalidArgumentException` for `getDisplayUnitForId` and `getInboxMessageForId` in iOS.
+
 Version 2.7.0 *(August 2, 2023)*
 -------------------------------------------
 #### New Features
