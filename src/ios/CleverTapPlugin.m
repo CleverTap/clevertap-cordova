@@ -1077,7 +1077,7 @@ static NSMutableDictionary *allVariables;
     [self.commandDelegate runInBackground:^{
         NSString *messageId = [command argumentAtIndex:0];
         CleverTapInboxMessage *inboxMessage = [clevertap getInboxMessageForId:messageId];
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray: [NSArray arrayWithObjects:inboxMessage,nil]];
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:inboxMessage.json];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
 }
@@ -1212,7 +1212,7 @@ static NSMutableDictionary *allVariables;
     [self.commandDelegate runInBackground:^{
         NSString *unitID = [command argumentAtIndex:0];
         CleverTapDisplayUnit *displayUnit = [clevertap getDisplayUnitForID:unitID];
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsArray: [NSArray arrayWithObjects:displayUnit,nil]];
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:displayUnit.json];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
 }
