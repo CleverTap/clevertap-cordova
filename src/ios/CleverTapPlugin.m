@@ -1070,7 +1070,6 @@ static NSMutableDictionary *allVariables;
 }
 
 /**
- //---Passing output in array due to plugin limitation
  Get Inbox Message For Message ID
  */
 - (void)getInboxMessageForId:(CDVInvokedUrlCommand *)command {
