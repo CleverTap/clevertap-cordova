@@ -1,11 +1,14 @@
 Change Log
 ==========
-Version 2.7.1 *(August 16, 2023)*
+Version 2.7.1 *(August 17, 2023)*
 -------------------------------------------
 #### New Features
 
 **Android specific**
 * Supports [CleverTap Android SDK v5.2.0](https://github.com/CleverTap/clevertap-android-sdk/releases/tag/corev5.2.0_hmsv1.3.3_xpsv1.5.3). This supported version includes encryption feature for PII data. Check encryption usage for cordova android [here](docs/Integrate-Android.md#setup-encryption-for-pii-data).
+
+**iOS specific**
+* Supports [CleverTap iOS SDK v5.2.0](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/5.2.0). This supported version includes encryption feature for PII data. Check encryption usage for cordova ios [here](docs/Integrate-iOS.md#setup-encryption-for-pii-data).
 
 Version 2.7.0 *(August 2, 2023)*
 -------------------------------------------
