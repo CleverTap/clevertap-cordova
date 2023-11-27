@@ -21,8 +21,8 @@
     <allow-intent href="market:*" />
     <preference name="loglevel" value="DEBUG" />
     <preference name="AndroidXEnabled" value="true" />
-    <preference name="android-targetSdkVersion" value="32" />
-    <preference name="android-maxSdkVersion" value="32" />
+    <preference name="android-targetSdkVersion" value="33" />
+    <preference name="android-maxSdkVersion" value="33" />
     <preference name="android-minSdkVersion" value="21" />
     <preference name="GradlePluginGoogleServicesEnabled" value="true" />
     <preference name="AndroidWindowSplashScreenAnimatedIcon" value="res/screen/android/splashscreen.xml" />
