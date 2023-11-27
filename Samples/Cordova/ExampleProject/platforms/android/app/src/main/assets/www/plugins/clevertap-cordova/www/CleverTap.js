@@ -8,7 +8,7 @@ cordova.define("clevertap-cordova.CleverTap", function(require, exports, module)
 
 var CleverTap = function () {
     const libName = 'Cordova';
-    const libVersion = 20702;
+    const libVersion = 20702; 
     cordova.exec(null, null, "CleverTapPlugin", "setLibrary", [libName, libVersion]);
 }
                
@@ -686,7 +686,7 @@ CleverTap.prototype.onValueChanged = function (name, handler) {
 }
 
 /****************************
- *Push Primer
+ * Android 13 Push Primer
  ****************************/
  
 CleverTap.prototype.promptPushPrimer = function(localInAppObject){
@@ -699,6 +699,12 @@ CleverTap.prototype.promptForPushPermission = function(showFallbackSettings){
 
 CleverTap.prototype.isPushPermissionGranted = function(successCallback){
     cordova.exec(successCallback, null, "CleverTapPlugin", "isPushPermissionGranted", []);
+}
+
+// Set Locale
+// locale = string
+CleverTap.prototype.setLocale = function (locale) {
+    cordova.exec(null, null, "CleverTapPlugin", "setLocale", [locale]);
 }
 
 function convertDateToEpochInProperties(items){
