@@ -1,5 +1,18 @@
 Change Log
 ==========
+Version 2.7.2 *(December 5, 2023)*
+-------------------------------------------
+#### New Features
+
+**Android specific**
+* Supports [CleverTap Android SDK v5.2.1](https://github.com/CleverTap/clevertap-android-sdk/releases/tag/corev5.2.1_xpsv1.5.4). This supported version includes support for Custom Proxy Domain functionality. Check usage for cordova android [here](docs/Integrate-Android.md#integrate-custom-proxy-domain).
+
+**iOS specific**
+* Supports [CleverTap iOS SDK v5.2.2](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/5.2.2). This supported version includes support for Custom Proxy Domain functionality. Check usage for cordova ios [here](docs/Integrate-iOS.md#integrate-custom-proxy-domain).
+
+**Common for both android and iOS**
+* Adds new public API `setLocale(String locale)` for in-built support to send the custom locale(i.e.language and country) data to the dashboard.
+
 Version 2.7.1 *(August 17, 2023)*
 -------------------------------------------
 #### New Features
