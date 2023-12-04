@@ -12,6 +12,7 @@ Version 2.7.2 *(December 5, 2023)*
 
 **Common for both android and iOS**
 * Adds new public API `setLocale(String locale)` for in-built support to send the custom locale(i.e.language and country) data to the dashboard.
+* Adds support for Integration Debugger to view errors and events on the dashboard when the debugLevel is set to 3.
 
 Version 2.7.1 *(August 17, 2023)*
 -------------------------------------------
