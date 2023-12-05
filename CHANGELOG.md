@@ -10,6 +10,9 @@ Version 2.7.2 *(December 5, 2023)*
 **iOS specific**
 * Supports [CleverTap iOS SDK v5.2.2](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/5.2.2). This supported version includes support for Custom Proxy Domain functionality. Check usage for cordova ios [here](docs/Integrate-iOS.md#integrate-custom-proxy-domain).
 
+#### Bug Fixes
+* Fixes a crash in iOS 17/Xcode 15 related to alert inapps.
+
 **Common for both android and iOS**
 * Adds new public API `setLocale(String locale)` for in-built support to send the custom locale(i.e.language and country) data to the dashboard.
 * Adds support for Integration Debugger to view errors and events on the dashboard when the debugLevel is set to 3.
