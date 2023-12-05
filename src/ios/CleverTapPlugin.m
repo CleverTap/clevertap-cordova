@@ -1636,6 +1636,20 @@ static NSMutableDictionary *allVariables;
     [self.commandDelegate evalJs:js]; 
 }
 
+#pragma mark - Locale methods
+
+- (void)setLocale:(CDVInvokedUrlCommand *)command {
+    if (![[command argumentAtIndex:0] isKindOfClass:[NSString class]]) {
+        return;
+    }
+    
+    NSString *localeIdentifier = [command argumentAtIndex:0];
+    if (localeIdentifier != nil && localeIdentifier.length > 0) {
+        NSLocale *userLocale = [NSLocale localeWithLocaleIdentifier:localeIdentifier];
+        [clevertap setLocale:userLocale];
+    }
+}
+
 #pragma mark Helper methods
 
 - (CTVar *)createVarForName:(NSString *)name andValue:(id)value {

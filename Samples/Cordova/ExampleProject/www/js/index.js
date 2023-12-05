@@ -82,6 +82,7 @@ function setupButtons() {
         
         ["title","Events"],
         ["record Event With Name", () => CleverTap.recordEventWithName("foo")],
+        ["set Locale", () => CleverTap.setLocale("en_IN")],
         ["record Event With NameAndProps", () => CleverTap.recordEventWithNameAndProps("boo", {"bar": "zoo"})],
         ["record Charged Event With Details And Items", () => CleverTap.recordChargedEventWithDetailsAndItems({
             "amount": 300,

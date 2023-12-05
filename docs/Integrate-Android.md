@@ -155,6 +155,29 @@ Add encryption level in the `AndroidManifest.xml` as following,
     android:value="1" />
 ```
 
+## Integrate Custom Proxy Domain
+The custom proxy domain feature allows to proxy all events raised from the CleverTap SDK through your required domain, ideal for handling or relaying CleverTap events and Push Impression events with your application server. Refer following steps to configure the custom proxy domain(s) in the manifest file From Cordova SDK `v2.7.2` onwards:
+
+#### Configure Custom Proxy Domain(s) using Manifest file
+1. Add your CleverTap Account credentials in the Manifest file against the `CLEVERTAP_ACCOUNT_ID` and `CLEVERTAP_TOKEN` keys.
+2. Add the **CLEVERTAP_PROXY_DOMAIN** key with the proxy domain value for handling events through the custom proxy domain.
+3. Add the **CLEVERTAP_SPIKY_PROXY_DOMAIN** key with proxy domain value for handling push impression events.
+
+```xml
+        <meta-data
+            android:name="CLEVERTAP_ACCOUNT_ID"
+            android:value="YOUR ACCOUNT ID" />
+        <meta-data
+            android:name="CLEVERTAP_TOKEN"
+            android:value="YOUR ACCOUNT TOKEN" />
+        <meta-data
+            android:name="CLEVERTAP_PROXY_DOMAIN"
+            android:value="YOUR PROXY DOMAIN"/>  <!-- e.g., analytics.sdktesting.xyz -->
+        <meta-data
+            android:name="CLEVERTAP_SPIKY_PROXY_DOMAIN"
+            android:value="YOUR SPIKY PROXY DOMAIN"/>  <!-- e.g., spiky-analytics.sdktesting.xyz -->
+```
+
 ## Integrate Javascript with the Plugin
 
 All calls to the CleverTap plugin should be made from your Javascript.  
