@@ -7,7 +7,7 @@
 
 var CleverTap = function () {
     const libName = 'Cordova';
-    const libVersion = 20701; 
+    const libVersion = 20702; 
     cordova.exec(null, null, "CleverTapPlugin", "setLibrary", [libName, libVersion]);
 }
                
@@ -698,6 +698,12 @@ CleverTap.prototype.promptForPushPermission = function(showFallbackSettings){
 
 CleverTap.prototype.isPushPermissionGranted = function(successCallback){
     cordova.exec(successCallback, null, "CleverTapPlugin", "isPushPermissionGranted", []);
+}
+
+// Set Locale
+// locale = string
+CleverTap.prototype.setLocale = function (locale) {
+    cordova.exec(null, null, "CleverTapPlugin", "setLocale", [locale]);
 }
 
 function convertDateToEpochInProperties(items){
