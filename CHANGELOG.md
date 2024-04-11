@@ -1,5 +1,26 @@
 Change Log
 ==========
+Version 3.0.0 *(April 11, 2024)*
+-------------------------------------------
+#### New Features
+**Android specific**
+* Supports [CleverTap Android SDK v6.0.0](https://github.com/CleverTap/clevertap-android-sdk/releases/tag/corev6.0.0_ptv1.2.2).
+* Adds support for exoplayer `v2.19.1`.
+
+**iOS specific**
+* Supports [CleverTap iOS SDK v6.0.0](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/6.0.0).
+
+**Common for both android and iOS**
+* Adds new public APIs, `fetchInApps` and `clearInAppResources` to support client-side in-apps.
+
+#### Bug Fixes
+**Android specific**
+* Fixes no empty message for app inbox without tabs 
+* Removes onClickListener for Image of Cover InApp
+
+**iOS specific**
+*
+
 Version 2.7.2 *(December 5, 2023)*
 -------------------------------------------
 #### New Features
