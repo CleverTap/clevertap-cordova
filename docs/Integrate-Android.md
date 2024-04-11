@@ -49,7 +49,7 @@
           releaseCompile(project(path: "CordovaLib", configuration: "release"))
           // SUB-PROJECT DEPENDENCIES START
           implementation "com.google.firebase:firebase-core:+"
-          implementation "com.google.firebase:firebase-messaging:22.0.0"
+          implementation "com.google.firebase:firebase-messaging:23.0.6"
           implementation 'androidx.core:core:1.3.0'
           implementation 'androidx.fragment:fragment:1.3.6'
           implementation "com.android.installreferrer:installreferrer:2.2" //Mandatory for v2.1.8 and above
@@ -60,9 +60,9 @@
           implementation 'com.google.android.material:material:1.4.0'
           implementation 'com.github.bumptech.glide:glide:4.12.0'
           //Optional ExoPlayer Libraries for Audio/Video Inbox Messages. Audio/Video messages will be dropped without these dependencies
-          implementation 'com.google.android.exoplayer:exoplayer:2.17.1'
-          implementation 'com.google.android.exoplayer:exoplayer-hls:2.17.1'
-          implementation 'com.google.android.exoplayer:exoplayer-ui:2.17.1'
+          implementation 'com.google.android.exoplayer:exoplayer:2.19.1'
+          implementation 'com.google.android.exoplayer:exoplayer-hls:2.19.1'
+          implementation 'com.google.android.exoplayer:exoplayer-ui:2.19.1'
           // SUB-PROJECT DEPENDENCIES END 
   ```  
 
