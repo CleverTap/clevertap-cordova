@@ -19,7 +19,7 @@ Version 3.0.0 *(April 11, 2024)*
 * Removes onClickListener for Image of Cover InApp
 
 **iOS specific**
-*
+* Fixes a bug where some in-apps were not being dismissed
 
 Version 2.7.2 *(December 5, 2023)*
 -------------------------------------------
