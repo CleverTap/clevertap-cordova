@@ -33,6 +33,11 @@ function setupButtons() {
 
     let eventsMap = [
 
+        ["title","ClientSide InApps"],
+        ["Fetch InApps", () => CleverTap.fetchInApps(success => log("fetchInApps success = " + success))],
+        ["Clear InApp Resources", () => CleverTap.clearInAppResources(false)],
+        ["Clear Expired Only InApp Resources", () => CleverTap.clearInAppResources(true)],
+
         ["title","Android 13 Push Primer"],
         ["promptPushPrimer",()=> CleverTap.promptPushPrimer({
             inAppType: 'alert',

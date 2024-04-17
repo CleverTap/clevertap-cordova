@@ -7,7 +7,7 @@
 
 var CleverTap = function () {
     const libName = 'Cordova';
-    const libVersion = 20702; 
+    const libVersion = 30000;
     cordova.exec(null, null, "CleverTapPlugin", "setLibrary", [libName, libVersion]);
 }
                
@@ -705,6 +705,23 @@ CleverTap.prototype.isPushPermissionGranted = function(successCallback){
 CleverTap.prototype.setLocale = function (locale) {
     cordova.exec(null, null, "CleverTapPlugin", "setLocale", [locale]);
 }
+
+/**
+Deletes all images and gifs which are preloaded for inapps in cs mode
+@param {expiredOnly} to clear only assets which will not be needed further for inapps
+*/
+CleverTap.prototype.clearInAppResources = function (expiredOnly) {
+    cordova.exec(null, null, "CleverTapPlugin", "clearInAppResources", [expiredOnly]);
+}
+
+/**
+Fetches In Apps from server.
+@param {successCallback} Callback to be invoked when fetching is done.
+*/
+CleverTap.prototype.fetchInApps = function(successCallback){
+    cordova.exec(successCallback, null, "CleverTapPlugin", "fetchInApps", []);
+}
+
 
 function convertDateToEpochInProperties(items){
 //Conversion of date object in suitable CleverTap format

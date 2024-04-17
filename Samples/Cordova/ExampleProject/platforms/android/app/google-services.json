@@ -1,0 +1,155 @@
+{
+  "project_info": {
+    "project_number": "729062631412",
+    "project_id": "sampledogimagesapp",
+    "storage_bucket": "sampledogimagesapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:729062631412:android:1c217b1c17db782127fba1",
+        "android_client_info": {
+          "package_name": "com.clevertap.demo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "729062631412-p6f9t5ci4200veao5e6mdn95in8qhipa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCO9fzRfw-it06OAhE5k5buTSzqLJIe5eQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "729062631412-p6f9t5ci4200veao5e6mdn95in8qhipa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:729062631412:android:67233198bc946f3827fba1",
+        "android_client_info": {
+          "package_name": "com.clevertap.example"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "729062631412-p6f9t5ci4200veao5e6mdn95in8qhipa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCO9fzRfw-it06OAhE5k5buTSzqLJIe5eQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "729062631412-p6f9t5ci4200veao5e6mdn95in8qhipa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:729062631412:android:5ad81c1d364ac42127fba1",
+        "android_client_info": {
+          "package_name": "com.clevertap.xamarindemo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "729062631412-p6f9t5ci4200veao5e6mdn95in8qhipa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCO9fzRfw-it06OAhE5k5buTSzqLJIe5eQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "729062631412-p6f9t5ci4200veao5e6mdn95in8qhipa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:729062631412:android:64c80512617fc57c27fba1",
+        "android_client_info": {
+          "package_name": "com.example.clevertap_plugin_example"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "729062631412-p6f9t5ci4200veao5e6mdn95in8qhipa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCO9fzRfw-it06OAhE5k5buTSzqLJIe5eQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "729062631412-p6f9t5ci4200veao5e6mdn95in8qhipa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:729062631412:android:19a47ef52604efdf27fba1",
+        "android_client_info": {
+          "package_name": "com.example.quizapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "729062631412-p6f9t5ci4200veao5e6mdn95in8qhipa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCO9fzRfw-it06OAhE5k5buTSzqLJIe5eQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "729062631412-p6f9t5ci4200veao5e6mdn95in8qhipa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
