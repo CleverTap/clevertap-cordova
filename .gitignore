@@ -1,4 +1,5 @@
 *.xcuserstate
+Samples/Cordova/ExampleProject/package-lock.json
 Samples/Cordova/ExampleProject/platforms/android/.idea/
 Samples/Cordova/ExampleProject/plugins/
 Samples/Cordova/ExampleProject/platforms/android/.gradle/
@@ -14,11 +15,13 @@ Samples/Cordova/ExampleProject/plugins/clevertap-cordova/ExampleProject/platform
 Samples/Cordova/ExampleProject/plugins/clevertap-cordova/ExampleProject/platforms/ios/Pods
 Samples/Cordova/ExampleProject/plugins/clevertap-cordova/ExampleProject/platforms/ios/Podfile.lock
 
+Samples/IonicCapacitor/IonicCapReactProject/.project
 Samples/IonicCapacitor/IonicCapReactProject/.idea
 Samples/IonicCapacitor/IonicCapReactProject/.gradle
 Samples/IonicCapacitor/IonicCapReactProject/android/app/build
 Samples/IonicCapacitor/IonicCapReactProject/android/.gradle
 Samples/IonicCapacitor/IonicCapReactProject/android/.idea
+Samples/IonicCapacitor/IonicCapReactProject/android/.settings
 Samples/IonicCapacitor/IonicCapReactProject/android/capacitor-cordova-android-plugins/.gradle
 Samples/IonicCapacitor/IonicCapReactProject/android/capacitor-cordova-android-plugins/build
 Samples/IonicCapacitor/IonicCapReactProject/node_modules
