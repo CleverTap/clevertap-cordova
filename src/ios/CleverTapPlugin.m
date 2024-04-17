@@ -1650,6 +1650,23 @@ static NSMutableDictionary *allVariables;
     }
 }
 
+#pragma mark - InApp Controls
+
+- (void)clearInAppResources:(CDVInvokedUrlCommand *)command {
+    BOOL expiredOnly = [[command argumentAtIndex:0] boolValue];
+    [clevertap clearInAppResources:expiredOnly];
+}
+
+- (void)fetchInApps:(CDVInvokedUrlCommand *)command {
+    
+    [self.commandDelegate runInBackground:^{
+        [clevertap fetchInApps:^(BOOL success){
+            CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:(BOOL)success];
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        }];
+    }];
+}
+
 #pragma mark Helper methods
 
 - (CTVar *)createVarForName:(NSString *)name andValue:(id)value {
