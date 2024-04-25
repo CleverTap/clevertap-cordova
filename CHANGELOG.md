@@ -1,23 +1,18 @@
 Change Log
 ==========
-Version 3.1.0 *(April , 2024)*
+Version 3.1.0 *(April 25, 2024)*
 -------------------------------------------
 #### New Features
-**Android specific**
 
 **iOS specific**
 * Supports [CleverTap iOS SDK v6.2.1](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/6.2.1).
 * Adds privacy manifests.
 
-**Common for both android and iOS**
-
 #### Bug Fixes
-**Android specific**
 
 **iOS specific**
 * Fixes crash due to out of bounds in NSLocale implementation.
 * Fixes a bug where client side in-apps were not discarded when rendering status is set to "discard".
-* Fixes a build error related to privacy manifests when statically linking the SDK using Cocoapods.
 
 Version 3.0.0 *(April 17, 2024)*
 -------------------------------------------
