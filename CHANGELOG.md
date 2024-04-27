@@ -1,5 +1,17 @@
 Change Log
 ==========
+Version 3.1.0 *(April 27, 2024)*
+-------------------------------------------
+#### New Features
+**iOS specific**
+* Supports [CleverTap iOS SDK v6.2.1](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/6.2.1).
+* Adds privacy manifests.
+
+#### Bug Fixes
+**iOS specific**
+* Fixes crash due to out of bounds in NSLocale implementation.
+* Fixes a bug where client side in-apps were not discarded when rendering status is set to "discard".
+
 Version 3.0.0 *(April 17, 2024)*
 -------------------------------------------
 #### New Features
@@ -9,6 +21,7 @@ Version 3.0.0 *(April 17, 2024)*
 
 **iOS specific**
 * Supports [CleverTap iOS SDK v6.0.0](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/6.0.0).
+* Adds support for client-side in-apps.
 
 **Common for both android and iOS**
 * Adds new public APIs, `fetchInApps` and `clearInAppResources` to support client-side in-apps.
