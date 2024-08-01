@@ -101,7 +101,11 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         cleverTap.setCTPushNotificationListener(this);
         cleverTap.setCTPushAmpListener(this);
         cleverTap.registerPushPermissionNotificationResponseListener(this);
-        cleverTap.setLibrary("Cordova");
+
+        String libName = "Cordova";
+        int libVersion = 30100;
+        cleverTap.setLibrary(libName);
+        cleverTap.setCustomSdkVersion(libName, libVersion);
 
         try {
             String ptHandler = "com.clevertap.android.pushtemplates.PushTemplateNotificationHandler";
