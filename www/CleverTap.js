@@ -61,11 +61,6 @@ CleverTap.prototype.setPushToken = function (token) {
     cordova.exec(null, null, "CleverTapPlugin", "setPushTokenAsString", [token]);
 }
 
-// Sets the devices Xiaomi push token
-CleverTap.prototype.setPushXiaomiToken = function (token,region) {
-    cordova.exec(null, null, "CleverTapPlugin", "setPushXiaomiTokenAsString", [token,region]);
-}
-
 // Sets the devices Baidu push token
 CleverTap.prototype.setPushBaiduToken = function (token) {
     cordova.exec(null, null, "CleverTapPlugin", "setPushBaiduTokenAsString", [token]);
