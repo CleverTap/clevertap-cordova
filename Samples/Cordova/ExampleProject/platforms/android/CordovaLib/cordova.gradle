@@ -43,6 +43,10 @@ Boolean isVersionValid(version) {
     return !(new Version(version)).isEqual('0.0.0')
 }
 
+Boolean isVersionGreaterThanEqual(versionX, versionY) {
+    return (new Version(versionX)) >= (new Version(versionY))
+}
+
 String doFindLatestInstalledBuildTools(String minBuildToolsVersionString) {
     def buildToolsDirContents
     try {
@@ -83,9 +87,9 @@ String doFindLatestInstalledBuildTools(String minBuildToolsVersionString) {
 String getAndroidSdkDir() {
     def rootDir = project.rootDir
     def androidSdkDir = null
-    String envVar = System.getenv("ANDROID_SDK_ROOT")
+    String envVar = System.getenv("ANDROID_HOME")
     if (envVar == null) {
-        envVar = System.getenv("ANDROID_HOME")
+        envVar = System.getenv("ANDROID_SDK_ROOT")
     }
 
     def localProperties = new File(rootDir, 'local.properties')
@@ -123,14 +127,6 @@ def doExtractIntFromManifest(name) {
     def matcher = pattern.matcher(manifestFile.getText())
     matcher.find()
     return new BigInteger(matcher.group(1))
-}
-
-def doExtractStringFromManifest(name) {
-    def manifestFile = file(android.sourceSets.main.manifest.srcFile)
-    def pattern = Pattern.compile(name + "=\"(\\S+)\"")
-    def matcher = pattern.matcher(manifestFile.getText())
-    matcher.find()
-    return matcher.group(1)
 }
 
 def doGetConfigXml() {
@@ -231,7 +227,6 @@ ext {
     privateHelpers.getProjectTarget = { doGetProjectTarget() }
     privateHelpers.applyCordovaConfigCustomization = { doApplyCordovaConfigCustomization() }
     privateHelpers.extractIntFromManifest = { name -> doExtractIntFromManifest(name) }
-    privateHelpers.extractStringFromManifest = { name -> doExtractStringFromManifest(name) }
     privateHelpers.ensureValueExists = { filePath, props, key -> doEnsureValueExists(filePath, props, key) }
 
     // These helpers can be used by plugins / projects and will not change.
