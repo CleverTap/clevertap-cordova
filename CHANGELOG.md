@@ -9,7 +9,7 @@ Version 3.2.0 *(August 12, 2024)*
 * Supports Android 14, made it compliant with Android 14 requirements. Details [here](https://developer.android.com/about/versions/14/summary).
 * Extends the push primer callback to notify permission denial when cancel button is clicked on `PromptForSettings` alert dialog.
 * Adds Accessibility ids for UI components of SDK.
-* Migrates JobScheduler to WorkManager for [Pull Notifications](https://developer.clevertap.com/docs/android-push#pull-notification).
+* Migrates `JobScheduler` to `WorkManager` for [Pull Notifications](https://developer.clevertap.com/docs/android-push#pull-notification).
 
 #### Bug Fixes
 **Android Specific**
