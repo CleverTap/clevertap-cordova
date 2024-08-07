@@ -5,11 +5,7 @@
 //  with this source code.
 //
 
-var CleverTap = function () {
-    const libName = 'Cordova';
-    const libVersion = 30100;
-    cordova.exec(null, null, "CleverTapPlugin", "setLibrary", [libName, libVersion]);
-}
+var CleverTap = function () {}
                
 /*******************
  * notify device ready
