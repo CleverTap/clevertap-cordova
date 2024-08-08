@@ -398,10 +398,6 @@ static NSMutableDictionary *allVariables;
     }];
 }
 
-- (void)setPushXiaomiTokenAsString:(CDVInvokedUrlCommand *)command {
-    NSLog(@"XiaomiToken is no-op in iOS");
-}
-
 - (void)setPushBaiduTokenAsString:(CDVInvokedUrlCommand *)command {
     NSLog(@"BaiduToken is no-op in iOS");
 }
