@@ -527,7 +527,5 @@ Called when the value of the variable changes.
  */
 - (void)reset;
 
-- (void)setLibrary: (CDVInvokedUrlCommand *)command;
-
 @end
 

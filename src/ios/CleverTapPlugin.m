@@ -114,6 +114,7 @@ static NSMutableDictionary *allVariables;
     [[clevertap productConfig] setDelegate:self];
     [clevertap setPushNotificationDelegate:self];
     [clevertap setInAppNotificationDelegate:self];
+    [self setLibrary];    
     
 }
 
@@ -1381,7 +1382,7 @@ static NSMutableDictionary *allVariables;
     }];
 }
 
-- (void)setLibrary: (CDVInvokedUrlCommand *)command {
+- (void)setLibrary {
     NSString *libName = @"Cordova";
     int libVersion = 30200;
     [clevertap setLibrary:libName];
