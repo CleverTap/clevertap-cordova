@@ -22,9 +22,9 @@
                 <action android:name="com.clevertap.PUSH_EVENT" />
             </intent-filter>
         </service>
-        <meta-data android:name="CLEVERTAP_ACCOUNT_ID" android:value="67Z-RRK-696Z" />
-        <meta-data android:name="CLEVERTAP_TOKEN" android:value="322-1a6" />
-        <meta-data android:name="CLEVERTAP_REGION" android:value="sk1-staging-25" />
+        <meta-data android:name="CLEVERTAP_ACCOUNT_ID" android:value="ACCT-ID" />
+        <meta-data android:name="CLEVERTAP_TOKEN" android:value="ACCT_TOKEN" />
+        <meta-data android:name="CLEVERTAP_REGION" android:value="REGION" />
         <receiver android:enabled="true" android:exported="false" android:name="com.clevertap.android.sdk.pushnotification.CTPushNotificationReceiver" />
     </application>
     <queries>
