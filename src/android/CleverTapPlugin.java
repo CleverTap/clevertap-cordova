@@ -101,7 +101,11 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         cleverTap.setCTPushNotificationListener(this);
         cleverTap.setCTPushAmpListener(this);
         cleverTap.registerPushPermissionNotificationResponseListener(this);
-        cleverTap.setLibrary("Cordova");
+
+        String libName = "Cordova";
+        int libVersion = 30200;
+        cleverTap.setLibrary(libName);
+        cleverTap.setCustomSdkVersion(libName, libVersion);
 
         try {
             String ptHandler = "com.clevertap.android.pushtemplates.PushTemplateNotificationHandler";
@@ -234,18 +238,6 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
                     cleverTap.pushFcmRegistrationId(token, true);
-                    PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
-                    _result.setKeepCallback(true);
-                    callbackContext.sendPluginResult(_result);
-                }
-            });
-            return true;
-        } else if (action.equals("setPushXiaomiTokenAsString")) {
-            final String token = args.getString(0);
-            final String region = args.getString(1);
-            cordova.getThreadPool().execute(new Runnable() {
-                public void run() {
-                    cleverTap.pushXiaomiRegistrationId(token,(region!=null && region.equalsIgnoreCase("null")) ? null : region, true);
                     PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
                     _result.setKeepCallback(true);
                     callbackContext.sendPluginResult(_result);

@@ -114,6 +114,7 @@ static NSMutableDictionary *allVariables;
     [[clevertap productConfig] setDelegate:self];
     [clevertap setPushNotificationDelegate:self];
     [clevertap setInAppNotificationDelegate:self];
+    [self setLibrary];    
     
 }
 
@@ -396,10 +397,6 @@ static NSMutableDictionary *allVariables;
             [clevertap setPushTokenAsString:token];
         }
     }];
-}
-
-- (void)setPushXiaomiTokenAsString:(CDVInvokedUrlCommand *)command {
-    NSLog(@"XiaomiToken is no-op in iOS");
 }
 
 - (void)setPushBaiduTokenAsString:(CDVInvokedUrlCommand *)command {
@@ -1385,9 +1382,9 @@ static NSMutableDictionary *allVariables;
     }];
 }
 
-- (void)setLibrary: (CDVInvokedUrlCommand *)command {
-    NSString *libName = [command argumentAtIndex:0];
-    int libVersion = [[command argumentAtIndex:1]intValue];
+- (void)setLibrary {
+    NSString *libName = @"Cordova";
+    int libVersion = 30200;
     [clevertap setLibrary:libName];
     [clevertap setCustomSdkVersion:libName version:libVersion];
 }

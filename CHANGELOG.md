@@ -1,5 +1,29 @@
 Change Log
 ==========
+
+Version 3.2.0 *(August 12, 2024)*
+-------------------------------------------
+#### New Features
+**Android Specific**
+* Supports [CleverTap Android SDK v6.2.1](https://github.com/CleverTap/clevertap-android-sdk/releases/tag/corev6.2.1).
+* Supports Android 14, made it compliant with Android 14 requirements. Details [here](https://developer.android.com/about/versions/14/summary).
+* Extends the push primer callback to notify permission denial when cancel button is clicked on `PromptForSettings` alert dialog.
+* Adds Accessibility ids for UI components of SDK.
+* Migrates `JobScheduler` to `WorkManager` for [Pull Notifications](https://developer.clevertap.com/docs/android-push#pull-notification).
+
+#### Bug Fixes
+**Android Specific**
+* Fixes [#239](https://github.com/CleverTap/clevertap-cordova/issues/239), an issue where the `onPushNotification` callback was not triggered when notification was tapped from the `killed` state on `capacitor` apps.
+* Fixes InApps crash in a rare activity destroyed race condition.
+* Fixes Potential ANR in a race condition of SDK initialisation in multithreaded setup.
+* Fixes a bug in Client Side InApps with regards to frequency limits.
+* Fixes a crash due to `NullPointerException` related to `deviceInfo.deviceId`.
+* Fixes an ANR related to `isMainProcess` check.
+* Fixes an ANR due to eager initialisation of `CtApi` triggered by DeviceId generation.
+
+#### Breaking API Changes
+* Removes all `Xiaomi` related public methods as the `Xiaomi` SDK has been discontinued. Details [here](https://developer.clevertap.com/docs/discontinuation-of-xiaomi-push-service).
+
 Version 3.1.0 *(April 27, 2024)*
 -------------------------------------------
 #### New Features

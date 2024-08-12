@@ -73,9 +73,8 @@ static NSString * const CTHandleOpenURLNotification = @"CTHandleOpenURLNotificat
 - (void)setPushToken:(NSData*)pushToken;
 
 /**
- Xiaomi, Baidu and Huawei Push Token Changes
+ Baidu and Huawei Push Token Changes
  */
--(void)setPushXiaomiTokenAsString:(CDVInvokedUrlCommand *)command;
 -(void)setPushBaiduTokenAsString:(CDVInvokedUrlCommand *)command;
 -(void)setPushHuaweiTokenAsString:(CDVInvokedUrlCommand *)command;
 
@@ -527,8 +526,6 @@ Called when the value of the variable changes.
  This method resets the product Config stored locally
  */
 - (void)reset;
-
-- (void)setLibrary: (CDVInvokedUrlCommand *)command;
 
 @end
 

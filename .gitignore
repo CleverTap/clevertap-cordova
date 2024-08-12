@@ -14,6 +14,8 @@ Samples/Cordova/ExampleProject/plugins/clevertap-cordova/ExampleProject/platform
 Samples/Cordova/ExampleProject/plugins/clevertap-cordova/ExampleProject/platforms/android/CordovaLib/build
 Samples/Cordova/ExampleProject/plugins/clevertap-cordova/ExampleProject/platforms/ios/Pods
 Samples/Cordova/ExampleProject/plugins/clevertap-cordova/ExampleProject/platforms/ios/Podfile.lock
+src/android/google-services.json
+Samples/Cordova/ExampleProject/platforms/android/app/src/main/google-services.json
 
 Samples/IonicCapacitor/IonicCapReactProject/.project
 Samples/IonicCapacitor/IonicCapReactProject/.idea

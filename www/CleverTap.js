@@ -5,11 +5,7 @@
 //  with this source code.
 //
 
-var CleverTap = function () {
-    const libName = 'Cordova';
-    const libVersion = 30100;
-    cordova.exec(null, null, "CleverTapPlugin", "setLibrary", [libName, libVersion]);
-}
+var CleverTap = function () {}
                
 /*******************
  * notify device ready
@@ -59,11 +55,6 @@ CleverTap.prototype.registerPush = function () {
 // Sets the devices push token
 CleverTap.prototype.setPushToken = function (token) {
     cordova.exec(null, null, "CleverTapPlugin", "setPushTokenAsString", [token]);
-}
-
-// Sets the devices Xiaomi push token
-CleverTap.prototype.setPushXiaomiToken = function (token,region) {
-    cordova.exec(null, null, "CleverTapPlugin", "setPushXiaomiTokenAsString", [token,region]);
 }
 
 // Sets the devices Baidu push token
