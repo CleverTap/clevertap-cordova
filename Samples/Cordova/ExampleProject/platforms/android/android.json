@@ -49,7 +49,7 @@
               "count": 1
             },
             {
-              "xml": "<meta-data android:name=\"CLEVERTAP_REGION\" android:value=\" \" />",
+              "xml": "<meta-data android:name=\"CLEVERTAP_REGION\" android:value=\"sk1-staging-25\" />",
               "count": 1
             },
             {
@@ -62,14 +62,10 @@
     }
   },
   "installed_plugins": {
-    "cordova-android-support-gradle-release": {
-      "ANDROID_SUPPORT_VERSION": "27.+",
-      "PACKAGE_NAME": "com.clevertap.example"
-    },
     "clevertap-cordova": {
       "CLEVERTAP_ACCOUNT_ID": "67Z-RRK-696Z",
       "CLEVERTAP_TOKEN": "322-1a6",
-      "CLEVERTAP_REGION": " ",
+      "CLEVERTAP_REGION": "sk1-staging-25",
       "FIREBASE_MESSAGING_VERSION": "23.0.6",
       "PACKAGE_NAME": "com.clevertap.example"
     }
@@ -86,7 +82,6 @@
     }
   ],
   "plugin_metadata": {
-    "cordova-android-support-gradle-release": "3.0.1",
-    "clevertap-cordova": "3.0.0"
+    "clevertap-cordova": "3.2.0"
   }
 }

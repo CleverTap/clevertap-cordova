@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+/*
        Licensed to the Apache Software Foundation (ASF) under one
        or more contributor license agreements.  See the NOTICE file
        distributed with this work for additional information
@@ -16,8 +15,15 @@
        KIND, either express or implied.  See the License for the
        specific language governing permissions and limitations
        under the License.
--->
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  android:versionName="1.0"
-  android:versionCode="1">
-</manifest>
+*/
+
+// This is an empty project used to provide Gradle Tooling
+// Using the main project which loads AGP will enforce a minimum version
+// requirement on the end-user, requiring a gradle install that satisfies AGP
+// version requirements.
+// To avoid that, we utilise this empty project of which we can
+// freely run the gradle wrapper task against to obtain the 
+// wrapper at the desired version, without being restricted by AGP's version
+// requirements.
+// Of course, the installed wrapper must still be of at least the minimum
+// required version of AGP for the build to work correctly.
