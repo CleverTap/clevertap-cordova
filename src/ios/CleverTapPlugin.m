@@ -1384,7 +1384,7 @@ static NSMutableDictionary *allVariables;
 
 - (void)setLibrary {
     NSString *libName = @"Cordova";
-    int libVersion = 30200;
+    int libVersion = 30300;
     [clevertap setLibrary:libName];
     [clevertap setCustomSdkVersion:libName version:libVersion];
 }
