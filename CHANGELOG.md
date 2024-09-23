@@ -1,6 +1,12 @@
 Change Log
 ==========
 
+Version 3.3.0 *(September 23, 2024)*
+-------------------------------------------
+#### New Features
+**iOS specific**
+* Supports [CleverTap iOS SDK v7.0.1](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/7.0.1).
+
 Version 3.2.0 *(August 12, 2024)*
 -------------------------------------------
 #### New Features
