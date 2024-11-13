@@ -645,6 +645,14 @@ CleverTap.prototype.defineVariables = function (variables) {
 }
 
 /**
+Create variables.
+@param {list} fileVariables The list specifying the variable names to be created.
+*/
+CleverTap.prototype.defineFileVariables = function (variables) {
+    cordova.exec(null, null, "CleverTapPlugin", "defineFileVariables", [variables]);
+}
+
+/**
 Get a variable or a group for the specified name.
 @param {string} name - name.
 */
@@ -672,9 +680,46 @@ Called when the value of the variable changes.
 @param {name} string the name of the variable
 @param {function} handler The callback to add
 */
+CleverTap.prototype.onOneTimeVariablesChanged = function (name, handler) {
+    cordova.exec(handler, null, "CleverTapPlugin", "onOneTimeVariablesChanged", [name]);
+}
+
+/**
+Called when the value of the variable changes.
+@param {name} string the name of the variable
+@param {function} handler The callback to add
+*/
 CleverTap.prototype.onValueChanged = function (name, handler) {
     cordova.exec(handler, null, "CleverTapPlugin", "onValueChanged", [name]);
 }
+
+/**
+Called when the value of the variable changes.
+@param {name} string the name of the variable
+@param {function} handler The callback to add
+*/
+CleverTap.prototype.onFileValueChanged = function (name, handler) {
+    cordova.exec(handler, null, "CleverTapPlugin", "onFileValueChanged", [name]);
+}
+
+/**
+Called when the value of the variable changes.
+@param {name} string the name of the variable
+@param {function} handler The callback to add
+*/
+CleverTap.prototype.onVariablesChangedAndNoDownloadsPending = function (name, handler) {
+    cordova.exec(handler, null, "CleverTapPlugin", "onVariablesChangedAndNoDownloadsPending", [name]);
+}
+
+/**
+Called when the value of the variable changes.
+@param {name} string the name of the variable
+@param {function} handler The callback to add
+*/
+CleverTap.prototype.onceVariablesChangedAndNoDownloadsPending = function (name, handler) {
+    cordova.exec(handler, null, "CleverTapPlugin", "onceVariablesChangedAndNoDownloadsPending", [name]);
+}
+
 
 /****************************
  * Android 13 Push Primer
