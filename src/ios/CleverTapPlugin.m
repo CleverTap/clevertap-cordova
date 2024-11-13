@@ -1384,7 +1384,7 @@ static NSMutableDictionary *allVariables;
 
 - (void)setLibrary {
     NSString *libName = @"Cordova";
-    int libVersion = 30200;
+    int libVersion = 30300;
     [clevertap setLibrary:libName];
     [clevertap setCustomSdkVersion:libName version:libVersion];
 }
@@ -1490,6 +1490,39 @@ static NSMutableDictionary *allVariables;
         }];
 }
 
+- (void)onOneTimeVariablesChanged:(CDVInvokedUrlCommand *)command {
+    
+    [self.commandDelegate runInBackground:^{
+        [clevertap onceVariablesChanged:^{
+            NSMutableDictionary *varValues = [self getVariableValues];
+            CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:varValues];
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        }];
+    }];
+}
+
+- (void)onVariablesChangedAndNoDownloadsPending:(CDVInvokedUrlCommand *)command {
+    
+    [self.commandDelegate runInBackground:^{
+        [clevertap onVariablesChangedAndNoDownloadsPending:^{
+            NSMutableDictionary *varValues = [self getVariableValues];
+            CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:varValues];
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        }];
+    }];
+}
+
+- (void)onceVariablesChangedAndNoDownloadsPending:(CDVInvokedUrlCommand *)command {
+    
+    [self.commandDelegate runInBackground:^{
+        [clevertap onceVariablesChangedAndNoDownloadsPending:^{
+            NSMutableDictionary *varValues = [self getVariableValues];
+            CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:varValues];
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        }];
+    }];
+}
+
 - (void)onValueChanged:(CDVInvokedUrlCommand *)command {
     
         [self.commandDelegate runInBackground:^{
@@ -1502,6 +1535,43 @@ static NSMutableDictionary *allVariables;
                 }];
             }
         }];
+}
+
+- (void)onFileValueChanged:(CDVInvokedUrlCommand *)command {
+    
+        [self.commandDelegate runInBackground:^{
+            NSString *name = [command argumentAtIndex:0];
+            CTVar *var = allVariables[name];
+            if (var) {
+                [var onFileIsReady:^{
+                    NSDictionary *varFileResult = @{
+                        var.name: var.value
+                    };
+                    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:varFileResult];
+                    [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+                }];
+            }
+        }];
+}
+
+- (void)defineFileVariables: (CDVInvokedUrlCommand *)command {
+    
+    [self.commandDelegate runInBackground:^{
+        NSArray *fileVariables = [command argumentAtIndex:0];
+        if (!allVariables){
+            allVariables = [NSMutableDictionary new];
+        }
+
+        if(fileVariables == nil){
+            return;
+        }
+        [fileVariables enumerateObjectsUsingBlock:^(NSString*  _Nonnull name, NSUInteger idx, BOOL * _Nonnull stop) {
+            CTVar *fileVar = [clevertap defineFileVar:name];
+            if (fileVar) {
+                allVariables[name] = fileVar;
+            }
+        }];
+    }];
 }
 
 #pragma mark Push primer
