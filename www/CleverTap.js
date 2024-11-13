@@ -1,4 +1,3 @@
-cordova.define("clevertap-cordova.CleverTap", function(require, exports, module) {
 //  Copyright (C) 2015 CleverTap
 //
 //  This code is provided under a commercial License.
