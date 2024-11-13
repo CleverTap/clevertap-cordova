@@ -1,5 +1,5 @@
 cordova.define("clevertap-cordova.CleverTap", function(require, exports, module) {
-//  Copyright (C) 2015 CleverTap 
+//  Copyright (C) 2015 CleverTap
 //
 //  This code is provided under a commercial License.
 //  A copy of this license has been distributed in a file called LICENSE
@@ -645,8 +645,8 @@ CleverTap.prototype.defineVariables = function (variables) {
 }
 
 /**
-Create variables.
-@param {list} fileVariables The list specifying the variable names to be created.
+Create file variables.
+@param {list} fileVariables The list specifying the file variables to be created.
 */
 CleverTap.prototype.defineFileVariables = function (variables) {
     cordova.exec(null, null, "CleverTapPlugin", "defineFileVariables", [variables]);
@@ -676,12 +676,11 @@ CleverTap.prototype.onVariablesChanged = function (handler) {
 }
 
 /**
-Called when the value of the variable changes.
-@param {name} string the name of the variable
+Adds a callback to be invoked when variables are initialised with server values. Will be called only once on app start, or when added if server values are already received
 @param {function} handler The callback to add
 */
-CleverTap.prototype.onOneTimeVariablesChanged = function (name, handler) {
-    cordova.exec(handler, null, "CleverTapPlugin", "onOneTimeVariablesChanged", [name]);
+CleverTap.prototype.onOneTimeVariablesChanged = function (handler) {
+    cordova.exec(handler, null, "CleverTapPlugin", "onOneTimeVariablesChanged");
 }
 
 /**
@@ -694,8 +693,8 @@ CleverTap.prototype.onValueChanged = function (name, handler) {
 }
 
 /**
-Called when the value of the variable changes.
-@param {name} string the name of the variable
+Adds a callback to be invoked when the value of the file variable is downloaded and ready. This is only available for File variables.
+@param {name} string the name of the file variable
 @param {function} handler The callback to add
 */
 CleverTap.prototype.onFileValueChanged = function (name, handler) {
@@ -703,21 +702,20 @@ CleverTap.prototype.onFileValueChanged = function (name, handler) {
 }
 
 /**
-Called when the value of the variable changes.
-@param {name} string the name of the variable
+*
+Adds a callback to be invoked when no files need to be downloaded or all downloads have been completed. It is called each time new values are fetched and downloads are completed.
 @param {function} handler The callback to add
 */
-CleverTap.prototype.onVariablesChangedAndNoDownloadsPending = function (name, handler) {
-    cordova.exec(handler, null, "CleverTapPlugin", "onVariablesChangedAndNoDownloadsPending", [name]);
+CleverTap.prototype.onVariablesChangedAndNoDownloadsPending = function (handler) {
+    cordova.exec(handler, null, "CleverTapPlugin", "onVariablesChangedAndNoDownloadsPending", []);
 }
 
 /**
-Called when the value of the variable changes.
-@param {name} string the name of the variable
+Adds a callback to be invoked only once for when new values are fetched and downloaded
 @param {function} handler The callback to add
 */
-CleverTap.prototype.onceVariablesChangedAndNoDownloadsPending = function (name, handler) {
-    cordova.exec(handler, null, "CleverTapPlugin", "onceVariablesChangedAndNoDownloadsPending", [name]);
+CleverTap.prototype.onceVariablesChangedAndNoDownloadsPending = function (handler) {
+    cordova.exec(handler, null, "CleverTapPlugin", "onceVariablesChangedAndNoDownloadsPending", []);
 }
 
 

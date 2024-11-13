@@ -1,5 +1,3 @@
-const CleverTap = require("../../../../../../../../../../../www/CleverTap");
-
 function log(param){
     if(arguments.length>1){
         for (let i = 0; i < arguments.length; i++) {
@@ -31,9 +29,9 @@ function setupButtons() {
         'cordova_var_float': 6.9,
         'cordova_var_boolean': true
       };
-    
+
     let fileVariables = ["folder1.fileVariable", "folder1", "folder2"]
-      
+
 
     let eventsMap = [
 
@@ -71,49 +69,49 @@ function setupButtons() {
       ["syncVariables", () => CleverTap.syncVariables()],
       ["syncVariablesinProd", () => CleverTap.syncVariablesinProd()],
       ["fetchVariables", () => CleverTap.fetchVariables(success => log("fetchVariables success = " + success))],
-      ["getVariable", () => { 
+      ["getVariable", () => {
         let key = prompt("Please enter key", "cordova_var_string");
          CleverTap.getVariable(key,val => log(key+" value is "+JSON.stringify(val)));
        }
       ],
-      ["getFileVariable", () => { 
+      ["getFileVariable", () => {
         let key = prompt("Please enter key", "folder1");
         CleverTap.getVariable(key,val => log(key+" value is "+JSON.stringify(val)));
        }
       ],
-      ["getVariables", () => { 
+      ["getVariables", () => {
          CleverTap.getVariables(val => log("getVariables value is "+val.cordova_var_map.cordova_var_map_nested.cordova_var_map_nested_float));
        }
       ],
-      ["onVariablesChanged", () => { 
+      ["onVariablesChanged", () => {
         CleverTap.onVariablesChanged(val => log("onVariablesChanged value is "+JSON.stringify(val)));
       }
      ],
-     ["onValueChanged", () => { 
+     ["onValueChanged", () => {
         let key = prompt("Please enter key", "cordova_var_string");
         CleverTap.onValueChanged(key,val => log("onValueChanged value is "+JSON.stringify(val)));
       }
      ],
-     ["onFileValueChanged", () => { 
+     ["onFileValueChanged", () => {
         let key = prompt("Please enter key", "folder1");
         CleverTap.onFileValueChanged(key,val => log("onFileValueChanged value is "+JSON.stringify(val)));
       }
      ],
 
-     ["onOneTimeVariablesChanged", () => { 
+     ["onOneTimeVariablesChanged", () => {
         CleverTap.onOneTimeVariablesChanged(val => log("onOneTimeVariablesChanged value is "+JSON.stringify(val)));
       }
      ],
 
-     ["onVariablesChangedAndNoDownloadsPending", () => { 
+     ["onVariablesChangedAndNoDownloadsPending", () => {
         CleverTap.onVariablesChangedAndNoDownloadsPending(val => log("onFileValueChanged value is "+JSON.stringify(val)));
       }
      ],
-     ["onceVariablesChangedAndNoDownloadsPending", () => { 
+     ["onceVariablesChangedAndNoDownloadsPending", () => {
         CleverTap.onceVariablesChangedAndNoDownloadsPending(val => log("onFileValueChanged value is "+JSON.stringify(val)));
       }
      ],
-        
+
         ["title","Events"],
         ["record Event With Name", () => CleverTap.recordEventWithName("foo")],
         ["set Locale", () => CleverTap.setLocale("en_IN")],
