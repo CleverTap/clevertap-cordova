@@ -680,7 +680,7 @@ Adds a callback to be invoked when variables are initialised with server values.
 @param {function} handler The callback to add
 */
 CleverTap.prototype.onOneTimeVariablesChanged = function (handler) {
-    cordova.exec(handler, null, "CleverTapPlugin", "onOneTimeVariablesChanged");
+    cordova.exec(handler, null, "CleverTapPlugin", "onOneTimeVariablesChanged", []);
 }
 
 /**
