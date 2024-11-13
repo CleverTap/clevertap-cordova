@@ -30,7 +30,7 @@ function setupButtons() {
         'cordova_var_boolean': true
       };
 
-    let fileVariables = ["folder1.fileVariable", "folder1", "folder2"]
+    let fileVariables = ["folder1.fileVariable", "folder1.folder2.fileVariable", "folder2"]
 
 
     let eventsMap = [
@@ -104,11 +104,11 @@ function setupButtons() {
      ],
 
      ["onVariablesChangedAndNoDownloadsPending", () => {
-        CleverTap.onVariablesChangedAndNoDownloadsPending(val => log("onFileValueChanged value is "+JSON.stringify(val)));
+        CleverTap.onVariablesChangedAndNoDownloadsPending(val => log("onVariablesChangedAndNoDownloadsPending value is "+JSON.stringify(val)));
       }
      ],
      ["onceVariablesChangedAndNoDownloadsPending", () => {
-        CleverTap.onceVariablesChangedAndNoDownloadsPending(val => log("onFileValueChanged value is "+JSON.stringify(val)));
+        CleverTap.onceVariablesChangedAndNoDownloadsPending(val => log("onceVariablesChangedAndNoDownloadsPending value is "+JSON.stringify(val)));
       }
      ],
 
