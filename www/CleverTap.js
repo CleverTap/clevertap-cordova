@@ -679,8 +679,8 @@ CleverTap.prototype.onVariablesChanged = function (handler) {
 Adds a callback to be invoked when variables are initialised with server values. Will be called only once on app start, or when added if server values are already received
 @param {function} handler The callback to add
 */
-CleverTap.prototype.onOneTimeVariablesChanged = function (name, handler) {
-    cordova.exec(handler, null, "CleverTapPlugin", "onOneTimeVariablesChanged", [name]);
+CleverTap.prototype.onOneTimeVariablesChanged = function (handler) {
+    cordova.exec(handler, null, "CleverTapPlugin", "onOneTimeVariablesChanged");
 }
 
 /**
