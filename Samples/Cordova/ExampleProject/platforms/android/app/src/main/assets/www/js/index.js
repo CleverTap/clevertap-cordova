@@ -1,3 +1,5 @@
+const CleverTap = require("../../../../../../../../../../../www/CleverTap");
+
 function log(param){
     if(arguments.length>1){
         for (let i = 0; i < arguments.length; i++) {
@@ -29,6 +31,8 @@ function setupButtons() {
         'cordova_var_float': 6.9,
         'cordova_var_boolean': true
       };
+    
+    let fileVariables = ["folder1.fileVariable", "folder1", "folder2"]
       
 
     let eventsMap = [
@@ -63,12 +67,18 @@ function setupButtons() {
 
       ["title","Product Experiences"],
       ["defineVariables", () => CleverTap.defineVariables(variables)],
+      ["defineFileVariables", () => CleverTap.defineFileVariables(fileVariables)],
       ["syncVariables", () => CleverTap.syncVariables()],
       ["syncVariablesinProd", () => CleverTap.syncVariablesinProd()],
       ["fetchVariables", () => CleverTap.fetchVariables(success => log("fetchVariables success = " + success))],
       ["getVariable", () => { 
         let key = prompt("Please enter key", "cordova_var_string");
          CleverTap.getVariable(key,val => log(key+" value is "+JSON.stringify(val)));
+       }
+      ],
+      ["getFileVariable", () => { 
+        let key = prompt("Please enter key", "folder1");
+        CleverTap.getVariable(key,val => log(key+" value is "+JSON.stringify(val)));
        }
       ],
       ["getVariables", () => { 
@@ -84,6 +94,25 @@ function setupButtons() {
         CleverTap.onValueChanged(key,val => log("onValueChanged value is "+JSON.stringify(val)));
       }
      ],
+     ["onFileValueChanged", () => { 
+        let key = prompt("Please enter key", "folder1");
+        CleverTap.onFileValueChanged(key,val => log("onFileValueChanged value is "+JSON.stringify(val)));
+      }
+     ],
+
+     ["onOneTimeVariablesChanged", () => { 
+        CleverTap.onOneTimeVariablesChanged(val => log("onOneTimeVariablesChanged value is "+JSON.stringify(val)));
+      }
+     ],
+
+     ["onVariablesChangedAndNoDownloadsPending", () => { 
+        CleverTap.onVariablesChangedAndNoDownloadsPending(val => log("onFileValueChanged value is "+JSON.stringify(val)));
+      }
+     ],
+     ["onceVariablesChangedAndNoDownloadsPending", () => { 
+        CleverTap.onceVariablesChangedAndNoDownloadsPending(val => log("onFileValueChanged value is "+JSON.stringify(val)));
+      }
+     ],
         
         ["title","Events"],
         ["record Event With Name", () => CleverTap.recordEventWithName("foo")],
@@ -97,7 +126,7 @@ function setupButtons() {
 
 
         ["title","User Profile"],
-        ["profile Set", () => CleverTap.profileSet({"Identity": 20701, "DOB": "1951-10-15", "custom": 1.3})],
+        ["profile Set", () => CleverTap.profileSet({"Identity": 20701, "DOB": "2015-10-15", "custom": 1.3, "stringAttr1":"Change for UAT"})],
         ["profile SetMultiValues", () => CleverTap.profileSetMultiValues("multiValue", ["one", "two", "three", "four"])],
         ["profile getLocation/setLocation", () => CleverTap.getLocation(loc => {
             log("CleverTapLocation is " + loc.lat + loc.lon)
