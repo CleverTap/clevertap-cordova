@@ -527,5 +527,28 @@ Called when the value of the variable changes.
  */
 - (void)reset;
 
+# pragma mark - Custom Code Templates
+
+- (void)syncCustomTemplates: (CDVInvokedUrlCommand *)command;
+
+- (void)syncCustomTemplatesInProd: (CDVInvokedUrlCommand *)command;
+
+- (void)customTemplateSetDismissed: (CDVInvokedUrlCommand *)command;
+
+- (void)customTemplateSetPresented: (CDVInvokedUrlCommand *)command;
+
+- (void)customTemplateRunAction: (CDVInvokedUrlCommand *)command;
+
+- (void)customTemplateGetStringArg: (CDVInvokedUrlCommand *)command;
+
+- (void)customTemplateGetNumberArg: (CDVInvokedUrlCommand *)command;
+
+- (void)customTemplateGetBooleanArg: (CDVInvokedUrlCommand *)command;
+
+- (void)customTemplateGetFileArg: (CDVInvokedUrlCommand *)command;
+
+- (void)customTemplateGetObjectArg: (CDVInvokedUrlCommand *)command;
+
+- (void)customTemplateContextToString: (CDVInvokedUrlCommand *)command;
 @end
 
