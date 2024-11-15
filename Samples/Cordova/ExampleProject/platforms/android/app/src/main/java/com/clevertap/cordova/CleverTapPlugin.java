@@ -1811,10 +1811,13 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 errorMsg = "Expected 1 argument";
             }
             if (!haveError) {
-                resolveWithTemplateContext(templateName, callbackContext, templateContext -> {
-                    templateContext.setDismissed();
-                    sendPluginResult(callbackContext, PluginResult.Status.OK);
-                    return null;
+                final String finalTemplateName = templateName;
+                cordova.getThreadPool().execute(() -> {
+                    resolveWithTemplateContext(finalTemplateName, callbackContext, templateContext -> {
+                        templateContext.setDismissed();
+                        sendPluginResult(callbackContext, PluginResult.Status.OK);
+                        return null;
+                    });
                 });
                 return true;
             }
@@ -1827,10 +1830,13 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 errorMsg = "Expected 1 argument";
             }
             if (!haveError) {
-                resolveWithTemplateContext(templateName, callbackContext, templateContext -> {
-                    templateContext.setPresented();
-                    sendPluginResult(callbackContext, PluginResult.Status.OK);
-                    return null;
+                final String finalTemplateName = templateName;
+                cordova.getThreadPool().execute(() -> {
+                    resolveWithTemplateContext(finalTemplateName, callbackContext, templateContext -> {
+                        templateContext.setPresented();
+                        sendPluginResult(callbackContext, PluginResult.Status.OK);
+                        return null;
+                    });
                 });
                 return true;
             }
@@ -1845,15 +1851,18 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 errorMsg = "Expected 2 arguments";
             }
             if (!haveError) {
+                final String finalTemplateName = templateName;
                 final String finalArgName = argName;
-                resolveWithTemplateContext(templateName, callbackContext, customTemplateContext -> {
-                            if (customTemplateContext instanceof CustomTemplateContext.TemplateContext) {
-                                ((CustomTemplateContext.TemplateContext) customTemplateContext).triggerActionArgument(finalArgName, null);
-                                sendPluginResult(callbackContext, PluginResult.Status.OK);
-                            }
-                            return null;
+
+                cordova.getThreadPool().execute(() -> {
+                    resolveWithTemplateContext(finalTemplateName, callbackContext, customTemplateContext -> {
+                        if (customTemplateContext instanceof CustomTemplateContext.TemplateContext) {
+                            ((CustomTemplateContext.TemplateContext) customTemplateContext).triggerActionArgument(finalArgName, null);
+                            sendPluginResult(callbackContext, PluginResult.Status.OK);
                         }
-                );
+                        return null;
+                    });
+                });
                 return true;
             }
         } else if (action.equals("customTemplateGetStringArg")) {
@@ -1867,14 +1876,16 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 errorMsg = "Expected 2 arguments";
             }
             if (!haveError) {
+                final String finalTemplateName = templateName;
                 final String finalArgName = argName;
-                resolveWithTemplateContext(templateName, callbackContext,
-                        templateContext -> {
-                            String stringArg = templateContext.getString(finalArgName);
-                            sendPluginResult(callbackContext, PluginResult.Status.OK, stringArg);
-                            return null;
-                        }
-                );
+                cordova.getThreadPool().execute(() -> {
+                    resolveWithTemplateContext(finalTemplateName, callbackContext,
+                            templateContext -> {
+                                String stringArg = templateContext.getString(finalArgName);
+                                sendPluginResult(callbackContext, PluginResult.Status.OK, stringArg);
+                                return null;
+                            });
+                });
                 return true;
             }
         } else if (action.equals("customTemplateGetNumberArg")) {
@@ -1888,14 +1899,16 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 errorMsg = "Expected 2 arguments";
             }
             if (!haveError) {
+                final String finalTemplateName = templateName;
                 final String finalArgName = argName;
-                resolveWithTemplateContext(templateName, callbackContext,
-                        templateContext -> {
-                            Double numberArg = templateContext.getDouble(finalArgName);
-                            sendPluginResult(callbackContext, PluginResult.Status.OK, numberArg);
-                            return null;
-                        }
-                );
+                cordova.getThreadPool().execute(() -> {
+                    resolveWithTemplateContext(finalTemplateName, callbackContext,
+                            templateContext -> {
+                                Double numberArg = templateContext.getDouble(finalArgName);
+                                sendPluginResult(callbackContext, PluginResult.Status.OK, numberArg);
+                                return null;
+                            });
+                });
                 return true;
             }
         } else if (action.equals("customTemplateGetBooleanArg")) {
@@ -1909,14 +1922,16 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 errorMsg = "Expected 2 arguments";
             }
             if (!haveError) {
+                final String finalTemplateName = templateName;
                 final String finalArgName = argName;
-                resolveWithTemplateContext(templateName, callbackContext,
-                        templateContext -> {
-                            Boolean booleanArg = templateContext.getBoolean(finalArgName);
-                            sendPluginResult(callbackContext, PluginResult.Status.OK, booleanArg);
-                            return null;
-                        }
-                );
+                cordova.getThreadPool().execute(() -> {
+                    resolveWithTemplateContext(finalTemplateName, callbackContext,
+                            templateContext -> {
+                                Boolean booleanArg = templateContext.getBoolean(finalArgName);
+                                sendPluginResult(callbackContext, PluginResult.Status.OK, booleanArg);
+                                return null;
+                            });
+                });
                 return true;
             }
         } else if (action.equals("customTemplateGetFileArg")) {
@@ -1930,14 +1945,16 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 errorMsg = "Expected 2 arguments";
             }
             if (!haveError) {
+                final String finalTemplateName = templateName;
                 final String finalArgName = argName;
-                resolveWithTemplateContext(templateName, callbackContext,
-                        templateContext -> {
-                            String fileArg = templateContext.getFile(finalArgName);
-                            sendPluginResult(callbackContext, PluginResult.Status.OK, fileArg);
-                            return null;
-                        }
-                );
+                cordova.getThreadPool().execute(() -> {
+                    resolveWithTemplateContext(finalTemplateName, callbackContext,
+                            templateContext -> {
+                                String fileArg = templateContext.getFile(finalArgName);
+                                sendPluginResult(callbackContext, PluginResult.Status.OK, fileArg);
+                                return null;
+                            });
+                });
                 return true;
             }
         } else if (action.equals("customTemplateGetObjectArg")) {
@@ -1951,14 +1968,16 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 errorMsg = "Expected 2 arguments";
             }
             if (!haveError) {
+                final String finalTemplateName = templateName;
                 final String finalArgName = argName;
-                resolveWithTemplateContext(templateName, callbackContext,
-                        templateContext -> {
-                            Map <String, Object> mapArg = templateContext.getMap(finalArgName);
-                            sendPluginResult(callbackContext, PluginResult.Status.OK, new JSONObject(mapArg));
-                            return null;
-                        }
-                );
+                cordova.getThreadPool().execute(() -> {
+                    resolveWithTemplateContext(finalTemplateName, callbackContext,
+                            templateContext -> {
+                                Map<String, Object> mapArg = templateContext.getMap(finalArgName);
+                                sendPluginResult(callbackContext, PluginResult.Status.OK, new JSONObject(mapArg));
+                                return null;
+                            });
+                });
                 return true;
             }
         } else if (action.equals("customTemplateContextToString")) {
@@ -1970,13 +1989,15 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 errorMsg = "Expected 1 argument";
             }
             if (!haveError) {
-                resolveWithTemplateContext(templateName, callbackContext,
-                        templateContext -> {
-                            String result = templateContext.toString();
-                            sendPluginResult(callbackContext, PluginResult.Status.OK, result);
-                            return null;
-                        }
-                );
+                final String finalTemplateName = templateName;
+                cordova.getThreadPool().execute(() -> {
+                    resolveWithTemplateContext(finalTemplateName, callbackContext,
+                            templateContext -> {
+                                String result = templateContext.toString();
+                                sendPluginResult(callbackContext, PluginResult.Status.OK, result);
+                                return null;
+                            });
+                });
                 return true;
             }
         }
