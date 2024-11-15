@@ -20,6 +20,7 @@ import androidx.annotation.NonNull;
 import com.clevertap.android.sdk.PushPermissionResponseListener;
 import com.clevertap.android.sdk.inapp.CTInAppNotification;
 import com.clevertap.android.sdk.inapp.CTLocalInApp;
+import com.clevertap.android.sdk.inapp.customtemplates.CustomTemplateContext;
 import com.clevertap.android.sdk.pushnotification.CTPushNotificationListener;
 import com.clevertap.android.sdk.pushnotification.amp.CTPushAmpListener;
 import com.clevertap.android.sdk.variables.CTVariableUtils;
@@ -1795,6 +1796,189 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
             });
             return true;
+        } else if (action.equals("syncCustomTemplates") || action.equals("syncInAppTemplatesInProd")) {
+            cordova.getThreadPool().execute(() -> {
+                cleverTap.syncRegisteredInAppTemplates();
+                sendPluginResult(callbackContext, Status.NO_RESULT);
+            });
+            return true;
+        } else if (action.equals("customTemplateSetDismissed")) {
+            String templateName = null;
+            if (args.length() == 1) {
+                templateName = args.getString(0);
+            } else {
+                haveError = true;
+                errorMsg = "Expected 1 argument";
+            }
+            if (!haveError) {
+                resolveWithTemplateContext(templateName, callbackContext, templateContext -> {
+                    templateContext.setDismissed();
+                    sendPluginResult(callbackContext, PluginResult.Status.OK);
+                    return null;
+                });
+                return true;
+            }
+        } else if (action.equals("customTemplateSetPresented")) {
+            String templateName = null;
+            if (args.length() == 1) {
+                templateName = args.getString(0);
+            } else {
+                haveError = true;
+                errorMsg = "Expected 1 argument";
+            }
+            if (!haveError) {
+                resolveWithTemplateContext(templateName, callbackContext, templateContext -> {
+                    templateContext.setPresented();
+                    sendPluginResult(callbackContext, PluginResult.Status.OK);
+                    return null;
+                });
+                return true;
+            }
+        } else if (action.equals("customTemplateRunAction")) {
+            String templateName = null;
+            String argName = null;
+            if (args.length() == 2) {
+                templateName = args.getString(0);
+                argName = args.getString(1);
+            } else {
+                haveError = true;
+                errorMsg = "Expected 2 arguments";
+            }
+            if (!haveError) {
+                final String finalArgName = argName;
+                resolveWithTemplateContext(templateName, callbackContext, customTemplateContext -> {
+                            if (customTemplateContext instanceof CustomTemplateContext.TemplateContext) {
+                                ((CustomTemplateContext.TemplateContext) customTemplateContext).triggerActionArgument(finalArgName, null);
+                                sendPluginResult(callbackContext, PluginResult.Status.OK);
+                            }
+                            return null;
+                        }
+                );
+                return true;
+            }
+        } else if (action.equals("customTemplateGetStringArg")) {
+            String templateName = null;
+            String argName = null;
+            if (args.length() == 2) {
+                templateName = args.getString(0);
+                argName = args.getString(1);
+            } else {
+                haveError = true;
+                errorMsg = "Expected 2 arguments";
+            }
+            if (!haveError) {
+                final String finalArgName = argName;
+                resolveWithTemplateContext(templateName, callbackContext,
+                        templateContext -> {
+                            String stringArg = templateContext.getString(finalArgName);
+                            sendPluginResult(callbackContext, PluginResult.Status.OK, stringArg);
+                            return null;
+                        }
+                );
+                return true;
+            }
+        } else if (action.equals("customTemplateGetNumberArg")) {
+            String templateName = null;
+            String argName = null;
+            if (args.length() == 2) {
+                templateName = args.getString(0);
+                argName = args.getString(1);
+            } else {
+                haveError = true;
+                errorMsg = "Expected 2 arguments";
+            }
+            if (!haveError) {
+                final String finalArgName = argName;
+                resolveWithTemplateContext(templateName, callbackContext,
+                        templateContext -> {
+                            Double numberArg = templateContext.getDouble(finalArgName);
+                            sendPluginResult(callbackContext, PluginResult.Status.OK, numberArg);
+                            return null;
+                        }
+                );
+                return true;
+            }
+        } else if (action.equals("customTemplateGetBooleanArg")) {
+            String templateName = null;
+            String argName = null;
+            if (args.length() == 2) {
+                templateName = args.getString(0);
+                argName = args.getString(1);
+            } else {
+                haveError = true;
+                errorMsg = "Expected 2 arguments";
+            }
+            if (!haveError) {
+                final String finalArgName = argName;
+                resolveWithTemplateContext(templateName, callbackContext,
+                        templateContext -> {
+                            Boolean booleanArg = templateContext.getBoolean(finalArgName);
+                            sendPluginResult(callbackContext, PluginResult.Status.OK, booleanArg);
+                            return null;
+                        }
+                );
+                return true;
+            }
+        } else if (action.equals("customTemplateGetFileArg")) {
+            String templateName = null;
+            String argName = null;
+            if (args.length() == 2) {
+                templateName = args.getString(0);
+                argName = args.getString(1);
+            } else {
+                haveError = true;
+                errorMsg = "Expected 2 arguments";
+            }
+            if (!haveError) {
+                final String finalArgName = argName;
+                resolveWithTemplateContext(templateName, callbackContext,
+                        templateContext -> {
+                            String fileArg = templateContext.getFile(finalArgName);
+                            sendPluginResult(callbackContext, PluginResult.Status.OK, fileArg);
+                            return null;
+                        }
+                );
+                return true;
+            }
+        } else if (action.equals("customTemplateGetObjectArg")) {
+            String templateName = null;
+            String argName = null;
+            if (args.length() == 2) {
+                templateName = args.getString(0);
+                argName = args.getString(1);
+            } else {
+                haveError = true;
+                errorMsg = "Expected 2 arguments";
+            }
+            if (!haveError) {
+                final String finalArgName = argName;
+                resolveWithTemplateContext(templateName, callbackContext,
+                        templateContext -> {
+                            Map <String, Object> mapArg = templateContext.getMap(finalArgName);
+                            sendPluginResult(callbackContext, PluginResult.Status.OK, new JSONObject(mapArg));
+                            return null;
+                        }
+                );
+                return true;
+            }
+        } else if (action.equals("customTemplateContextToString")) {
+            String templateName = null;
+            if (args.length() == 1) {
+                templateName = args.getString(0);
+            } else {
+                haveError = true;
+                errorMsg = "Expected 1 argument";
+            }
+            if (!haveError) {
+                resolveWithTemplateContext(templateName, callbackContext,
+                        templateContext -> {
+                            String result = templateContext.toString();
+                            sendPluginResult(callbackContext, PluginResult.Status.OK, result);
+                            return null;
+                        }
+                );
+                return true;
+            }
         }
         sendPluginResult(callbackContext, Status.ERROR, errorMsg);
         return true;
@@ -1817,7 +2001,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
     private PluginResult getPluginResult(final Status ok, final Object value) {
         PluginResult _result;
         if (value instanceof Boolean) {
-           _result  = new PluginResult(ok, (Boolean) value);
+            _result  = new PluginResult(ok, (Boolean) value);
         } else if (value instanceof Double) {
             _result  = new PluginResult(ok, ((Double) value).floatValue());
         } else if (value instanceof Float) {
@@ -1977,7 +2161,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 jsonObject.put("contentPageIndex",contentPageIndex);
                 jsonObject.put("buttonIndex",buttonIndex);
             } catch (JSONException e) {
-               Log.e(LOG_TAG,"Failed to parse inbox message.");
+                Log.e(LOG_TAG,"Failed to parse inbox message.");
             }
 
             webView.getView().post(new Runnable() {
@@ -2481,6 +2665,17 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         }
     }
 
+    private void resolveWithTemplateContext(String templateName, final CallbackContext callbackContext, TemplateContextAction action) {
+        CustomTemplateContext templateContext = cleverTap.getActiveContextForTemplate(templateName);
+        if (templateContext != null) {
+            action.execute(templateContext);
+        } else {
+            PluginResult _result = new PluginResult(PluginResult.Status.ERROR, "Custom template: " + templateName + " is not currently being presented");
+            _result.setKeepCallback(true);
+            callbackContext.sendPluginResult(_result);
+        }
+    }
+
     private void sendPluginResult(CallbackContext callbackContext, PluginResult.Status status) {
         PluginResult _result = new PluginResult(status);
         _result.setKeepCallback(true);
@@ -2491,5 +2686,10 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         PluginResult _result = getPluginResult(status, result);
         _result.setKeepCallback(true);
         callbackContext.sendPluginResult(_result);
+    }
+
+    @FunctionalInterface
+    private interface TemplateContextAction {
+        Object execute(CustomTemplateContext context);
     }
 }
