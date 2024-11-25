@@ -33,6 +33,10 @@ function setupButtons() {
 
     let eventsMap = [
 
+        ["title","Custom Templates"],
+        ["Sync Custom Templates", () => CleverTap.syncCustomTemplates()],
+        ["Sync Custom Templates in Pod", () => CleverTap.syncCustomTemplatesInProd(true)],
+
         ["title","ClientSide InApps"],
         ["Fetch InApps", () => CleverTap.fetchInApps(success => log("fetchInApps success = " + success))],
         ["Clear InApp Resources", () => CleverTap.clearInAppResources(false)],
@@ -336,7 +340,6 @@ function setupButtons() {
         container.appendChild(titleButton);
         container.appendChild(buttonContainer);
     }
-
 
     // onCleverTapProfileSync Event Handler
     // CleverTap provides a mechanism for notifying your application about synchronization-related changes to the User Profile/Event History.
