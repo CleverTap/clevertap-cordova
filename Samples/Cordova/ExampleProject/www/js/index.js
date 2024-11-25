@@ -291,13 +291,50 @@ function setupButtons() {
         }],
     ]
 
-    for (let element of eventsMap) {
+    const groupedButtons = {};
+    let currentGroup = null;
 
-        const buttonElement = element[0]==="title"? document.createElement("p") : document.createElement("button")
-        buttonElement.innerText = element[0]==="title" ? element[1]:element[0]
-        const buttonOnClick = element[0]==="title" ? ()=>{} : element[1]
-        buttonElement.addEventListener('click',buttonOnClick)
-        document.querySelector('.ct_button').appendChild(buttonElement)
+    for (let element of eventsMap) {
+        if (element[0] === "title") {
+            currentGroup = element[1];
+            groupedButtons[currentGroup] = [];
+        } else if (currentGroup) {
+            groupedButtons[currentGroup].push({
+                label: element[0],
+                action: element[1]
+            });
+        }
+    }
+
+    const container = document.querySelector('.ct_button');
+
+    // Render the buttons with collapsible groups
+    for (const [groupTitle, buttons] of Object.entries(groupedButtons)) {
+        // Create title button
+        const titleButton = document.createElement("button");
+        titleButton.classList.add("group-title");
+        titleButton.innerText = groupTitle;
+
+        // Create a container for sub-buttons
+        const buttonContainer = document.createElement("div");
+        buttonContainer.classList.add("button-container");
+
+        // Toggle visibility on title button click
+        titleButton.addEventListener('click', () => {
+            buttonContainer.classList.toggle("open");
+        });
+
+        // Add sub-buttons
+        buttons.forEach(buttonData => {
+            const subButton = document.createElement("button");
+            subButton.classList.add("sub-button");
+            subButton.innerText = buttonData.label;
+            subButton.addEventListener('click', buttonData.action);
+            buttonContainer.appendChild(subButton);
+        });
+
+        container.appendChild(titleButton);
+        container.appendChild(buttonContainer);
     }
 
     // onCleverTapProfileSync Event Handler
