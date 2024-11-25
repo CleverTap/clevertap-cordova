@@ -88,7 +88,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
 
-        CleverTapEventEmitter.INSTANCE.setCordovaWebView(webView);
+        CleverTapEventEmitter.setCordovaWebView(webView);
         cleverTap = CleverTapAPI.getDefaultInstance(cordova.getActivity().getApplicationContext());
         cleverTap.setSyncListener(this);
         cleverTap.setInAppNotificationListener(this);
@@ -140,7 +140,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 cordova.getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        CleverTapEventEmitter.INSTANCE.sendEvent("onDeepLink", json);
+                        CleverTapEventEmitter.sendEvent("onDeepLink", json);
                     }
                 });
 
@@ -174,7 +174,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 cordova.getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        CleverTapEventEmitter.INSTANCE.sendEvent("onPushNotification", json);
+                        CleverTapEventEmitter.sendEvent("onPushNotification", json);
                     }
                 });
 
@@ -184,7 +184,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                     webView.getView().post(new Runnable() {
                         public void run() {
 
-                            CleverTapEventEmitter.INSTANCE.sendEvent("onCleverTapPushNotificationTappedWithCustomExtras", callbackJson);
+                            CleverTapEventEmitter.sendEvent("onCleverTapPushNotificationTappedWithCustomExtras", callbackJson);
                         }
                     });
                 }
@@ -2052,7 +2052,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
             webView.getView().post(new Runnable() {
                 public void run() {
-                    CleverTapEventEmitter.INSTANCE.sendEvent("onCleverTapDisplayUnitsLoaded", json);
+                    CleverTapEventEmitter.sendEvent("onCleverTapDisplayUnitsLoaded", json);
                 }
             });
 
@@ -2067,7 +2067,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
     public void inboxDidInitialize() {
         webView.getView().post(new Runnable() {
             public void run() {
-                CleverTapEventEmitter.INSTANCE.sendEvent("onCleverTapInboxDidInitialize");
+                CleverTapEventEmitter.sendEvent("onCleverTapInboxDidInitialize");
             }
         });
     }
@@ -2075,7 +2075,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
     public void inboxMessagesDidUpdate() {
         webView.getView().post(new Runnable() {
             public void run() {
-                CleverTapEventEmitter.INSTANCE.sendEvent("onCleverTapInboxMessagesDidUpdate");
+                CleverTapEventEmitter.sendEvent("onCleverTapInboxMessagesDidUpdate");
             }
         });
     }
@@ -2101,7 +2101,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         final String json = _json;
         webView.getView().post(new Runnable() {
             public void run() {
-                CleverTapEventEmitter.INSTANCE.sendEvent("onCleverTapInAppNotificationDismissed", json);
+                CleverTapEventEmitter.sendEvent("onCleverTapInAppNotificationDismissed", json);
             }
         });
     }
@@ -2111,7 +2111,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         final String json = "{'accepted':" + accepted + "}";
         webView.getView().post(new Runnable() {
             public void run() {
-                CleverTapEventEmitter.INSTANCE.sendEvent("onCleverTapPushPermissionResponseReceived", json);
+                CleverTapEventEmitter.sendEvent("onCleverTapPushPermissionResponseReceived", json);
             }
         });
     }
@@ -2126,7 +2126,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         final String json = "{'updates':" + updates.toString() + "}";
         webView.getView().post(new Runnable() {
             public void run() {
-                CleverTapEventEmitter.INSTANCE.sendEvent("onCleverTapProfileSync", json);
+                CleverTapEventEmitter.sendEvent("onCleverTapProfileSync", json);
             }
         });
     }
@@ -2140,7 +2140,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         final String json = "{'CleverTapID':" + "'" + CleverTapID + "'" + "}";
         webView.getView().post(new Runnable() {
             public void run() {
-                CleverTapEventEmitter.INSTANCE.sendEvent("onCleverTapProfileDidInitialize", json);
+                CleverTapEventEmitter.sendEvent("onCleverTapProfileDidInitialize", json);
             }
         });
     }
@@ -2154,7 +2154,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
         webView.getView().post(new Runnable() {
             public void run() {
-                CleverTapEventEmitter.INSTANCE.sendEvent("onCleverTapInboxButtonClick", json);
+                CleverTapEventEmitter.sendEvent("onCleverTapInboxButtonClick", json);
             }
         });
     }
@@ -2166,7 +2166,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             final String json = "{'customExtras':" + inAppNotification.getJsonDescription().toString() + "}";
             webView.getView().post(new Runnable() {
                 public void run() {
-                    CleverTapEventEmitter.INSTANCE.sendEvent("onCleverTapInAppNotificationShow", json);
+                    CleverTapEventEmitter.sendEvent("onCleverTapInAppNotificationShow", json);
                 }
             });
         }
@@ -2186,7 +2186,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
             webView.getView().post(new Runnable() {
                 public void run() {
-                    CleverTapEventEmitter.INSTANCE.sendEvent("onCleverTapInboxItemClick", jsonObject.toString());
+                    CleverTapEventEmitter.sendEvent("onCleverTapInboxItemClick", jsonObject.toString());
                 }
             });
         }
@@ -2199,7 +2199,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
         webView.getView().post(new Runnable() {
             public void run() {
-                CleverTapEventEmitter.INSTANCE.sendEvent("onCleverTapInAppButtonClick", json);
+                CleverTapEventEmitter.sendEvent("onCleverTapInAppButtonClick", json);
             }
         });
     }
@@ -2208,7 +2208,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
     public void featureFlagsUpdated() {
         webView.getView().post(new Runnable() {
             public void run() {
-                CleverTapEventEmitter.INSTANCE.sendEvent("onCleverTapFeatureFlagsDidUpdate", json);
+                CleverTapEventEmitter.sendEvent("onCleverTapFeatureFlagsDidUpdate");
             }
         });
     }
@@ -2217,7 +2217,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
     public void onInit() {
         webView.getView().post(new Runnable() {
             public void run() {
-                CleverTapEventEmitter.INSTANCE.sendEvent("onCleverTapProductConfigDidInitialize");
+                CleverTapEventEmitter.sendEvent("onCleverTapProductConfigDidInitialize");
             }
         });
     }
@@ -2225,7 +2225,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
     public void onFetched() {
         webView.getView().post(new Runnable() {
             public void run() {
-                CleverTapEventEmitter.INSTANCE.sendEvent("onCleverTapProductConfigDidFetch");
+                CleverTapEventEmitter.sendEvent("onCleverTapProductConfigDidFetch");
             }
         });
     }
@@ -2233,7 +2233,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
     public void onActivated() {
         webView.getView().post(new Runnable() {
             public void run() {
-                CleverTapEventEmitter.INSTANCE.sendEvent("onCleverTapProductConfigDidActivate");
+                CleverTapEventEmitter.sendEvent("onCleverTapProductConfigDidActivate");
             }
         });
     }
@@ -2499,7 +2499,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
         webView.getView().post(new Runnable() {
             public void run() {
-                CleverTapEventEmitter.INSTANCE.sendEvent("onCleverTapPushNotificationTappedWithCustomExtras", json);
+                CleverTapEventEmitter.sendEvent("onCleverTapPushNotificationTappedWithCustomExtras", json);
             }
         });
         callbackDone = true;
@@ -2512,7 +2512,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
         webView.getView().post(new Runnable() {
             public void run() {
-                CleverTapEventEmitter.INSTANCE.sendEvent("onCleverTapPushAmpPayloadDidReceived", json);
+                CleverTapEventEmitter.sendEvent("onCleverTapPushAmpPayloadDidReceived", json);
             }
         });
     }
