@@ -105,6 +105,30 @@ h1 {
     gap: 8px;
 }
 
+.group-title {
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.button-container {
+  display: none;
+}
+
+.button-container.open {
+  display: flex;
+  flex-direction: column;
+}
+
+.sub-button {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: #333333;
+  margin-bottom: 5px;
+  justify-content: center;
+  align-items: center;
+  width: 90%
+}
+
 button{
     display: inline-block;
     width: 100%;
