@@ -1795,7 +1795,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
             });
             return true;
-        } else if (action.equals("syncCustomTemplates") || action.equals("syncInAppTemplatesInProd")) {
+        } else if (action.equals("syncCustomTemplates") || action.equals("syncCustomTemplatesInProd")) {
             cordova.getThreadPool().execute(() -> {
                 cleverTap.syncRegisteredInAppTemplates();
                 sendPluginResult(callbackContext, Status.NO_RESULT);
