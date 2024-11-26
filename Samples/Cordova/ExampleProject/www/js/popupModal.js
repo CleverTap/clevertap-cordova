@@ -33,7 +33,7 @@ document.getElementById('openFileBtn').addEventListener('click', () => {
 
 document.getElementById('triggerActionBtn').addEventListener('click', () => {
   const actionArg = document.getElementById('actionArgInput').value;
-  console.log(`Trigger Action with arg: ${actionArg}`);
+  CleverTap.customTemplateRunAction(currentTemplateName, actionName);
 });
 
 document.addEventListener(
@@ -41,7 +41,17 @@ document.addEventListener(
     param => {
         CleverTap.customTemplateContextToString(param.name).then((str) => {
             let description = `Arguments for "${param.name}":${str}`;
-            showModal(param.name, description)
+            showModal(param.name, description, false)
+        })
+    }
+);
+
+document.addEventListener(
+    'CleverTapCustomFunctionPresent',
+    param => {
+        CleverTap.customTemplateContextToString(param.name).then((str) => {
+            let description = `Arguments for "${param.name}":${str}`;
+            showModal(param.name, description, true)
         })
     }
 );
