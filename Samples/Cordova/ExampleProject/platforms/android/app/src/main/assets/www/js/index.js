@@ -35,7 +35,7 @@ function setupButtons() {
 
         ["title","Custom Templates"],
         ["Sync Custom Templates", () => CleverTap.syncCustomTemplates()],
-        ["Sync Custom Templates in Pod", () => CleverTap.syncCustomTemplatesInProd(true)],
+        ["Sync Custom Templates in Prod", () => CleverTap.syncCustomTemplatesInProd(true)],
 
         ["title","ClientSide InApps"],
         ["Fetch InApps", () => CleverTap.fetchInApps(success => log("fetchInApps success = " + success))],
