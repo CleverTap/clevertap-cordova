@@ -61,7 +61,6 @@ static NSMutableDictionary *allVariables;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onHandleRegisterForRemoteNotification:) name:CTRemoteNotificationDidRegister object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendEvent:) name:CTSendEvent object:nil];
 }
 
 + (void)onDidFinishLaunchingNotification:(NSNotification *)notification {
@@ -108,6 +107,7 @@ static NSMutableDictionary *allVariables;
     
     [super pluginInitialize];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendEvent:) name:CTSendEvent object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onHandleOpenURLNotification:) name: CTHandleOpenURLNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onHandleNotification:) name:CTDidReceiveNotification object:nil];
     
@@ -341,7 +341,7 @@ static NSMutableDictionary *allVariables;
 #pragma mark - Public
 
 - (void)sendEvent:(NSNotification *)notification {
-    NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('%@', %@)", notification.object, notification.userInfo[@"result"]];
+    NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('%@', %@)", notification.object, [self _dictToJson:notification.userInfo[@"result"]]];
     [self.commandDelegate evalJs:js];
 }
 

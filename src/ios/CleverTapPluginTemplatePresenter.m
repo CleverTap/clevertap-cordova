@@ -7,7 +7,7 @@
 @implementation CleverTapPluginTemplatePresenter
 
 - (void)onPresent:(nonnull CTTemplateContext *)context {
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CTSendEvent object:@"CleverTapCustomTemplatePresent" userInfo:@{@"result": context.templateName}]];
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CTSendEvent object:@"CleverTapCustomTemplatePresent" userInfo:@{@"result": @{@"name": context.templateName}}]];
 }
 
 - (void)onCloseClicked:(nonnull CTTemplateContext *)context {

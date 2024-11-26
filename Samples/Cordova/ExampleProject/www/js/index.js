@@ -376,7 +376,7 @@ function initListeners() {
     document.addEventListener('onCleverTapProfileSync', e => log(e.updates))
     document.addEventListener('onCleverTapProfileDidInitialize', e => log(e.CleverTapID))
     document.addEventListener('onCleverTapInAppNotificationDismissed', e => {
-            log("onCleverTapInAppNotificationDismissed")
+            showToast("onCleverTapInAppNotificationDismissed")
             log(e.extras)
             log(e.actionExtras)
         }
@@ -405,51 +405,51 @@ function initListeners() {
         }
     )
     document.addEventListener('onCleverTapInboxButtonClick', e => {
-            log("onCleverTapInboxButtonClick")
+            showToast("onCleverTapInboxButtonClick")
             log(e.customExtras)
         }
     )
     document.addEventListener('onCleverTapInboxItemClick', e => {
-            log("onCleverTapInboxItemClick")
+            showToast("onCleverTapInboxItemClick")
             log(JSON.stringify(e))
         }
     )
     
     document.addEventListener('onCleverTapInAppButtonClick', e => {
-            log("onCleverTapInAppButtonClick")
+            showToast("onCleverTapInAppButtonClick")
             log(e.customExtras)
         }
     )
-    document.addEventListener('onCleverTapFeatureFlagsDidUpdate', () => log("onCleverTapFeatureFlagsDidUpdate"))
-    document.addEventListener('onCleverTapProductConfigDidInitialize', () => log("onCleverTapProductConfigDidInitialize"))
-    document.addEventListener('onCleverTapProductConfigDidFetch', () => log("onCleverTapProductConfigDidFetch"))
-    document.addEventListener('onCleverTapProductConfigDidActivate', () => log("onCleverTapProductConfigDidActivate"))
-    document.addEventListener('onCleverTapExperimentsUpdated', () => log("onCleverTapExperimentsUpdated"))
+    document.addEventListener('onCleverTapFeatureFlagsDidUpdate', () => showToast("onCleverTapFeatureFlagsDidUpdate"))
+    document.addEventListener('onCleverTapProductConfigDidInitialize', () => showToast("onCleverTapProductConfigDidInitialize"))
+    document.addEventListener('onCleverTapProductConfigDidFetch', () => showToast("onCleverTapProductConfigDidFetch"))
+    document.addEventListener('onCleverTapProductConfigDidActivate', () => showToast("onCleverTapProductConfigDidActivate"))
+    document.addEventListener('onCleverTapExperimentsUpdated', () => showToast("onCleverTapExperimentsUpdated"))
     document.addEventListener('onCleverTapDisplayUnitsLoaded', e => {
-            log("onCleverTapDisplayUnitsLoaded")
+            showToast("onCleverTapDisplayUnitsLoaded")
             log(e.units)
-            CleverTap.getDisplayUnitForId("1642753742_20220131", val => log("Native Display unit is " + JSON.stringify(val)))
-            CleverTap.getAllDisplayUnits(val => log("Native Display units are " + JSON.stringify(val)))
+            CleverTap.getDisplayUnitForId("1642753742_20220131", val => showToast("Native Display unit is " + JSON.stringify(val)))
+            CleverTap.getAllDisplayUnits(val => showToast("Native Display units are " + JSON.stringify(val)))
 
         }
     )
     document.addEventListener('onCleverTapPushNotificationTappedWithCustomExtras', e => {
-            log("onCleverTapPushNotificationTappedWithCustomExtras")
+            showToast("onCleverTapPushNotificationTappedWithCustomExtras")
             log(e.customExtras)
         }
     )
     document.addEventListener('onCleverTapPushAmpPayloadDidReceived', e => {
-            log("onCleverTapPushAmpPayloadDidReceived")
+            showToast("onCleverTapPushAmpPayloadDidReceived")
             log(e.customExtras)
         }
     )
     document.addEventListener('onCleverTapPushPermissionResponseReceived', e => {
-        log("onCleverTapPushPermissionResponseReceived")
+        showToast("onCleverTapPushPermissionResponseReceived")
         log(e.accepted)
     })
 
     document.addEventListener('onCleverTapInAppNotificationShow', e => {
-        log("onCleverTapInAppNotificationShow")
+        showToast("onCleverTapInAppNotificationShow")
         log(e.customExtras)
     })
 }
@@ -464,6 +464,13 @@ function updateUi() {
 
     listeningElement.setAttribute('style', 'display:none')
     receivedElement.setAttribute('style', 'display:block')
+}
+
+function showToast(message) {
+  if (window.plugins && window.plugins.toast) {
+    window.plugins.toast.show(message, 'short', 'bottom');
+  }
+  console.log(message);  // Fallback to console log if toast plugin is not available
 }
 
 
