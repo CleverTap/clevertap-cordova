@@ -1,10 +1,18 @@
 // Show the modal
 let currentTemplateName = null;
-function showModal(title, description) {
+function showModal(title, description, isFunction) {
   currentTemplateName = title;
   document.getElementById('modalTitle').innerText = title;
   document.getElementById('modalDescription').innerText = description;
   document.getElementById('popupModal').style.display = 'block';
+
+  if (!isFunction) {
+    actionArgInput.style.display = 'block';  // Show the input
+    triggerActionBtn.style.display = 'block'; // Show the button
+  } else {
+    actionArgInput.style.display = 'none';   // Hide the input
+    triggerActionBtn.style.display = 'none'; // Hide the button
+  }
 }
 
 // Hide the modal

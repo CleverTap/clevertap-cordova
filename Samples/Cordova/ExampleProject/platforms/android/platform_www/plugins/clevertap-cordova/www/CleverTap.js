@@ -719,22 +719,22 @@ CleverTap.prototype.syncCustomTemplates = function () {
 * @param {boolean} isProduction Provide `true` if templates must be sync in Productuon build/configuration.
 */
 CleverTap.prototype.syncCustomTemplatesInProd = function(isProduction){
-    cordova.exec(null, null, "CleverTapPlugin", "syncCustomTemplatesInProd", [isProduction]); 
+    cordova.exec(null, null, "CleverTapPlugin", "syncCustomTemplatesInProd", [isProduction]);
 }
 
 /**
 * Notify the SDK that an active custom template is dismissed. The active custom template is considered to be
 * visible to the user until this method is called. Since the SDK can show only one InApp message at a time, all
-* other messages will be queued until the current one is dismissed. 
+* other messages will be queued until the current one is dismissed.
 * @param {string} templateName The name of the active template
 */
 CleverTap.prototype.customTemplateSetDismissed = function(templateName){
     return new Promise((resolve, reject) => {
         cordova.exec(
-            resolve,              
-            reject,               
-            "CleverTapPlugin",     
-            "customTemplateSetDismissed", 
+            resolve,
+            reject,
+            "CleverTapPlugin",
+            "customTemplateSetDismissed",
             [templateName]
         );
     });
@@ -747,10 +747,10 @@ CleverTap.prototype.customTemplateSetDismissed = function(templateName){
 CleverTap.prototype.customTemplateSetPresented = function(templateName){
     return new Promise((resolve, reject) => {
         cordova.exec(
-            resolve,              
-            reject,               
-            "CleverTapPlugin",     
-            "customTemplateSetPresented", 
+            resolve,
+            reject,
+            "CleverTapPlugin",
+            "customTemplateSetPresented",
             [templateName]
         );
     });
@@ -758,17 +758,17 @@ CleverTap.prototype.customTemplateSetPresented = function(templateName){
 
 /**
 * Trigger a custom template action argument by name.
-* 
+*
 * @param {string} templateName The name of an active template for which the action is defined
 * @param {string} argName The action argument na
 */
 CleverTap.prototype.customTemplateRunAction = function(templateName,argName){
     return new Promise((resolve, reject) => {
         cordova.exec(
-            resolve,              
-            reject,               
-            "CleverTapPlugin",     
-            "customTemplateRunAction", 
+            resolve,
+            reject,
+            "CleverTapPlugin",
+            "customTemplateRunAction",
             [templateName,argName]
         );
     });
@@ -783,10 +783,10 @@ CleverTap.prototype.customTemplateRunAction = function(templateName,argName){
 CleverTap.prototype.customTemplateGetStringArg = function(templateName,argName){
     return new Promise((resolve, reject) => {
         cordova.exec(
-            resolve,              
-            reject,               
-            "CleverTapPlugin",     
-            "customTemplateGetStringArg", 
+            resolve,
+            reject,
+            "CleverTapPlugin",
+            "customTemplateGetStringArg",
             [templateName,argName]
         );
     });
@@ -801,10 +801,10 @@ CleverTap.prototype.customTemplateGetStringArg = function(templateName,argName){
 CleverTap.prototype.customTemplateGetNumberArg = function(templateName,argName){
     return new Promise((resolve, reject) => {
         cordova.exec(
-            resolve,              
-            reject,               
-            "CleverTapPlugin",     
-            "customTemplateGetNumberArg", 
+            resolve,
+            reject,
+            "CleverTapPlugin",
+            "customTemplateGetNumberArg",
             [templateName,argName]
         );
     });
@@ -819,10 +819,10 @@ CleverTap.prototype.customTemplateGetNumberArg = function(templateName,argName){
 CleverTap.prototype.customTemplateGetBooleanArg = function(templateName,argName){
     return new Promise((resolve, reject) => {
         cordova.exec(
-            resolve,              
-            reject,               
-            "CleverTapPlugin",     
-            "customTemplateGetBooleanArg", 
+            resolve,
+            reject,
+            "CleverTapPlugin",
+            "customTemplateGetBooleanArg",
             [templateName,argName]
         );
     });
@@ -837,10 +837,10 @@ CleverTap.prototype.customTemplateGetBooleanArg = function(templateName,argName)
 CleverTap.prototype.customTemplateGetFileArg = function(templateName,argName){
     return new Promise((resolve, reject) => {
         cordova.exec(
-            resolve,              
-            reject,               
-            "CleverTapPlugin",     
-            "customTemplateGetFileArg", 
+            resolve,
+            reject,
+            "CleverTapPlugin",
+            "customTemplateGetFileArg",
             [templateName,argName]
         );
     });
@@ -855,26 +855,26 @@ CleverTap.prototype.customTemplateGetFileArg = function(templateName,argName){
 CleverTap.prototype.customTemplateGetObjectArg = function(templateName,argName){
     return new Promise((resolve, reject) => {
         cordova.exec(
-            resolve,              
-            reject,               
-            "CleverTapPlugin",     
-            "customTemplateGetObjectArg", 
+            resolve,
+            reject,
+            "CleverTapPlugin",
+            "customTemplateGetObjectArg",
             [templateName,argName]
         );
     });
 }
 
 /**
-* Get a string representation of an active's template context with information about all arguments. 
+* Get a string representation of an active's template context with information about all arguments.
 * @param {string} templateName The name of an active template
 */
 CleverTap.prototype.customTemplateContextToString = function(templateName){
     return new Promise((resolve, reject) => {
         cordova.exec(
-            resolve,              
-            reject,               
-            "CleverTapPlugin",     
-            "customTemplateContextToString", 
+            resolve,
+            reject,
+            "CleverTapPlugin",
+            "customTemplateContextToString",
             [templateName]
         );
     });
