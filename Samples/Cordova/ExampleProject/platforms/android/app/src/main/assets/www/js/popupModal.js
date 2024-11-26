@@ -28,7 +28,10 @@ document.getElementById('setPresentedBtn').addEventListener('click', () => {
 });
 
 document.getElementById('openFileBtn').addEventListener('click', () => {
-  console.log('Open File clicked');
+   const fileName = document.getElementById('fileArgInput').value;
+   CleverTap.customTemplateGetFileArg(currentTemplateName, fileName).then((filePath) => {
+   console.log(filePath);
+  });
 });
 
 document.getElementById('triggerActionBtn').addEventListener('click', () => {
