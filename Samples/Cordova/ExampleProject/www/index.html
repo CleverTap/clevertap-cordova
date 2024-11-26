@@ -33,6 +33,7 @@
         <meta name="msapplication-tap-highlight" content="no">
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
         <link rel="stylesheet" type="text/css" href="css/index.css">
+        <link rel="stylesheet" type="text/css" href="css/popupModal.css">
         <title>Hello World</title>
     </head>
     <body>
@@ -45,8 +46,31 @@
             </div>
         </div>
         <div class="ct_button"></div>
+        <div id="popupModal" class="modal">
+            <div class="modal-content">
+                <h2 id="modalTitle">Example template</h2>
+                <p id="modalDescription">
+                    Arguments
+                </p>
+
+                <!-- Input fields -->
+                <input type="text" id="textInput" placeholder="Enter value" />
+                <button class="action-button" id="openFileBtn">Open File</button>
+
+                <input type="text" id="actionArgInput" placeholder="Action Arg name" />
+                <button class="action-button" id="triggerActionBtn">Trigger Action</button>
+
+                <!-- Bottom Buttons -->
+                <div class="modal-actions">
+                    <button class="dismiss-button" id="dismissBtn">Dismiss</button>
+                    <button class="action-button" id="setPresentedBtn">Set Presented</button>
+                </div>
+            </div>
+        </div>
+
 
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript" src="js/popupModal.js"></script>
     </body>
 </html>
