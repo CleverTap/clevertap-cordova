@@ -26,4 +26,7 @@
     <feature name="CleverTapPlugin">
         <param name="android-package" value="com.clevertap.cordova.CleverTapPlugin" />
     </feature>
+    <feature name="Toast">
+        <param name="android-package" value="nl.xservices.plugins.Toast" />
+    </feature>
 </widget>
