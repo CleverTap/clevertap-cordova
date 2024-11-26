@@ -18,17 +18,21 @@ public class CleverTapCustomTemplates {
     private static final TemplatePresenter templatePresenter = new TemplatePresenter() {
         @Override
         public void onPresent(CustomTemplateContext.TemplateContext context) {
-            CleverTapEventEmitter.sendEvent("CleverTapCustomTemplatePresent", context.getTemplateName());
+            String json = "{'name':'" + context.getTemplateName() + "'}";
+            CleverTapEventEmitter.sendEvent("CleverTapCustomTemplatePresent", json);
         }
 
         @Override
         public void onClose(CustomTemplateContext.TemplateContext context) {
-            CleverTapEventEmitter.sendEvent("CleverTapCustomTemplateClose", context.getTemplateName());
+            String json = "{'name':'" + context.getTemplateName() + "'}";
+            CleverTapEventEmitter.sendEvent("CleverTapCustomTemplateClose", json);
         }
     };
 
-    private static final FunctionPresenter functionPresenter = context ->
-            CleverTapEventEmitter.sendEvent("CleverTapCustomFunctionPresent", context.getTemplateName());
+    private static final FunctionPresenter functionPresenter = context -> {
+        String json = "{'name':'" + context.getTemplateName() + "'}";
+        CleverTapEventEmitter.sendEvent("CleverTapCustomFunctionPresent", json);
+    };
 
     public static void registerCustomTemplates(Context context, String... jsonAssets) {
         for (String jsonAsset : jsonAssets) {
