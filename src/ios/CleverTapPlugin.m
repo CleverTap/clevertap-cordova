@@ -1749,8 +1749,7 @@ static NSMutableDictionary *allVariables;
     
     [self resolveWithTemplateContext:templateName
                              success:^(id result) {
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:result];
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        [self sendPluginResult:result withCommand:command];
     }
                              failure:^(NSString *errorMessage) {
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:errorMessage];
@@ -1768,8 +1767,7 @@ static NSMutableDictionary *allVariables;
     
     [self resolveWithTemplateContext:templateName
                              success:^(id result) {
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDouble:[result doubleValue]];
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        [self sendPluginResult:result withCommand:command];
     }
                              failure:^(NSString *errorMessage) {
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:errorMessage];
@@ -1787,8 +1785,7 @@ static NSMutableDictionary *allVariables;
     
     [self resolveWithTemplateContext:templateName
                              success:^(id result) {
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:[result boolValue]];
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        [self sendPluginResult:result withCommand:command];
     }
                              failure:^(NSString *errorMessage) {
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:errorMessage];
@@ -1806,8 +1803,7 @@ static NSMutableDictionary *allVariables;
     
     [self resolveWithTemplateContext:templateName
                              success:^(id result) {
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:result];
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        [self sendPluginResult:result withCommand:command];
     }
                              failure:^(NSString *errorMessage) {
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:errorMessage];
@@ -1825,8 +1821,7 @@ static NSMutableDictionary *allVariables;
     
     [self resolveWithTemplateContext:templateName
                              success:^(id result) {
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:result];
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        [self sendPluginResult:result withCommand:command];
     }
                              failure:^(NSString *errorMessage) {
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:errorMessage];
@@ -1843,8 +1838,7 @@ static NSMutableDictionary *allVariables;
     
     [self resolveWithTemplateContext:templateName
                              success:^(id result) {
-        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:result];
-        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        [self sendPluginResult:result withCommand:command];
     }
                              failure:^(NSString *errorMessage) {
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:errorMessage];
@@ -1874,6 +1868,17 @@ static NSMutableDictionary *allVariables;
     }
 
     success(blockName(context));
+}
+
+- (void)sendPluginResult:(id)result withCommand:(CDVInvokedUrlCommand *)command {
+    if (result != nil && ![result isKindOfClass:[NSNull class]]) {
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:result];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }
+    else {
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Argument not found"];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }
 }
 
 
