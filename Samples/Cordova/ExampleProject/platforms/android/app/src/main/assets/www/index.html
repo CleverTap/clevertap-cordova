@@ -46,7 +46,9 @@
             </div>
         </div>
         <div class="ct_button"></div>
-        <div id="popupModal" class="modal">
+
+        <!-- Template modal -->
+        <div id="templatePopupModal" class="modal">
             <div class="modal-content">
                 <h2 id="modalTitle">Example template</h2>
                 <p id="modalDescription">
@@ -54,16 +56,35 @@
                 </p>
 
                 <!-- Input fields -->
-                <input type="text" id="fileArgInput" placeholder="Enter value" />
-                <button class="action-button" id="openFileBtn">Print File</button>
+                <input type="text" id="templateFileArgInput" placeholder="File Arg Name" />
+                <button class="action-button" id="openTemplateFileBtn">Print File</button>
 
                 <input type="text" id="actionArgInput" placeholder="Action Arg name" />
                 <button class="action-button" id="triggerActionBtn">Trigger Action</button>
 
                 <!-- Bottom Buttons -->
                 <div class="modal-actions">
-                    <button class="dismiss-button" id="dismissBtn">Dismiss</button>
+                    <button class="dismiss-button" id="templateDismissBtn">Dismiss</button>
                     <button class="action-button" id="setPresentedBtn">Set Presented</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- App Function modal -->
+        <div id="functionPopupModal" class="modal">
+            <div class="modal-content">
+                <h2 id="functionModalTitle">Example function</h2>
+                <p id="functionModalDescription">
+                    Arguments
+                </p>
+
+                <!-- Input fields -->
+                <input type="text" id="functionFileArgInput" placeholder="File Arg Name" />
+                <button class="action-button" id="openFunctionFileBtn">Print File</button>
+
+                <!-- Bottom Buttons -->
+                <div class="modal-actions">
+                    <button class="dismiss-button" id="functionCloseBtn">Dismiss</button>
                 </div>
             </div>
         </div>
