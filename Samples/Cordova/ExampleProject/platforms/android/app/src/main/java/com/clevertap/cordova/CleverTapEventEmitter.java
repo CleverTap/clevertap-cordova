@@ -23,7 +23,9 @@ public class CleverTapEventEmitter {
             return;
         }
 
-        cordovaWebView.loadUrl("javascript:cordova.fireDocumentEvent('" + event + "'," + json + ");");
         Log.i(LOG_TAG, "Sending event " + event);
+        cordovaWebView
+                .getView()
+                .post(() -> cordovaWebView.loadUrl("javascript:cordova.fireDocumentEvent('" + event + "'," + json + ");"));
     }
 }
