@@ -1798,9 +1798,8 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             if (!haveError) {
                 final String finalTemplateName = templateName;
                 cordova.getThreadPool().execute(() -> {
-                    resolveWithTemplateContext(finalTemplateName, callbackContext, templateContext -> {
+                    resolveWithTemplateContext(finalTemplateName, callbackContext,false, templateContext -> {
                         templateContext.setDismissed();
-                        sendPluginResult(callbackContext, PluginResult.Status.OK);
                         return null;
                     });
                 });
@@ -1817,9 +1816,8 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             if (!haveError) {
                 final String finalTemplateName = templateName;
                 cordova.getThreadPool().execute(() -> {
-                    resolveWithTemplateContext(finalTemplateName, callbackContext, templateContext -> {
+                    resolveWithTemplateContext(finalTemplateName, callbackContext,false, templateContext -> {
                         templateContext.setPresented();
-                        sendPluginResult(callbackContext, PluginResult.Status.OK);
                         return null;
                     });
                 });
@@ -1840,10 +1838,9 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 final String finalArgName = argName;
 
                 cordova.getThreadPool().execute(() -> {
-                    resolveWithTemplateContext(finalTemplateName, callbackContext, customTemplateContext -> {
+                    resolveWithTemplateContext(finalTemplateName, callbackContext, false, customTemplateContext -> {
                         if (customTemplateContext instanceof CustomTemplateContext.TemplateContext) {
                             ((CustomTemplateContext.TemplateContext) customTemplateContext).triggerActionArgument(finalArgName, null);
-                            sendPluginResult(callbackContext, PluginResult.Status.OK);
                         }
                         return null;
                     });
@@ -1864,12 +1861,8 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 final String finalTemplateName = templateName;
                 final String finalArgName = argName;
                 cordova.getThreadPool().execute(() -> {
-                    resolveWithTemplateContext(finalTemplateName, callbackContext,
-                            templateContext -> {
-                                String stringArg = templateContext.getString(finalArgName);
-                                sendCustomTemplateGetArgResult(callbackContext, stringArg);
-                                return null;
-                            });
+                    resolveWithTemplateContext(finalTemplateName, callbackContext, true,
+                            templateContext -> templateContext.getString(finalArgName));
                 });
                 return true;
             }
@@ -1887,12 +1880,8 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 final String finalTemplateName = templateName;
                 final String finalArgName = argName;
                 cordova.getThreadPool().execute(() -> {
-                    resolveWithTemplateContext(finalTemplateName, callbackContext,
-                            templateContext -> {
-                                Double numberArg = templateContext.getDouble(finalArgName);
-                                sendCustomTemplateGetArgResult(callbackContext, numberArg);
-                                return null;
-                            });
+                    resolveWithTemplateContext(finalTemplateName, callbackContext,true,
+                            templateContext -> templateContext.getDouble(finalArgName));
                 });
                 return true;
             }
@@ -1910,12 +1899,8 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 final String finalTemplateName = templateName;
                 final String finalArgName = argName;
                 cordova.getThreadPool().execute(() -> {
-                    resolveWithTemplateContext(finalTemplateName, callbackContext,
-                            templateContext -> {
-                                Boolean booleanArg = templateContext.getBoolean(finalArgName);
-                                sendCustomTemplateGetArgResult(callbackContext, booleanArg);
-                                return null;
-                            });
+                    resolveWithTemplateContext(finalTemplateName, callbackContext, true,
+                            templateContext -> templateContext.getBoolean(finalArgName));
                 });
                 return true;
             }
@@ -1933,12 +1918,8 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 final String finalTemplateName = templateName;
                 final String finalArgName = argName;
                 cordova.getThreadPool().execute(() -> {
-                    resolveWithTemplateContext(finalTemplateName, callbackContext,
-                            templateContext -> {
-                                String fileArg = templateContext.getFile(finalArgName);
-                                sendCustomTemplateGetArgResult(callbackContext, fileArg);
-                                return null;
-                            });
+                    resolveWithTemplateContext(finalTemplateName, callbackContext,true,
+                            templateContext -> templateContext.getFile(finalArgName));
                 });
                 return true;
             }
@@ -1956,14 +1937,13 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 final String finalTemplateName = templateName;
                 final String finalArgName = argName;
                 cordova.getThreadPool().execute(() -> {
-                    resolveWithTemplateContext(finalTemplateName, callbackContext,
+                    resolveWithTemplateContext(finalTemplateName, callbackContext,true,
                             templateContext -> {
                                 Map<String, Object> mapArg = templateContext.getMap(finalArgName);
                                 JSONObject result = null;
                                 if(mapArg != null)
                                     result = new JSONObject(mapArg);
-                                sendCustomTemplateGetArgResult(callbackContext, result);
-                                return null;
+                                return result;
                             });
                 });
                 return true;
@@ -1979,7 +1959,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             if (!haveError) {
                 final String finalTemplateName = templateName;
                 cordova.getThreadPool().execute(() -> {
-                    resolveWithTemplateContext(finalTemplateName, callbackContext,
+                    resolveWithTemplateContext(finalTemplateName, callbackContext, true,
                             templateContext -> {
                                 String result = templateContext.toString();
                                 sendPluginResult(callbackContext, PluginResult.Status.OK, result);
@@ -2006,7 +1986,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         return jsonVariables;
     }
 
-    private void sendCustomTemplateGetArgResult(CallbackContext callbackContext, Object arg) {
+    private void sendCustomTemplateArgResult(CallbackContext callbackContext, Object arg) {
         if(arg != null)
             sendPluginResult(callbackContext, PluginResult.Status.OK, arg);
         else
@@ -2617,12 +2597,24 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         }
     }
 
-    private void resolveWithTemplateContext(String templateName, final CallbackContext callbackContext, TemplateContextAction action) {
+
+    private void resolveWithTemplateContext(
+            String templateName,
+            final CallbackContext callbackContext,
+            boolean hasResultValue,
+            TemplateContextAction action) {
+
         CustomTemplateContext templateContext = cleverTap.getActiveContextForTemplate(templateName);
-        if (templateContext != null) {
-            action.execute(templateContext);
+        if (templateContext == null) {
+            sendPluginResult(callbackContext, PluginResult.Status.ERROR, "Custom template: " + templateName + " is not currently being presented");
+            return;
+        }
+        Object result = action.execute(templateContext);
+
+        if (hasResultValue) {
+            sendCustomTemplateArgResult(callbackContext, result);
         } else {
-            sendPluginResult(callbackContext, PluginResult.Status.ERROR,"Custom template: " + templateName + " is not currently being presented");
+            sendPluginResult(callbackContext, PluginResult.Status.OK);
         }
     }
 
