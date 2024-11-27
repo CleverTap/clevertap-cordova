@@ -55,9 +55,21 @@
                     Arguments
                 </p>
 
-                <!-- Input fields -->
-                <input type="text" id="templateFileArgInput" placeholder="File Arg Name" />
-                <button class="action-button" id="openTemplateFileBtn">Print File</button>
+                <div class="form-row">
+                    <div class="dropdown-container">
+                        <select id="typeSelector" onchange="onTypeChange()">
+                            <option value="string">String</option>
+                            <option value="number">Number</option>
+                            <option value="object">Object</option>
+                            <option value="boolean">Boolean</option>
+                            <option value="file">File</option>
+                        </select>
+                    </div>
+                    <div class="input-container">
+                        <input type="text" id="templateArgInput" placeholder="Arg Name" />
+                    </div>
+                </div>
+                <button class="action-button" id="printTemplateArgBtn">Print Arg</button>
 
                 <input type="text" id="actionArgInput" placeholder="Action Arg name" />
                 <button class="action-button" id="triggerActionBtn">Trigger Action</button>
