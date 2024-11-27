@@ -1,37 +1,54 @@
-// Show the modal
 let currentTemplateName = null;
-function showModal(title, description, isFunction) {
+let currentFunctionName = null;
+function showTemplateModal(title, description) {
   currentTemplateName = title;
   document.getElementById('modalTitle').innerText = title;
   document.getElementById('modalDescription').innerText = description;
-  document.getElementById('popupModal').style.display = 'block';
+  document.getElementById('templatePopupModal').style.display = 'block';
 
-  if (!isFunction) {
-    actionArgInput.style.display = 'block';  // Show the input
-    triggerActionBtn.style.display = 'block'; // Show the button
-  } else {
-    actionArgInput.style.display = 'none';   // Hide the input
-    triggerActionBtn.style.display = 'none'; // Hide the button
-  }
+  actionArgInput.style.display = 'block';
+  triggerActionBtn.style.display = 'block';
+}
+
+function showFunctionModal(title, description) {
+  currentFunctionName = title;
+  document.getElementById('functionModalTitle').innerText = title;
+  document.getElementById('functionModalDescription').innerText = description;
+  document.getElementById('functionPopupModal').style.display = 'block';
 }
 
 // Hide the modal
-function dismissModal() {
-    CleverTap.customTemplateSetDismissed(currentTemplateName);
-  document.getElementById('popupModal').style.display = 'none';
+function dismissTemplateModal() {
+  CleverTap.customTemplateSetDismissed(currentTemplateName);
+  document.getElementById('templatePopupModal').style.display = 'none';
+}
+
+function closeFunctionModal() {
+  console.log(currentFunctionName);
+  CleverTap.customTemplateSetDismissed(currentFunctionName);
+  document.getElementById('functionPopupModal').style.display = 'none';
 }
 
 // Event Listeners
-document.getElementById('dismissBtn').addEventListener('click', dismissModal);
+document.getElementById('templateDismissBtn').addEventListener('click', dismissTemplateModal);
+document.getElementById('functionCloseBtn').addEventListener('click', closeFunctionModal);
+
 document.getElementById('setPresentedBtn').addEventListener('click', () => {
   CleverTap.customTemplateSetPresented(currentTemplateName);
 });
 
-document.getElementById('openFileBtn').addEventListener('click', () => {
-   const fileName = document.getElementById('fileArgInput').value;
+document.getElementById('openTemplateFileBtn').addEventListener('click', () => {
+   const fileName = document.getElementById('templateFileArgInput').value;
    CleverTap.customTemplateGetFileArg(currentTemplateName, fileName).then((filePath) => {
-   console.log(filePath);
+    showToast(filePath);
   });
+});
+
+document.getElementById('openFunctionFileBtn').addEventListener('click', () => {
+  const fileName = document.getElementById('functionFileArgInput').value;
+  CleverTap.customTemplateGetFileArg(currentFunctionName, fileName).then((filePath) => {
+    showToast(filePath);
+ });
 });
 
 document.getElementById('triggerActionBtn').addEventListener('click', () => {
@@ -44,17 +61,17 @@ document.addEventListener(
     param => {
         CleverTap.customTemplateContextToString(param.name).then((str) => {
             let description = `Arguments for "${param.name}":${str}`;
-            showModal(param.name, description, false)
+            showTemplateModal(param.name, description)
         })
     }
 );
 
 document.addEventListener(
-    'CleverTapCustomFunctionPresent',
-    param => {
-        CleverTap.customTemplateContextToString(param.name).then((str) => {
-            let description = `Arguments for "${param.name}":${str}`;
-            showModal(param.name, description, true)
-        })
-    }
+  'CleverTapCustomFunctionPresent',
+  param => {
+      CleverTap.customTemplateContextToString(param.name).then((str) => {
+          let description = `Arguments for "${param.name}":${str}`;
+          showFunctionModal(param.name, description)
+      })
+  }
 );
