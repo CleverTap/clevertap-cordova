@@ -42,11 +42,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.lang.Exception;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Locale;
-import java.util.Date;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -135,7 +131,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                     Log.w(LOG_TAG, "Found malicious deep link. Not processing further.");
                     return;
                 }
-                final String json = "{'deeplink':'" + data.toString() + "'}";
+                final String json = "{'deeplink':'" + data + "'}";
 
                 cordova.getActivity().runOnUiThread(new Runnable() {
                     @Override
@@ -170,7 +166,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                     }
                 }
 
-                final String json = "{'notification':" + data.toString() + "}";
+                final String json = "{'notification':" + data + "}";
                 cordova.getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -179,7 +175,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 });
 
                 if (!callbackDone) {
-                    final String callbackJson = "{'customExtras':" + data.toString() + "}";
+                    final String callbackJson = "{'customExtras':" + data + "}";
 
                     webView.getView().post(new Runnable() {
                         public void run() {
@@ -1693,9 +1689,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 cordova.getThreadPool().execute(() -> {
                     try {
                         Object value = getVariableValue(finalVariableName);
-                        PluginResult _result = getPluginResult(Status.OK, value);
-                        _result.setKeepCallback(true);
-                        callbackContext.sendPluginResult(_result);
+                        sendPluginResult(callbackContext, Status.OK, value);
                     } catch (Exception e) {
                         sendPluginResult(callbackContext, PluginResult.Status.ERROR, e.getLocalizedMessage());
                     }
@@ -1881,7 +1875,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                     resolveWithTemplateContext(finalTemplateName, callbackContext,
                             templateContext -> {
                                 String stringArg = templateContext.getString(finalArgName);
-                                sendPluginResult(callbackContext, PluginResult.Status.OK, stringArg);
+                                sendCustomTemplateGetArgResult(callbackContext, stringArg);
                                 return null;
                             });
                 });
@@ -1904,7 +1898,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                     resolveWithTemplateContext(finalTemplateName, callbackContext,
                             templateContext -> {
                                 Double numberArg = templateContext.getDouble(finalArgName);
-                                sendPluginResult(callbackContext, PluginResult.Status.OK, numberArg);
+                                sendCustomTemplateGetArgResult(callbackContext, numberArg);
                                 return null;
                             });
                 });
@@ -1927,7 +1921,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                     resolveWithTemplateContext(finalTemplateName, callbackContext,
                             templateContext -> {
                                 Boolean booleanArg = templateContext.getBoolean(finalArgName);
-                                sendPluginResult(callbackContext, PluginResult.Status.OK, booleanArg);
+                                sendCustomTemplateGetArgResult(callbackContext, booleanArg);
                                 return null;
                             });
                 });
@@ -1950,7 +1944,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                     resolveWithTemplateContext(finalTemplateName, callbackContext,
                             templateContext -> {
                                 String fileArg = templateContext.getFile(finalArgName);
-                                sendPluginResult(callbackContext, PluginResult.Status.OK, fileArg);
+                                sendCustomTemplateGetArgResult(callbackContext, fileArg);
                                 return null;
                             });
                 });
@@ -1973,7 +1967,10 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                     resolveWithTemplateContext(finalTemplateName, callbackContext,
                             templateContext -> {
                                 Map<String, Object> mapArg = templateContext.getMap(finalArgName);
-                                sendPluginResult(callbackContext, PluginResult.Status.OK, new JSONObject(mapArg));
+                                JSONObject result = null;
+                                if(mapArg != null)
+                                    result = new JSONObject(mapArg);
+                                sendCustomTemplateGetArgResult(callbackContext, result);
                                 return null;
                             });
                 });
@@ -2017,23 +2014,30 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         return jsonVariables;
     }
 
+    private void sendCustomTemplateGetArgResult(CallbackContext callbackContext, Object arg) {
+        if(arg != null)
+            sendPluginResult(callbackContext, PluginResult.Status.OK, arg);
+        else
+            sendPluginResult(callbackContext, Status.ERROR,  "Argument not found");
+    }
+
     @NonNull
-    private PluginResult getPluginResult(final Status ok, final Object value) {
+    private PluginResult getPluginResult(final Status status, final Object value) {
         PluginResult _result;
         if (value instanceof Boolean) {
-            _result  = new PluginResult(ok, (Boolean) value);
+            _result  = new PluginResult(status, (Boolean) value);
         } else if (value instanceof Double) {
-            _result  = new PluginResult(ok, ((Double) value).floatValue());
+            _result  = new PluginResult(status, ((Double) value).floatValue());
         } else if (value instanceof Float) {
-            _result  = new PluginResult(ok, (Float) value);
+            _result  = new PluginResult(status, (Float) value);
         } else if (value instanceof Integer) {
-            _result  = new PluginResult(ok, (Integer) value);
+            _result  = new PluginResult(status, (Integer) value);
         } else if (value instanceof Long) {
-            _result  = new PluginResult(ok, ((Long) value).intValue());
+            _result  = new PluginResult(status, ((Long) value).intValue());
         } else if (value instanceof String) {
-            _result  = new PluginResult(ok, (String) value);
+            _result  = new PluginResult(status, (String) value);
         } else if (value instanceof JSONObject) {
-            _result  = new PluginResult(ok, (JSONObject) value);
+            _result  = new PluginResult(status, (JSONObject) value);
         } else {
             _result  = new PluginResult(PluginResult.Status.ERROR, "unknown value type");
         }
