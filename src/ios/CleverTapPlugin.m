@@ -1855,19 +1855,21 @@ static NSMutableDictionary *allVariables;
                            success:(void (^)(id result))success
                            failure:(void (^)(NSString *errorMessage))failure
                              block:(id (^)(CTTemplateContext *context))blockName {
-    if (!clevertap) {
-        failure(@"CleverTap is not initialized");
-        return;
-    }
-
-    CTTemplateContext *context = [clevertap activeContextForTemplate:templateName];
-    if (!context) {
-        NSString *errorMessage = [NSString stringWithFormat:@"Custom template: %@ is not currently being presented", templateName];
-        failure(errorMessage);
-        return;
-    }
-
-    success(blockName(context));
+    [self.commandDelegate runInBackground:^{
+        if (!clevertap) {
+            failure(@"CleverTap is not initialized");
+            return;
+        }
+        
+        CTTemplateContext *context = [clevertap activeContextForTemplate:templateName];
+        if (!context) {
+            NSString *errorMessage = [NSString stringWithFormat:@"Custom template: %@ is not currently being presented", templateName];
+            failure(errorMessage);
+            return;
+        }
+        
+        success(blockName(context));
+    }];
 }
 
 - (void)sendPluginResult:(id)result withCommand:(CDVInvokedUrlCommand *)command {
