@@ -79,6 +79,11 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
     private boolean callbackDone = false;
     public static Map<String, Object> variables = new HashMap<>();
 
+    @Override
+    public void onDestroy() {
+        CleverTapEventEmitter.setCordovaWebView(null);
+        super.onDestroy();
+    }
 
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
