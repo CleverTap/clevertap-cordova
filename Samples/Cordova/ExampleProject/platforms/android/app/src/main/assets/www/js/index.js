@@ -113,7 +113,9 @@ function setupButtons() {
      ],
 
         ["title","Events"],
-        ["record Event With Name", () => CleverTap.recordEventWithName("foo")],
+        ["record Event With Name", () => {
+            let eventName = prompt("Please enter name of event")
+            CleverTap.recordEventWithName(eventName)}],
         ["set Locale", () => CleverTap.setLocale("en_IN")],
         ["record Event With NameAndProps", () => CleverTap.recordEventWithNameAndProps("boo", {"bar": "zoo"})],
         ["record Charged Event With Details And Items", () => CleverTap.recordChargedEventWithDetailsAndItems({
@@ -124,7 +126,10 @@ function setupButtons() {
 
 
         ["title","User Profile"],
-        ["profile Set", () => CleverTap.profileSet({"Identity": 20701, "DOB": "2015-10-15", "custom": 1.3, "stringAttr1":"Change for UAT"})],
+        ["profile Set", () => {
+            let key = prompt("Please enter key", "stringAttr1");
+            let value = prompt("Please enter value for " + key, "newValue");
+            CleverTap.profileSet({"Identity": 20701, "DOB": "1951-10-15", "custom": 1.3, [key]: value})}],
         ["profile SetMultiValues", () => CleverTap.profileSetMultiValues("multiValue", ["one", "two", "three", "four"])],
         ["profile getLocation/setLocation", () => CleverTap.getLocation(loc => {
             log("CleverTapLocation is " + loc.lat + loc.lon)
