@@ -132,14 +132,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                     return;
                 }
                 final String json = "{'deeplink':'" + data + "'}";
-
-                cordova.getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        CleverTapEventEmitter.sendEvent("onDeepLink", json);
-                    }
-                });
-
+                CleverTapEventEmitter.sendEvent("onDeepLink", json);
             }
         }
         // push notification
@@ -167,12 +160,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 }
 
                 final String json = "{'notification':" + data + "}";
-                cordova.getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        CleverTapEventEmitter.sendEvent("onPushNotification", json);
-                    }
-                });
+                CleverTapEventEmitter.sendEvent("onPushNotification", json);
 
                 if (!callbackDone) {
                     final String callbackJson = "{'customExtras':" + data.toString() + "}";
