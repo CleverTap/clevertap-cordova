@@ -190,7 +190,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                     ActivityLifecycleCallback.register(cordova.getActivity().getApplication());
                     CleverTapAPI.setAppForeground(true);
                     CleverTapAPI.onActivityResumed(cordova.getActivity());
-                    sendPluginResult(callbackContext, PluginResult.Status.NO_RESULT);
+                    sendPluginResult(callbackContext, Status.NO_RESULT);
                 }
             });
 
@@ -199,14 +199,14 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
         // not required for Android here but handle as its in the JS interface
         else if (action.equals("registerPush")) {
-            sendPluginResult(callbackContext, PluginResult.Status.NO_RESULT);
+            sendPluginResult(callbackContext, Status.NO_RESULT);
             return true;
         } else if (action.equals("setPushTokenAsString")) {
             final String token = args.getString(0);
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
                     cleverTap.pushFcmRegistrationId(token, true);
-                    sendPluginResult(callbackContext, PluginResult.Status.NO_RESULT);
+                    sendPluginResult(callbackContext, Status.NO_RESULT);
                 }
             });
             return true;
@@ -215,7 +215,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
                     cleverTap.pushBaiduRegistrationId(token, true);
-                    sendPluginResult(callbackContext, PluginResult.Status.NO_RESULT);
+                    sendPluginResult(callbackContext, Status.NO_RESULT);
                 }
             });
             return true;
@@ -224,7 +224,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
                     cleverTap.pushHuaweiRegistrationId(token, true);
-                    sendPluginResult(callbackContext, PluginResult.Status.NO_RESULT);
+                    sendPluginResult(callbackContext, Status.NO_RESULT);
                 }
             });
             return true;
@@ -240,7 +240,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
                     cleverTap.createNotification(cordova.getActivity().getApplicationContext(), bundle);
-                    sendPluginResult(callbackContext, PluginResult.Status.NO_RESULT);
+                    sendPluginResult(callbackContext, Status.NO_RESULT);
                 }
             });
             return true;
@@ -256,7 +256,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
                     cleverTap.createNotificationChannel(cordova.getActivity().getApplicationContext(), channelId, channelName, channelDescription, importance, showBadge);
-                    sendPluginResult(callbackContext, PluginResult.Status.NO_RESULT);
+                    sendPluginResult(callbackContext, Status.NO_RESULT);
                 }
             });
             return true;
@@ -270,7 +270,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
                     cleverTap.createNotificationChannel(cordova.getActivity().getApplicationContext(), channelId, channelName, channelDescription, importance, showBadge, sound);
-                    sendPluginResult(callbackContext, PluginResult.Status.NO_RESULT);
+                    sendPluginResult(callbackContext, Status.NO_RESULT);
                 }
             });
             return true;
@@ -284,7 +284,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
                     cleverTap.createNotificationChannel(cordova.getActivity().getApplicationContext(), channelId, channelName, channelDescription, importance, groupId, showBadge);
-                    sendPluginResult(callbackContext, PluginResult.Status.NO_RESULT);
+                    sendPluginResult(callbackContext, Status.NO_RESULT);
                 }
             });
             return true;
@@ -299,7 +299,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
                     cleverTap.createNotificationChannel(cordova.getActivity().getApplicationContext(), channelId, channelName, channelDescription, importance, groupId, showBadge, sound);
-                    sendPluginResult(callbackContext, PluginResult.Status.NO_RESULT);
+                    sendPluginResult(callbackContext, Status.NO_RESULT);
                 }
             });
             return true;
@@ -309,7 +309,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
                     cleverTap.createNotificationChannelGroup(cordova.getActivity().getApplicationContext(), groupId, groupName);
-                    sendPluginResult(callbackContext, PluginResult.Status.NO_RESULT);
+                    sendPluginResult(callbackContext, Status.NO_RESULT);
                 }
             });
             return true;
@@ -318,7 +318,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
                     cleverTap.deleteNotificationChannel(cordova.getActivity().getApplicationContext(), channelId);
-                    sendPluginResult(callbackContext, PluginResult.Status.NO_RESULT);
+                    sendPluginResult(callbackContext, Status.NO_RESULT);
                 }
             });
             return true;
@@ -327,7 +327,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
                     cleverTap.deleteNotificationChannelGroup(cordova.getActivity().getApplicationContext(), groupId);
-                    sendPluginResult(callbackContext, PluginResult.Status.NO_RESULT);
+                    sendPluginResult(callbackContext, Status.NO_RESULT);
                 }
             });
             return true;
@@ -339,7 +339,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
                     cleverTap.recordScreen(screen);
-                    sendPluginResult(callbackContext, PluginResult.Status.NO_RESULT);
+                    sendPluginResult(callbackContext, Status.NO_RESULT);
                 }
             });
             return true;
@@ -347,7 +347,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             int level = (args.length() == 1 ? args.getInt(0) : -2);
             if (level >= -1) {
                 CleverTapAPI.setDebugLevel(level);
-                sendPluginResult(callbackContext, PluginResult.Status.NO_RESULT);
+                sendPluginResult(callbackContext, Status.NO_RESULT);
                 return true;
             }
 
@@ -359,7 +359,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
                     cleverTap.setOptOut(value);
-                    sendPluginResult(callbackContext, PluginResult.Status.NO_RESULT);
+                    sendPluginResult(callbackContext, Status.NO_RESULT);
                 }
             });
             return true;
@@ -370,7 +370,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
                     cleverTap.setOffline(value);
-                    sendPluginResult(callbackContext, PluginResult.Status.NO_RESULT);
+                    sendPluginResult(callbackContext, Status.NO_RESULT);
                 }
             });
             return true;
@@ -382,7 +382,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
                     cleverTap.enableDeviceNetworkInfoReporting(value);
-                    sendPluginResult(callbackContext, PluginResult.Status.NO_RESULT);
+                    sendPluginResult(callbackContext, Status.NO_RESULT);
                 }
             });
             return true;
@@ -390,7 +390,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
                     cleverTap.enablePersonalization();
-                    sendPluginResult(callbackContext, PluginResult.Status.NO_RESULT);
+                    sendPluginResult(callbackContext, Status.NO_RESULT);
                 }
             });
             return true;
@@ -399,7 +399,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
                     cleverTap.disablePersonalization();
-                    sendPluginResult(callbackContext, PluginResult.Status.NO_RESULT);
+                    sendPluginResult(callbackContext, Status.NO_RESULT);
                 }
             });
             return true;
@@ -663,7 +663,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                             JSONObject jsonLoc = new JSONObject();
                             jsonLoc.put("lat", location.getLatitude());
                             jsonLoc.put("lon", location.getLongitude());
-                            sendPluginResult(callbackContext, PluginResult.Status.OK, jsonLoc);
+                            sendPluginResult(callbackContext, Status.OK, jsonLoc);
                             return;
                         }
                     } catch (Throwable t) {
@@ -1132,7 +1132,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
 
                     } catch (JSONException e) {
-                        sendPluginResult(callbackContext, PluginResult.Status.ERROR, e.getLocalizedMessage());
+                        sendPluginResult(callbackContext, Status.ERROR, e.getLocalizedMessage());
                     }
                 }
             });
@@ -1143,7 +1143,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
                     cleverTap.initializeInbox();
-                    sendPluginResult(callbackContext, PluginResult.Status.NO_RESULT);
+                    sendPluginResult(callbackContext, Status.NO_RESULT);
                 }
             });
         } else if (action.equals("showInbox")) {
@@ -1159,7 +1159,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                         cleverTap.showAppInbox(styleConfig);
                         sendPluginResult(callbackContext, Status.NO_RESULT);
                     } catch (JSONException e) {
-                        sendPluginResult(callbackContext, PluginResult.Status.ERROR, e.getLocalizedMessage());
+                        sendPluginResult(callbackContext, Status.ERROR, e.getLocalizedMessage());
                     }
                 }
             });
@@ -1225,7 +1225,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
                     cleverTap.deleteInboxMessage(messageId);
-                    sendPluginResult(callbackContext, PluginResult.Status.NO_RESULT);
+                    sendPluginResult(callbackContext, Status.NO_RESULT);
                 }
             });
             return true;
@@ -1235,7 +1235,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
                     cleverTap.markReadInboxMessage(messageId);
-                    sendPluginResult(callbackContext, PluginResult.Status.NO_RESULT);
+                    sendPluginResult(callbackContext, Status.NO_RESULT);
                 }
             });
             return true;
@@ -1253,11 +1253,11 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                     try {
                         cleverTap.markReadInboxMessagesForIDs((ArrayList<String>) toStringList(finalJsonArray));
 
-                        sendPluginResult(callbackContext, PluginResult.Status.NO_RESULT);
+                        sendPluginResult(callbackContext, Status.NO_RESULT);
 
 
                     } catch (Exception e) {
-                        sendPluginResult(callbackContext, PluginResult.Status.ERROR, e.getLocalizedMessage());
+                        sendPluginResult(callbackContext, Status.ERROR, e.getLocalizedMessage());
 
 
                     }
@@ -1277,12 +1277,9 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 cordova.getThreadPool().execute(() -> {
                     try {
                         cleverTap.deleteInboxMessagesForIDs((ArrayList<String>) toStringList(finalJsonArray));
-
-                        sendPluginResult(callbackContext, PluginResult.Status.NO_RESULT);
+                        sendPluginResult(callbackContext, Status.NO_RESULT);
                     } catch (Exception e) {
-                        sendPluginResult(callbackContext, PluginResult.Status.ERROR, e.getLocalizedMessage());
-                        sendPluginResult(callbackContext, PluginResult.Status.ERROR, e.getLocalizedMessage());
-
+                        sendPluginResult(callbackContext, Status.ERROR, e.getLocalizedMessage());
                     }
                 });
                 return true;
@@ -1291,7 +1288,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
                     cleverTap.dismissAppInbox();
-                    sendPluginResult(callbackContext, PluginResult.Status.NO_RESULT);
+                    sendPluginResult(callbackContext, Status.NO_RESULT);
                 }
             });
         } else if (action.equals("pushInboxNotificationViewedEventForId")) {
@@ -1300,7 +1297,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
                     cleverTap.pushInboxNotificationViewedEvent(messageId);
-                    sendPluginResult(callbackContext, PluginResult.Status.NO_RESULT);
+                    sendPluginResult(callbackContext, Status.NO_RESULT);
                 }
             });
             return true;
@@ -1310,7 +1307,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
                     cleverTap.pushInboxNotificationClickedEvent(messageId);
-                    sendPluginResult(callbackContext, PluginResult.Status.NO_RESULT);
+                    sendPluginResult(callbackContext, Status.NO_RESULT);
                 }
             });
             return true;
@@ -1320,8 +1317,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                     try {
                         ArrayList<CleverTapDisplayUnit> displayUnits = cleverTap.getAllDisplayUnits();
                         sendPluginResult(callbackContext, Status.OK, displayUnitListToJSONArray(displayUnits));
-
-
+                        
                     } catch (JSONException e) {
                         sendPluginResult(callbackContext, Status.ERROR);
                     }
@@ -1348,7 +1344,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
                     cleverTap.pushDisplayUnitViewedEventForID(unitId);
-                    sendPluginResult(callbackContext, PluginResult.Status.NO_RESULT);
+                    sendPluginResult(callbackContext, Status.NO_RESULT);
                 }
             });
             return true;
@@ -1358,7 +1354,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
                     cleverTap.pushDisplayUnitClickedEventForID(unitId);
-                    sendPluginResult(callbackContext, PluginResult.Status.NO_RESULT);
+                    sendPluginResult(callbackContext, Status.NO_RESULT);
                 }
             });
             return true;
@@ -1412,7 +1408,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
                     cleverTap.productConfig().fetch();
-                    sendPluginResult(callbackContext, PluginResult.Status.NO_RESULT);
+                    sendPluginResult(callbackContext, Status.NO_RESULT);
                 }
             });
             return true;
@@ -1421,7 +1417,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
                     cleverTap.productConfig().fetch(interval);
-                    sendPluginResult(callbackContext, PluginResult.Status.NO_RESULT);
+                    sendPluginResult(callbackContext, Status.NO_RESULT);
                 }
             });
             return true;
@@ -1429,7 +1425,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
                     cleverTap.productConfig().activate();
-                    sendPluginResult(callbackContext, PluginResult.Status.NO_RESULT);
+                    sendPluginResult(callbackContext, Status.NO_RESULT);
                 }
             });
             return true;
@@ -1437,7 +1433,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
                     cleverTap.productConfig().activate();
-                    sendPluginResult(callbackContext, PluginResult.Status.NO_RESULT);
+                    sendPluginResult(callbackContext, Status.NO_RESULT);
                 }
             });
             return true;
@@ -1446,7 +1442,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
                     cleverTap.productConfig().setMinimumFetchIntervalInSeconds(interval);
-                    sendPluginResult(callbackContext, PluginResult.Status.NO_RESULT);
+                    sendPluginResult(callbackContext, Status.NO_RESULT);
                 }
             });
             return true;
@@ -1499,7 +1495,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
                     cleverTap.productConfig().reset();
-                    sendPluginResult(callbackContext, PluginResult.Status.NO_RESULT);
+                    sendPluginResult(callbackContext, Status.NO_RESULT);
                 }
             });
             return true;
@@ -1507,7 +1503,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
                     cleverTap.suspendInAppNotifications();
-                    sendPluginResult(callbackContext, PluginResult.Status.NO_RESULT);
+                    sendPluginResult(callbackContext, Status.NO_RESULT);
                 }
             });
             return true;
@@ -1515,7 +1511,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
                     cleverTap.discardInAppNotifications();
-                    sendPluginResult(callbackContext, PluginResult.Status.NO_RESULT);
+                    sendPluginResult(callbackContext, Status.NO_RESULT);
                 }
             });
             return true;
@@ -1523,7 +1519,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
                     cleverTap.resumeInAppNotifications();
-                    sendPluginResult(callbackContext, PluginResult.Status.NO_RESULT);
+                    sendPluginResult(callbackContext, Status.NO_RESULT);
                 }
             });
             return true;
@@ -1595,7 +1591,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
                     cleverTap.setCustomSdkVersion(libName,libVersion);
-                    sendPluginResult(callbackContext, PluginResult.Status.NO_RESULT);
+                    sendPluginResult(callbackContext, Status.NO_RESULT);
                 }
             });
             return true;
@@ -1603,7 +1599,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
                     cleverTap.syncVariables();
-                    sendPluginResult(callbackContext, PluginResult.Status.NO_RESULT);
+                    sendPluginResult(callbackContext, Status.NO_RESULT);
                 }
             });
             return true;
@@ -1611,7 +1607,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
                     Log.d(LOG_TAG, "syncVariablesinProd is no-op in Android");
-                    sendPluginResult(callbackContext, PluginResult.Status.NO_RESULT);
+                    sendPluginResult(callbackContext, Status.NO_RESULT);
                 }
             });
             return true;
@@ -1650,7 +1646,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                         Object value = entry.getValue();
                         variables.put(key, cleverTap.defineVariable(key, value));
                     }
-                    sendPluginResult(callbackContext, PluginResult.Status.NO_RESULT);
+                    sendPluginResult(callbackContext, Status.NO_RESULT);
                 });
                 return true;
             }
@@ -1671,7 +1667,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                         Object value = getVariableValue(finalVariableName);
                         sendPluginResult(callbackContext, Status.OK, value);
                     } catch (Exception e) {
-                        sendPluginResult(callbackContext, PluginResult.Status.ERROR, e.getLocalizedMessage());
+                        sendPluginResult(callbackContext, Status.ERROR, e.getLocalizedMessage());
                     }
                 });
                 return true;
@@ -1719,7 +1715,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                             });
                         }
                     } catch (Exception e) {
-                        sendPluginResult(callbackContext, PluginResult.Status.ERROR, e.getLocalizedMessage());
+                        sendPluginResult(callbackContext, Status.ERROR, e.getLocalizedMessage());
                     }
                 });
                 return true;
@@ -1950,7 +1946,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                     resolveWithTemplateContext(finalTemplateName, callbackContext, true,
                             templateContext -> {
                                 String result = templateContext.toString();
-                                sendPluginResult(callbackContext, PluginResult.Status.OK, result);
+                                sendPluginResult(callbackContext, Status.OK, result);
                                 return null;
                             });
                 });
@@ -1976,7 +1972,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void sendCustomTemplateArgResult(CallbackContext callbackContext, Object arg) {
         if(arg != null)
-            sendPluginResult(callbackContext, PluginResult.Status.OK, arg);
+            sendPluginResult(callbackContext, Status.OK, arg);
         else
             sendPluginResult(callbackContext, Status.ERROR,  "Argument not found");
     }
@@ -1999,7 +1995,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         } else if (value instanceof JSONObject) {
             result  = new PluginResult(status, (JSONObject) value);
         } else {
-            result  = new PluginResult(PluginResult.Status.ERROR, "unknown value type");
+            result  = new PluginResult(Status.ERROR, "unknown value type");
         }
 
         return result;
@@ -2594,7 +2590,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
         CustomTemplateContext templateContext = cleverTap.getActiveContextForTemplate(templateName);
         if (templateContext == null) {
-            sendPluginResult(callbackContext, PluginResult.Status.ERROR, "Custom template: " + templateName + " is not currently being presented");
+            sendPluginResult(callbackContext, Status.ERROR, "Custom template: " + templateName + " is not currently being presented");
             return;
         }
         Object result = action.execute(templateContext);
@@ -2602,7 +2598,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         if (hasResultValue) {
             sendCustomTemplateArgResult(callbackContext, result);
         } else {
-            sendPluginResult(callbackContext, PluginResult.Status.OK);
+            sendPluginResult(callbackContext, Status.OK);
         }
     }
 
