@@ -17,6 +17,7 @@
     <allow-intent href="geo:*" />
     <platform name="android">
         <allow-intent href="market:*" />
+        <resource-file src="assets/templates.json" target="app/src/main/assets/templates.json" />
         <preference name="AndroidWindowSplashScreenAnimatedIcon" value="res/screen/android/splashscreen.xml" />
     </platform>
     <platform name="ios">
