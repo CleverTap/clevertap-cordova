@@ -189,21 +189,18 @@ Applications should also subscribe to `CleverTap.CleverTapCustomTemplateClose` w
 ### Example
 
 ```js
-CleverTap.addListener(CleverTap.CleverTapCustomTemplatePresent, templateName => {
-    // show the UI for the template and call customTemplateSetDismissed when it is closed
-    showTemplateUi({
-        template: templateName,
-        onClose: ()=> {
-            CleverTap.customTemplateSetDismissed(templateName);
-        }
-    });
-    // call customTemplateSetPresented when the UI has become visible to the user
-   CleverTap.customTemplateSetPresented(templateName);
+document.addEventListener("CleverTapCustomTemplatePresent", (param) => {
+  CleverTap.customTemplateContextToString(param.name).then((str) => {
+    let description = `Arguments for "${param.name}":${str}`;
+    showTemplateModal(param.name, description);
+  });
 });
 
-CleverTap.addListener(CleverTap.CleverTapCustomTemplateClose, templateName => {
-    // close the corresponding UI before calling customTemplateSetDismissed
-    CleverTap.customTemplateSetDismissed(templateName);
+document.addEventListener("CleverTapCustomTemplateClose", (param) => {
+  CleverTap.customTemplateContextToString(param.name).then((str) => {
+    let description = `Arguments for "${param.name}":${str}`;
+    showTemplateModal(param.name, description);
+  });
 });
 ```
 
