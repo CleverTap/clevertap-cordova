@@ -41,15 +41,15 @@
               "count": 1
             },
             {
-              "xml": "<meta-data android:name=\"CLEVERTAP_ACCOUNT_ID\" android:value=\"TEST-4RW-944-876Z\" />",
+              "xml": "<meta-data android:name=\"CLEVERTAP_ACCOUNT_ID\" android:value=\"ACCT ID\" />",
               "count": 1
             },
             {
-              "xml": "<meta-data android:name=\"CLEVERTAP_TOKEN\" android:value=\"TEST-44c-024\" />",
+              "xml": "<meta-data android:name=\"CLEVERTAP_TOKEN\" android:value=\"ACCT TOKEN\" />",
               "count": 1
             },
             {
-              "xml": "<meta-data android:name=\"CLEVERTAP_REGION\" android:value=\"eu1\" />",
+              "xml": "<meta-data android:name=\"CLEVERTAP_REGION\" android:value=\"Region\" />",
               "count": 1
             },
             {
