@@ -1655,6 +1655,35 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 });
                 return true;
             }
+        } else if (action.equals("defineFileVariables")) {
+            List<String> fileVariablesList = null;
+            if (args.length() == 1) {
+                if (!args.isNull(0)) {
+                    try {
+                        fileVariablesList = toStringList(args.getJSONArray(0));
+                    } catch (Exception e) {
+                        haveError = true;
+                        errorMsg = e.getLocalizedMessage();
+                    }
+                } else {
+                    haveError = true;
+                    errorMsg = "object passed to defineFileVariables can not be null!";
+                }
+            } else {
+                haveError = true;
+                errorMsg = "Expected 1 argument";
+            }
+
+            if (!haveError) {
+                final List<String> finalVariablesJsonObject = fileVariablesList;
+                cordova.getThreadPool().execute(() -> {
+                    for (String variable : finalVariablesJsonObject) {
+                        variables.put(variable, cleverTap.defineFileVariable(variable));
+                    }
+                    sendPluginResult(callbackContext, Status.NO_RESULT);
+                });
+                return true;
+            }
         } else if (action.equals("getVariable")) {
             String variableName = null;
 
@@ -1694,6 +1723,17 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 });
             });
             return true;
+        } else if (action.equals("onOneTimeVariablesChanged")) {
+            cordova.getThreadPool().execute(() -> {
+                cleverTap.addOneTimeVariablesChangedCallback(new VariablesChangedCallback() {
+                    @Override
+                    public void variablesChanged() {
+                        JSONObject jsonVariables = getVariablesAsJson();
+                        sendPluginResult(callbackContext, Status.OK, jsonVariables);
+                    }
+                });
+            });
+            return true;
         } else if (action.equals("onValueChanged")) {
 
             String variableName = null;
@@ -1725,6 +1765,60 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 });
                 return true;
             }
+        } else if (action.equals("onFileValueChanged")) {
+
+            String variableName = null;
+
+            if (args.length() == 1) {
+                variableName = args.getString(0);
+            } else {
+                haveError = true;
+                errorMsg = "Expected 1 argument";
+            }
+
+            if (!haveError) {
+                final String finalVariableName = variableName;
+                cordova.getThreadPool().execute(() -> {
+                    try {
+                        if (variables.containsKey(finalVariableName)) {
+                            Var<Object> variable = (Var<Object>) variables.get(finalVariableName);
+                            variable.addFileReadyHandler(new VariableCallback<Object>() {
+                                @Override
+                                public void onValueChanged(final Var<Object> variable) {
+                                    Object value = getVariableValue(finalVariableName);
+                                    sendPluginResult(callbackContext, Status.OK, value);
+                                }
+                            });
+                        }
+                    } catch (Exception e) {
+                        sendPluginResult(callbackContext, Status.ERROR, e.getLocalizedMessage());
+                    }
+                });
+                return true;
+            }
+        } else if (action.equals("onVariablesChangedAndNoDownloadsPending")) {
+            cordova.getThreadPool().execute(() -> {
+                cleverTap.onVariablesChangedAndNoDownloadsPending(new VariablesChangedCallback() {
+                    @Override
+                    public void variablesChanged() {
+                        JSONObject jsonVariables = getVariablesAsJson();
+                        sendPluginResult(callbackContext, Status.OK, jsonVariables);
+                    }
+                });
+            });
+            return true;
+        }
+        else if (action.equals("onceVariablesChangedAndNoDownloadsPending")) {
+            cordova.getThreadPool().execute(() -> {
+                cleverTap.onceVariablesChangedAndNoDownloadsPending(new VariablesChangedCallback() {
+                    @Override
+                    public void variablesChanged() {
+                        JSONObject jsonVariables = getVariablesAsJson();
+                        sendPluginResult(callbackContext, Status.OK, jsonVariables);
+                    }
+                });
+            });
+            return true;
         } else if (action.equals("setLocale")) {
             String variableName = null;
             if(args.length() == 1) {
