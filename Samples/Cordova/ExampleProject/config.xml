@@ -18,6 +18,7 @@
     <platform name="android">
         <allow-intent href="market:*" />
         <resource-file src="assets/templates.json" target="app/src/main/assets/templates.json" />
+        <resource-file src="assets/logo.png" target="app/src/main/assets/www/img/logo.png" />
         <preference name="AndroidWindowSplashScreenAnimatedIcon" value="res/screen/android/splashscreen.xml" />
     </platform>
     <platform name="ios">
