@@ -1785,6 +1785,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                             variable.addFileReadyHandler(new VariableCallback<Object>() {
                                 @Override
                                 public void onValueChanged(final Var<Object> variable) {
+                                    Object value = getVariableValue(finalVariableName);
                                     sendPluginResult(callbackContext, Status.OK, value);
                                 }
                             });
