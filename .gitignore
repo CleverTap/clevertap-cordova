@@ -18,6 +18,7 @@ src/android/google-services.json
 Samples/Cordova/ExampleProject/platforms/android/app/src/main/google-services.json
 Samples/Cordova/ExampleProject/platforms/android/app/google-services.json
 Samples/Cordova/ExampleProject/platforms/android/app/src/main/assets/
+Samples/Cordova/ExampleProject/platforms/android/app/src/main/java/com/clevertap/cordova
 
 Samples/IonicCapacitor/IonicCapReactProject/.project
 Samples/IonicCapacitor/IonicCapReactProject/.idea
