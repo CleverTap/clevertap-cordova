@@ -46,7 +46,7 @@ The JSON definitions should be placed in one or more files in the following loca
  - Android: in `assets` directory
  - iOS: in any directory linked to the project
 
-For a working example, see the Example project: `ios/ExampleProject/Resources/templates.json` and `Example/android/app/src/main/assets/custom/templates.json`.
+For a working example, see the Example project: `Samples/Cordova/ExampleProject/assets/templates.json`.
 
 ### Arguments
 An `argument` is a structure that represents the configuration of the custom code templates. It consists of a `type` and a `value`.
@@ -143,18 +143,6 @@ public class MainApplication extends CleverTapApplication {
     }
 }
 ```
- - Otherwise add the line before calling `CleverTapRnAPI.initReactNativeIntegration(this)`:
-```java
-public class MainApplication extends Application {
-    @Override
-    public void onCreate() {
-        ActivityLifecycleCallback.register(this);
-        super.onCreate();
-        CleverTapCustomTemplates.registerCustomTemplates(this, "templateDefinitionsFileInAssets.json");
-        CleverTapRnAPI.initReactNativeIntegration(this);
-    }
-}
-```
 
 ### For iOS
 Call `[CleverTapPluginCustomTemplates registerCustomTemplates]` in your `AppDelegate.didFinishLaunchingWithOptions` after importing `CleverTapPluginCustomTemplates.h`:
@@ -176,7 +164,7 @@ For the templates to be usable in campaigns they must be synced with the dashboa
 
 ## Presenting templates
 
-When a custom template is triggered, the corresponding event `CleverTap.CleverTapCustomTemplatePresent` or `CleverTap.CleverTapCustomFunctionPresent` will be raised. Applications with custom templates or functions must subscribe to those events through `CleverTap.addListener` where the event data will be the template's name. When the event handler is invoked, this template will be considered "active" until `CleverTap.customTemplateSetDismissed(templateName)` is called. While a template is "active" the following functions can be used:
+When a custom template is triggered, the corresponding event `CleverTapCustomTemplatePresent` or `CleverTapCustomFunctionPresent` will be raised. Applications with custom templates or functions must subscribe to those events through `document.addEventListener` where the event data will be the template's name. When the event handler is invoked, this template will be considered "active" until `CleverTap.customTemplateSetDismissed(templateName)` is called. While a template is "active" the following functions can be used:
 
 - Obtain argument values by using the appropriate `customTemplateGet*Arg(templateName: string, argName: string)` methods.
 - Trigger actions by their name through `CleverTap.customTemplateRunAction(templateName: string, argName: string)`.
@@ -194,13 +182,14 @@ document.addEventListener("CleverTapCustomTemplatePresent", (param) => {
     let description = `Arguments for "${param.name}":${str}`;
     showTemplateModal(param.name, description);
   });
+  
+  // call customTemplateSetPresented when the UI has become visible to the user
+  CleverTap.customTemplateSetPresented(param.name);
 });
 
 document.addEventListener("CleverTapCustomTemplateClose", (param) => {
-  CleverTap.customTemplateContextToString(param.name).then((str) => {
-    let description = `Arguments for "${param.name}":${str}`;
-    showTemplateModal(param.name, description);
-  });
+    // close the corresponding UI before calling customTemplateSetDismissed
+    CleverTap.customTemplateSetDismissed(param.name);
 });
 ```
 
