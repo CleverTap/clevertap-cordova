@@ -17,6 +17,7 @@
     "cordova-android": "^13.0.0",
     "cordova-android-support-gradle-release": "^3.0.1",
     "cordova-ios": "^7.0.0",
+    "cordova-plugin-x-toast": "^2.7.3",
     "ios": "0.0.1"
   },
   "cordova": {
@@ -27,7 +28,8 @@
       "clevertap-cordova": {
         "CLEVERTAP_ACCOUNT_ID": "TEST-R55-999-486Z",
         "CLEVERTAP_TOKEN": "TEST-ccc-552"
-      }
+      },
+      "cordova-plugin-x-toast": {}
     },
     "platforms": [
       "android",

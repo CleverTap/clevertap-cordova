@@ -29,6 +29,7 @@
 #import "CTVar.h"
 #import "CTLocalInApp.h"
 #import "Clevertap+PushPermission.h"
+#import "CTTemplateContext.h"
 
 #if __has_include(<CleverTapLocation/CTLocationManager.h>)
 #import <CleverTapLocation/CTLocationManager.h>
@@ -59,12 +60,13 @@ static NSMutableDictionary *allVariables;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onDidFailToRegisterForRemoteNotificationsWithError:) name:CTRemoteNotificationRegisterError object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onHandleRegisterForRemoteNotification:) name:CTRemoteNotificationDidRegister object:nil];
+    
 }
 
 + (void)onDidFinishLaunchingNotification:(NSNotification *)notification {
     
     clevertap = [CleverTap sharedInstance];
-
+    
     NSDictionary *launchOptions = notification.userInfo;
     if (!launchOptions) return;
     
@@ -105,6 +107,7 @@ static NSMutableDictionary *allVariables;
     
     [super pluginInitialize];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendEvent:) name:CTSendEvent object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onHandleOpenURLNotification:) name: CTHandleOpenURLNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onHandleNotification:) name:CTDidReceiveNotification object:nil];
     
@@ -336,6 +339,11 @@ static NSMutableDictionary *allVariables;
 
 
 #pragma mark - Public
+
+- (void)sendEvent:(NSNotification *)notification {
+    NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('%@', %@)", notification.object, [self _dictToJson:notification.userInfo[@"result"]]];
+    [self.commandDelegate evalJs:js];
+}
 
 # pragma mark Launch
 
@@ -1734,7 +1742,217 @@ static NSMutableDictionary *allVariables;
     }];
 }
 
+# pragma mark - Custom Code Templates
+
+- (void)syncCustomTemplates: (CDVInvokedUrlCommand *)command {
+    [self.commandDelegate runInBackground:^{
+        [clevertap syncCustomTemplates];
+    }];
+}
+
+- (void)syncCustomTemplatesInProd: (CDVInvokedUrlCommand *)command {
+    
+    [self.commandDelegate runInBackground:^{
+        BOOL isProduction = [[command argumentAtIndex:0] boolValue];
+        [clevertap syncCustomTemplates:isProduction];
+    }];
+}
+
+- (void)customTemplateSetDismissed:(CDVInvokedUrlCommand *)command {
+    NSString *templateName = [command.arguments objectAtIndex:0];
+    
+    [self resolveWithTemplateContext:templateName
+                             success:^(NSString *result) {
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }
+                             failure:^(NSString *errorMessage) {
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:errorMessage];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }
+                               block:^id(CTTemplateContext *context) {
+        [context dismissed];
+        return nil;
+    }];
+}
+
+- (void)customTemplateSetPresented: (CDVInvokedUrlCommand *)command {
+    NSString *templateName = [command.arguments objectAtIndex:0];
+    
+    [self resolveWithTemplateContext:templateName
+                             success:^(NSString *result) {
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }
+                             failure:^(NSString *errorMessage) {
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:errorMessage];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }
+                               block:^id(CTTemplateContext *context) {
+        [context presented];
+        return nil;
+    }];
+}
+
+- (void)customTemplateRunAction:(CDVInvokedUrlCommand *)command {
+    NSString *templateName = [command.arguments objectAtIndex:0];
+    NSString *argName = [command.arguments objectAtIndex:1];
+    
+    [self resolveWithTemplateContext:templateName
+                             success:^(NSString *result) {
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }
+                             failure:^(NSString *errorMessage) {
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:errorMessage];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }
+                               block:^id(CTTemplateContext *context) {
+        [context triggerActionNamed:argName];
+        return nil;
+    }];
+}
+
+- (void)customTemplateGetStringArg: (CDVInvokedUrlCommand *)command {
+    NSString *templateName = [command.arguments objectAtIndex:0];
+    NSString *argName = [command.arguments objectAtIndex:1];
+    
+    [self resolveWithTemplateContext:templateName
+                             success:^(id result) {
+        [self sendPluginResult:result withCommand:command];
+    }
+                             failure:^(NSString *errorMessage) {
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:errorMessage];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }
+                               block:^id(CTTemplateContext *context) {
+        NSString *str = [context stringNamed:argName];
+        return str ? str : [NSNull null];
+    }];
+}
+
+- (void)customTemplateGetNumberArg: (CDVInvokedUrlCommand *)command {
+    NSString *templateName = [command.arguments objectAtIndex:0];
+    NSString *argName = [command.arguments objectAtIndex:1];
+    
+    [self resolveWithTemplateContext:templateName
+                             success:^(id result) {
+        [self sendPluginResult:result withCommand:command];
+    }
+                             failure:^(NSString *errorMessage) {
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:errorMessage];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }
+                               block:^id(CTTemplateContext *context) {
+        NSNumber *number = [context numberNamed:argName];
+        return number ? number : [NSNull null];
+    }];
+}
+
+- (void)customTemplateGetBooleanArg: (CDVInvokedUrlCommand *)command {
+    NSString *templateName = [command.arguments objectAtIndex:0];
+    NSString *argName = [command.arguments objectAtIndex:1];
+    
+    [self resolveWithTemplateContext:templateName
+                             success:^(id result) {
+        [self sendPluginResult:result withCommand:command];
+    }
+                             failure:^(NSString *errorMessage) {
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:errorMessage];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }
+                               block:^id(CTTemplateContext *context) {
+        NSNumber *result = [NSNumber numberWithBool:[context boolNamed:argName]];
+        return result;
+    }];
+}
+
+- (void)customTemplateGetFileArg: (CDVInvokedUrlCommand *)command {
+    NSString *templateName = [command.arguments objectAtIndex:0];
+    NSString *argName = [command.arguments objectAtIndex:1];
+    
+    [self resolveWithTemplateContext:templateName
+                             success:^(id result) {
+        [self sendPluginResult:result withCommand:command];
+    }
+                             failure:^(NSString *errorMessage) {
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:errorMessage];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }
+                               block:^id(CTTemplateContext *context) {
+        NSString *filePath = [context fileNamed:argName];
+        return filePath ? filePath : [NSNull null];
+    }];
+}
+
+- (void)customTemplateGetObjectArg: (CDVInvokedUrlCommand *)command {
+    NSString *templateName = [command.arguments objectAtIndex:0];
+    NSString *argName = [command.arguments objectAtIndex:1];
+    
+    [self resolveWithTemplateContext:templateName
+                             success:^(id result) {
+        [self sendPluginResult:result withCommand:command];
+    }
+                             failure:^(NSString *errorMessage) {
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:errorMessage];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }
+                               block:^id(CTTemplateContext *context) {
+        NSDictionary *dictionary = [context dictionaryNamed:argName];
+        return dictionary ? dictionary : [NSNull null];
+    }];
+}
+
+- (void)customTemplateContextToString: (CDVInvokedUrlCommand *)command {
+    NSString *templateName = [command.arguments objectAtIndex:0];
+    
+    [self resolveWithTemplateContext:templateName
+                             success:^(id result) {
+        [self sendPluginResult:result withCommand:command];
+    }
+                             failure:^(NSString *errorMessage) {
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:errorMessage];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }
+                               block:^id(CTTemplateContext *context) {
+        return [context debugDescription];
+    }];
+}
+
 #pragma mark Helper methods
+
+- (void)resolveWithTemplateContext:(NSString *)templateName
+                           success:(void (^)(id result))success
+                           failure:(void (^)(NSString *errorMessage))failure
+                             block:(id (^)(CTTemplateContext *context))blockName {
+    [self.commandDelegate runInBackground:^{
+        if (!clevertap) {
+            failure(@"CleverTap is not initialized");
+            return;
+        }
+        
+        CTTemplateContext *context = [clevertap activeContextForTemplate:templateName];
+        if (!context) {
+            NSString *errorMessage = [NSString stringWithFormat:@"Custom template: %@ is not currently being presented", templateName];
+            failure(errorMessage);
+            return;
+        }
+        
+        success(blockName(context));
+    }];
+}
+
+- (void)sendPluginResult:(id)result withCommand:(CDVInvokedUrlCommand *)command {
+    if (result != nil && ![result isKindOfClass:[NSNull class]]) {
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:result];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }
+    else {
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"Argument not found"];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }
+}
+
 
 - (CTVar *)createVarForName:(NSString *)name andValue:(id)value {
 
