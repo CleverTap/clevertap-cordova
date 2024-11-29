@@ -46,7 +46,7 @@
                 <source url="https://github.com/CocoaPods/Specs.git"/>
             </config>
             <pods>
-                <pod name="CleverTap-iOS-SDK" spec="6.2.1" />
+                <pod name="CleverTap-iOS-SDK" spec="7.0.2" />
             </pods>
         </podspec>
 <!--        <framework src="CleverTap-iOS-SDK" type="podspec" spec="5.1.2" />-->
@@ -54,7 +54,12 @@
         <source-file src="src/ios/AppDelegate+CleverTapPlugin.m" />
         <header-file src="src/ios/CleverTapPlugin.h" />
         <source-file src="src/ios/CleverTapPlugin.m" />
-        
+        <header-file src="src/ios/CleverTapPluginAppFunctionPresenter.h" />
+        <source-file src="src/ios/CleverTapPluginAppFunctionPresenter.m" />
+        <header-file src="src/ios/CleverTapPluginCustomTemplates.h" />
+        <source-file src="src/ios/CleverTapPluginCustomTemplates.m" />
+        <header-file src="src/ios/CleverTapPluginTemplatePresenter.h" />
+        <source-file src="src/ios/CleverTapPluginTemplatePresenter.m" />
     </platform>
 
     <platform name="android">
@@ -102,6 +107,8 @@
 
         <source-file src="src/android/google-services.json" target-dir="." />
         <source-file src="src/android/CleverTapPlugin.java" target-dir="src/com/clevertap/cordova/" />
+        <source-file src="src/android/CleverTapEventEmitter.java" target-dir="src/com/clevertap/cordova/" />
+        <source-file src="src/android/CleverTapCustomTemplates.java" target-dir="src/com/clevertap/cordova/" />
 
         <framework src="com.google.firebase:firebase-messaging:$FIREBASE_MESSAGING_VERSION" />
         <framework src="com.clevertap.android:clevertap-android-sdk:7.0.2"/>
