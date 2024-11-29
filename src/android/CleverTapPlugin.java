@@ -1282,7 +1282,6 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 cordova.getThreadPool().execute(() -> {
                     try {
                         cleverTap.deleteInboxMessagesForIDs((ArrayList<String>) toStringList(finalJsonArray));
-
                         sendPluginResult(callbackContext, Status.NO_RESULT);
                     } catch (Exception e) {
                         sendPluginResult(callbackContext, Status.ERROR, e.getLocalizedMessage());
@@ -1681,9 +1680,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                     for (String variable : finalVariablesJsonObject) {
                         variables.put(variable, cleverTap.defineFileVariable(variable));
                     }
-                    PluginResult _result = new PluginResult(PluginResult.Status.NO_RESULT);
-                    _result.setKeepCallback(true);
-                    callbackContext.sendPluginResult(_result);
+                    sendPluginResult(callbackContext, Status.NO_RESULT);
                 });
                 return true;
             }
@@ -1732,9 +1729,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                     @Override
                     public void variablesChanged() {
                         JSONObject jsonVariables = getVariablesAsJson();
-                        PluginResult _result = new PluginResult(PluginResult.Status.OK,jsonVariables);
-                        _result.setKeepCallback(true);
-                        callbackContext.sendPluginResult(_result);
+                        sendPluginResult(callbackContext, Status.OK, jsonVariables);
                     }
                 });
             });
@@ -1790,17 +1785,12 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                             variable.addFileReadyHandler(new VariableCallback<Object>() {
                                 @Override
                                 public void onValueChanged(final Var<Object> variable) {
-                                    Object value = getVariableValue(finalVariableName);
-                                    PluginResult _result = getPluginResult(Status.OK, value);
-                                    _result.setKeepCallback(true);
-                                    callbackContext.sendPluginResult(_result);
+                                    sendPluginResult(callbackContext, Status.OK, value);
                                 }
                             });
                         }
                     } catch (Exception e) {
-                        PluginResult _result = new PluginResult(Status.ERROR, e.getLocalizedMessage());
-                        _result.setKeepCallback(true);
-                        callbackContext.sendPluginResult(_result);
+                        sendPluginResult(callbackContext, Status.ERROR, e.getLocalizedMessage());
                     }
                 });
                 return true;
@@ -1811,9 +1801,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                     @Override
                     public void variablesChanged() {
                         JSONObject jsonVariables = getVariablesAsJson();
-                        PluginResult _result = new PluginResult(PluginResult.Status.OK,jsonVariables);
-                        _result.setKeepCallback(true);
-                        callbackContext.sendPluginResult(_result);
+                        sendPluginResult(callbackContext, Status.OK, jsonVariables);
                     }
                 });
             });
@@ -1825,9 +1813,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                     @Override
                     public void variablesChanged() {
                         JSONObject jsonVariables = getVariablesAsJson();
-                        PluginResult _result = new PluginResult(PluginResult.Status.OK,jsonVariables);
-                        _result.setKeepCallback(true);
-                        callbackContext.sendPluginResult(_result);
+                        sendPluginResult(callbackContext, Status.OK, jsonVariables);
                     }
                 });
             });
