@@ -644,11 +644,11 @@ CleverTap.prototype.defineVariables = function (variables) {
 }
 
 /**
-Create file variables.
-@param {list} fileVariables The list specifying the file variables to be created.
+Create file variable.
+@param {string} fileVariable The name specifying the file variable to be created.
 */
-CleverTap.prototype.defineFileVariables = function (variables) {
-    cordova.exec(null, null, "CleverTapPlugin", "defineFileVariables", [variables]);
+CleverTap.prototype.defineFileVariable = function (variable) {
+    cordova.exec(null, null, "CleverTapPlugin", "defineFileVariable", [variable]);
 }
 
 /**

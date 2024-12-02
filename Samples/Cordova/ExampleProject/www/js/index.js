@@ -30,7 +30,7 @@ function setupButtons() {
         'cordova_var_boolean': true
       };
 
-    let fileVariables = ["folder1.fileVariable", "folder1.folder2.fileVariable", "folder2"]
+    let fileVariable = "folder1.fileVariable"
 
 
     let eventsMap = [
@@ -71,7 +71,7 @@ function setupButtons() {
 
       ["title","Product Experiences"],
       ["defineVariables", () => CleverTap.defineVariables(variables)],
-      ["defineFileVariables", () => CleverTap.defineFileVariables(fileVariables)],
+      ["defineFileVariable", () => CleverTap.defineFileVariable(fileVariable)],
       ["syncVariables", () => CleverTap.syncVariables()],
       ["syncVariablesinProd", () => CleverTap.syncVariablesinProd()],
       ["fetchVariables", () => CleverTap.fetchVariables(success => log("fetchVariables success = " + success))],
