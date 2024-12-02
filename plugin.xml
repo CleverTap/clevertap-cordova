@@ -111,7 +111,7 @@
         <source-file src="src/android/CleverTapCustomTemplates.java" target-dir="src/com/clevertap/cordova/" />
 
         <framework src="com.google.firebase:firebase-messaging:$FIREBASE_MESSAGING_VERSION" />
-        <framework src="com.clevertap.android:clevertap-android-sdk:7.0.2"/>
+        <framework src="com.clevertap.android:clevertap-android-sdk:7.0.3"/>
         <framework src="com.github.bumptech.glide:glide:4.12.0"/>
         <framework src="androidx.appcompat:appcompat:1.6.0-rc01"/>
         <framework src="androidx.core:core:1.9.0" />
