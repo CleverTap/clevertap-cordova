@@ -749,6 +749,14 @@ CleverTap.prototype.clearInAppResources = function (expiredOnly) {
 }
 
 /**
+Deletes all types of files which are preloaded for SDK features like custom in-app templates, app functions and variables etc.
+@param {expiredOnly} to clear only assets which will not be needed further for inapps
+*/
+CleverTap.prototype.clearFileResources = function (expiredOnly) {
+    cordova.exec(null, null, "CleverTapPlugin", "clearFileResources", [expiredOnly]);
+}
+
+/**
 * Uploads Custom in-app templates and app functions to the server.
 * Requires Development/Debug build/configuration.
 */

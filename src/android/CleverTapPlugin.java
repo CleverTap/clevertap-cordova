@@ -1856,6 +1856,24 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 });
                 return true;
             }
+        } else if (action.equals("clearFileResources")) {
+            boolean expiredOnly = false;
+            if(args.length() == 1) {
+                expiredOnly = args.getBoolean(0);
+            } else {
+                haveError = true;
+                errorMsg = "Expected 1 argument";
+            }
+            if (!haveError) {
+                final boolean finalExpiredOnly = expiredOnly;
+                cordova.getThreadPool().execute(new Runnable() {
+                    public void run() {
+                        cleverTap.clearFileResources(finalExpiredOnly);
+                        sendPluginResult(callbackContext, Status.NO_RESULT);
+                    }
+                });
+                return true;
+            }
         } else if (action.equals("fetchInApps")) {
             cordova.getThreadPool().execute(() -> {
                 cleverTap.fetchInApps(isSuccess -> {
