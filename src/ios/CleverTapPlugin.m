@@ -1562,23 +1562,23 @@ static NSMutableDictionary *allVariables;
         }];
 }
 
-- (void)defineFileVariables: (CDVInvokedUrlCommand *)command {
+- (void)defineFileVariable: (CDVInvokedUrlCommand *)command {
     
     [self.commandDelegate runInBackground:^{
-        NSArray *fileVariables = [command argumentAtIndex:0];
+        NSString *fileVariable = [command argumentAtIndex:0];
         if (!allVariables){
             allVariables = [NSMutableDictionary new];
         }
 
-        if(fileVariables == nil){
+        if(fileVariable == nil){
             return;
         }
-        [fileVariables enumerateObjectsUsingBlock:^(NSString*  _Nonnull name, NSUInteger idx, BOOL * _Nonnull stop) {
-            CTVar *fileVar = [clevertap defineFileVar:name];
-            if (fileVar) {
-                allVariables[name] = fileVar;
-            }
-        }];
+        CTVar *fileVar = [clevertap defineFileVar:fileVariable];
+        if (fileVar) {
+            allVariables[fileVariable] = fileVar;
+        }
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
 }
 
@@ -1728,8 +1728,12 @@ static NSMutableDictionary *allVariables;
 #pragma mark - InApp Controls
 
 - (void)clearInAppResources:(CDVInvokedUrlCommand *)command {
-    BOOL expiredOnly = [[command argumentAtIndex:0] boolValue];
-    [clevertap clearInAppResources:expiredOnly];
+    [self.commandDelegate runInBackground:^{
+        BOOL expiredOnly = [[command argumentAtIndex:0] boolValue];
+        [clevertap clearInAppResources:expiredOnly];
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
 }
 
 - (void)fetchInApps:(CDVInvokedUrlCommand *)command {
@@ -1742,11 +1746,22 @@ static NSMutableDictionary *allVariables;
     }];
 }
 
+- (void)clearFileResources:(CDVInvokedUrlCommand *)command {
+    [self.commandDelegate runInBackground:^{
+        BOOL expiredOnly = [[command argumentAtIndex:0] boolValue];
+        [clevertap clearInAppResources:expiredOnly];
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
+}
+
 # pragma mark - Custom Code Templates
 
 - (void)syncCustomTemplates: (CDVInvokedUrlCommand *)command {
     [self.commandDelegate runInBackground:^{
         [clevertap syncCustomTemplates];
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
 }
 
@@ -1755,6 +1770,8 @@ static NSMutableDictionary *allVariables;
     [self.commandDelegate runInBackground:^{
         BOOL isProduction = [[command argumentAtIndex:0] boolValue];
         [clevertap syncCustomTemplates:isProduction];
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
 }
 

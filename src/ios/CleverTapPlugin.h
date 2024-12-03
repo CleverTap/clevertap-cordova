@@ -486,7 +486,7 @@ Create variables.
 Create file variables.
 @param {object} variables The list specifying the file variables to be created.
 */
-- (void)defineFileVariables: (CDVInvokedUrlCommand *)command;
+- (void)defineFileVariable: (CDVInvokedUrlCommand *)command;
 
 /**
 Get a variable or a group for the specified name.
@@ -553,6 +553,14 @@ Called when the file variable changes.
  This method resets the product Config stored locally
  */
 - (void)reset;
+
+#pragma mark - InApp Controls
+
+- (void)clearInAppResources:(CDVInvokedUrlCommand *)command;
+
+- (void)fetchInApps:(CDVInvokedUrlCommand *)command;
+
+- (void)clearFileResources:(CDVInvokedUrlCommand *)command;
 
 # pragma mark - Custom Code Templates
 
