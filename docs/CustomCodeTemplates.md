@@ -132,10 +132,10 @@ and
 Templates must be registered within the native applications:
 
 ### For Android
-Call `CleverTapCustomTemplates.registerCustomTemplates` in your `Application.onCreate` method.
- - If you are extending `CleverTapApplication` add this line before calling `super.onCreate()`:
+- Create a custom Application class that extends `com.clevertap.android.sdk.Application`
+- Call `CleverTapCustomTemplates.registerCustomTemplates` in your `Application.onCreate` method before calling `super.onCreate()`:
 ```java
-public class MainApplication extends CleverTapApplication {
+public class MainApplication extends com.clevertap.android.sdk.Application {
     @Override
     public void onCreate() {
         CleverTapCustomTemplates.registerCustomTemplates(this, "templateDefinitionsFileInAssets.json");
