@@ -1,7 +1,7 @@
 Change Log
 ==========
 
-Version 3.3.0 *(December 5, 2024)*
+Version 3.3.0 *(December 3, 2024)*
 -------------------------------------------
 #### New Features
 **Android Specific**
@@ -27,9 +27,6 @@ Version 3.3.0 *(December 5, 2024)*
 * Fixes an issue where an InApp was displayed even after all the campaigns were stopped.
 * Fixes an issue where the InApp image was not shown when the phone was rotated to landscape.
 * Fixes an issue where certain URLs loaded incorrectly in custom HTML InApp templates.
-
-**iOS specific**
-* Todo
 
 
 Version 3.2.0 *(August 12, 2024)*
