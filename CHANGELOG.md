@@ -11,7 +11,6 @@ Version 3.3.0 *(December 5, 2024)*
 
 **iOS specific**
 * Supports [CleverTap iOS SDK v7.0.3](https://github.com/CleverTap/clevertap-ios-sdk/blob/master/CHANGELOG.md#version-703-november-29-2024).
-* Todo
 
 **Common for both Android and iOS**
 * Adds support for triggering InApps based on user attribute changes.
