@@ -66,7 +66,7 @@
           // SUB-PROJECT DEPENDENCIES END 
   ```
   
-  ### Migrating from `Exoplayer` to `AndroidX Media3` (Optional)
+### Migrating from `Exoplayer` to `AndroidX Media3` (Optional)
 
 Clevertap ReactNative SDK supports `AndroidX Media3` from `v3.0.0+` to replace the deprecated `ExoPlayer` libraries. For migration change the following dependencies.
 
