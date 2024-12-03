@@ -22,7 +22,7 @@
         <preference name="AndroidWindowSplashScreenAnimatedIcon" value="res/screen/android/splashscreen.xml" />
     </platform>
     <platform name="ios">
-        <resource-file src="assets/templates.json" target="ExampleProject/templates.json" />
+        <resource-file src="assets/templates.json" target="templates.json" />
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
     </platform>
