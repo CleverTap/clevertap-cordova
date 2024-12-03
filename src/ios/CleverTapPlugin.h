@@ -14,6 +14,7 @@ static NSString * const CTDidReceiveNotification = @"CTDidReceiveNotification";
 static NSString * const CTRemoteNotificationDidRegister = @"CTRemoteNotificationDidRegister";
 static NSString * const CTRemoteNotificationRegisterError = @"CTRemoteNotificationRegisterError";
 static NSString * const CTHandleOpenURLNotification = @"CTHandleOpenURLNotification";
+static NSString * const CTSendEvent = @"CTSendEvent";
 
 @interface CleverTapPlugin : CDVPlugin
 
@@ -482,6 +483,12 @@ Create variables.
 - (void)defineVariables: (CDVInvokedUrlCommand *)command;
 
 /**
+Create file variables.
+@param {object} variables The list specifying the file variables to be created.
+*/
+- (void)defineFileVariable: (CDVInvokedUrlCommand *)command;
+
+/**
 Get a variable or a group for the specified name.
 @param {string} name - name.
 */
@@ -498,9 +505,29 @@ Adds a callback to be invoked when variables are initialised with server values.
 - (void)onVariablesChanged:(CDVInvokedUrlCommand *)command;
 
 /**
+ Adds a callback to be invoked when variables are initialised with server values. Will be called only once on app start, or when added if server values are already received
+*/
+- (void)onOneTimeVariablesChanged:(CDVInvokedUrlCommand *)command;
+
+/**
+Adds a callback to be invoked when no files need to be downloaded or all downloads have been completed. It is called each time new values are fetched and downloads are completed.
+ */
+- (void)onVariablesChangedAndNoDownloadsPending:(CDVInvokedUrlCommand *)command;
+
+/**
+ Adds a callback to be invoked only once for when new values are fetched and downloaded.
+*/
+- (void)onceVariablesChangedAndNoDownloadsPending:(CDVInvokedUrlCommand *)command;
+
+/**
 Called when the value of the variable changes.
 */
 - (void)onValueChanged:(CDVInvokedUrlCommand *)command;
+
+/**
+Called when the file variable changes.
+*/
+- (void)onFileValueChanged:(CDVInvokedUrlCommand *)command;
 
 /**
  This method fetches String Value for a given key
@@ -526,6 +553,38 @@ Called when the value of the variable changes.
  This method resets the product Config stored locally
  */
 - (void)reset;
+
+#pragma mark - InApp Controls
+
+- (void)clearInAppResources:(CDVInvokedUrlCommand *)command;
+
+- (void)fetchInApps:(CDVInvokedUrlCommand *)command;
+
+- (void)clearFileResources:(CDVInvokedUrlCommand *)command;
+
+# pragma mark - Custom Code Templates
+
+- (void)syncCustomTemplates: (CDVInvokedUrlCommand *)command;
+
+- (void)syncCustomTemplatesInProd: (CDVInvokedUrlCommand *)command;
+
+- (void)customTemplateSetDismissed: (CDVInvokedUrlCommand *)command;
+
+- (void)customTemplateSetPresented: (CDVInvokedUrlCommand *)command;
+
+- (void)customTemplateRunAction: (CDVInvokedUrlCommand *)command;
+
+- (void)customTemplateGetStringArg: (CDVInvokedUrlCommand *)command;
+
+- (void)customTemplateGetNumberArg: (CDVInvokedUrlCommand *)command;
+
+- (void)customTemplateGetBooleanArg: (CDVInvokedUrlCommand *)command;
+
+- (void)customTemplateGetFileArg: (CDVInvokedUrlCommand *)command;
+
+- (void)customTemplateGetObjectArg: (CDVInvokedUrlCommand *)command;
+
+- (void)customTemplateContextToString: (CDVInvokedUrlCommand *)command;
 
 @end
 

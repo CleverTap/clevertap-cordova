@@ -64,7 +64,17 @@
           implementation 'com.google.android.exoplayer:exoplayer-hls:2.19.1'
           implementation 'com.google.android.exoplayer:exoplayer-ui:2.19.1'
           // SUB-PROJECT DEPENDENCIES END 
-  ```  
+  ```
+  
+### Migrating from `Exoplayer` to `AndroidX Media3` (Optional)
+
+Clevertap ReactNative SDK supports `AndroidX Media3` from `v3.0.0+` to replace the deprecated `ExoPlayer` libraries. For migration change the following dependencies.
+
+|         Old Dependency | New Dependency      |
+|-----------------------:|:--------------------|
+|     `com.google.android.exoplayer:exoplayer:2.19.1` | `androidx.media3:media3-exoplayer:1.1.1`     |
+| `com.google.android.exoplayer:exoplayer-hls:2.19.1` | `androidx.media3:media3-exoplayer-hls:1.1.1` |
+|  `com.google.android.exoplayer:exoplayer-ui:2.19.1` | `androidx.media3:media3-ui:1.1.1`  |  
 
 + **Support AndroidX**
 
