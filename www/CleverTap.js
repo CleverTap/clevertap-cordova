@@ -1,4 +1,4 @@
-//  Copyright (C) 2015 CleverTap 
+//  Copyright (C) 2015 CleverTap
 //
 //  This code is provided under a commercial License.
 //  A copy of this license has been distributed in a file called LICENSE
@@ -644,6 +644,14 @@ CleverTap.prototype.defineVariables = function (variables) {
 }
 
 /**
+Create file variable.
+@param {string} fileVariable The name specifying the file variable to be created.
+*/
+CleverTap.prototype.defineFileVariable = function (variable) {
+    cordova.exec(null, null, "CleverTapPlugin", "defineFileVariable", [variable]);
+}
+
+/**
 Get a variable or a group for the specified name.
 @param {string} name - name.
 */
@@ -667,6 +675,14 @@ CleverTap.prototype.onVariablesChanged = function (handler) {
 }
 
 /**
+Adds a callback to be invoked when variables are initialised with server values. Will be called only once on app start, or when added if server values are already received
+@param {function} handler The callback to add
+*/
+CleverTap.prototype.onOneTimeVariablesChanged = function (handler) {
+    cordova.exec(handler, null, "CleverTapPlugin", "onOneTimeVariablesChanged", []);
+}
+
+/**
 Called when the value of the variable changes.
 @param {name} string the name of the variable
 @param {function} handler The callback to add
@@ -674,6 +690,33 @@ Called when the value of the variable changes.
 CleverTap.prototype.onValueChanged = function (name, handler) {
     cordova.exec(handler, null, "CleverTapPlugin", "onValueChanged", [name]);
 }
+
+/**
+Adds a callback to be invoked when the value of the file variable is downloaded and ready. This is only available for File variables.
+@param {name} string the name of the file variable
+@param {function} handler The callback to add
+*/
+CleverTap.prototype.onFileValueChanged = function (name, handler) {
+    cordova.exec(handler, null, "CleverTapPlugin", "onFileValueChanged", [name]);
+}
+
+/**
+*
+Adds a callback to be invoked when no files need to be downloaded or all downloads have been completed. It is called each time new values are fetched and downloads are completed.
+@param {function} handler The callback to add
+*/
+CleverTap.prototype.onVariablesChangedAndNoDownloadsPending = function (handler) {
+    cordova.exec(handler, null, "CleverTapPlugin", "onVariablesChangedAndNoDownloadsPending", []);
+}
+
+/**
+Adds a callback to be invoked only once for when new values are fetched and downloaded
+@param {function} handler The callback to add
+*/
+CleverTap.prototype.onceVariablesChangedAndNoDownloadsPending = function (handler) {
+    cordova.exec(handler, null, "CleverTapPlugin", "onceVariablesChangedAndNoDownloadsPending", []);
+}
+
 
 /****************************
  * Android 13 Push Primer
@@ -703,6 +746,188 @@ Deletes all images and gifs which are preloaded for inapps in cs mode
 */
 CleverTap.prototype.clearInAppResources = function (expiredOnly) {
     cordova.exec(null, null, "CleverTapPlugin", "clearInAppResources", [expiredOnly]);
+}
+
+/**
+Deletes all types of files which are preloaded for SDK features like custom in-app templates, app functions and variables etc.
+@param {expiredOnly} to clear only assets which will not be needed further for inapps
+*/
+CleverTap.prototype.clearFileResources = function (expiredOnly) {
+    cordova.exec(null, null, "CleverTapPlugin", "clearFileResources", [expiredOnly]);
+}
+
+/**
+* Uploads Custom in-app templates and app functions to the server.
+* Requires Development/Debug build/configuration.
+*/
+CleverTap.prototype.syncCustomTemplates = function () {
+    cordova.exec(null, null, "CleverTapPlugin", "syncCustomTemplates", []);
+}
+
+/**
+* Uploads Custom in-app templates and app functions to the server.
+* @param {boolean} isProduction Provide `true` if templates must be sync in Productuon build/configuration.
+*/
+CleverTap.prototype.syncCustomTemplatesInProd = function(isProduction){
+    cordova.exec(null, null, "CleverTapPlugin", "syncCustomTemplatesInProd", [isProduction]); 
+}
+
+/**
+* Notify the SDK that an active custom template is dismissed. The active custom template is considered to be
+* visible to the user until this method is called. Since the SDK can show only one InApp message at a time, all
+* other messages will be queued until the current one is dismissed. 
+* @param {string} templateName The name of the active template
+*/
+CleverTap.prototype.customTemplateSetDismissed = function(templateName){
+    return new Promise((resolve, reject) => {
+        cordova.exec(
+            resolve,              
+            reject,               
+            "CleverTapPlugin",     
+            "customTemplateSetDismissed", 
+            [templateName]
+        );
+    });
+}
+
+/**
+* Notify the SDK that an active custom template is presented to the user.
+* @param {string} templateName The name of the active template
+*/
+CleverTap.prototype.customTemplateSetPresented = function(templateName){
+    return new Promise((resolve, reject) => {
+        cordova.exec(
+            resolve,              
+            reject,               
+            "CleverTapPlugin",     
+            "customTemplateSetPresented", 
+            [templateName]
+        );
+    });
+}
+
+/**
+* Trigger a custom template action argument by name.
+* 
+* @param {string} templateName The name of an active template for which the action is defined
+* @param {string} argName The action argument na
+*/
+CleverTap.prototype.customTemplateRunAction = function(templateName,argName){
+    return new Promise((resolve, reject) => {
+        cordova.exec(
+            resolve,              
+            reject,               
+            "CleverTapPlugin",     
+            "customTemplateRunAction", 
+            [templateName,argName]
+        );
+    });
+}
+
+/**
+* Retrieve a string argument by name.
+*
+* @param {string} templateName The name of an active template for which the argument is defined
+* @param {string} argName The action argument name
+*/
+CleverTap.prototype.customTemplateGetStringArg = function(templateName,argName){
+    return new Promise((resolve, reject) => {
+        cordova.exec(
+            resolve,              
+            reject,               
+            "CleverTapPlugin",     
+            "customTemplateGetStringArg", 
+            [templateName,argName]
+        );
+    });
+}
+
+/**
+* Retrieve a number argument by name.
+*
+* @param {string} templateName The name of an active template for which the argument is defined
+* @param {string} argName The action argument name
+*/
+CleverTap.prototype.customTemplateGetNumberArg = function(templateName,argName){
+    return new Promise((resolve, reject) => {
+        cordova.exec(
+            resolve,              
+            reject,               
+            "CleverTapPlugin",     
+            "customTemplateGetNumberArg", 
+            [templateName,argName]
+        );
+    });
+}
+
+/**
+* Retrieve a boolean argument by name.
+*
+* @param {string} templateName The name of an active template for which the argument is defined
+* @param {string} argName The action argument name
+*/
+CleverTap.prototype.customTemplateGetBooleanArg = function(templateName,argName){
+    return new Promise((resolve, reject) => {
+        cordova.exec(
+            resolve,              
+            reject,               
+            "CleverTapPlugin",     
+            "customTemplateGetBooleanArg", 
+            [templateName,argName]
+        );
+    });
+}
+
+/**
+* Retrieve a file argument by name.
+*
+* @param {string} templateName The name of an active template for which the argument is defined
+* @param {string} argName The action argument name
+*/
+CleverTap.prototype.customTemplateGetFileArg = function(templateName,argName){
+    return new Promise((resolve, reject) => {
+        cordova.exec(
+            resolve,              
+            reject,               
+            "CleverTapPlugin",     
+            "customTemplateGetFileArg", 
+            [templateName,argName]
+        );
+    });
+}
+
+/**
+* Retrieve an object argument by name.
+*
+* @param {string} templateName The name of an active template for which the argument is defined
+* @param {string} argName The action argument name
+*/
+CleverTap.prototype.customTemplateGetObjectArg = function(templateName,argName){
+    return new Promise((resolve, reject) => {
+        cordova.exec(
+            resolve,              
+            reject,               
+            "CleverTapPlugin",     
+            "customTemplateGetObjectArg", 
+            [templateName,argName]
+        );
+    });
+}
+
+/**
+* Get a string representation of an active's template context with information about all arguments. 
+* @param {string} templateName The name of an active template
+*/
+CleverTap.prototype.customTemplateContextToString = function(templateName){
+    return new Promise((resolve, reject) => {
+        cordova.exec(
+            resolve,              
+            reject,               
+            "CleverTapPlugin",     
+            "customTemplateContextToString", 
+            [templateName]
+        );
+    });
 }
 
 /**

@@ -1,6 +1,34 @@
 Change Log
 ==========
 
+Version 3.3.0 *(December 3, 2024)*
+-------------------------------------------
+#### New Features
+**Android Specific**
+* Supports [CleverTap Android SDK v7.0.3](https://github.com/CleverTap/clevertap-android-sdk/blob/master/docs/CTCORECHANGELOG.md#version-703-november-29-2024). 
+* Removes character limit of maximum 3 lines from AppInbox messages
+* Adds support for `AndroidX Media3` in lieu of the [deprecation](https://developer.android.com/media/media3/exoplayer/migration-guide) of `ExoPlayer`. While Clevertap continues to support `ExoPlayer`, migration is recommended. For migration refer [here](docs/Integrate-Android.md#migrating-from-exoplayer-to-androidx-media3-optional).
+
+**iOS specific**
+* Supports [CleverTap iOS SDK v7.0.3](https://github.com/CleverTap/clevertap-ios-sdk/blob/master/CHANGELOG.md#version-703-november-29-2024).
+
+**Common for both Android and iOS**
+* Adds support for triggering InApps based on user attribute changes.
+* Adds support for File Type Variables in Remote Config. Please refer to the [Remote Config Variables](docs/Variables.md) doc to read more on how to integrate this in your app.
+* Adds support for Custom Code Templates. Please refer to the [CustomCodeTemplates](docs/CustomCodeTemplates.md) doc to read more on how to integrate this in your app.
+* Changes campaign triggering evaluation of event names, event properties, and profile properties to ignore letter case and whitespace. 
+* Adds support for previewing in-apps created through the new dashboard advanced builder.
+* Adds support for custom handshake domain configuration.
+
+#### Bug Fixes
+**Android Specific**
+* Fixes an ANR caused by extremely old InApp campaigns.
+* Fixes an issue where incorrect callbacks were sent for InApps when the phone was rotated.
+* Fixes an issue where an InApp was displayed even after all the campaigns were stopped.
+* Fixes an issue where the InApp image was not shown when the phone was rotated to landscape.
+* Fixes an issue where certain URLs loaded incorrectly in custom HTML InApp templates.
+
+
 Version 3.2.0 *(August 12, 2024)*
 -------------------------------------------
 #### New Features
