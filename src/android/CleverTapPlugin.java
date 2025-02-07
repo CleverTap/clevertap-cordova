@@ -23,6 +23,7 @@ import com.clevertap.android.sdk.inapp.CTLocalInApp;
 import com.clevertap.android.sdk.inapp.customtemplates.CustomTemplateContext;
 import com.clevertap.android.sdk.pushnotification.CTPushNotificationListener;
 import com.clevertap.android.sdk.pushnotification.amp.CTPushAmpListener;
+import com.clevertap.android.sdk.usereventlogs.UserEventLog;
 import com.clevertap.android.sdk.variables.CTVariableUtils;
 import com.clevertap.android.sdk.variables.Var;
 import com.clevertap.android.sdk.variables.callbacks.VariableCallback;
@@ -105,7 +106,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         cleverTap.registerPushPermissionNotificationResponseListener(this);
 
         String libName = "Cordova";
-        int libVersion = 30300;
+        int libVersion = 30400;
         cleverTap.setLibrary(libName);
         cleverTap.setCustomSdkVersion(libName, libVersion);
 
@@ -619,6 +620,70 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                     try {
                         JSONObject jsonDetails = CleverTapPlugin.eventHistoryToJSON(history);
                         sendPluginResult(callbackContext, Status.OK, jsonDetails);
+                    } catch (JSONException e) {
+                        sendPluginResult(callbackContext, Status.ERROR, e.getLocalizedMessage());
+                    }
+                }
+            });
+            return true;
+        } else if (action.equals("getUserEventLog")) {
+            final String eventName = (args.length() == 1 ? args.getString(0) : null);
+            if (eventName != null) {
+                cordova.getThreadPool().execute(new Runnable() {
+                    public void run() {
+                        UserEventLog eventLog = cleverTap.getUserEventLog(eventName);
+                        try {
+                            JSONObject jsonEventLog = eventLogToJSON(eventLog);
+                            sendPluginResult(callbackContext, Status.OK, jsonEventLog);
+                        } catch (JSONException e) {
+                            sendPluginResult(callbackContext, Status.ERROR, e.getLocalizedMessage());
+                        }
+                    }
+                });
+                return true;
+            }
+        }
+
+        else if (action.equals("getUserEventLogCount")) {
+            final String eventName = (args.length() == 1 ? args.getString(0) : null);
+            if (eventName != null) {
+                cordova.getThreadPool().execute(new Runnable() {
+                    public void run() {
+                        int count = cleverTap.getUserEventLogCount(eventName);
+                        sendPluginResult(callbackContext, Status.OK, count);
+                    }
+                });
+                return true;
+            }
+        }
+
+        else if (action.equals("getUserLastVisitTs")) {
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    double timestamp = cleverTap.getUserLastVisitTs();
+                    sendPluginResult(callbackContext, Status.OK, timestamp);
+                }
+            });
+            return true;
+        }
+
+        else if (action.equals("getUserAppLaunchCount")) {
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    int launchCount = cleverTap.getUserAppLaunchCount();
+                    sendPluginResult(callbackContext, Status.OK, launchCount);
+                }
+            });
+            return true;
+        }
+
+        else if (action.equals("getUserEventLogHistory")) {
+            cordova.getThreadPool().execute(new Runnable() {
+                public void run() {
+                    Map<String, UserEventLog> history = cleverTap.getUserEventLogHistory();
+                    try {
+                        JSONObject jsonHistory = eventLogHistoryToJSON(history);
+                        sendPluginResult(callbackContext, Status.OK, jsonHistory);
                     } catch (JSONException e) {
                         sendPluginResult(callbackContext, Status.ERROR, e.getLocalizedMessage());
                     }
@@ -2339,6 +2404,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         return aList;
     }
 
+    @Deprecated
     private static JSONObject eventDetailsToJSON(EventDetail details) throws JSONException {
 
         JSONObject json = new JSONObject();
@@ -2350,6 +2416,33 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             json.put("count", details.getCount());
         }
 
+        return json;
+    }
+
+    private static JSONObject eventLogToJSON(UserEventLog eventLog) throws JSONException {
+        JSONObject json = new JSONObject();
+        if (eventLog != null) {
+            json.put("eventName", eventLog.getEventName());
+            json.put("normalizedEventName", eventLog.getNormalizedEventName());
+            json.put("firstTime", eventLog.getFirstTs());
+            json.put("lastTime", eventLog.getLastTs());
+            json.put("count", eventLog.getCountOfEvents());
+            json.put("deviceID", eventLog.getDeviceID());
+        }
+        return json;
+    }
+
+
+    private static JSONObject eventLogHistoryToJSON(Map<String, UserEventLog> history) throws JSONException {
+        JSONObject json = new JSONObject();
+        if (history == null || history.isEmpty()) {
+            return json;
+        }
+        for (Map.Entry<String, UserEventLog> entry : history.entrySet()) {
+            if (entry.getValue() != null) {
+                json.put(entry.getKey(), eventLogToJSON(entry.getValue()));
+            }
+        }
         return json;
     }
 
@@ -2366,6 +2459,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         return json;
     }
 
+    @Deprecated
     private static JSONObject eventHistoryToJSON(Map<String, EventDetail> history) throws JSONException {
 
         JSONObject json = new JSONObject();

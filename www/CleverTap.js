@@ -141,40 +141,93 @@ CleverTap.prototype.recordChargedEventWithDetailsAndItems = function (details, i
     }
     cordova.exec(null, null, "CleverTapPlugin", "recordChargedEventWithDetailsAndItems", [details, items]);
 }
-               
-// Get Event First Time
-// eventName = string
-// successCallback = callback function for result
-// success returns epoch seconds or -1
+
+/**
+* Get the details of a specific event
+* @param {string} eventName - the name of the event
+* @param successCallback that returns a res of object {"eventName": <string>, "firstTime":<epoch seconds>, "lastTime": <epoch seconds>, "count": <int>, "deviceID": <string>, "normalizedEventName": <string>} or empty object
+*/
+CleverTap.prototype.getUserEventLog = function (eventName, successCallback) {
+    cordova.exec(successCallback, null, "CleverTapPlugin", "getUserEventLog", [eventName]);
+}
+
+/**
+* Get the count of times an event occured
+* @param {string} eventName - the name of the event
+* @param successCallback that returns a res of int
+*/
+CleverTap.prototype.getUserEventLogCount = function (eventName, successCallback) {
+    cordova.exec(successCallback, null, "CleverTapPlugin", "getUserEventLogCount", [eventName]);
+}
+
+/**
+* Get timestamp of user's last app visit
+* @param successCallback that returns a res of epoch seconds or -1
+*/
+CleverTap.prototype.getUserLastVisitTs = function (successCallback) {
+    cordova.exec(successCallback, null, "CleverTapPlugin", "getUserLastVisitTs", []);
+}
+
+/**
+* Get the total number of times user has launched the app
+* @param successCallback that returns a res of int
+*/
+CleverTap.prototype.getUserAppLaunchCount = function (successCallback) {
+    cordova.exec(successCallback, null, "CleverTapPlugin", "getUserAppLaunchCount", []);
+}
+
+/**
+* Get full event history for current user
+* @param successCallback that returns a res of object {"eventName1":<event1 details object>, "eventName2":<event2 details object>}
+*/
+CleverTap.prototype.getUserEventLogHistory = function (successCallback) {
+    cordova.exec(successCallback, null, "CleverTapPlugin", "getUserEventLogHistory", []);
+}
+
+
+/* @deprecated - Since version 3.4.0. Use getUserEventLog() instead
+* Get Event First Time
+* eventName = string
+* successCallback = callback function for result
+* success returns epoch seconds or -1
+*/
 CleverTap.prototype.eventGetFirstTime = function (eventName, successCallback) {
     cordova.exec(successCallback, null, "CleverTapPlugin", "eventGetFirstTime", [eventName]);
 }
                
-// Get Event Last Time
-// eventName = string
-// successCallback = callback function for result
-// success returns epoch seconds or -1
+/* @deprecated - Since version 3.4.0. Use getUserEventLog() instead
+* Get Event Last Time
+* eventName = string
+* successCallback = callback function for result
+* success returns epoch seconds or -1
+*/
 CleverTap.prototype.eventGetLastTime = function (eventName, successCallback) {
     cordova.exec(successCallback, null, "CleverTapPlugin", "eventGetLastTime", [eventName]);
 }
-               
-// Get Event Get Occurrences
-// successCallback = callback function for result
-// success calls back with int or -1
+
+/* @deprecated - Since version 3.4.0. Use getUserEventLogCount() instead
+* Get Event Get Occurrences
+* successCallback = callback function for result
+* success calls back with int or -1
+*/
 CleverTap.prototype.eventGetOccurrences = function (eventName, successCallback) {
     cordova.exec(successCallback, null, "CleverTapPlugin", "eventGetOccurrences", [eventName]);
 }
-               
-// Get Event Get Details
-// successCallback = callback function for result
-// success calls back with object {"eventName": <string>, "firstTime":<epoch seconds>, "lastTime": <epoch seconds>, "count": <int>} or empty object 
+
+/* @deprecated - Since version 3.4.0. Use getUserEventLog() instead
+* Get Event Get Details
+* successCallback = callback function for result
+* success calls back with object {"eventName": <string>, "firstTime":<epoch seconds>, "lastTime": <epoch seconds>, "count": <int>} or empty object
+*/
 CleverTap.prototype.eventGetDetails = function (eventName, successCallback) {
     cordova.exec(successCallback, null, "CleverTapPlugin", "eventGetDetails", [eventName]);
 }
-               
-// Get Event History
-// successCallback = callback function for result
-// success calls back with object {"eventName1":<event1 details object>, "eventName2":<event2 details object>} 
+
+/* @deprecated - Since version 3.4.0. Use getUserEventLogHistory() instead
+* Get Event History
+* successCallback = callback function for result
+* success calls back with object {"eventName1":<event1 details object>, "eventName2":<event2 details object>}
+*/
 CleverTap.prototype.getEventHistory = function (successCallback) {
     cordova.exec(successCallback, null, "CleverTapPlugin", "getEventHistory", []);
 }
@@ -354,10 +407,12 @@ CleverTap.prototype.profileDecrementValueBy = function (key, value) {
 CleverTap.prototype.sessionGetTimeElapsed = function (successCallback) {
     cordova.exec(successCallback, null, "CleverTapPlugin", "sessionGetTimeElapsed", []);
 }
-               
-// Get Session Get Total Visits
-// successCallback = callback function for result
-// success calls back with int or -1
+
+/* @deprecated - Since version 3.4.0. Use getUserAppLaunchCount() instead
+* Get Session Get Total Visits
+* successCallback = callback function for result
+* success calls back with int or -1
+*/
 CleverTap.prototype.sessionGetTotalVisits = function (successCallback) {
     cordova.exec(successCallback, null, "CleverTapPlugin", "sessionGetTotalVisits", []);
 }
@@ -368,10 +423,12 @@ CleverTap.prototype.sessionGetTotalVisits = function (successCallback) {
 CleverTap.prototype.sessionGetScreenCount = function (successCallback) {
     cordova.exec(successCallback, null, "CleverTapPlugin", "sessionGetScreenCount", []);
 }
-               
-// Get Sesssion Get Previous Visit Time
-// successCallback = callback function for result
-// success calls back with epoch seconds or -1
+
+/* @deprecated - Since version 3.4.0. Use getUserLastVisitTs() instead
+* Get Sesssion Get Previous Visit Time
+* successCallback = callback function for result
+* success calls back with epoch seconds or -1
+*/
 CleverTap.prototype.sessionGetPreviousVisitTime = function (successCallback) {
     cordova.exec(successCallback, null, "CleverTapPlugin", "sessionGetPreviousVisitTime", []);
 }
