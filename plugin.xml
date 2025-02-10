@@ -109,6 +109,7 @@
         <source-file src="src/android/CleverTapPlugin.java" target-dir="src/com/clevertap/cordova/" />
         <source-file src="src/android/CleverTapEventEmitter.java" target-dir="src/com/clevertap/cordova/" />
         <source-file src="src/android/CleverTapCustomTemplates.java" target-dir="src/com/clevertap/cordova/" />
+        <source-file src="src/android/CleverTapFunction.java" target-dir="src/com/clevertap/cordova/" />
 
         <framework src="com.google.firebase:firebase-messaging:$FIREBASE_MESSAGING_VERSION" />
         <framework src="com.clevertap.android:clevertap-android-sdk:7.1.2"/>
