@@ -12,26 +12,31 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CleverTapCustomTemplates {
 
     private static final TemplatePresenter templatePresenter = new TemplatePresenter() {
         @Override
         public void onPresent(CustomTemplateContext.TemplateContext context) {
-            String json = "{'name':'" + context.getTemplateName() + "'}";
-            CleverTapEventEmitter.sendEvent("CleverTapCustomTemplatePresent", json);
+            Map<String, Object> result = new HashMap<>();
+            result.put("name", context.getTemplateName());
+            CleverTapEventEmitter.sendEvent("CleverTapCustomTemplatePresent", result);
         }
 
         @Override
         public void onClose(CustomTemplateContext.TemplateContext context) {
-            String json = "{'name':'" + context.getTemplateName() + "'}";
-            CleverTapEventEmitter.sendEvent("CleverTapCustomTemplateClose", json);
+            Map<String, Object> result = new HashMap<>();
+            result.put("name", context.getTemplateName());
+            CleverTapEventEmitter.sendEvent("CleverTapCustomTemplateClose", result);
         }
     };
 
     private static final FunctionPresenter functionPresenter = context -> {
-        String json = "{'name':'" + context.getTemplateName() + "'}";
-        CleverTapEventEmitter.sendEvent("CleverTapCustomFunctionPresent", json);
+        Map<String, Object> result = new HashMap<>();
+        result.put("name", context.getTemplateName());
+        CleverTapEventEmitter.sendEvent("CleverTapCustomFunctionPresent", result);
     };
 
     public static void registerCustomTemplates(Context context, String... jsonAssets) {

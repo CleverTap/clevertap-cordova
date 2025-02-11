@@ -136,8 +136,9 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                     Log.w(LOG_TAG, "Found malicious deep link. Not processing further.");
                     return;
                 }
-                final String json = "{'deeplink':'" + data + "'}";
-                CleverTapEventEmitter.sendEvent("onDeepLink", json);
+                Map<String, Object> result = new HashMap<>();
+                result.put("deeplink", data);
+                CleverTapEventEmitter.sendEvent("onDeepLink", result);
             }
         }
         // push notification
@@ -164,12 +165,14 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                     }
                 }
 
-                final String json = "{'notification':" + data + "}";
-                CleverTapEventEmitter.sendEvent("onPushNotification", json);
+                Map<String, Object> result = new HashMap<>();
+                result.put("notification", data);
+                CleverTapEventEmitter.sendEvent("onPushNotification", result);
 
                 if (!callbackDone) {
-                    final String callbackJson = "{'customExtras':" + data + "}";
-                    CleverTapEventEmitter.sendEvent("onCleverTapPushNotificationTappedWithCustomExtras", callbackJson);
+                    Map<String, Object> callbackResult = new HashMap<>();
+                    result.put("customExtras", data.toString());
+                    CleverTapEventEmitter.sendEvent("onCleverTapPushNotificationTappedWithCustomExtras", callbackResult);
                 }
             }
         }
@@ -1947,9 +1950,10 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         try {
             final JSONArray unitsArray = displayUnitListToJSONArray(units);
 
-            final String json = "{'units':" + unitsArray + "}";
+            Map<String, Object> result = new HashMap<>();
+            result.put("units", unitsArray);
 
-            CleverTapEventEmitter.sendEvent("onCleverTapDisplayUnitsLoaded", json);
+            CleverTapEventEmitter.sendEvent("onCleverTapDisplayUnitsLoaded", result);
 
         } catch (JSONException e) {
             Log.d(LOG_TAG, "JSONException in onDisplayUnitsLoaded" + e);
@@ -1979,20 +1983,19 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             return;
         }
 
-        JSONObject extras = var1 != null ? new JSONObject(var1) : new JSONObject();
-        String _json = "{'extras':" + extras + ",";
+        Map<String, Object> result = new HashMap<>();
+        result.put("extras", var1 != null ? new JSONObject(var1) : new JSONObject());
+        result.put("actionExtras", var2 != null ? new JSONObject(var2) : new JSONObject());
 
-        JSONObject actionExtras = var2 != null ? new JSONObject(var2) : new JSONObject();
-        _json += "'actionExtras':" + actionExtras + "}";
-
-        final String json = _json;
-        CleverTapEventEmitter.sendEvent("onCleverTapInAppNotificationDismissed", json);
+        CleverTapEventEmitter.sendEvent("onCleverTapInAppNotificationDismissed", result);
     }
 
     @Override
     public void onPushPermissionResponse(final boolean accepted) {
-        final String json = "{'accepted':" + accepted + "}";
-        CleverTapEventEmitter.sendEvent("onCleverTapPushPermissionResponseReceived", json);
+        Map<String, Object> result = new HashMap<>();
+        result.put("accepted", accepted);
+
+        CleverTapEventEmitter.sendEvent("onCleverTapPushPermissionResponseReceived", result);
     }
 
     // SyncListener
@@ -2002,9 +2005,10 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             return;
         }
 
-        final String json = "{'updates':" + updates + "}";
+        Map<String, Object> result = new HashMap<>();
+        result.put("updates", updates);
 
-        CleverTapEventEmitter.sendEvent("onCleverTapProfileSync", json);
+        CleverTapEventEmitter.sendEvent("onCleverTapProfileSync", result);
     }
 
     public void profileDidInitialize(String CleverTapID) {
@@ -2013,9 +2017,10 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             return;
         }
 
-        final String json = "{'CleverTapID':" + "'" + CleverTapID + "'" + "}";
+        Map<String, Object> result = new HashMap<>();
+        result.put("CleverTapID", CleverTapID);
 
-        CleverTapEventEmitter.sendEvent("onCleverTapProfileDidInitialize", json);
+        CleverTapEventEmitter.sendEvent("onCleverTapProfileDidInitialize", result);
     }
 
     //Inbox/InApp Button Click Listeners
@@ -2023,41 +2028,42 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
     public void onInboxButtonClick(HashMap<String, String> payload) {
         JSONObject jsonPayload = new JSONObject(payload);
 
-        final String json = "{'customExtras':" + jsonPayload + "}";
-        CleverTapEventEmitter.sendEvent("onCleverTapInboxButtonClick", json);
+        Map<String, Object> result = new HashMap<>();
+        result.put("customExtras", jsonPayload);
+
+        CleverTapEventEmitter.sendEvent("onCleverTapInboxButtonClick", result);
     }
 
     @Override
     public void onShow(CTInAppNotification inAppNotification) {
         if(inAppNotification != null &&  inAppNotification.getJsonDescription() != null){
             //Read the values
-            final String json = "{'customExtras':" + inAppNotification.getJsonDescription().toString() + "}";
-            CleverTapEventEmitter.sendEvent("onCleverTapInAppNotificationShow", json);
+            Map<String, Object> result = new HashMap<>();
+            result.put("customExtras", inAppNotification.getJsonDescription());
+            CleverTapEventEmitter.sendEvent("onCleverTapInAppNotificationShow", result);
         }
     }
 
     public void onInboxItemClicked(CTInboxMessage message, int contentPageIndex, int buttonIndex){
         if(message != null &&  message.getData() != null){
             //Read the values
-            JSONObject jsonObject = new JSONObject();
-            try {
-                jsonObject.put("data",message.getData());
-                jsonObject.put("contentPageIndex",contentPageIndex);
-                jsonObject.put("buttonIndex",buttonIndex);
-            } catch (JSONException e) {
-                Log.e(LOG_TAG,"Failed to parse inbox message.");
-            }
+            Map<String, Object> result = new HashMap<>();
+            result.put("data", message.getData());
+            result.put("contentPageIndex", contentPageIndex);
+            result.put("buttonIndex", buttonIndex);
 
-            webView.getView().post(() -> CleverTapEventEmitter.sendEvent("onCleverTapInboxItemClick", jsonObject.toString()));
+            webView.getView().post(() -> CleverTapEventEmitter.sendEvent("onCleverTapInboxItemClick", result));
         }
     }
 
     //InApp Notification callback
     public void onInAppButtonClick(HashMap<String, String> hashMap) {
         JSONObject jsonPayload = new JSONObject(hashMap);
-        final String json = "{'customExtras':" + jsonPayload + "}";
 
-        CleverTapEventEmitter.sendEvent("onCleverTapInAppButtonClick", json);
+        Map<String, Object> result = new HashMap<>();
+        result.put("customExtras", jsonPayload);
+
+        CleverTapEventEmitter.sendEvent("onCleverTapInAppButtonClick", result);
     }
 
     //Feature Flag Listener
@@ -2290,18 +2296,20 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
         JSONObject jsonPayload = new JSONObject(payload);
 
-        final String json = "{'customExtras':" + jsonPayload + "}";
+        Map<String, Object> result = new HashMap<>();
+        result.put("customExtras", jsonPayload);
 
-        CleverTapEventEmitter.sendEvent("onCleverTapPushNotificationTappedWithCustomExtras", json);
+        CleverTapEventEmitter.sendEvent("onCleverTapPushNotificationTappedWithCustomExtras", result);
         callbackDone = true;
     }
 
     public void onPushAmpPayloadReceived(Bundle extras) {
         JSONObject jsonPayload = toJson(extras);
 
-        final String json = "{'customExtras':" + jsonPayload + "}";
+        Map<String, Object> result = new HashMap<>();
+        result.put("customExtras", jsonPayload);
 
-        CleverTapEventEmitter.sendEvent("onCleverTapPushAmpPayloadDidReceived", json);
+        CleverTapEventEmitter.sendEvent("onCleverTapPushAmpPayloadDidReceived", result);
     }
 
     private JSONObject toJson(Bundle bundle) {

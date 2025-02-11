@@ -2,6 +2,10 @@ package com.clevertap.cordova;
 
 import android.util.Log;
 import org.apache.cordova.CordovaWebView;
+import org.json.JSONObject;
+
+import java.util.Collections;
+import java.util.Map;
 
 public class CleverTapEventEmitter {
 
@@ -14,14 +18,16 @@ public class CleverTapEventEmitter {
     }
 
     public static void sendEvent(String event) {
-        sendEvent(event, "");
+        sendEvent(event, Collections.emptyMap());
     }
 
-    public static void sendEvent(String event, String json) {
+    public static void sendEvent(String event, Map<String, Object> data) {
         if (cordovaWebView == null) {
             Log.e(LOG_TAG, "Sending event " + event + " failed. WebView is null");
             return;
         }
+
+        final String json = data.isEmpty() ? "" : new JSONObject(data).toString();
 
         Log.i(LOG_TAG, "Sending event " + event);
         cordovaWebView
