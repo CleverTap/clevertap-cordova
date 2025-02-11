@@ -17,13 +17,18 @@ public class CleverTapEventEmitter {
         cordovaWebView = webView;
     }
 
-    public static void sendEvent(String event) {
+    public static void sendEvent(CleverTapEvent event) {
         sendEvent(event, Collections.emptyMap());
     }
 
-    public static void sendEvent(String event, Map<String, Object> data) {
+    public static void sendEvent(CleverTapEvent event, Map<String, Object> data) {
         if (cordovaWebView == null) {
             Log.e(LOG_TAG, "Sending event " + event + " failed. WebView is null");
+            return;
+        }
+
+        if(event == CleverTapEvent.CLEVERTAP_UNKNOWN) {
+            Log.i(LOG_TAG, "Not Sending event since its unknown");
             return;
         }
 
@@ -32,6 +37,6 @@ public class CleverTapEventEmitter {
         Log.i(LOG_TAG, "Sending event " + event);
         cordovaWebView
                 .getView()
-                .post(() -> cordovaWebView.loadUrl("javascript:cordova.fireDocumentEvent('" + event + "'," + json + ");"));
+                .post(() -> cordovaWebView.loadUrl("javascript:cordova.fireDocumentEvent('" + event.getEventName() + "'," + json + ");"));
     }
 }

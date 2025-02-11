@@ -22,21 +22,21 @@ public class CleverTapCustomTemplates {
         public void onPresent(CustomTemplateContext.TemplateContext context) {
             Map<String, Object> result = new HashMap<>();
             result.put("name", context.getTemplateName());
-            CleverTapEventEmitter.sendEvent("CleverTapCustomTemplatePresent", result);
+            CleverTapEventEmitter.sendEvent(CleverTapEvent.CLEVERTAP_CUSTOM_TEMPLATE_PRESENT, result);
         }
 
         @Override
         public void onClose(CustomTemplateContext.TemplateContext context) {
             Map<String, Object> result = new HashMap<>();
             result.put("name", context.getTemplateName());
-            CleverTapEventEmitter.sendEvent("CleverTapCustomTemplateClose", result);
+            CleverTapEventEmitter.sendEvent(CleverTapEvent.CLEVERTAP_CUSTOM_TEMPLATE_CLOSE, result);
         }
     };
 
     private static final FunctionPresenter functionPresenter = context -> {
         Map<String, Object> result = new HashMap<>();
         result.put("name", context.getTemplateName());
-        CleverTapEventEmitter.sendEvent("CleverTapCustomFunctionPresent", result);
+        CleverTapEventEmitter.sendEvent(CleverTapEvent.CLEVERTAP_CUSTOM_FUNCTION_PRESENT, result);
     };
 
     public static void registerCustomTemplates(Context context, String... jsonAssets) {
