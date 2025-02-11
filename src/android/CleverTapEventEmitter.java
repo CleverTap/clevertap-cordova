@@ -23,7 +23,7 @@ public class CleverTapEventEmitter {
 
     public static void sendEvent(CleverTapEvent event, Map<String, Object> data) {
         if (cordovaWebView == null) {
-            Log.e(LOG_TAG, "Sending event " + event + " failed. WebView is null");
+            Log.e(LOG_TAG, "Sending event " + event.getEventName() + " failed. WebView is null");
             return;
         }
 
@@ -34,7 +34,7 @@ public class CleverTapEventEmitter {
 
         final String json = data.isEmpty() ? "" : new JSONObject(data).toString();
 
-        Log.i(LOG_TAG, "Sending event " + event);
+        Log.i(LOG_TAG, "Sending event " + event.getEventName());
         cordovaWebView
                 .getView()
                 .post(() -> cordovaWebView.loadUrl("javascript:cordova.fireDocumentEvent('" + event.getEventName() + "'," + json + ");"));
