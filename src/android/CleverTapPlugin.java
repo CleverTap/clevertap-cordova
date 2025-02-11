@@ -1936,6 +1936,8 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             result  = new PluginResult(status, (String) value);
         } else if (value instanceof JSONObject) {
             result  = new PluginResult(status, (JSONObject) value);
+        } else if(value instanceof JSONArray) {
+            result  = new PluginResult(status, (JSONArray) value);
         } else {
             result  = new PluginResult(Status.ERROR, "unknown value type");
         }
