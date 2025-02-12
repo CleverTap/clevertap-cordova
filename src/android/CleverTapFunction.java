@@ -139,6 +139,9 @@ public enum CleverTapFunction {
     }
 
     public static CleverTapFunction fromString(String action) {
+        if (action == null) {
+            return CLEVERTAP_UNKNOWN;
+        }
         for (CleverTapFunction event : CleverTapFunction.values()) {
             if (event.getAction().equals(action)) {
                 return event;
