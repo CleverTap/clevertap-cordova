@@ -132,10 +132,16 @@ function setupButtons() {
 
 
         ["title","User Profile"],
-        ["profile Set", () => {
+        ["profile Set with Identity = 20701", () => {
             let key = prompt("Please enter key", "stringAttr1");
             let value = prompt("Please enter value for " + key, "newValue");
             CleverTap.profileSet({"Identity": 20701, "DOB": "1951-10-15", "custom": 1.3, [key]: value})}],
+
+        ["profile Set with Random Identity", () => {
+            let key = prompt("Please enter key", "stringAttr1");
+            let value = prompt("Please enter value for " + key, "newValue");
+            let randomIdentity = Math.floor(Math.random() * 1000000);
+            CleverTap.profileSet({"Identity": randomIdentity, "DOB": "1951-10-15", "custom": 1.3, [key]: value})}],
         ["profile SetMultiValues", () => CleverTap.profileSetMultiValues("multiValue", ["one", "two", "three", "four"])],
         ["profile getLocation/setLocation", () => CleverTap.getLocation(loc => {
             log("CleverTapLocation is " + loc.lat + loc.lon)
@@ -144,7 +150,8 @@ function setupButtons() {
         ["profile GetProperty - DOB", () => CleverTap.profileGetProperty("DOB", val => log("DOB profile value is " + val))],
         ["profile GetProperty - Identity", () => CleverTap.profileGetProperty("Identity", val => log("Identity profile value is " + val))],
         ["profile GetProperty - custom", () => CleverTap.profileGetProperty("custom", val => log("custom profile value is " + val))],
-        ["profile onUserLogin", () => CleverTap.onUserLogin({"Identity": 20700, "custom": 1.3})],
+        ["profile onUserLogin with Identity = 20701", () => CleverTap.onUserLogin({"Identity": 20700, "custom": 1.3})],
+        ["profile onUserLogin with Random Identity", () => CleverTap.onUserLogin({"Identity": Math.floor(Math.random() * 1000000), "custom": 1.3})],
         ["profile Add MultiValue", () => CleverTap.profileAddMultiValue("multiValue", "five")],
         ["profile Remove MultiValues", () => CleverTap.profileRemoveMultiValues("multiValue", ["one", "two"])],
         ["profile Remove MultiValuE", () => CleverTap.profileRemoveMultiValue("multiValue", "three")],
@@ -191,8 +198,16 @@ function setupButtons() {
         ["push Inbox Notification Clicked Event For Id", () => CleverTap.pushInboxNotificationClickedEventForId("messageId")],
         ["dismiss Inbox", () => CleverTap.dismissInbox()],
 
-        ["title","Feature flag"],
-        ["get Feature Flag", () => CleverTap.getFeatureFlag("test", true, val => log("Value is " + val))],
+        ["title","User History"],
+        ["event GetFirstTime - foo", () => CleverTap.getUserEventLog("foo", eventLog => log("foo event first time is " + eventLog.firstTime))],
+        ["event GetLastTime - foo", () => CleverTap.getUserEventLog("foo", eventLog => log("foo last time is " + eventLog.lastTime))],
+        ["event GetOccurrences foo", () => CleverTap.getUserEventLogCount("foo", count => log("foo event occurrences " + count))],
+        ["event GetUserEventLog - Charged", () => CleverTap.getUserEventLog("Charged", res => log(res))],
+        ["getEventHistory", () => CleverTap.getUserEventLogHistory(history => log(history))],
+        ["App Launch Count", () => CleverTap.getUserAppLaunchCount(count => log("App Launch Count " + count))],
+        ["session GetTimeElapsed", () => CleverTap.sessionGetTimeElapsed(val => log("session elapsed time is " + val))],
+        ["session GetScreenCount", () => CleverTap.sessionGetScreenCount(val => log("session screen count is " + val))],
+        ["session GetUTMDetails", () => CleverTap.sessionGetUTMDetails(val => log(val))],
 
         ["title","Device Identifiers"],
         ["get CleverTap ID", () => CleverTap.getCleverTapID(val => log("getCleverTapID is " + val))],
@@ -207,16 +222,6 @@ function setupButtons() {
         ["notify Device Ready", () => CleverTap.notifyDeviceReady()],
         ["register Push", () => CleverTap.registerPush()],
         ["pushInstallReferrer", () => CleverTap.pushInstallReferrer("source", "medium", "campaign")],
-        ["event GetFirstTime - foo", () => CleverTap.getUserEventLog("foo", eventLog => log("foo event first time is " + eventLog.firstTime))],
-        ["event GetLastTime - foo", () => CleverTap.getUserEventLog("foo", eventLog => log("foo last time is " + eventLog.lastTime))],
-        ["event GetOccurrences foo", () => CleverTap.getUserEventLogCount("foo", count => log("foo event occurrences " + count))],
-        ["event GetUserEventLog - Charged", () => CleverTap.getUserEventLog("Charged", res => log(res))],
-        ["getEventHistory", () => CleverTap.getUserEventLogHistory(history => log(history))],
-        ["App Launch Count", () => CleverTap.getUserAppLaunchCount(count => log("App Launch Count " + count))],
-        ["session GetPreviousVisitTime", () => CleverTap.getUserLastVisitTs(val => log("User Last Visit TS" + val))],
-        ["session GetTimeElapsed", () => CleverTap.sessionGetTimeElapsed(val => log("session elapsed time is " + val))],
-        ["session GetScreenCount", () => CleverTap.sessionGetScreenCount(val => log("session screen count is " + val))],
-        ["session GetUTMDetails", () => CleverTap.sessionGetUTMDetails(val => log(val))],
         ["enable Personalization", () => CleverTap.enablePersonalization()],
         ["disable Personalization", () => CleverTap.disablePersonalization()],
         ["set Defaults Map", () => CleverTap.setDefaultsMap({"test": "val1", "test1": "val2"})],

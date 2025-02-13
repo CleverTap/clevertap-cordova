@@ -19,7 +19,11 @@
 
 package com.clevertap.example;
 
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+
+import com.clevertap.android.sdk.CleverTapAPI;
 
 import org.apache.cordova.*;
 
@@ -38,5 +42,17 @@ public class MainActivity extends CordovaActivity
 
         // Set by <content src="index.html" /> in config.xml
         loadUrl(launchUrl);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            CleverTapAPI cleverTapAPI = CleverTapAPI.getDefaultInstance(getApplicationContext());
+            if(cleverTapAPI != null) {
+                cleverTapAPI.pushNotificationClickedEvent(intent.getExtras());
+            }
+        }
     }
 }
