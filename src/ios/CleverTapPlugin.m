@@ -129,6 +129,10 @@ static NSMutableDictionary *allVariables;
         if(detail.eventName) {
             [_dict setObject:detail.eventName forKey:@"eventName"];
         }
+
+        if(detail.normalizedEventName){
+            [_dict setObject:detail.normalizedEventName forKey:@"normalizedEventName"];
+        }
         
         if(detail.firstTime){
             [_dict setObject:@(detail.firstTime) forKey:@"firstTime"];
@@ -140,6 +144,10 @@ static NSMutableDictionary *allVariables;
         
         if(detail.count){
             [_dict setObject:@(detail.count) forKey:@"count"];
+        }
+
+        if(detail.deviceID){
+            [_dict setObject:detail.deviceID forKey:@"deviceID"];
         }
     }
     
@@ -665,6 +673,67 @@ static NSMutableDictionary *allVariables;
         }
         
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:_history];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
+}
+
+- (void)getUserEventLog:(CDVInvokedUrlCommand *)command {
+    
+    [self.commandDelegate runInBackground:^{
+        NSString *eventName = [command argumentAtIndex:0];
+        if (eventName != nil && [eventName isKindOfClass:[NSString class]]) {
+            CleverTapEventDetail *detail = [clevertap getUserEventLog:eventName];
+            NSDictionary * res = [self _eventDetailToDict:detail];
+            CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:res];
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        }
+    }];
+}
+
+- (void)getUserEventLogCount:(CDVInvokedUrlCommand *)command {
+    
+    [self.commandDelegate runInBackground:^{
+        NSString *eventName = [command argumentAtIndex:0];
+        if (eventName != nil && [eventName isKindOfClass:[NSString class]]) {
+            int num = [clevertap getUserEventLogCount:eventName];
+            CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:num];
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        }
+    }];
+}
+
+- (void)getUserEventLogHistory:(CDVInvokedUrlCommand *)command {
+    
+    [self.commandDelegate runInBackground:^{
+        NSDictionary *history = [clevertap getUserEventLogHistory];
+        
+        NSMutableDictionary *_history = [NSMutableDictionary new];
+        
+        for (NSString *eventName in [history keyEnumerator]) {
+            CleverTapEventDetail *detail = [history objectForKey:eventName];
+            NSDictionary * _inner = [self _eventDetailToDict:detail];
+            [_history setObject:_inner forKey:eventName];
+        }
+        
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:_history];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
+}
+
+- (void)getUserLastVisitTs:(CDVInvokedUrlCommand *)command {
+    
+    [self.commandDelegate runInBackground:^{
+        NSTimeInterval previous = [clevertap getUserLastVisitTs];
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDouble:previous];
+        [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+    }];
+}
+
+- (void)getUserAppLaunchCount:(CDVInvokedUrlCommand *)command {
+    
+    [self.commandDelegate runInBackground:^{
+        int total = [clevertap getUserAppLaunchCount];
+        CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:total];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
 }
@@ -1392,7 +1461,7 @@ static NSMutableDictionary *allVariables;
 
 - (void)setLibrary {
     NSString *libName = @"Cordova";
-    int libVersion = 30300;
+    int libVersion = 30400;
     [clevertap setLibrary:libName];
     [clevertap setCustomSdkVersion:libName version:libVersion];
 }
