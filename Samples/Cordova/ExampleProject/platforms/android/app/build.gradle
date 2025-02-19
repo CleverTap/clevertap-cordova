@@ -350,6 +350,10 @@ dependencies {
     implementation "androidx.media3:media3-exoplayer:1.1.1"
     implementation "androidx.media3:media3-exoplayer-hls:1.1.1"
     implementation "androidx.media3:media3-ui:1.1.1"
+
+    // Unit Testing
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.json:json:20160212'
     // SUB-PROJECT DEPENDENCIES END
 }
 

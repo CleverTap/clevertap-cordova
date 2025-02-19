@@ -32,11 +32,15 @@ public class CleverTapEventEmitter {
             return;
         }
 
-        final String json = data.isEmpty() ? "" : new JSONObject(data).toString();
+        final String json = toJSONString(data);
 
         Log.i(LOG_TAG, "Sending event " + event.getEventName());
         cordovaWebView
                 .getView()
                 .post(() -> cordovaWebView.loadUrl("javascript:cordova.fireDocumentEvent('" + event.getEventName() + "'," + json + ");"));
+    }
+
+    public static String toJSONString(Map<String, Object> data) {
+        return data.isEmpty() ? "" : new JSONObject(data).toString();
     }
 }
