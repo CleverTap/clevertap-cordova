@@ -50,7 +50,7 @@ public class MainActivity extends CordovaActivity
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             CleverTapAPI cleverTapAPI = CleverTapAPI.getDefaultInstance(getApplicationContext());
-            if(cleverTapAPI != null) {
+            if(cleverTapAPI != null && intent.getExtras() != null) {
                 cleverTapAPI.pushNotificationClickedEvent(intent.getExtras());
             }
         }
