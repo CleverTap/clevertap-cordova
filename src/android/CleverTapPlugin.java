@@ -203,7 +203,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void setPushToken(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            final String token = args.getString(0);
+            final String token = arguments.getString(0);
             cordova.getThreadPool().execute(() -> {
                 cleverTap.pushFcmRegistrationId(token, true);
                 sendPluginResult(callbackContext, Status.NO_RESULT);
@@ -213,7 +213,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void setPushBaiduToken(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            final String token = args.getString(0);
+            final String token = arguments.getString(0);
             cordova.getThreadPool().execute(() -> {
                 cleverTap.pushBaiduRegistrationId(token, true);
                 sendPluginResult(callbackContext, Status.NO_RESULT);
@@ -223,7 +223,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void setPushHuaweiToken(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            final String token = args.getString(0);
+            final String token = arguments.getString(0);
             cordova.getThreadPool().execute(() -> {
                 cleverTap.pushHuaweiRegistrationId(token, true);
                 sendPluginResult(callbackContext, Status.NO_RESULT);
@@ -233,7 +233,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void createNotification(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            final String extras = args.getString(0);
+            final String extras = arguments.getString(0);
             JSONObject json = new JSONObject(extras);
             Bundle bundle = new Bundle();
             for (Iterator<String> entry = json.keys(); entry.hasNext(); ) {
@@ -250,11 +250,11 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void createNotificationChannel(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            final String channelId = (args.length() == 5 ? args.getString(0) : "");
-            final String channelName = (args.length() == 5 ? args.getString(1) : "");
-            final String channelDescription = (args.length() == 5 ? args.getString(2) : "");
-            final int importance = Integer.parseInt((args.length() == 5 ? args.getString(3) : "0"));
-            final boolean showBadge = Boolean.valueOf((args.length() == 5 ? args.getString(4) : "false"));
+            final String channelId = (arguments.length() == 5 ? arguments.getString(0) : "");
+            final String channelName = (arguments.length() == 5 ? arguments.getString(1) : "");
+            final String channelDescription = (arguments.length() == 5 ? arguments.getString(2) : "");
+            final int importance = Integer.parseInt((arguments.length() == 5 ? arguments.getString(3) : "0"));
+            final boolean showBadge = Boolean.valueOf((arguments.length() == 5 ? arguments.getString(4) : "false"));
 
             cordova.getThreadPool().execute(() -> {
                 CleverTapAPI.createNotificationChannel(cordova.getActivity().getApplicationContext(), channelId, channelName, channelDescription, importance, showBadge);
@@ -265,12 +265,12 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void createNotificationChannelWithSound(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            final String channelId = (args.length() == 6 ? args.getString(0) : "");
-            final String channelName = (args.length() == 6 ? args.getString(1) : "");
-            final String channelDescription = (args.length() == 6 ? args.getString(2) : "");
-            final int importance = Integer.parseInt((args.length() == 6 ? args.getString(3) : "0"));
-            final boolean showBadge = Boolean.valueOf((args.length() == 6 ? args.getString(4) : "false"));
-            final String sound = (args.length() == 6 ? args.getString(5) : "");
+            final String channelId = (arguments.length() == 6 ? arguments.getString(0) : "");
+            final String channelName = (arguments.length() == 6 ? arguments.getString(1) : "");
+            final String channelDescription = (arguments.length() == 6 ? arguments.getString(2) : "");
+            final int importance = Integer.parseInt((arguments.length() == 6 ? arguments.getString(3) : "0"));
+            final boolean showBadge = Boolean.valueOf((arguments.length() == 6 ? arguments.getString(4) : "false"));
+            final String sound = (arguments.length() == 6 ? arguments.getString(5) : "");
             cordova.getThreadPool().execute(() -> {
                 CleverTapAPI.createNotificationChannel(cordova.getActivity().getApplicationContext(), channelId, channelName, channelDescription, importance, showBadge, sound);
                 sendPluginResult(callbackContext, Status.NO_RESULT);
@@ -280,12 +280,12 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void createNotificationChannelWithGroupId(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            final String channelId = (args.length() == 6 ? args.getString(0) : "");
-            final String channelName = (args.length() == 6 ? args.getString(1) : "");
-            final String channelDescription = (args.length() == 6 ? args.getString(2) : "");
-            final int importance = Integer.parseInt((args.length() == 6 ? args.getString(3) : "0"));
-            final String groupId = (args.length() == 6 ? args.getString(4) : "");
-            final boolean showBadge = Boolean.valueOf((args.length() == 6 ? args.getString(5) : "false"));
+            final String channelId = (arguments.length() == 6 ? arguments.getString(0) : "");
+            final String channelName = (arguments.length() == 6 ? arguments.getString(1) : "");
+            final String channelDescription = (arguments.length() == 6 ? arguments.getString(2) : "");
+            final int importance = Integer.parseInt((arguments.length() == 6 ? arguments.getString(3) : "0"));
+            final String groupId = (arguments.length() == 6 ? arguments.getString(4) : "");
+            final boolean showBadge = Boolean.valueOf((arguments.length() == 6 ? arguments.getString(5) : "false"));
 
             cordova.getThreadPool().execute(() -> {
                 CleverTapAPI.createNotificationChannel(cordova.getActivity().getApplicationContext(), channelId, channelName, channelDescription, importance, groupId, showBadge);
@@ -296,13 +296,13 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void createNotificationChannelWithGroupIdAndSound(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            final String channelId = (args.length() == 7 ? args.getString(0) : "");
-            final String channelName = (args.length() == 7 ? args.getString(1) : "");
-            final String channelDescription = (args.length() == 7 ? args.getString(2) : "");
-            final int importance = Integer.parseInt((args.length() == 7 ? args.getString(3) : "0"));
-            final String groupId = (args.length() == 7 ? args.getString(4) : "");
-            final boolean showBadge = Boolean.valueOf((args.length() == 7 ? args.getString(5) : "false"));
-            final String sound = (args.length() == 7 ? args.getString(6) : "");
+            final String channelId = (arguments.length() == 7 ? arguments.getString(0) : "");
+            final String channelName = (arguments.length() == 7 ? arguments.getString(1) : "");
+            final String channelDescription = (arguments.length() == 7 ? arguments.getString(2) : "");
+            final int importance = Integer.parseInt((arguments.length() == 7 ? arguments.getString(3) : "0"));
+            final String groupId = (arguments.length() == 7 ? arguments.getString(4) : "");
+            final boolean showBadge = Boolean.valueOf((arguments.length() == 7 ? arguments.getString(5) : "false"));
+            final String sound = (arguments.length() == 7 ? arguments.getString(6) : "");
 
             cordova.getThreadPool().execute(() -> {
                 CleverTapAPI.createNotificationChannel(cordova.getActivity().getApplicationContext(), channelId, channelName, channelDescription, importance, groupId, showBadge, sound);
@@ -313,8 +313,8 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void createNotificationChannelGroup(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            final String groupId = (args.length() == 2 ? args.getString(0) : "");
-            final String groupName = (args.length() == 2 ? args.getString(1) : "");
+            final String groupId = (arguments.length() == 2 ? arguments.getString(0) : "");
+            final String groupName = (arguments.length() == 2 ? arguments.getString(1) : "");
 
             cordova.getThreadPool().execute(() -> {
                 CleverTapAPI.createNotificationChannelGroup(cordova.getActivity().getApplicationContext(), groupId, groupName);
@@ -326,7 +326,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void deleteNotificationChannel(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            final String channelId = (args.length() == 1 ? args.getString(0) : "");
+            final String channelId = (arguments.length() == 1 ? arguments.getString(0) : "");
             cordova.getThreadPool().execute(() -> {
                 CleverTapAPI.deleteNotificationChannel(cordova.getActivity().getApplicationContext(), channelId);
                 sendPluginResult(callbackContext, Status.NO_RESULT);
@@ -336,7 +336,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void deleteNotificationChannelGroup(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            final String groupId = (args.length() == 1 ? args.getString(0) : "");
+            final String groupId = (arguments.length() == 1 ? arguments.getString(0) : "");
             cordova.getThreadPool().execute(() -> {
                 CleverTapAPI.deleteNotificationChannelGroup(cordova.getActivity().getApplicationContext(), groupId);
                 sendPluginResult(callbackContext, Status.NO_RESULT);
@@ -346,7 +346,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void recordScreenView(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            final String screen = (args.length() == 1 ? args.getString(0) : "");
+            final String screen = (arguments.length() == 1 ? arguments.getString(0) : "");
             cordova.getThreadPool().execute(() -> {
                 cleverTap.recordScreen(screen);
                 sendPluginResult(callbackContext, Status.NO_RESULT);
@@ -356,7 +356,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void setDebugLevel(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            int level = (args.length() == 1 ? args.getInt(0) : -2);
+            int level = (arguments.length() == 1 ? arguments.getInt(0) : -2);
             if (level >= -1) {
                 CleverTapAPI.setDebugLevel(level);
                 sendPluginResult(callbackContext, Status.NO_RESULT);
@@ -366,7 +366,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void setOptOut(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            final boolean optOut = args.getBoolean(0);
+            final boolean optOut = arguments.getBoolean(0);
             cordova.getThreadPool().execute(() -> {
                 cleverTap.setOptOut(optOut);
                 sendPluginResult(callbackContext, Status.NO_RESULT);
@@ -376,7 +376,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void setOffline(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            final boolean offline = args.getBoolean(0);
+            final boolean offline = arguments.getBoolean(0);
             cordova.getThreadPool().execute(() -> {
                 cleverTap.setOffline(offline);
                 sendPluginResult(callbackContext, Status.NO_RESULT);
@@ -386,7 +386,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void enableDeviceNetworkInfoReporting(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            final boolean enable = args.getBoolean(0);
+            final boolean enable = arguments.getBoolean(0);
             cordova.getThreadPool().execute(() -> {
                 cleverTap.enableDeviceNetworkInfoReporting(enable);
                 sendPluginResult(callbackContext, Status.NO_RESULT);
@@ -410,7 +410,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void recordEventWithName(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            final String eventName = args.getString(0);
+            final String eventName = arguments.getString(0);
             cordova.getThreadPool().execute(() -> {
                 cleverTap.pushEvent(eventName);
                 sendPluginResult(callbackContext, Status.NO_RESULT);
@@ -420,8 +420,8 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void recordEventWithNameAndProps(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            String eventName = args.getString(0);
-            JSONObject jsonProps = args.getJSONObject(1);
+            String eventName = arguments.getString(0);
+            JSONObject jsonProps = arguments.getJSONObject(1);
             HashMap<String, Object> props = toMap(jsonProps);
 
             cordova.getThreadPool().execute(() -> {
@@ -433,8 +433,8 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void recordChargedEventWithDetailsAndItems(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            JSONObject jsonDetails = args.getJSONObject(0);
-            JSONArray jsonItems = args.getJSONArray(1);
+            JSONObject jsonDetails = arguments.getJSONObject(0);
+            JSONArray jsonItems = arguments.getJSONArray(1);
 
             HashMap<String, Object> details = toMap(jsonDetails);
             ArrayList<HashMap<String, Object>> items = toArrayListOfStringObjectMaps(jsonItems);
@@ -448,9 +448,9 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void pushInstallReferrer(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            String source = args.getString(0);
-            String medium = args.getString(1);
-            String campaign = args.getString(2);
+            String source = arguments.getString(0);
+            String medium = arguments.getString(1);
+            String campaign = arguments.getString(2);
 
             cordova.getThreadPool().execute(() -> {
                 cleverTap.pushInstallReferrer(source, medium, campaign);
@@ -461,7 +461,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void eventGetFirstTime(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            String eventName = args.getString(0);
+            String eventName = arguments.getString(0);
             cordova.getThreadPool().execute(() -> {
                 double firstTime = cleverTap.getFirstTime(eventName);
                 sendPluginResult(callbackContext, Status.OK, (float) firstTime);
@@ -471,7 +471,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void eventGetLastTime(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            String eventName = args.getString(0);
+            String eventName = arguments.getString(0);
             cordova.getThreadPool().execute(() -> {
                 double lastTime = cleverTap.getLastTime(eventName);
                 sendPluginResult(callbackContext, Status.OK, (float) lastTime);
@@ -481,7 +481,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void eventGetOccurrences(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            String eventName = args.getString(0);
+            String eventName = arguments.getString(0);
             cordova.getThreadPool().execute(() -> {
                 int occurrences = cleverTap.getCount(eventName);
                 sendPluginResult(callbackContext, Status.OK, occurrences);
@@ -491,7 +491,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void eventGetDetails(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            String eventName = args.getString(0);
+            String eventName = arguments.getString(0);
             cordova.getThreadPool().execute(() -> {
                 EventDetail details = cleverTap.getDetails(eventName);
                 try {
@@ -518,7 +518,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void getUserEventLog(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            String eventName = args.getString(0);
+            String eventName = arguments.getString(0);
             cordova.getThreadPool().execute(() -> {
                 UserEventLog eventLog = cleverTap.getUserEventLog(eventName);
                 try {
@@ -533,7 +533,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void getUserEventLogCount(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            String eventName = args.getString(0);
+            String eventName = arguments.getString(0);
             cordova.getThreadPool().execute(() -> {
                 int count = cleverTap.getUserEventLogCount(eventName);
                 sendPluginResult(callbackContext, Status.OK, count);
@@ -569,8 +569,8 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void setLocation(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            double lat = args.getDouble(0);
-            double lon = args.getDouble(1);
+            double lat = arguments.getDouble(0);
+            double lon = arguments.getDouble(1);
             final Location location = new Location("CleverTapPlugin");
             location.setLatitude(lat);
             location.setLongitude(lon);
@@ -601,7 +601,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void profileSet(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            JSONObject jsonProfile = args.getJSONObject(0);
+            JSONObject jsonProfile = arguments.getJSONObject(0);
             cordova.getThreadPool().execute(() -> {
                 try {
                     HashMap<String, Object> profile = formatProfile(jsonProfile);
@@ -616,7 +616,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void onUserLogin(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            JSONObject jsonProfile = args.getJSONObject(0);
+            JSONObject jsonProfile = arguments.getJSONObject(0);
             cordova.getThreadPool().execute(() -> {
                 try {
                     HashMap<String, Object> profile = formatProfile(jsonProfile);
@@ -631,7 +631,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void profileGetProperty(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            String propertyName = args.getString(0);
+            String propertyName = arguments.getString(0);
             cordova.getThreadPool().execute(() -> {
                 Object prop = cleverTap.getProperty(propertyName);
                 if (prop instanceof JSONArray) {
@@ -670,7 +670,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void profileRemoveValueForKey(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            String key = args.getString(0);
+            String key = arguments.getString(0);
             cordova.getThreadPool().execute(() -> {
                 cleverTap.removeValueForKey(key);
                 sendPluginResult(callbackContext, Status.NO_RESULT);
@@ -680,8 +680,8 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void profileSetMultiValues(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            String key = args.getString(0);
-            JSONArray values = args.getJSONArray(1);
+            String key = arguments.getString(0);
+            JSONArray values = arguments.getJSONArray(1);
             ArrayList<String> valueList = new ArrayList<>();
 
             for (int i = 0; i < values.length(); i++) {
@@ -697,8 +697,8 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void profileAddMultiValues(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            String key = args.getString(0);
-            JSONArray values = args.getJSONArray(1);
+            String key = arguments.getString(0);
+            JSONArray values = arguments.getJSONArray(1);
             ArrayList<String> valueList = new ArrayList<>();
 
             for (int i = 0; i < values.length(); i++) {
@@ -714,8 +714,8 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void profileRemoveMultiValues(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            String key = args.getString(0);
-            JSONArray values = args.getJSONArray(1);
+            String key = arguments.getString(0);
+            JSONArray values = arguments.getJSONArray(1);
             ArrayList<String> valueList = new ArrayList<>();
 
             for (int i = 0; i < values.length(); i++) {
@@ -731,8 +731,8 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void profileAddMultiValue(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            String key = args.getString(0);
-            String value = args.getString(1);
+            String key = arguments.getString(0);
+            String value = arguments.getString(1);
 
             cordova.getThreadPool().execute(() -> {
                 cleverTap.addMultiValueForKey(key, value);
@@ -743,8 +743,8 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void profileRemoveMultiValue(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            String key = args.getString(0);
-            String value = args.getString(1);
+            String key = arguments.getString(0);
+            String value = arguments.getString(1);
 
             cordova.getThreadPool().execute(() -> {
                 cleverTap.removeMultiValueForKey(key, value);
@@ -755,8 +755,8 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void profileIncrementValueBy(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            String key = args.getString(0);
-            double value = args.getDouble(1);
+            String key = arguments.getString(0);
+            double value = arguments.getDouble(1);
 
             cordova.getThreadPool().execute(() -> {
                 cleverTap.incrementValue(key, value);
@@ -767,8 +767,8 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void profileDecrementValueBy(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            String key = args.getString(0);
-            double value = args.getDouble(1);
+            String key = arguments.getString(0);
+            double value = arguments.getDouble(1);
 
             cordova.getThreadPool().execute(() -> {
                 cleverTap.decrementValue(key, value);
@@ -828,8 +828,8 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         cordova.getThreadPool().execute(() -> executeWithArgs(args, callbackContext, (arguments) -> {
             JSONObject styleConfigJSON;
             CTInboxStyleConfig styleConfig = new CTInboxStyleConfig();
-            if (args.length() == 1) {
-                styleConfigJSON = args.getJSONObject(0);
+            if (arguments.length() == 1) {
+                styleConfigJSON = arguments.getJSONObject(0);
                 styleConfig = toStyleConfig(styleConfigJSON);
             }
             cleverTap.showAppInbox(styleConfig);
@@ -875,7 +875,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void getInboxMessageForId(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            final String messageId = (args.length() == 1 ? args.getString(0) : "");
+            final String messageId = (arguments.length() == 1 ? arguments.getString(0) : "");
 
             cordova.getThreadPool().execute(() -> {
                 CTInboxMessage message = cleverTap.getInboxMessageForId(messageId);
@@ -890,7 +890,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void deleteInboxMessageForId(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            final String messageId = (args.length() == 1 ? args.getString(0) : "");
+            final String messageId = (arguments.length() == 1 ? arguments.getString(0) : "");
 
             cordova.getThreadPool().execute(() -> {
                 cleverTap.deleteInboxMessage(messageId);
@@ -901,7 +901,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void markReadInboxMessageForId(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            final String messageId = (args.length() == 1 ? args.getString(0) : "");
+            final String messageId = (arguments.length() == 1 ? arguments.getString(0) : "");
 
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
@@ -914,7 +914,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void markReadInboxMessagesForIds(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            final JSONArray finalJsonArray = args.getJSONArray(0);
+            final JSONArray finalJsonArray = arguments.getJSONArray(0);
             cordova.getThreadPool().execute(() -> {
                 try {
                     cleverTap.markReadInboxMessagesForIDs((ArrayList<String>) toStringList(finalJsonArray));
@@ -928,7 +928,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void deleteInboxMessagesForIds(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            final JSONArray finalJsonArray = args.getJSONArray(0);
+            final JSONArray finalJsonArray = arguments.getJSONArray(0);
             cordova.getThreadPool().execute(() -> {
                 try {
                     cleverTap.deleteInboxMessagesForIDs((ArrayList<String>) toStringList(finalJsonArray));
@@ -949,7 +949,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void pushInboxNotificationViewedEventForId(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            final String messageId = (args.length() == 1 ? args.getString(0) : "");
+            final String messageId = (arguments.length() == 1 ? arguments.getString(0) : "");
 
             cordova.getThreadPool().execute(() -> {
                 cleverTap.pushInboxNotificationViewedEvent(messageId);
@@ -960,7 +960,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void pushInboxNotificationClickedEventForId(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            final String messageId = (args.length() == 1 ? args.getString(0) : "");
+            final String messageId = (arguments.length() == 1 ? arguments.getString(0) : "");
             cordova.getThreadPool().execute(() -> {
                 cleverTap.pushInboxNotificationClickedEvent(messageId);
                 sendPluginResult(callbackContext, Status.NO_RESULT);
@@ -981,7 +981,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void getDisplayUnitForId(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            final String unitId = (args.length() == 1 ? args.getString(0) : "");
+            final String unitId = (arguments.length() == 1 ? arguments.getString(0) : "");
 
             cordova.getThreadPool().execute(() -> {
                 CleverTapDisplayUnit displayUnit = cleverTap.getDisplayUnitForId(unitId);
@@ -996,7 +996,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void pushDisplayUnitViewedEventForId(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            final String unitId = (args.length() == 1 ? args.getString(0) : "");
+            final String unitId = (arguments.length() == 1 ? arguments.getString(0) : "");
 
             cordova.getThreadPool().execute(() -> {
                 cleverTap.pushDisplayUnitViewedEventForID(unitId);
@@ -1007,7 +1007,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void pushDisplayUnitClickedEventForId(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            final String unitId = (args.length() == 1 ? args.getString(0) : "");
+            final String unitId = (arguments.length() == 1 ? arguments.getString(0) : "");
 
             cordova.getThreadPool().execute(() -> {
                 cleverTap.pushDisplayUnitClickedEventForID(unitId);
@@ -1026,8 +1026,8 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void getFeatureFlag(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            final String name = args.getString(0);
-            final boolean defaultValue = args.getBoolean(1);
+            final String name = arguments.getString(0);
+            final boolean defaultValue = arguments.getBoolean(1);
 
             cordova.getThreadPool().execute(() -> {
                 boolean value = cleverTap.featureFlag().get(name, defaultValue);
@@ -1046,7 +1046,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void setDefaultsMap(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            final HashMap<String, Object> defaultValue = toMap(args.getJSONObject(0));
+            final HashMap<String, Object> defaultValue = toMap(arguments.getJSONObject(0));
             cordova.getThreadPool().execute(() -> {
                 cleverTap.productConfig().setDefaults(defaultValue);
                 sendPluginResult(callbackContext, Status.NO_RESULT);
@@ -1063,7 +1063,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void fetchWithMinimumFetchIntervalInSeconds(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            long interval = args.getInt(0);
+            long interval = arguments.getInt(0);
             cordova.getThreadPool().execute(() -> {
                 cleverTap.productConfig().fetch(interval);
                 sendPluginResult(callbackContext, Status.NO_RESULT);
@@ -1087,7 +1087,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void setMinimumFetchIntervalInSeconds(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            long interval = args.getInt(0);
+            long interval = arguments.getInt(0);
             cordova.getThreadPool().execute(() -> {
                 cleverTap.productConfig().setMinimumFetchIntervalInSeconds(interval);
                 sendPluginResult(callbackContext, Status.NO_RESULT);
@@ -1104,7 +1104,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void getString(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            String key = args.getString(0);
+            String key = arguments.getString(0);
             cordova.getThreadPool().execute(() -> {
                 String value = cleverTap.productConfig().getString(key);
                 sendPluginResult(callbackContext, Status.OK, value);
@@ -1114,7 +1114,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void getBoolean(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            String key = args.getString(0);
+            String key = arguments.getString(0);
             cordova.getThreadPool().execute(() -> {
                 boolean value = cleverTap.productConfig().getBoolean(key);
                 sendPluginResult(callbackContext, Status.OK, value);
@@ -1124,7 +1124,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void getLong(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            String key = args.getString(0);
+            String key = arguments.getString(0);
             cordova.getThreadPool().execute(() -> {
                 long value = cleverTap.productConfig().getLong(key);
                 sendPluginResult(callbackContext, Status.OK, value);
@@ -1134,7 +1134,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void getDouble(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            String key = args.getString(0);
+            String key = arguments.getString(0);
             cordova.getThreadPool().execute(() -> {
                 float value = cleverTap.productConfig().getDouble(key).floatValue();
                 sendPluginResult(callbackContext, Status.OK, value);
@@ -1173,7 +1173,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
     private void promptPushPrimer(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
 
-            final JSONObject pushPrimerJsonObject = processPushPrimerArgument(args.getJSONObject(0));
+            final JSONObject pushPrimerJsonObject = processPushPrimerArgument(arguments.getJSONObject(0));
             if (pushPrimerJsonObject != null) {
                 cordova.getThreadPool().execute(() -> {
                     cleverTap.promptPushPrimer(pushPrimerJsonObject);
@@ -1186,7 +1186,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void promptForPushPermission(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            final boolean showFallbackSettings = args.getBoolean(0);
+            final boolean showFallbackSettings = arguments.getBoolean(0);
             cordova.getThreadPool().execute(() -> {
                 cleverTap.promptForPushPermission(showFallbackSettings);
                 sendPluginResult(callbackContext, Status.NO_RESULT);
@@ -1203,8 +1203,8 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void setLibrary(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            String libName = args.getString(0);
-            int libVersion = args.getInt(1);
+            String libName = arguments.getString(0);
+            int libVersion = arguments.getInt(1);
 
             cordova.getThreadPool().execute(() -> {
                 cleverTap.setCustomSdkVersion(libName, libVersion);
@@ -1233,7 +1233,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void defineVariables(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            final Map<String, Object> variablesMap = toMap(args.getJSONObject(0));
+            final Map<String, Object> variablesMap = toMap(arguments.getJSONObject(0));
 
             cordova.getThreadPool().execute(() -> {
                 for (Map.Entry<String, Object> entry : variablesMap.entrySet()) {
@@ -1246,7 +1246,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void defineFileVariable(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            String fileVariable = args.getString(0);
+            String fileVariable = arguments.getString(0);
 
             cordova.getThreadPool().execute(() -> {
                 variables.put(fileVariable, cleverTap.defineFileVariable(fileVariable));
@@ -1257,7 +1257,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void getVariable(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            String variableName = args.getString(0);
+            String variableName = arguments.getString(0);
 
             cordova.getThreadPool().execute(() -> {
                 try {
@@ -1299,7 +1299,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void onValueChanged(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            final String variableName = args.getString(0);
+            final String variableName = arguments.getString(0);
 
             cordova.getThreadPool().execute(() -> {
                 try {
@@ -1322,7 +1322,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void onFileValueChanged(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            final String variableName = args.getString(0);
+            final String variableName = arguments.getString(0);
 
             cordova.getThreadPool().execute(() -> {
                 try {
@@ -1365,7 +1365,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void setLocale(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            String locale = args.getString(0);
+            String locale = arguments.getString(0);
 
             cordova.getThreadPool().execute(() -> {
                 cleverTap.setLocale(locale);
@@ -1376,7 +1376,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void clearInAppResources(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            boolean expiredOnly = args.getBoolean(0);
+            boolean expiredOnly = arguments.getBoolean(0);
 
             cordova.getThreadPool().execute(() -> {
                 cleverTap.clearInAppResources(expiredOnly);
@@ -1387,7 +1387,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void clearFileResources(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            boolean expiredOnly = args.getBoolean(0);
+            boolean expiredOnly = arguments.getBoolean(0);
 
             cordova.getThreadPool().execute(() -> {
                 cleverTap.clearFileResources(expiredOnly);
@@ -1410,7 +1410,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void customTemplateSetDismissed(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            final String templateName = args.getString(0);
+            final String templateName = arguments.getString(0);
             cordova.getThreadPool().execute(() -> resolveWithTemplateContext(templateName, callbackContext, false, templateContext -> {
                 templateContext.setDismissed();
                 return null;
@@ -1420,7 +1420,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void customTemplateSetPresented(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            final String templateName = args.getString(0);
+            final String templateName = arguments.getString(0);
             cordova.getThreadPool().execute(() -> resolveWithTemplateContext(templateName, callbackContext, false, templateContext -> {
                 templateContext.setPresented();
                 return null;
@@ -1430,8 +1430,8 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void customTemplateRunAction(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            final String templateName = args.getString(0);
-            final String argName = args.getString(1);
+            final String templateName = arguments.getString(0);
+            final String argName = arguments.getString(1);
             cordova.getThreadPool().execute(() -> resolveWithTemplateContext(templateName, callbackContext, false, customTemplateContext -> {
                 if (customTemplateContext instanceof CustomTemplateContext.TemplateContext) {
                     ((CustomTemplateContext.TemplateContext) customTemplateContext).triggerActionArgument(argName, null);
@@ -1443,8 +1443,8 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void executeCustomTemplateGetArg(CallbackContext callbackContext, JSONArray args, String type) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            final String templateName = args.getString(0);
-            final String argName = args.getString(1);
+            final String templateName = arguments.getString(0);
+            final String argName = arguments.getString(1);
             cordova.getThreadPool().execute(() -> resolveWithTemplateContext(templateName, callbackContext, true, templateContext -> {
                 switch (type) {
                     case "String":
@@ -1470,7 +1470,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
     private void executeCustomTemplateToString(CallbackContext callbackContext, JSONArray args) {
         executeWithArgs(args, callbackContext, (arguments) -> {
-            final String templateName = args.getString(0);
+            final String templateName = arguments.getString(0);
             cordova.getThreadPool().execute(() -> resolveWithTemplateContext(templateName, callbackContext, true, templateContext -> {
                 String result = templateContext.toString();
                 sendPluginResult(callbackContext, Status.OK, result);
@@ -1775,98 +1775,98 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 return true;
             case GET_LONG:
                 getLong(args, callbackContext);
-                break;
+                return true;
             case GET_DOUBLE:
                 getDouble(args, callbackContext);
-                break;
+                return true;
             case RESET:
                 reset(callbackContext);
-                break;
+                return true;
             case SUSPEND_IN_APP_NOTIFICATIONS:
                 suspendInAppNotifications(callbackContext);
-                break;
+                return true;
             case DISCARD_IN_APP_NOTIFICATIONS:
                 discardInAppNotifications(callbackContext);
-                break;
+                return true;
             case RESUME_IN_APP_NOTIFICATIONS:
                 resumeInAppNotifications(callbackContext);
-                break;
+                return true;
             case PROMPT_PUSH_PRIMER:
                 promptPushPrimer(args, callbackContext);
-                break;
+                return true;
             case PROMPT_FOR_PUSH_PERMISSION:
                 promptForPushPermission(args, callbackContext);
-                break;
+                return true;
             case IS_PUSH_PERMISSION_GRANTED:
                 isPushPermissionGranted(callbackContext);
-                break;
+                return true;
             case SET_LIBRARY:
                 setLibrary(args, callbackContext);
-                break;
+                return true;
             case SYNC_VARIABLES:
                 syncVariables(callbackContext);
-                break;
+                return true;
             case SYNC_VARIABLES_IN_PROD:
                 syncVariablesInProd(callbackContext);
-                break;
+                return true;
             case FETCH_VARIABLES:
                 fetchVariables(callbackContext);
-                break;
+                return true;
             case DEFINE_VARIABLES:
                 defineVariables(args, callbackContext);
-                break;
+                return true;
             case DEFINE_FILE_VARIABLE:
                 defineFileVariable(args, callbackContext);
-                break;
+                return true;
             case GET_VARIABLE:
                 getVariable(args, callbackContext);
-                break;
+                return true;
             case GET_VARIABLES:
                 getVariables(callbackContext);
-                break;
+                return true;
             case ON_VARIABLES_CHANGED:
                 onVariablesChanged(callbackContext);
-                break;
+                return true;
             case ON_ONE_TIME_VARIABLES_CHANGED:
                 onOneTimeVariablesChanged(callbackContext);
-                break;
+                return true;
             case ON_VALUE_CHANGED:
                 onValueChanged(args, callbackContext);
-                break;
+                return true;
             case ON_FILE_VALUE_CHANGED:
                 onFileValueChanged(args, callbackContext);
-                break;
+                return true;
             case ON_VARIABLES_CHANGED_AND_NO_DOWNLOADS_PENDING:
                 onVariablesChangedAndNoDownloadsPending(callbackContext);
-                break;
+                return true;
             case ONCE_VARIABLES_CHANGED_AND_NO_DOWNLOADS_PENDING:
                 onceVariablesChangedAndNoDownloadsPending(callbackContext);
-                break;
+                return true;
             case SET_LOCALE:
                 setLocale(args, callbackContext);
-                break;
+                return true;
             case CLEAR_IN_APP_RESOURCES:
                 clearInAppResources(args, callbackContext);
-                break;
+                return true;
             case CLEAR_FILE_RESOURCES:
                 clearFileResources(args, callbackContext);
-                break;
+                return true;
             case FETCH_IN_APPS:
                 fetchInApps(callbackContext);
-                break;
+                return true;
             case SYNC_CUSTOM_TEMPLATES:
             case SYNC_CUSTOM_TEMPLATES_IN_PROD:
                 syncCustomTemplates(callbackContext);
-                break;
+                return true;
             case CUSTOM_TEMPLATE_SET_DISMISSED:
                 customTemplateSetDismissed(args, callbackContext);
-                break;
+                return true;
             case CUSTOM_TEMPLATE_SET_PRESENTED:
                 customTemplateSetPresented(args, callbackContext);
-                break;
+                return true;
             case CUSTOM_TEMPLATE_RUN_ACTION:
                 customTemplateRunAction(args, callbackContext);
-                break;
+                return true;
             case CUSTOM_TEMPLATE_GET_STRING_ARG: {
                 executeCustomTemplateGetArg(callbackContext, args, "string");
                 return true;

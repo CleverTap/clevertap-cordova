@@ -1,9 +1,9 @@
 package com.clevertap.cordova;
 
 import android.util.Log;
+import androidx.annotation.NonNull;
 import org.apache.cordova.CordovaWebView;
 import org.json.JSONObject;
-
 import java.util.Collections;
 import java.util.Map;
 
@@ -21,7 +21,7 @@ public class CleverTapEventEmitter {
         sendEvent(event, Collections.emptyMap());
     }
 
-    public static void sendEvent(CleverTapEvent event, Map<String, Object> data) {
+    public static void sendEvent(@NonNull CleverTapEvent event, @NonNull Map<String, Object> data) {
         if (cordovaWebView == null) {
             Log.e(LOG_TAG, "Sending event " + event.getEventName() + " failed. WebView is null");
             return;
