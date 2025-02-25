@@ -1,7 +1,11 @@
 package com.clevertap.cordova;
 
 import android.util.Log;
+import androidx.annotation.NonNull;
 import org.apache.cordova.CordovaWebView;
+import org.json.JSONObject;
+import java.util.Collections;
+import java.util.Map;
 
 public class CleverTapEventEmitter {
 
@@ -13,19 +17,30 @@ public class CleverTapEventEmitter {
         cordovaWebView = webView;
     }
 
-    public static void sendEvent(String event) {
-        sendEvent(event, "");
+    public static void sendEvent(CleverTapEvent event) {
+        sendEvent(event, Collections.emptyMap());
     }
 
-    public static void sendEvent(String event, String json) {
+    public static void sendEvent(@NonNull CleverTapEvent event, @NonNull Map<String, Object> data) {
         if (cordovaWebView == null) {
-            Log.e(LOG_TAG, "Sending event " + event + " failed. WebView is null");
+            Log.e(LOG_TAG, "Sending event " + event.getEventName() + " failed. WebView is null");
             return;
         }
 
-        Log.i(LOG_TAG, "Sending event " + event);
+        if(event == CleverTapEvent.CLEVERTAP_UNKNOWN) {
+            Log.i(LOG_TAG, "Not Sending event since its unknown");
+            return;
+        }
+
+        final String json = toJSONString(data);
+
+        Log.i(LOG_TAG, "Sending event " + event.getEventName());
         cordovaWebView
                 .getView()
-                .post(() -> cordovaWebView.loadUrl("javascript:cordova.fireDocumentEvent('" + event + "'," + json + ");"));
+                .post(() -> cordovaWebView.loadUrl("javascript:cordova.fireDocumentEvent('" + event.getEventName() + "'," + json + ");"));
+    }
+
+    public static String toJSONString(Map<String, Object> data) {
+        return data.isEmpty() ? "" : new JSONObject(data).toString();
     }
 }

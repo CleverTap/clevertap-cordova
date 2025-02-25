@@ -46,7 +46,7 @@
                 <source url="https://github.com/CocoaPods/Specs.git"/>
             </config>
             <pods>
-                <pod name="CleverTap-iOS-SDK" spec="7.0.3" />
+                <pod name="CleverTap-iOS-SDK" spec="7.1.0" />
             </pods>
         </podspec>
 <!--        <framework src="CleverTap-iOS-SDK" type="podspec" spec="5.1.2" />-->
@@ -109,6 +109,8 @@
         <source-file src="src/android/CleverTapPlugin.java" target-dir="src/com/clevertap/cordova/" />
         <source-file src="src/android/CleverTapEventEmitter.java" target-dir="src/com/clevertap/cordova/" />
         <source-file src="src/android/CleverTapCustomTemplates.java" target-dir="src/com/clevertap/cordova/" />
+        <source-file src="src/android/CleverTapFunction.java" target-dir="src/com/clevertap/cordova/" />
+        <source-file src="src/android/CleverTapEvent.java" target-dir="src/com/clevertap/cordova/" />
 
         <framework src="com.google.firebase:firebase-messaging:$FIREBASE_MESSAGING_VERSION" />
         <framework src="com.clevertap.android:clevertap-android-sdk:7.1.2"/>

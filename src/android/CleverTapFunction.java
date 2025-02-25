@@ -1,0 +1,152 @@
+package com.clevertap.cordova;
+
+public enum CleverTapFunction {
+    
+    NOTIFY_DEVICE_READY("notifyDeviceReady"),
+    REGISTER_PUSH("registerPush"),
+    SET_PUSH_TOKEN("setPushTokenAsString"),
+    SET_PUSH_BAIDU_TOKEN("setPushBaiduTokenAsString"),
+    SET_PUSH_HUAWEI_TOKEN("setPushHuaweiTokenAsString"),
+    CREATE_NOTIFICATION("createNotification"),
+    CREATE_NOTIFICATION_CHANNEL("createNotificationChannel"),
+    CREATE_NOTIFICATION_CHANNEL_WITH_SOUND("createNotificationChannelWithSound"),
+    CREATE_NOTIFICATION_CHANNEL_WITH_GROUP_ID("createNotificationChannelWithGroupId"),
+    CREATE_NOTIFICATION_CHANNEL_WITH_GROUP_ID_AND_SOUND("createNotificationChannelWithGroupIdAndSound"),
+    CREATE_NOTIFICATION_CHANNEL_GROUP("createNotificationChannelGroup"),
+    DELETE_NOTIFICATION_CHANNEL("deleteNotificationChannel"),
+    DELETE_NOTIFICATION_CHANNEL_GROUP("deleteNotificationChannelGroup"),
+    RECORD_SCREEN_VIEW("recordScreenView"),
+    SET_DEBUG_LEVEL("setDebugLevel"),
+    SET_OPT_OUT("setOptOut"),
+    SET_OFFLINE("setOffline"),
+    ENABLE_DEVICE_NETWORK_INFO_REPORTING("enableDeviceNetworkInfoReporting"),
+    ENABLE_PERSONALIZATION("enablePersonalization"),
+    DISABLE_PERSONALIZATION("disablePersonalization"),
+    RECORD_EVENT_WITH_NAME("recordEventWithName"),
+    RECORD_EVENT_WITH_NAME_AND_PROPS("recordEventWithNameAndProps"),
+    RECORD_CHARGED_EVENT_WITH_DETAILS_AND_ITEMS("recordChargedEventWithDetailsAndItems"),
+    PUSH_INSTALL_REFERRER("pushInstallReferrer"),
+    EVENT_GET_FIRST_TIME("eventGetFirstTime"),
+    EVENT_GET_LAST_TIME("eventGetLastTime"),
+    EVENT_GET_OCCURRENCES("eventGetOccurrences"),
+    EVENT_GET_DETAILS("eventGetDetails"),
+    GET_EVENT_HISTORY("getEventHistory"),
+    GET_USER_EVENT_LOG("getUserEventLog"),
+    GET_USER_EVENT_LOG_COUNT("getUserEventLogCount"),
+    GET_USER_LAST_VISIT_TS("getUserLastVisitTs"),
+    GET_USER_APP_LAUNCH_COUNT("getUserAppLaunchCount"),
+    GET_USER_EVENT_LOG_HISTORY("getUserEventLogHistory"),
+    SET_LOCATION("setLocation"),
+    GET_LOCATION("getLocation"),
+    PROFILE_SET("profileSet"),
+    ON_USER_LOGIN("onUserLogin"),
+    PROFILE_GET_PROPERTY("profileGetProperty"),
+    PROFILE_GET_CLEVERTAP_ID("profileGetCleverTapID"),
+    PROFILE_GET_CLEVERTAP_ATTRIBUTION_IDENTIFIER("profileGetCleverTapAttributionIdentifier"),
+    GET_CLEVERTAP_ID("getCleverTapID"),
+    PROFILE_REMOVE_VALUE_FOR_KEY("profileRemoveValueForKey"),
+    PROFILE_SET_MULTI_VALUES("profileSetMultiValues"),
+    PROFILE_ADD_MULTI_VALUES("profileAddMultiValues"),
+    PROFILE_REMOVE_MULTI_VALUES("profileRemoveMultiValues"),
+    PROFILE_ADD_MULTI_VALUE("profileAddMultiValue"),
+    PROFILE_REMOVE_MULTI_VALUE("profileRemoveMultiValue"),
+    PROFILE_INCREMENT_VALUE_BY("profileIncrementValueBy"),
+    PROFILE_DECREMENT_VALUE_BY("profileDecrementValueBy"),
+    SESSION_GET_TIME_ELAPSED("sessionGetTimeElapsed"),
+    SESSION_GET_TOTAL_VISITS("sessionGetTotalVisits"),
+    SESSION_GET_SCREEN_COUNT("sessionGetScreenCount"),
+    SESSION_GET_PREVIOUS_VISIT_TIME("sessionGetPreviousVisitTime"),
+    SESSION_GET_UTM_DETAILS("sessionGetUTMDetails"),
+    INITIALIZE_INBOX("initializeInbox"),
+    SHOW_INBOX("showInbox"),
+    GET_INBOX_MESSAGE_UNREAD_COUNT("getInboxMessageUnreadCount"),
+    GET_INBOX_MESSAGE_COUNT("getInboxMessageCount"),
+    GET_ALL_INBOX_MESSAGES("getAllInboxMessages"),
+    GET_UNREAD_INBOX_MESSAGES("getUnreadInboxMessages"),
+    GET_INBOX_MESSAGE_FOR_ID("getInboxMessageForId"),
+    DELETE_INBOX_MESSAGE_FOR_ID("deleteInboxMessageForId"),
+    MARK_READ_INBOX_MESSAGE_FOR_ID("markReadInboxMessageForId"),
+    MARK_READ_INBOX_MESSAGES_FOR_IDS("markReadInboxMessagesForIds"),
+    DELETE_INBOX_MESSAGES_FOR_IDS("deleteInboxMessagesForIds"),
+    DISMISS_INBOX("dismissInbox"),
+    PUSH_INBOX_NOTIFICATION_VIEWED_EVENT_FOR_ID("pushInboxNotificationViewedEventForId"),
+    PUSH_INBOX_NOTIFICATION_CLICKED_EVENT_FOR_ID("pushInboxNotificationClickedEventForId"),
+    GET_ALL_DISPLAY_UNITS("getAllDisplayUnits"),
+    GET_DISPLAY_UNIT_FOR_ID("getDisplayUnitForId"),
+    PUSH_DISPLAY_UNIT_VIEWED_EVENT_FOR_ID("pushDisplayUnitViewedEventForId"),
+    PUSH_DISPLAY_UNIT_CLICKED_EVENT_FOR_ID("pushDisplayUnitClickedEventForId"),
+    IS_FEATURE_FLAG_INITIALIZED("isFeatureFlagInitialized"),
+    GET_FEATURE_FLAG("getFeatureFlag"),
+    IS_PRODUCT_CONFIG_INITIALIZED("isProductConfigInitialized"),
+    SET_DEFAULTS_MAP("setDefaultsMap"),
+    FETCH("fetch"),
+    FETCH_WITH_MINIMUM_FETCH_INTERVAL_IN_SECONDS("fetchWithMinimumFetchIntervalInSeconds"),
+    ACTIVATE("activate"),
+    FETCH_AND_ACTIVATE("fetchAndActivate"),
+    SET_MINIMUM_FETCH_INTERVAL_IN_SECONDS("setMinimumFetchIntervalInSeconds"),
+    GET_LAST_FETCH_TIMESTAMP_IN_MILLIS("getLastFetchTimeStampInMillis"),
+    GET_STRING("getString"),
+    GET_BOOLEAN("getBoolean"),
+    GET_LONG("getLong"),
+    GET_DOUBLE("getDouble"),
+    RESET("reset"),
+    SUSPEND_IN_APP_NOTIFICATIONS("suspendInAppNotifications"),
+    DISCARD_IN_APP_NOTIFICATIONS("discardInAppNotifications"),
+    RESUME_IN_APP_NOTIFICATIONS("resumeInAppNotifications"),
+    PROMPT_PUSH_PRIMER("promptPushPrimer"),
+    PROMPT_FOR_PUSH_PERMISSION("promptForPushPermission"),
+    IS_PUSH_PERMISSION_GRANTED("isPushPermissionGranted"),
+    SET_LIBRARY("setLibrary"),
+    SYNC_VARIABLES("syncVariables"),
+    SYNC_VARIABLES_IN_PROD("syncVariablesinProd"),
+    FETCH_VARIABLES("fetchVariables"),
+    DEFINE_VARIABLES("defineVariables"),
+    DEFINE_FILE_VARIABLE("defineFileVariable"),
+    GET_VARIABLE("getVariable"),
+    GET_VARIABLES("getVariables"),
+    ON_VARIABLES_CHANGED("onVariablesChanged"),
+    ON_ONE_TIME_VARIABLES_CHANGED("onOneTimeVariablesChanged"),
+    ON_VALUE_CHANGED("onValueChanged"),
+    ON_FILE_VALUE_CHANGED("onFileValueChanged"),
+    ON_VARIABLES_CHANGED_AND_NO_DOWNLOADS_PENDING("onVariablesChangedAndNoDownloadsPending"),
+    ONCE_VARIABLES_CHANGED_AND_NO_DOWNLOADS_PENDING("onceVariablesChangedAndNoDownloadsPending"),
+    SET_LOCALE("setLocale"),
+    CLEAR_IN_APP_RESOURCES("clearInAppResources"),
+    CLEAR_FILE_RESOURCES("clearFileResources"),
+    FETCH_IN_APPS("fetchInApps"),
+    SYNC_CUSTOM_TEMPLATES("syncCustomTemplates"),
+    SYNC_CUSTOM_TEMPLATES_IN_PROD("syncCustomTemplatesInProd"),
+    CUSTOM_TEMPLATE_SET_DISMISSED("customTemplateSetDismissed"),
+    CUSTOM_TEMPLATE_SET_PRESENTED("customTemplateSetPresented"),
+    CUSTOM_TEMPLATE_RUN_ACTION("customTemplateRunAction"),
+    CUSTOM_TEMPLATE_GET_STRING_ARG("customTemplateGetStringArg"),
+    CUSTOM_TEMPLATE_GET_NUMBER_ARG("customTemplateGetNumberArg"),
+    CUSTOM_TEMPLATE_GET_BOOLEAN_ARG("customTemplateGetBooleanArg"),
+    CUSTOM_TEMPLATE_GET_FILE_ARG("customTemplateGetFileArg"),
+    CUSTOM_TEMPLATE_GET_OBJECT_ARG("customTemplateGetObjectArg"),
+    CUSTOM_TEMPLATE_CONTEXT_TO_STRING("customTemplateContextToString"),
+
+    CLEVERTAP_UNKNOWN("cleverTapUnknown");
+
+    private final String action;
+
+    CleverTapFunction(String action) {
+        this.action = action;
+    }
+
+    public String getAction() {
+        return action;
+    }
+
+    public static CleverTapFunction fromString(String action) {
+        if (action == null) {
+            return CLEVERTAP_UNKNOWN;
+        }
+        for (CleverTapFunction event : CleverTapFunction.values()) {
+            if (event.getAction().equals(action)) {
+                return event;
+            }
+        }
+        return CLEVERTAP_UNKNOWN;
+    }
+}
