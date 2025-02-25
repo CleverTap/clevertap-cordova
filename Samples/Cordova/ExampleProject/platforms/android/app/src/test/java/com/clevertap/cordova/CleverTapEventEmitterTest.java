@@ -90,17 +90,4 @@ public class CleverTapEventEmitterTest {
         assertEquals(expectedResult, actualResult);
     }
 
-
-//    @Test
-//    public void testJSONEqualityForJSoNArrayData() throws JSONException {
-//        Object data = new JSONArray().put("data1").put("data2");
-//        String oldJson = oldImplementation(data);
-//        Map<String, Object> newJson = newImplementation(data);
-//
-//        // Normalize JSON for comparison
-//        JSONObject oldJsonObject = new JSONObject(oldJson);
-//        String newJsonObject = CleverTapEventEmitter.toJSONString(newJson);
-//
-//        assertEquals(oldJsonObject.toString(), newJsonObject);
-//    }
 }
