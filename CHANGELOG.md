@@ -1,7 +1,7 @@
 Change Log
 ==========
 
-Version 3.4.0 *(xx February, 2025)*
+Version 3.4.0 *(25 February, 2025)*
 -------------------------------------------
 #### New Features
 **Android Specific**
