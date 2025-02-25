@@ -132,10 +132,16 @@ function setupButtons() {
 
 
         ["title","User Profile"],
-        ["profile Set", () => {
+        ["profile Set with Identity = 20701", () => {
             let key = prompt("Please enter key", "stringAttr1");
             let value = prompt("Please enter value for " + key, "newValue");
             CleverTap.profileSet({"Identity": 20701, "DOB": "1951-10-15", "custom": 1.3, [key]: value})}],
+
+        ["profile Set with Random Identity", () => {
+            let key = prompt("Please enter key", "stringAttr1");
+            let value = prompt("Please enter value for " + key, "newValue");
+            let randomIdentity = Math.floor(Math.random() * 1000000);
+            CleverTap.profileSet({"Identity": randomIdentity, "DOB": "1951-10-15", "custom": 1.3, [key]: value})}],
         ["profile SetMultiValues", () => CleverTap.profileSetMultiValues("multiValue", ["one", "two", "three", "four"])],
         ["profile getLocation/setLocation", () => CleverTap.getLocation(loc => {
             log("CleverTapLocation is " + loc.lat + loc.lon)
@@ -144,7 +150,8 @@ function setupButtons() {
         ["profile GetProperty - DOB", () => CleverTap.profileGetProperty("DOB", val => log("DOB profile value is " + val))],
         ["profile GetProperty - Identity", () => CleverTap.profileGetProperty("Identity", val => log("Identity profile value is " + val))],
         ["profile GetProperty - custom", () => CleverTap.profileGetProperty("custom", val => log("custom profile value is " + val))],
-        ["profile onUserLogin", () => CleverTap.onUserLogin({"Identity": 20700, "custom": 1.3})],
+        ["profile onUserLogin with Identity = 20701", () => CleverTap.onUserLogin({"Identity": 20700, "custom": 1.3})],
+        ["profile onUserLogin with Random Identity", () => CleverTap.onUserLogin({"Identity": Math.floor(Math.random() * 1000000), "custom": 1.3})],
         ["profile Add MultiValue", () => CleverTap.profileAddMultiValue("multiValue", "five")],
         ["profile Remove MultiValues", () => CleverTap.profileRemoveMultiValues("multiValue", ["one", "two"])],
         ["profile Remove MultiValuE", () => CleverTap.profileRemoveMultiValue("multiValue", "three")],
@@ -163,29 +170,11 @@ function setupButtons() {
         ["suspend InApp Notifications", () => CleverTap.suspendInAppNotifications()],
         ["resume InApp Notifications", () => CleverTap.resumeInAppNotifications()],
         ["discard InApp Notifications", () => CleverTap.discardInAppNotifications()],
+
+        ["title","Notification Channel"],
         ["create notification channel GSTTesting", ()=> CleverTap.createNotificationChannel("GSTTesting", "GSTTesting", "", 5, true)],
         ["create notification channel BRTesting", ()=> CleverTap.createNotificationChannel("BRTesting", "Core", "", 5, true)],
         ["create notification channel PTTesting", ()=> CleverTap.createNotificationChannel("PTTesting", "Push templates", "", 5, true)],
-        ["Send Basic Push", () => CleverTap.recordEventWithName("Send Basic Push")],
-        ["Send Carousel Push", () => CleverTap.recordEventWithName("Send Carousel Push")],
-        ["Send Manual Carousel Pus", () => CleverTap.recordEventWithName("Send Manual Carousel Pus")],
-        ["Send Filmstrip Carousel Push", () => CleverTap.recordEventWithName("Send Filmstrip Carousel Push")],
-        ["Send Rating Push", () => CleverTap.recordEventWithName("Send Rating Push")],
-        ["Send Product Display Notification", () => CleverTap.recordEventWithName("Send Product Display Notification")],
-        ["Send Linear Product Display Push", () => CleverTap.recordEventWithName("Send Linear Product Display Push")],
-        ["Send CTA Notification", () => CleverTap.recordEventWithName("Send CTA Notification")],
-        ["Send Zero Bezel Notification", () => CleverTap.recordEventWithName("Send Zero Bezel Notification")],
-        ["Send Zero Bezel Text Only Notification", () => CleverTap.recordEventWithName("Send Zero Bezel Text Only Notification")],
-        ["Send Timer Notification", () => CleverTap.recordEventWithName("Send Timer Notification")],
-        ["Send Input Box Notification", () => CleverTap.recordEventWithName("Send Input Box Notification")],
-        ["Send Input Box Reply with Event Notification", () => CleverTap.recordEventWithName("Send Input Box Reply with Event Notification")],
-        ["Send Input Box Reply with Auto Open Notification", () => CleverTap.recordEventWithName("Send Input Box Reply with Auto Open Notification")],
-        ["Send Input Box Remind Notification DOC FALSE", () => CleverTap.recordEventWithName("Send Input Box Remind Notification DOC FALSE")],
-        ["Send Input Box CTA DOC true", () => CleverTap.recordEventWithName("Send Input Box CTA DOC true")],
-        ["Send Input Box CTA DOC false", () => CleverTap.recordEventWithName("Send Input Box CTA DOC false")],
-        ["Send Input Box Reminder DOC true", () => CleverTap.recordEventWithName("Send Input Box Reminder DOC true")],
-        ["Send Input Box Reminder DOC false", () => CleverTap.recordEventWithName("Send Input Box Reminder DOC false")],
-        ["Send Input Box Reminder DOC false", () => CleverTap.recordEventWithName("Send Input Box Reminder DOC false")],
 
         ["title","productConfig"],
         ["productConfig fetch", () => CleverTap.fetch()],
@@ -198,9 +187,27 @@ function setupButtons() {
 
         ["title","inbox"],
         ["initialize Inbox", () => CleverTap.initializeInbox()],
+        ["show Inbox", () => CleverTap.showInbox({"navBarTitle": "My App Inbox", "tabs": ["tag1", "tag2"], "navBarColor": "#FF0000"})],
+        ["get All Inbox Messages", () => CleverTap.getAllInboxMessages(val => log("Inbox messages are " + val))],
+        ["get Unread Inbox Messages", () => CleverTap.getUnreadInboxMessages(val => log("Unread Inbox messages are " + val))],
+        ["delete Inbox Message For Id", () => CleverTap.deleteInboxMessageForId("messageId")],
+        ["delete Inbox Messages For Ids", () => CleverTap.deleteInboxMessagesForIds(["id1", "id2"])],
+        ["mark Read Inbox Message For Id", () => CleverTap.markReadInboxMessageForId("messageId")],
+        ["mark Read Inbox Messages For Ids", () => CleverTap.markReadInboxMessagesForIds(["id1", "id2"])],
+        ["push Inbox Notification Viewed Event For Id", () => CleverTap.pushInboxNotificationViewedEventForId("messageId")],
+        ["push Inbox Notification Clicked Event For Id", () => CleverTap.pushInboxNotificationClickedEventForId("messageId")],
+        ["dismiss Inbox", () => CleverTap.dismissInbox()],
 
-        ["title","Feature flag"],
-        ["get Feature Flag", () => CleverTap.getFeatureFlag("test", true, val => log("Value is " + val))],
+        ["title","User History"],
+        ["event GetFirstTime - foo", () => CleverTap.getUserEventLog("foo", eventLog => log("foo event first time is " + eventLog.firstTime))],
+        ["event GetLastTime - foo", () => CleverTap.getUserEventLog("foo", eventLog => log("foo last time is " + eventLog.lastTime))],
+        ["event GetOccurrences foo", () => CleverTap.getUserEventLogCount("foo", count => log("foo event occurrences " + count))],
+        ["event GetUserEventLog - Charged", () => CleverTap.getUserEventLog("Charged", res => log(res))],
+        ["getEventHistory", () => CleverTap.getUserEventLogHistory(history => log(history))],
+        ["App Launch Count", () => CleverTap.getUserAppLaunchCount(count => log("App Launch Count " + count))],
+        ["session GetTimeElapsed", () => CleverTap.sessionGetTimeElapsed(val => log("session elapsed time is " + val))],
+        ["session GetScreenCount", () => CleverTap.sessionGetScreenCount(val => log("session screen count is " + val))],
+        ["session GetUTMDetails", () => CleverTap.sessionGetUTMDetails(val => log(val))],
 
         ["title","Device Identifiers"],
         ["get CleverTap ID", () => CleverTap.getCleverTapID(val => log("getCleverTapID is " + val))],
@@ -208,7 +215,6 @@ function setupButtons() {
         ["title","special functions for cordova sdk"],
         ["Push tokens manually", () => {
             CleverTap.setPushToken("foo")
-            CleverTap.setPushXiaomiToken("foo","in")
             CleverTap.setPushBaiduToken("foo")
             CleverTap.setPushHuaweiToken("foo")
         }],
@@ -216,20 +222,6 @@ function setupButtons() {
         ["notify Device Ready", () => CleverTap.notifyDeviceReady()],
         ["register Push", () => CleverTap.registerPush()],
         ["pushInstallReferrer", () => CleverTap.pushInstallReferrer("source", "medium", "campaign")],
-        ["event GetFirstTime - foo", () => CleverTap.eventGetFirstTime("foo", time => log("foo event first time is " + time))],
-        ["event GetFirstTime - noevent", () => CleverTap.eventGetFirstTime("noevent", time => log("noevent event first time is " + time))],
-        ["event GetLastTime - App Launched", () => CleverTap.eventGetLastTime("App Launched", time => log("app launched last time is " + time))],
-        ["event GetLastTime - noevent", () => CleverTap.eventGetLastTime("noevent", time => log("noevent last time is " + time))],
-        ["event GetOccurrences foo", () => CleverTap.eventGetOccurrences("foo", num => log("foo event occurrences " + num))],
-        ["event GetDetails - Charged", () => CleverTap.eventGetDetails("Charged", res => log(res))],
-        ["getEventHistory", () => CleverTap.getEventHistory(history => log(history))],
-        ["event GetOccurrences noevent", () => CleverTap.eventGetOccurrences("noevent", num => log("noevent occurrences " + num))],
-        ["event GetDetails - noevent", () => CleverTap.eventGetDetails("noevent", res => log(res))],
-        ["session GetTimeElapsed", () => CleverTap.sessionGetTimeElapsed(val => log("session elapsed time is " + val))],
-        ["session GetTotalVisits", () => CleverTap.sessionGetTotalVisits(val => log("session total visits is " + val))],
-        ["session GetScreenCount", () => CleverTap.sessionGetScreenCount(val => log("session screen count is " + val))],
-        ["session GetPreviousVisitTime", () => CleverTap.sessionGetPreviousVisitTime(val => log("session previous visit time is " + val))],
-        ["session GetUTMDetails", () => CleverTap.sessionGetUTMDetails(val => log(val))],
         ["enable Personalization", () => CleverTap.enablePersonalization()],
         ["disable Personalization", () => CleverTap.disablePersonalization()],
         ["set Defaults Map", () => CleverTap.setDefaultsMap({"test": "val1", "test1": "val2"})],
@@ -406,87 +398,115 @@ function initLogging() {
 
 
 function initListeners() {
-    log("setting listeners")
-    document.addEventListener('onCleverTapProfileSync', e => log(e.updates))
-    document.addEventListener('onCleverTapProfileDidInitialize', e => log(e.CleverTapID))
-    document.addEventListener('onCleverTapInAppNotificationDismissed', e => {
-            showToast("onCleverTapInAppNotificationDismissed")
-            log(e.extras)
-            log(e.actionExtras)
-        }
-    )
-    // deeplink handler
-    document.addEventListener('onDeepLink', e => log(e.deeplink))
-    //push notification handler
-    document.addEventListener('onPushNotification', e => log(e.notification))
-    document.addEventListener('onCleverTapInboxDidInitialize', () => {
-            CleverTap.getInboxMessageForId("1642753141_1642755745", val => log("Inbox message is " + JSON.stringify(val)))
-            CleverTap.showInbox({"navBarTitle": "My App Inbox", "tabs": ["tag1", "tag2"], "navBarColor": "#FF0000"})
-            CleverTap.getAllInboxMessages(val => log("Inbox messages are " + val))
-            CleverTap.getUnreadInboxMessages(val => log("Unread Inbox messages are " + val))
-            CleverTap.deleteInboxMessageForId("messageId")
-            CleverTap.deleteInboxMessagesForIds(["id1", "id2"])
-            CleverTap.markReadInboxMessageForId("messageId")
-            CleverTap.markReadInboxMessagesForIds(["id1", "id2"])
-            CleverTap.pushInboxNotificationViewedEventForId("messageId")
-            CleverTap.pushInboxNotificationClickedEventForId("messageId")
-            CleverTap.dismissInbox()
-        }
-    )
-    document.addEventListener('onCleverTapInboxMessagesDidUpdate', () => {
-            CleverTap.getInboxMessageUnreadCount(val => log("Inbox unread message count" + val))
-            CleverTap.getInboxMessageCount(val => log("Inbox read message count" + val))
-        }
-    )
-    document.addEventListener('onCleverTapInboxButtonClick', e => {
-            showToast("onCleverTapInboxButtonClick")
-            log(e.customExtras)
-        }
-    )
-    document.addEventListener('onCleverTapInboxItemClick', e => {
-            showToast("onCleverTapInboxItemClick")
-            log(JSON.stringify(e))
-        }
-    )
-    
-    document.addEventListener('onCleverTapInAppButtonClick', e => {
-            showToast("onCleverTapInAppButtonClick")
-            log(e.customExtras)
-        }
-    )
-    document.addEventListener('onCleverTapFeatureFlagsDidUpdate', () => showToast("onCleverTapFeatureFlagsDidUpdate"))
-    document.addEventListener('onCleverTapProductConfigDidInitialize', () => showToast("onCleverTapProductConfigDidInitialize"))
-    document.addEventListener('onCleverTapProductConfigDidFetch', () => showToast("onCleverTapProductConfigDidFetch"))
-    document.addEventListener('onCleverTapProductConfigDidActivate', () => showToast("onCleverTapProductConfigDidActivate"))
-    document.addEventListener('onCleverTapExperimentsUpdated', () => showToast("onCleverTapExperimentsUpdated"))
-    document.addEventListener('onCleverTapDisplayUnitsLoaded', e => {
-            showToast("onCleverTapDisplayUnitsLoaded")
-            log(e.units)
-            CleverTap.getDisplayUnitForId("1642753742_20220131", val => showToast("Native Display unit is " + JSON.stringify(val)))
-            CleverTap.getAllDisplayUnits(val => showToast("Native Display units are " + JSON.stringify(val)))
+    log("setting listeners");
 
-        }
-    )
+    document.addEventListener('onCleverTapProfileSync', e => {
+        showToast("onCleverTapProfileSync");
+        log("onCleverTapProfileSync = " + JSON.stringify(e));
+    });
+
+    document.addEventListener('onCleverTapProfileDidInitialize', e => {
+        showToast("onCleverTapProfileDidInitialize");
+        log("onCleverTapProfileDidInitialize = " + JSON.stringify(e));
+    });
+
+    document.addEventListener('onCleverTapInAppNotificationDismissed', e => {
+        showToast("onCleverTapInAppNotificationDismissed");
+        log("onCleverTapInAppNotificationDismissed = " + JSON.stringify(e));
+    });
+
+    // Deeplink handler
+    document.addEventListener('onDeepLink', e => {
+        showToast("onDeepLink");
+        log("onDeepLink = " + e.deeplink);
+    });
+
+    document.addEventListener('onPushNotification', e => {
+        showToast("onPushNotification");
+        log("onPushNotification = " + JSON.stringify(e.notification));
+    });
+
+    document.addEventListener('onCleverTapInboxDidInitialize', () => {
+        showToast("onCleverTapInboxDidInitialize");
+        log("onCleverTapInboxDidInitialize");
+    });
+
+    document.addEventListener('onCleverTapInboxMessagesDidUpdate', () => {
+        showToast("onCleverTapInboxMessagesDidUpdate");
+        CleverTap.getInboxMessageCount(val =>
+            log("onCleverTapInboxMessagesDidUpdate - Inbox message count = " + val)
+        );
+    });
+
+    document.addEventListener('onCleverTapInboxButtonClick', e => {
+        showToast("onCleverTapInboxButtonClick");
+        log("onCleverTapInboxButtonClick = " + JSON.stringify(e.customExtras));
+    });
+
+    document.addEventListener('onCleverTapInboxItemClick', e => {
+        showToast("onCleverTapInboxItemClick");
+        log("onCleverTapInboxItemClick = " + JSON.stringify(e));
+    });
+
+    document.addEventListener('onCleverTapInAppButtonClick', e => {
+        showToast("onCleverTapInAppButtonClick");
+        log("onCleverTapInAppButtonClick = " + JSON.stringify(e.customExtras));
+    });
+
+    document.addEventListener('onCleverTapFeatureFlagsDidUpdate', () => {
+        showToast("onCleverTapFeatureFlagsDidUpdate");
+        log("onCleverTapFeatureFlagsDidUpdate");
+    });
+
+    document.addEventListener('onCleverTapProductConfigDidInitialize', () => {
+        showToast("onCleverTapProductConfigDidInitialize");
+        log("onCleverTapProductConfigDidInitialize");
+    });
+
+    document.addEventListener('onCleverTapProductConfigDidFetch', () => {
+        showToast("onCleverTapProductConfigDidFetch");
+        log("onCleverTapProductConfigDidFetch");
+    });
+
+    document.addEventListener('onCleverTapProductConfigDidActivate', () => {
+        showToast("onCleverTapProductConfigDidActivate");
+        log("onCleverTapProductConfigDidActivate");
+    });
+
+    document.addEventListener('onCleverTapExperimentsUpdated', () => {
+        showToast("onCleverTapExperimentsUpdated");
+        log("onCleverTapExperimentsUpdated");
+    });
+
+    document.addEventListener('onCleverTapDisplayUnitsLoaded', e => {
+        showToast("onCleverTapDisplayUnitsLoaded");
+        log("onCleverTapDisplayUnitsLoaded = " + JSON.stringify(e.units));
+        CleverTap.getAllDisplayUnits(val =>
+            showToast("onCleverTapDisplayUnitsLoaded - Native Display units = " + JSON.stringify(val))
+        );
+    });
+
     document.addEventListener('onCleverTapPushNotificationTappedWithCustomExtras', e => {
-            showToast("onCleverTapPushNotificationTappedWithCustomExtras")
-            log(e.customExtras)
-        }
-    )
+        showToast("onCleverTapPushNotificationTappedWithCustomExtras");
+        log("onCleverTapPushNotificationTappedWithCustomExtras = " + JSON.stringify(e.customExtras));
+    });
+
     document.addEventListener('onCleverTapPushAmpPayloadDidReceived', e => {
-            showToast("onCleverTapPushAmpPayloadDidReceived")
-            log(e.customExtras)
-        }
-    )
+        showToast("onCleverTapPushAmpPayloadDidReceived");
+        log("onCleverTapPushAmpPayloadDidReceived = " + JSON.stringify(e.customExtras));
+    });
+
     document.addEventListener('onCleverTapPushPermissionResponseReceived', e => {
-        showToast("onCleverTapPushPermissionResponseReceived")
-        log(e.accepted)
-    })
+        showToast("onCleverTapPushPermissionResponseReceived");
+        log("onCleverTapPushPermissionResponseReceived = " + e.accepted);
+    });
 
     document.addEventListener('onCleverTapInAppNotificationShow', e => {
-        showToast("onCleverTapInAppNotificationShow")
-        log(e.customExtras)
-    })
+        showToast("onCleverTapInAppNotificationShow");
+        log("onCleverTapInAppNotificationShow = " + JSON.stringify(e.customExtras));
+    });
 }
+
 
 
 
