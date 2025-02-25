@@ -147,27 +147,53 @@ static NSString * const CTSendEvent = @"CTSendEvent";
 /** Get event first time recorded in seconds
  requires prior enablePersonalization call
  */
-- (void)eventGetFirstTime:(CDVInvokedUrlCommand *)command;
+- (void)eventGetFirstTime:(CDVInvokedUrlCommand *)command __attribute__((deprecated("Deprecated as of version 3.4.0, use getUserEventLog instead")));
 
 /** Get event last time recorded in seconds
  requires prior enablePersonalization call
  */
-- (void)eventGetLastTime:(CDVInvokedUrlCommand *)command;
+- (void)eventGetLastTime:(CDVInvokedUrlCommand *)command __attribute__((deprecated("Deprecated as of version 3.4.0, use getUserEventLog instead")));
 
 /** Get num times an event has been recorded
  requires prior enablePersonalization call
  */
-- (void)eventGetOccurrences:(CDVInvokedUrlCommand *)command;
+- (void)eventGetOccurrences:(CDVInvokedUrlCommand *)command __attribute__((deprecated("Deprecated as of version 3.4.0, use getUserEventLogCount instead")));;
 
 /** Get event details summary - first time, last time, occurrences
  requires prior enablePersonalization call
  */
-- (void)eventGetDetails:(CDVInvokedUrlCommand *)command;
+- (void)eventGetDetails:(CDVInvokedUrlCommand *)command __attribute__((deprecated("Deprecated as of version 3.4.0, use getUserEventLog instead")));
 
 /** Get history of events recorded with details
  requires prior enablePersonalization call
  */
-- (void)getEventHistory:(CDVInvokedUrlCommand *)command;
+- (void)getEventHistory:(CDVInvokedUrlCommand *)command __attribute__((deprecated("Deprecated as of version 3.4.0, use getUserEventLogHistory instead")));;
+
+/** Get event details summary - event name, normalized name, 
+ first time, last time, count, device id,
+ requires prior enablePersonalization call
+ */
+- (void)getUserEventLog:(CDVInvokedUrlCommand *)command;
+
+/** Get num times an event has been recorded
+ requires prior enablePersonalization call
+ */
+- (void)getUserEventLogCount:(CDVInvokedUrlCommand *)command;
+
+/** Get history of events recorded with details
+ requires prior enablePersonalization call
+ */
+- (void)getUserEventLogHistory:(CDVInvokedUrlCommand *)command;
+
+/** Get user last visit time in epoch seconds
+ requires prior enablePersonalization call
+ */
+- (void)getUserLastVisitTs:(CDVInvokedUrlCommand *)command;
+
+/** Get total user visits
+ requires prior enablePersonalization call
+ */
+- (void)getUserAppLaunchCount:(CDVInvokedUrlCommand *)command;
 
 
 #pragma mark - Profile API
@@ -297,7 +323,7 @@ static NSString * const CTSendEvent = @"CTSendEvent";
 /** Get total user visits
  requires prior enablePersonalization call
  */
-- (void)sessionGetTotalVisits:(CDVInvokedUrlCommand *)command;
+- (void)sessionGetTotalVisits:(CDVInvokedUrlCommand *)command __attribute__((deprecated("Deprecated as of version 3.4.0, use getUserAppLaunchCount instead")));
 
 /** Get CleverTap session screens viewed count
  */
@@ -306,7 +332,7 @@ static NSString * const CTSendEvent = @"CTSendEvent";
 /** Get previous user visit time in epoch seconds
  requires prior enablePersonalization call
  */
-- (void)sessionGetPreviousVisitTime:(CDVInvokedUrlCommand *)command;
+- (void)sessionGetPreviousVisitTime:(CDVInvokedUrlCommand *)command __attribute__((deprecated("Deprecated as of version 3.4.0, use getUserLastVisitTs instead")));;
 
 /** Get session referrer utm source, campaign and medium, if applicable
  */
