@@ -561,11 +561,11 @@ CleverTap.prototype.getDisplayUnitForId = function(unitId, successCallback){
 }
 
 CleverTap.prototype.pushDisplayUnitViewedEventForID = function(unitId){
-	cordova.exec(null, null, "CleverTapPlugin", "pushDisplayUnitViewedEventForID", [unitId]);
+	cordova.exec(null, null, "CleverTapPlugin", "pushDisplayUnitViewedEventForId", [unitId]);
 }
 
 CleverTap.prototype.pushDisplayUnitClickedEventForID = function(unitId){
-	cordova.exec(null, null, "CleverTapPlugin", "pushDisplayUnitClickedEventForID", [unitId]);
+	cordova.exec(null, null, "CleverTapPlugin", "pushDisplayUnitClickedEventForId", [unitId]);
 }
 
 /****************************
