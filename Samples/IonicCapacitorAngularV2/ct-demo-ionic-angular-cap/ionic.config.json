@@ -1,0 +1,7 @@
+{
+  "name": "CTDemoIonicAngularCap",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
