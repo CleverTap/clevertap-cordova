@@ -12,11 +12,11 @@
       android:name="com.clevertap.android.sdk.Application">
       <meta-data
         android:name="CLEVERTAP_ACCOUNT_ID"
-        android:value="TEST-46W-WWR-R85Z"
+          android:value="YOUR-ACCT-ID"
         tools:replace="android:value"/>
       <meta-data
         android:name="CLEVERTAP_TOKEN"
-        android:value="TEST-200-064"
+        android:value="YOUR-ACCT-REGION"
         tools:replace="android:value"/>
       <receiver android:enabled="true" android:exported="false" android:name="com.clevertap.android.sdk.pushnotification.CTPushNotificationReceiver" />
       <service
