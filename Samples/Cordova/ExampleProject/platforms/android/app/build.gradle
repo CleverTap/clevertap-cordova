@@ -326,7 +326,7 @@ dependencies {
     // SUB-PROJECT DEPENDENCIES START
     implementation(project(path: ":CordovaLib"))
     implementation "com.google.firebase:firebase-messaging:23.0.6"
-    implementation "com.clevertap.android:clevertap-android-sdk:7.1.2"
+    implementation "com.clevertap.android:clevertap-android-sdk:7.3.1"
     implementation "com.github.bumptech.glide:glide:4.12.0"
     implementation "androidx.appcompat:appcompat:1.6.0-rc01"
     implementation "androidx.core:core:1.9.0"
