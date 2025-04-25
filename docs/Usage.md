@@ -317,6 +317,24 @@ this.clevertap.deleteNotificationChannelGroup('groupID_5678');
 ```javascript 
 this.clevertap.setPushToken('<Token Value>');
 ```
+
+#### Registering Baidu/HPS Token
+
+```javascript 
+CleverTap.registerPushToken'<Token Value>', {
+    type: 'bps',
+    prefKey: 'bps_token',
+    className: 'com.clevertap.android.bps.BaiduPushProvider',
+    messagingSDKClassName: 'com.baidu.android.pushservice.PushMessageReceiver'
+});
+
+CleverTap.registerPushToken('<Token Value>', {
+    type: 'hps',
+    prefKey: 'hps_token',
+    className: 'com.clevertap.android.hms.HmsPushProvider',
+    messagingSDKClassName: 'com.huawei.hms.push.HmsMessageService'
+});
+```
  
 ## InApp Notification Controls
 
