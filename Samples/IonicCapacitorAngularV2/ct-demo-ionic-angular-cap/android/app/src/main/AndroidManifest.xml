@@ -16,7 +16,7 @@
         tools:replace="android:value"/>
       <meta-data
         android:name="CLEVERTAP_TOKEN"
-        android:value="YOUR-ACCT-REGION"
+        android:value="YOUR-ACCT-TOKEN"
         tools:replace="android:value"/>
       <receiver android:enabled="true" android:exported="false" android:name="com.clevertap.android.sdk.pushnotification.CTPushNotificationReceiver" />
       <service
