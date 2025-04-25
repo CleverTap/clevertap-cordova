@@ -1,0 +1,36 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      CleverTap Ionic Angular Capacitor Demo
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">
+        CleverTap Demo
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-accordion-group mode="md">
+    <ion-accordion *ngFor="let section of getMessages() | keyvalue">
+      <ion-item slot="header">
+        <ion-label>{{section.key}}</ion-label>
+      </ion-item>
+
+      <ion-list slot="content">
+        <ion-item *ngFor="let item of section.value" (click)="onItemClick(item)">
+          <ion-label>{{item}}</ion-label>
+        </ion-item>
+      </ion-list>
+
+    </ion-accordion>
+</ion-accordion-group>
+</ion-content>
