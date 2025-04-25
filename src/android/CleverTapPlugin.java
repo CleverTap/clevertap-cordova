@@ -106,7 +106,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         cleverTap.registerPushPermissionNotificationResponseListener(this);
 
         String libName = "Cordova";
-        int libVersion = 30400;
+        int libVersion = 40000;
         cleverTap.setLibrary(libName);
         cleverTap.setCustomSdkVersion(libName, libVersion);
 
@@ -211,25 +211,25 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         });
     }
 
-    private void setPushBaiduToken(JSONArray args, CallbackContext callbackContext) {
-        executeWithArgs(args, callbackContext, (arguments) -> {
-            final String token = arguments.getString(0);
-            cordova.getThreadPool().execute(() -> {
-                cleverTap.pushBaiduRegistrationId(token, true);
-                sendPluginResult(callbackContext, Status.NO_RESULT);
-            });
-        });
-    }
-
-    private void setPushHuaweiToken(JSONArray args, CallbackContext callbackContext) {
-        executeWithArgs(args, callbackContext, (arguments) -> {
-            final String token = arguments.getString(0);
-            cordova.getThreadPool().execute(() -> {
-                cleverTap.pushHuaweiRegistrationId(token, true);
-                sendPluginResult(callbackContext, Status.NO_RESULT);
-            });
-        });
-    }
+//    private void setPushBaiduToken(JSONArray args, CallbackContext callbackContext) {
+//        executeWithArgs(args, callbackContext, (arguments) -> {
+//            final String token = arguments.getString(0);
+//            cordova.getThreadPool().execute(() -> {
+//                cleverTap.pushBaiduRegistrationId(token, true);
+//                sendPluginResult(callbackContext, Status.NO_RESULT);
+//            });
+//        });
+//    }
+//
+//    private void setPushHuaweiToken(JSONArray args, CallbackContext callbackContext) {
+//        executeWithArgs(args, callbackContext, (arguments) -> {
+//            final String token = arguments.getString(0);
+//            cordova.getThreadPool().execute(() -> {
+//                cleverTap.pushHuaweiRegistrationId(token, true);
+//                sendPluginResult(callbackContext, Status.NO_RESULT);
+//            });
+//        });
+//    }
 
     private void createNotification(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
@@ -1502,12 +1502,13 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             case SET_PUSH_TOKEN:
                 setPushToken(args, callbackContext);
                 return true;
-            case SET_PUSH_BAIDU_TOKEN:
-                setPushBaiduToken(args, callbackContext);
-                return true;
-            case SET_PUSH_HUAWEI_TOKEN:
-                setPushHuaweiToken(args, callbackContext);
-                return true;
+                // todo fix this
+//            case SET_PUSH_BAIDU_TOKEN:
+//                setPushBaiduToken(args, callbackContext);
+//                return true;
+//            case SET_PUSH_HUAWEI_TOKEN:
+//                setPushHuaweiToken(args, callbackContext);
+//                return true;
             case CREATE_NOTIFICATION:
                 createNotification(args, callbackContext);
                 return true;
