@@ -228,16 +228,6 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             });
         });
     }
-//
-//    private void setPushHuaweiToken(JSONArray args, CallbackContext callbackContext) {
-//        executeWithArgs(args, callbackContext, (arguments) -> {
-//            final String token = arguments.getString(0);
-//            cordova.getThreadPool().execute(() -> {
-//                cleverTap.pushHuaweiRegistrationId(token, true);
-//                sendPluginResult(callbackContext, Status.NO_RESULT);
-//            });
-//        });
-//    }
 
     private void createNotification(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
