@@ -215,9 +215,22 @@ function setupButtons() {
         ["title","special functions for cordova sdk"],
         ["Push tokens manually", () => {
             CleverTap.setPushToken("foo")
-            CleverTap.setPushBaiduToken("foo")
-            CleverTap.setPushHuaweiToken("foo")
+            CleverTap.registerPushToken("bps_token", {
+                type: 'bps',
+                prefKey: 'bps_token',
+                className: 'com.clevertap.android.bps.BaiduPushProvider',
+                messagingSDKClassName: 'com.baidu.android.pushservice.PushMessageReceiver'
+            });
+
+            CleverTap.registerPushToken("hps_token", {
+                type: 'hps',
+                prefKey: 'hps_token',
+                className: 'com.clevertap.android.hms.HmsPushProvider',
+                messagingSDKClassName: 'com.huawei.hms.push.HmsMessageService'
+            });
         }],
+        ["Push Display Unit Clicked", () => CleverTap.pushDisplayUnitClickedEventForID("abcdx")],
+        ["Push Display Unit Viewed", () => CleverTap.pushDisplayUnitViewedEventForID("abcdx")],
         ["set Debug Level", () => CleverTap.setDebugLevel(3)],
         ["notify Device Ready", () => CleverTap.notifyDeviceReady()],
         ["register Push", () => CleverTap.registerPush()],
