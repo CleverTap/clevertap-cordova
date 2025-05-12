@@ -122,9 +122,9 @@
         <framework src="androidx.viewpager:viewpager:1.0.0" />
         <framework src="com.google.android.material:material:1.4.0"/>
         <framework src="com.android.installreferrer:installreferrer:2.2"/>
-        <framework src="androidx.media3:media3-exoplayer:1.1.1"/>
-        <framework src="androidx.media3:media3-exoplayer-hls:1.1.1"/>
-        <framework src="androidx.media3:media3-ui:1.1.1"/>
+        <framework src="androidx.media3:media3-exoplayer:1.4.0"/>
+        <framework src="androidx.media3:media3-exoplayer-hls:1.4.0"/>
+        <framework src="androidx.media3:media3-ui:1.4.0"/>
 
         <hook type="after_plugin_add" src="scripts/androidAfterPluginAdd.js" />
 

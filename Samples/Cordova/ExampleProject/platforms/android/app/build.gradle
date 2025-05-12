@@ -335,9 +335,9 @@ dependencies {
     implementation "androidx.viewpager:viewpager:1.0.0"
     implementation "com.google.android.material:material:1.4.0"
     implementation "com.android.installreferrer:installreferrer:2.2"
-    implementation "androidx.media3:media3-exoplayer:1.1.1"
-    implementation "androidx.media3:media3-exoplayer-hls:1.1.1"
-    implementation "androidx.media3:media3-ui:1.1.1"
+    implementation "androidx.media3:media3-exoplayer:1.4.0"
+    implementation "androidx.media3:media3-exoplayer-hls:1.4.0"
+    implementation "androidx.media3:media3-ui:1.4.0"
     // SUB-PROJECT DEPENDENCIES END
 }
 
