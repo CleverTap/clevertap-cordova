@@ -229,8 +229,14 @@ function setupButtons() {
                 messagingSDKClassName: 'com.huawei.hms.push.HmsMessageService'
             });
         }],
-        ["Push Display Unit Clicked", () => CleverTap.pushDisplayUnitClickedEventForID("abcdx")],
-        ["Push Display Unit Viewed", () => CleverTap.pushDisplayUnitViewedEventForID("abcdx")],
+        ["Push Display Unit Clicked", () => {
+            let unitId = prompt("Please enter the unitID")
+            CleverTap.pushDisplayUnitClickedEventForID(unitId)
+        }],
+        ["Push Display Unit Viewed", () => {
+            let unitId = prompt("Please enter the unitID")
+            CleverTap.pushDisplayUnitViewedEventForID(unitId)
+        }],
         ["set Debug Level", () => CleverTap.setDebugLevel(3)],
         ["notify Device Ready", () => CleverTap.notifyDeviceReady()],
         ["register Push", () => CleverTap.registerPush()],
