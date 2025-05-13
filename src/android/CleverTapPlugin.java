@@ -2477,29 +2477,22 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
     }
 
     private PushType pushTypeFromJSON(JSONObject jsonPushType) {
-        try {
-            String type = jsonPushType.has("type") ? jsonPushType.getString("type") : null;
-            String prefKey = jsonPushType.has("prefKey") ? jsonPushType.getString("prefKey") : null;
-            String className = jsonPushType.has("className") ? jsonPushType.getString("className") : null;
-            String messagingSDKClassName = jsonPushType.has("messagingSDKClassName") ?
-                    jsonPushType.getString("messagingSDKClassName") : null;
 
-            if (type == null || prefKey == null)
-                return null;
+        String type = jsonPushType.optString("type", "");
+        String prefKey = jsonPushType.optString("prefKey", "");
+        String className = jsonPushType.optString("className", null);
+        String messagingSDKClassName = jsonPushType.optString("messagingSDKClassName", null);
 
-            return new PushType(
-                    type,
-                    prefKey,
-                    className,
-                    messagingSDKClassName);
-
-        } catch (JSONException e) {
-            // Handle JSON parsing exception
+        if (type.isEmpty() || prefKey.isEmpty())
             return null;
-        }
+
+        return new PushType(
+                type,
+                prefKey,
+                className,
+                messagingSDKClassName);
 
     }
-
 
     private void resolveWithTemplateContext(
             String templateName,
