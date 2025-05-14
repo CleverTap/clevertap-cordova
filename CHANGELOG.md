@@ -1,6 +1,28 @@
 Change Log
 ==========
 
+Version 4.0.0 *(14 May, 2025)*
+-------------------------------------------
+> ⚠️ **NOTE**  
+> Please refer to [this guide](https://developer.clevertap.com/docs/clevertap-huawei-push-integration) for changed integration steps for Huawei PushProvider.
+
+#### New Features
+**Android Specific**
+* Supports [CleverTap Android SDK v7.3.1](https://github.com/CleverTap/clevertap-android-sdk/blob/develop/docs/CTCORECHANGELOG.md#version-731-march-27-2025).
+* Adds support for Android 15, making it compliant with Android 15 requirements. Details here. 
+* Upgrades the algorithm used for encryption of PII data, making it compliant with OWASP. Uses AndroidKeyStore for securely backing up encryption key on API levels 23+. 
+* Updates minSdkVersion to API 21 (Android 5.0).
+* Adds new API to register push tokens for providers other than `FCM`
+    * `registerPushToken(yourToken, pushType)`: Register the token for the specified PushType. Refer [here](docs/Usage.md#registering-baiduhps-token) for example usage.
+
+
+#### Breaking API Changes
+**Android Specific**
+- **Removes:** The legacy token registration APIs have been removed to make push providers injectable. The removed APIs include:
+    - `setPushBaiduToken()`
+    - `setPushHuaweiToken()`
+
+
 Version 3.4.0 *(25 February, 2025)*
 -------------------------------------------
 #### New Features

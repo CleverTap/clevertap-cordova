@@ -22,6 +22,7 @@ import com.clevertap.android.sdk.inapp.CTInAppNotification;
 import com.clevertap.android.sdk.inapp.CTLocalInApp;
 import com.clevertap.android.sdk.inapp.customtemplates.CustomTemplateContext;
 import com.clevertap.android.sdk.pushnotification.CTPushNotificationListener;
+import com.clevertap.android.sdk.pushnotification.PushType;
 import com.clevertap.android.sdk.pushnotification.amp.CTPushAmpListener;
 import com.clevertap.android.sdk.usereventlogs.UserEventLog;
 import com.clevertap.android.sdk.variables.CTVariableUtils;
@@ -106,7 +107,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         cleverTap.registerPushPermissionNotificationResponseListener(this);
 
         String libName = "Cordova";
-        int libVersion = 30400;
+        int libVersion = 40000;
         cleverTap.setLibrary(libName);
         cleverTap.setCustomSdkVersion(libName, libVersion);
 
@@ -211,21 +212,18 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         });
     }
 
-    private void setPushBaiduToken(JSONArray args, CallbackContext callbackContext) {
+    private void registerToken(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
             final String token = arguments.getString(0);
-            cordova.getThreadPool().execute(() -> {
-                cleverTap.pushBaiduRegistrationId(token, true);
-                sendPluginResult(callbackContext, Status.NO_RESULT);
-            });
-        });
-    }
+            final JSONObject jsonPushType = arguments.getJSONObject(1);
 
-    private void setPushHuaweiToken(JSONArray args, CallbackContext callbackContext) {
-        executeWithArgs(args, callbackContext, (arguments) -> {
-            final String token = arguments.getString(0);
+            PushType pushType = pushTypeFromJSON(jsonPushType);
+            if (pushType == null) {
+                sendPluginResult(callbackContext, Status.ERROR, "Invalid push type");
+            }
+
             cordova.getThreadPool().execute(() -> {
-                cleverTap.pushHuaweiRegistrationId(token, true);
+                cleverTap.pushRegistrationToken(token, pushType,true);
                 sendPluginResult(callbackContext, Status.NO_RESULT);
             });
         });
@@ -1502,11 +1500,8 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             case SET_PUSH_TOKEN:
                 setPushToken(args, callbackContext);
                 return true;
-            case SET_PUSH_BAIDU_TOKEN:
-                setPushBaiduToken(args, callbackContext);
-                return true;
-            case SET_PUSH_HUAWEI_TOKEN:
-                setPushHuaweiToken(args, callbackContext);
+            case REGISTER_TOKEN:
+                registerToken(args, callbackContext);
                 return true;
             case CREATE_NOTIFICATION:
                 createNotification(args, callbackContext);
@@ -2481,6 +2476,23 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         }
     }
 
+    private PushType pushTypeFromJSON(JSONObject jsonPushType) {
+
+        String type = jsonPushType.optString("type", "");
+        String prefKey = jsonPushType.optString("prefKey", "");
+        String className = jsonPushType.optString("className", null);
+        String messagingSDKClassName = jsonPushType.optString("messagingSDKClassName", null);
+
+        if (type.isEmpty() || prefKey.isEmpty())
+            return null;
+
+        return new PushType(
+                type,
+                prefKey,
+                className,
+                messagingSDKClassName);
+
+    }
 
     private void resolveWithTemplateContext(
             String templateName,
