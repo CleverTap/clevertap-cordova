@@ -321,14 +321,14 @@ this.clevertap.setPushToken('<Token Value>');
 #### Registering Baidu/HPS Token
 
 ```javascript 
-CleverTap.registerPushToken'<Token Value>', {
+this.clevertap.registerPushToken('<Token Value>', {
     type: 'bps',
     prefKey: 'bps_token',
     className: 'com.clevertap.android.bps.BaiduPushProvider',
     messagingSDKClassName: 'com.baidu.android.pushservice.PushMessageReceiver'
 });
 
-CleverTap.registerPushToken('<Token Value>', {
+this.clevertap.registerPushToken('<Token Value>', {
     type: 'hps',
     prefKey: 'hps_token',
     className: 'com.clevertap.android.hms.HmsPushProvider',
