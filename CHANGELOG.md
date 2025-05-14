@@ -1,7 +1,7 @@
 Change Log
 ==========
 
-Version 4.0.0 *(xx May, 2025)*
+Version 4.0.0 *(14 May, 2025)*
 -------------------------------------------
 > ⚠️ **NOTE**  
 > Please refer to [this guide](https://developer.clevertap.com/docs/clevertap-huawei-push-integration) for changed integration steps for Huawei PushProvider.
