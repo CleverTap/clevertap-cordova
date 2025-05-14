@@ -261,33 +261,13 @@ android {
     }
 
     if (cordovaConfig.IS_GRADLE_PLUGIN_KOTLIN_ENABLED) {
-        if (cordovaConfig.KOTLIN_JVM_TARGET == null) {
-            // If the value is null, fallback to JAVA_TARGET_COMPATIBILITY,
-            // as they generally should be equal
-            def javaTarget = JavaLanguageVersion.of(cordovaConfig.JAVA_TARGET_COMPATIBILITY)
-
-            // check if javaTarget is <= 8; if so, we need to prefix it with "1."
-            // Starting with 9 and later, the value can be used as is.
-            if (javaTarget.compareTo(JavaLanguageVersion.of(8)) <= 0) {
-                javaTarget = "1." + javaTarget
-            }
-
-            cordovaConfig.KOTLIN_JVM_TARGET = javaTarget
-        }
-
-        // Similar to above, check if kotlin target is <= 8, if so prefix it.
-        // This allows the user to use consistent set of values in config.xml
-        // Rather than having to be aware whether the "1."" prefix is needed.
-        // This check is only done if the value isn't already prefixed with 1.
-        if (
-            !cordovaConfig.KOTLIN_JVM_TARGET.startsWith("1.") &&
-            JavaLanguageVersion.of(cordovaConfig.KOTLIN_JVM_TARGET).compareTo(JavaLanguageVersion.of(8)) <= 0
-        ) {
-            cordovaConfig.KOTLIN_JVM_TARGET = "1." + cordovaConfig.KOTLIN_JVM_TARGET
-        }
+        // If KOTLIN_JVM_TARGET is null, fallback to JAVA_TARGET_COMPATIBILITY,
+        // as they generally should be equal
+        cordovaConfig.KOTLIN_JVM_TARGET = cordovaConfig.KOTLIN_JVM_TARGET ?:
+                cordovaConfig.JAVA_TARGET_COMPATIBILITY
 
         kotlinOptions {
-            jvmTarget = cordovaConfig.KOTLIN_JVM_TARGET
+            jvmTarget = JavaLanguageVersion.of(cordovaConfig.KOTLIN_JVM_TARGET)
         }
     }
 
@@ -331,14 +311,22 @@ dependencies {
     implementation "androidx.core:core-splashscreen:${cordovaConfig.ANDROIDX_CORE_SPLASHSCREEN_VERSION}"
 
     if (cordovaConfig.IS_GRADLE_PLUGIN_KOTLIN_ENABLED) {
-        implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${cordovaConfig.KOTLIN_VERSION}"
+        implementation "org.jetbrains.kotlin:kotlin-stdlib:${cordovaConfig.KOTLIN_VERSION}"
+    }
+
+    constraints {
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:${cordovaConfig.KOTLIN_VERSION}") {
+            because("kotlin-stdlib-jdk7 is now a part of kotlin-stdlib")
+        }
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${cordovaConfig.KOTLIN_VERSION}") {
+            because("kotlin-stdlib-jdk8 is now a part of kotlin-stdlib")
+        }
     }
 
     // SUB-PROJECT DEPENDENCIES START
     implementation(project(path: ":CordovaLib"))
     implementation "com.google.firebase:firebase-messaging:23.0.6"
-    implementation "com.clevertap.android:clevertap-android-sdk:7.1.2"
-    implementation "com.clevertap.android:push-templates:1.2.4"
+    implementation "com.clevertap.android:clevertap-android-sdk:7.3.1"
     implementation "com.github.bumptech.glide:glide:4.12.0"
     implementation "androidx.appcompat:appcompat:1.6.0-rc01"
     implementation "androidx.core:core:1.9.0"
@@ -347,13 +335,9 @@ dependencies {
     implementation "androidx.viewpager:viewpager:1.0.0"
     implementation "com.google.android.material:material:1.4.0"
     implementation "com.android.installreferrer:installreferrer:2.2"
-    implementation "androidx.media3:media3-exoplayer:1.1.1"
-    implementation "androidx.media3:media3-exoplayer-hls:1.1.1"
-    implementation "androidx.media3:media3-ui:1.1.1"
-
-    // Unit Testing
-    testImplementation 'junit:junit:4.12'
-    testImplementation 'org.json:json:20160212'
+    implementation "androidx.media3:media3-exoplayer:1.4.0"
+    implementation "androidx.media3:media3-exoplayer-hls:1.4.0"
+    implementation "androidx.media3:media3-ui:1.4.0"
     // SUB-PROJECT DEPENDENCIES END
 }
 

@@ -74,10 +74,9 @@ static NSString * const CTSendEvent = @"CTSendEvent";
 - (void)setPushToken:(NSData*)pushToken;
 
 /**
- Baidu and Huawei Push Token Changes
+Push Token Changes other than FCM
  */
--(void)setPushBaiduTokenAsString:(CDVInvokedUrlCommand *)command;
--(void)setPushHuaweiTokenAsString:(CDVInvokedUrlCommand *)command;
+-(void)registerTokenAsString:(CDVInvokedUrlCommand *)command;
 
 /** Let CleverTap handle the push notification
  CleverTap will insure your AppDelege OpenUrl: sourceApplication: is called with a deep link, if included in notification

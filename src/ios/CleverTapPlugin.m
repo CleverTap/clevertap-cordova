@@ -415,12 +415,8 @@ static NSMutableDictionary *allVariables;
     }];
 }
 
-- (void)setPushBaiduTokenAsString:(CDVInvokedUrlCommand *)command {
-    NSLog(@"BaiduToken is no-op in iOS");
-}
-
-- (void)setPushHuaweiTokenAsString:(CDVInvokedUrlCommand *)command {
-    NSLog(@"HuaweiToken is no-op in iOS");
+- (void)registerTokenAsString:(CDVInvokedUrlCommand *)command {
+    NSLog(@"Register Token is no-op in iOS");
 }
 
 - (void)setPushToken:(NSData*)pushToken {
@@ -1461,7 +1457,7 @@ static NSMutableDictionary *allVariables;
 
 - (void)setLibrary {
     NSString *libName = @"Cordova";
-    int libVersion = 30400;
+    int libVersion = 40000;
     [clevertap setLibrary:libName];
     [clevertap setCustomSdkVersion:libName version:libVersion];
 }
