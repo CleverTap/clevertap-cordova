@@ -63,6 +63,7 @@ function setupButtons() {
             btnBackgroundColor: '#0000FF',
             btnBorderRadius: '5',
             imageUrl:"https://icons.iconarchive.com/icons/treetog/junior/64/camera-icon.png",
+            altText:"Clevertap Logo",
             fallbackToSettings: true
           })
       ],
