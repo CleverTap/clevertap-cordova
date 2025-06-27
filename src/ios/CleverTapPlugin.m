@@ -1457,7 +1457,7 @@ static NSMutableDictionary *allVariables;
 
 - (void)setLibrary {
     NSString *libName = @"Cordova";
-    int libVersion = 40000;
+    int libVersion = 40100;
     [clevertap setLibrary:libName];
     [clevertap setCustomSdkVersion:libName version:libVersion];
 }
@@ -1655,7 +1655,7 @@ static NSMutableDictionary *allVariables;
     //Required parameters
     NSString *titleText = nil, *messageText = nil, *followDeviceOrientation = nil, *positiveBtnText = nil, *negativeBtnText = nil;
     //Additional parameters
-    NSString *fallbackToSettings = nil, *backgroundColor = nil, *btnBorderColor = nil, *titleTextColor = nil, *messageTextColor = nil, *btnTextColor = nil, *imageUrl = nil, *btnBackgroundColor = nil, *btnBorderRadius = nil;
+    NSString *fallbackToSettings = nil, *backgroundColor = nil, *btnBorderColor = nil, *titleTextColor = nil, *messageTextColor = nil, *btnTextColor = nil, *imageUrl = nil, *btnBackgroundColor = nil, *btnBorderRadius = nil, *altText = nil;
     
     if ([json[@"inAppType"]  isEqual: @"half-interstitial"]){
         inAppType = HALF_INTERSTITIAL;
@@ -1675,9 +1675,11 @@ static NSMutableDictionary *allVariables;
     if (json[@"positiveBtnText"]) {
         positiveBtnText = [json valueForKey:@"positiveBtnText"];
     }
-    
     if (json[@"negativeBtnText"]) {
         negativeBtnText = [json valueForKey:@"negativeBtnText"];
+    }
+    if (json[@"altText"]) {
+        altText = [json valueForKey:@"altText"];
     }
     
     //creates the builder instance with all the required parameters
@@ -1715,7 +1717,7 @@ static NSMutableDictionary *allVariables;
     }
     if (json[@"imageUrl"]) {
         imageUrl = [json valueForKey:@"imageUrl"];
-        [inAppBuilder setImageUrl:imageUrl];
+        [inAppBuilder setImageUrl:imageUrl contentDescription:altText];
     }
     if (json[@"btnBackgroundColor"]) {
         btnBackgroundColor = [json valueForKey:@"btnBackgroundColor"];
