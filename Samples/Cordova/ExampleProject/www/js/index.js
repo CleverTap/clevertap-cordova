@@ -48,7 +48,7 @@ function setupButtons() {
 
         ["title","Android 13 Push Primer"],
         ["promptPushPrimer",()=> CleverTap.promptPushPrimer({
-            inAppType: 'alert',
+            inAppType: 'half-interstitial',
             titleText: 'Get Notified',
             messageText:
               'Please enable notifications on your device to use Push Notifications.',
@@ -62,7 +62,8 @@ function setupButtons() {
             btnTextColor: '#FFFFFF',
             btnBackgroundColor: '#0000FF',
             btnBorderRadius: '5',
-            imageUrl:"https://icons.iconarchive.com/icons/treetog/junior/64/camera-icon.png",
+            imageUrl:'https://icons.iconarchive.com/icons/treetog/junior/64/camera-icon.png',
+            altText:'Clevertap Logo',
             fallbackToSettings: true
           })
       ],
