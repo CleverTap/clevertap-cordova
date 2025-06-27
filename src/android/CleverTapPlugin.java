@@ -2335,7 +2335,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         CTLocalInApp.InAppType inAppType = null;
         String titleText = null, messageText = null, positiveBtnText = null, negativeBtnText = null,
                 backgroundColor = null, btnBorderColor = null, titleTextColor = null, messageTextColor = null,
-                btnTextColor = null, imageUrl = null, btnBackgroundColor = null, btnBorderRadius = null, altText =  null;
+                btnTextColor = null, imageUrl = null, btnBackgroundColor = null, btnBorderRadius = null, altText = null;
         boolean fallbackToSettings = false, followDeviceOrientation = false;
 
         final Iterator<String> iterator = jsonObject.keys();
