@@ -48,7 +48,7 @@ function setupButtons() {
 
         ["title","Android 13 Push Primer"],
         ["promptPushPrimer",()=> CleverTap.promptPushPrimer({
-            inAppType: 'alert',
+            inAppType: 'half-interstitial',
             titleText: 'Get Notified',
             messageText:
               'Please enable notifications on your device to use Push Notifications.',
