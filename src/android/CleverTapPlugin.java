@@ -138,7 +138,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                     return;
                 }
                 Map<String, Object> result = new HashMap<>();
-                result.put("deeplink", data);
+                result.put("deeplink", data.toString());
                 CleverTapEventEmitter.sendEvent(CleverTapEvent.ON_DEEP_LINK, result);
             }
         }
