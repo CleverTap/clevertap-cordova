@@ -30,8 +30,8 @@ CleverTap.prototype.disablePersonalization = function () {
 }
 
 //Enables tracking opt out for the currently active user.
-CleverTap.prototype.setOptOut = function (value) {
-    cordova.exec(null, null, "CleverTapPlugin", "setOptOut", [value]);
+CleverTap.prototype.setOptOut = function (userOptOut, allowSystemEvents) {
+    cordova.exec(null, null, "CleverTapPlugin", "setOptOut", [userOptOut, allowSystemEvents]);
 }
 
 //Sets CleverTap SDK to offline mode.

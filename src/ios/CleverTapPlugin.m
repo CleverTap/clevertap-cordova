@@ -548,7 +548,8 @@ static NSMutableDictionary *allVariables;
     
     [self.commandDelegate runInBackground:^{
         BOOL isOptOut = [[command argumentAtIndex:0] boolValue];
-        [clevertap setOptOut:isOptOut];
+        BOOL allowSystemEvents = [[command argumentAtIndex:1]boolValue];
+        [clevertap setOptOut:isOptOut allowSystemEvents: allowSystemEvents];
     }];
 }
 

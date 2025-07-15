@@ -131,6 +131,10 @@ function setupButtons() {
         }, [{"Category": "Books", "Quantity": 1, "Title": "Book Title"}])],
         ["recordScreenView", () => CleverTap.recordScreenView("HomeView")],
 
+        ["title","Opt Out"],
+        ["optOut = true, allowSystemEvents = true", () => CleverTap.setOptOut(true,true)],
+        ["optOut = true, allowSystemEvents = false", () => CleverTap.setOptOut(true,false)],
+        ["optOut = false", () => CleverTap.setOptOut(false)],
 
         ["title","User Profile"],
         ["profile Set with Identity = 20701", () => {
