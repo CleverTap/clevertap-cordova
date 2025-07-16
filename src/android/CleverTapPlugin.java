@@ -107,7 +107,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         cleverTap.registerPushPermissionNotificationResponseListener(this);
 
         String libName = "Cordova";
-        int libVersion = 40100;
+        int libVersion = 40200;
         cleverTap.setLibrary(libName);
         cleverTap.setCustomSdkVersion(libName, libVersion);
 
@@ -365,8 +365,9 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
     private void setOptOut(JSONArray args, CallbackContext callbackContext) {
         executeWithArgs(args, callbackContext, (arguments) -> {
             final boolean optOut = arguments.getBoolean(0);
+            final boolean allowSystemEvents = arguments.getBoolean(1);
             cordova.getThreadPool().execute(() -> {
-                cleverTap.setOptOut(optOut);
+                cleverTap.setOptOut(optOut, allowSystemEvents);
                 sendPluginResult(callbackContext, Status.NO_RESULT);
             });
         });
