@@ -1,7 +1,7 @@
 Change Log
 ==========
 
-Version 4.2.0 *(July xx 2025)*
+Version 4.2.0 *(July 28 2025)*
 -------------------------------------------
 **What's new**
 * **[Android Platform]**
@@ -12,7 +12,7 @@ Version 4.2.0 *(July xx 2025)*
 
 **API changes**
 * **[Android and iOS Platform]**
-    * Updates the `setOptOut(userOptOut)` API. This upgraded API improves GDPR opt-out functionality by allowing you to control whether critical system events (such as app installs, uninstalls, and push notification registration) are still sent to CleverTap, even when a user has opted out of tracking. This helps you respect user privacy choices while still maintaining essential app functionality and compliance with regulations. This is non-breaking change.
+    * Updates the `setOptOut(userOptOut)` API. This upgraded API improves GDPR opt-out functionality by allowing you to control whether critical system events (such as app installs, uninstalls, and push notification registration) are still sent to CleverTap, even when a user has opted out of tracking. This helps you respect user privacy choices while still maintaining essential app functionality and compliance with regulations. This is a non-breaking change.
         * `setOptOut(userOptOut, allowSystemEvents)`
 
 **Bug Fixes**
