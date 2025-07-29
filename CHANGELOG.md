@@ -1,7 +1,7 @@
 Change Log
 ==========
 
-Version 4.2.0 *(July 28 2025)*
+Version 4.2.0 *(July 29 2025)*
 -------------------------------------------
 **What's new**
 * **[Android Platform]**
