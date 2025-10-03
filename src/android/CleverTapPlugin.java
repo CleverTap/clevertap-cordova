@@ -107,7 +107,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         cleverTap.registerPushPermissionNotificationResponseListener(this);
 
         String libName = "Cordova";
-        int libVersion = 40200;
+        int libVersion = 40300;
         cleverTap.setLibrary(libName);
         cleverTap.setCustomSdkVersion(libName, libVersion);
 
@@ -1918,7 +1918,9 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
     @NonNull
     private PluginResult getPluginResult(final Status status, final Object value) {
         PluginResult result;
-        if (value instanceof Boolean) {
+        if (value == null) {
+            result = new PluginResult(status, (String) null);
+        } else if (value instanceof Boolean) {
             result  = new PluginResult(status, (Boolean) value);
         } else if (value instanceof Double) {
             result  = new PluginResult(status, ((Double) value).floatValue());
