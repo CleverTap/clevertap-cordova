@@ -1,6 +1,6 @@
 Change Log
 ==========
-Version 4.3.0 *(October xx 2025)*
+Version 4.3.0 *(October 3 2025)*
 -------------------------------------------
 **What's new**
 * **[Android Platform]**
