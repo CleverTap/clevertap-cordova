@@ -809,7 +809,7 @@ static NSMutableDictionary *allVariables;
             id prop = [clevertap profileGet:propertyName];
             
             if(prop == nil) {
-                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:NO];
+                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:nil];
             }
             
             else if([prop isKindOfClass:[NSString class]]) {
