@@ -172,7 +172,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
                 if (!callbackDone) {
                     Map<String, Object> callbackResult = new HashMap<>();
-                    result.put("customExtras", data.toString());
+                    callbackResult.put("customExtras", data);
                     CleverTapEventEmitter.sendEvent(CleverTapEvent.ON_CLEVERTAP_PUSH_NOTIFICATION_TAPPED_WITH_CUSTOM_EXTRAS, callbackResult);
                 }
             }
