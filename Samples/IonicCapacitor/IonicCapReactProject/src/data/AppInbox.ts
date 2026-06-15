@@ -6,16 +6,8 @@ const data = {
     title: 'App Inbox',
     items:[
         {
-            userAction:UserActions.EventRecord,
-            title:'Record Event'
-        },
-        {
-            userAction:UserActions.EventRecordWithProp,
-            title:'Record Event With Properties'
-        },
-        {
-            id:UserActions.EventRecordCharged,
-            title:'Record Charged Event'
+            userAction:UserActions.FetchInbox,
+            title:'Fetch Inbox'
         }
 ]
 

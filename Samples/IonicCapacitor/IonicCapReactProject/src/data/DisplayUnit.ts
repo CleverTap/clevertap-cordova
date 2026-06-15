@@ -6,16 +6,8 @@ const data = {
     title: 'Display Unit',
     items:[
         {
-            userAction:UserActions.EventRecord,
-            title:'Record Event'
-        },
-        {
-            userAction:UserActions.EventRecordWithProp,
-            title:'Record Event With Properties'
-        },
-        {
-            id:UserActions.EventRecordCharged,
-            title:'Record Charged Event'
+            userAction:UserActions.PushDisplayUnitElementClicked,
+            title:'Push Display Unit Element Clicked'
         }
 ]
 

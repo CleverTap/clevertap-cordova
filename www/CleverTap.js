@@ -549,6 +549,12 @@ CleverTap.prototype.pushInboxNotificationClickedEventForId = function (messageId
      cordova.exec(null, null, "CleverTapPlugin", "pushInboxNotificationClickedEventForId", [messageId]);
 }
 
+// Triggers an on-demand inbox refresh from the server (throttled to once per 5 minutes).
+// successCallback receives true on success, false if throttled/failed.
+CleverTap.prototype.fetchInbox = function(successCallback) {
+    cordova.exec(successCallback, null, "CleverTapPlugin", "fetchInbox", []);
+}
+
 /*******************
  * In-App Controls
  ******************/
@@ -593,6 +599,12 @@ CleverTap.prototype.pushDisplayUnitViewedEventForID = function(unitId){
 
 CleverTap.prototype.pushDisplayUnitClickedEventForID = function(unitId){
 	cordova.exec(null, null, "CleverTapPlugin", "pushDisplayUnitClickedEventForID", [unitId]);
+}
+
+// Records a Notification Clicked event for a specific element within a Display Unit.
+// additionalProperties should include wzrk_element_id and other wzrk_* fields from the action metadata.
+CleverTap.prototype.pushDisplayUnitElementClickedEventForID = function(unitId, additionalProperties) {
+    cordova.exec(null, null, "CleverTapPlugin", "pushDisplayUnitElementClickedEventForID", [unitId, additionalProperties]);
 }
 
 /****************************
