@@ -1,4 +1,8 @@
 *.xcuserstate
+# Cordova regenerates platforms/ from config.xml + plugins on every build; it is
+# build output and must not be tracked (the sync CI regenerates it, which would
+# otherwise flood every auto-PR with hundreds of generated files).
+Samples/Cordova/ExampleProject/platforms/
 Samples/Cordova/ExampleProject/package-lock.json
 Samples/Cordova/ExampleProject/platforms/android/.idea/
 Samples/Cordova/ExampleProject/plugins/
