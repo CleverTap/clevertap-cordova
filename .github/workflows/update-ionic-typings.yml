@@ -1,0 +1,52 @@
+name: update-ionic-typings
+
+# Manually-dispatched: update the CleverTap typings in awesome-cordova-plugins
+# (ionic-native) so Ionic/Angular apps can call the latest Cordova plugin
+# methods. Routes to the reusable workflow in clevertap-wrapper-tooling, which
+# edits the typings repo and opens PR #1 there. The upstream PR (typings fork ->
+# danielsogl/awesome-cordova-plugins) is raised by a human afterwards.
+#
+# Required repo secrets: CLEVERTAP_WRAPPER_SYNC_APP_ID,
+# CLEVERTAP_WRAPPER_SYNC_PRIVATE_KEY, ANTHROPIC_API_KEY, SLACK_WEBHOOK_URL.
+# The clevertap-wrapper-sync App must be installed on the typings_repo.
+
+on:
+  workflow_dispatch:
+    inputs:
+      typings_repo:
+        description: 'Typings repo to edit / open PR #1 into (App must be installed there).'
+        type: string
+        default: 'piyush-kukadiya/ionic-native'
+      typings_base:
+        description: 'Base branch in the typings repo.'
+        type: string
+        default: 'master'
+      cordova_ref:
+        description: 'Ref in THIS repo to read www/CleverTap.js + the ionic-native-typings skill from.'
+        type: string
+        default: 'task/setup-sync-automation'
+      release_name:
+        description: 'Optional branch suffix (defaults to today YYYY-MM-DD).'
+        type: string
+        default: ''
+      model:
+        description: 'Claude model (alias)'
+        type: choice
+        options: [sonnet, opus, haiku]
+        default: sonnet
+
+jobs:
+  update-typings:
+    uses: CleverTap/clevertap-wrapper-tooling/.github/workflows/update-ionic-typings.yml@v1
+    with:
+      typings_repo:  ${{ inputs.typings_repo }}
+      typings_base:  ${{ inputs.typings_base }}
+      cordova_repo:  ${{ github.repository }}
+      cordova_ref:   ${{ inputs.cordova_ref }}
+      release_name:  ${{ inputs.release_name }}
+      model:         ${{ inputs.model }}
+    secrets:
+      app_id:            ${{ secrets.CLEVERTAP_WRAPPER_SYNC_APP_ID }}
+      app_private_key:   ${{ secrets.CLEVERTAP_WRAPPER_SYNC_PRIVATE_KEY }}
+      anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+      slack_webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
