@@ -13,5 +13,11 @@ export enum UserActions{
     LoginReplaceMultiProp,
     LoginRemoveMultiProp,
     LoginProfileLocation,
-    LoginGetUserProfileProp
+    LoginGetUserProfileProp,
+
+    // inbox
+    FetchInbox,
+
+    // native display
+    PushDisplayUnitElementClicked,
 }

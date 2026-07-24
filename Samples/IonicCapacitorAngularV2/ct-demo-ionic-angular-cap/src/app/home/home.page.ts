@@ -170,6 +170,14 @@ export class HomePage {
       case "Notification Clicked event for Message":
         CleverTap.pushInboxNotificationClickedEventForId("your message Id");
         break;
+      case "Fetch Inbox":
+        // @ts-ignore
+        CleverTap.fetchInbox().then((r: boolean) => this.presentCustomTextToast(`fetchInbox result: ${r}`));
+        break;
+      case "Push Display Unit Element Clicked":
+        // @ts-ignore
+        CleverTap.pushDisplayUnitElementClickedEventForID("unit-id-001", {"wzrk_element_id": "button1"});
+        break;
       case "Basic Push":
         CleverTap.recordEventWithName("Send Basic Push");
         break;

@@ -424,6 +424,12 @@ Push Token Changes other than FCM
  */
 - (void)pushInboxNotificationClickedEventForId:(CDVInvokedUrlCommand *)command;
 
+/**
+ Triggers an on-demand App Inbox refresh from the server (throttled to once per 5 minutes).
+ successCallback receives true on success, false if throttled or failed.
+ */
+- (void)fetchInbox:(CDVInvokedUrlCommand *)command;
+
 # pragma mark - Native Display
 
 /**
@@ -445,6 +451,11 @@ Push Token Changes other than FCM
  This method is called to record Click on Display Unit
  */
 - (void)pushDisplayUnitClickedEventForID:(CDVInvokedUrlCommand *)command;
+
+/**
+ This method records a Notification Clicked event for a specific element within a Native Display Unit.
+ */
+- (void)pushDisplayUnitElementClickedEventForID:(CDVInvokedUrlCommand *)command;
 
 # pragma mark - Feature Flags & Product Config
 
