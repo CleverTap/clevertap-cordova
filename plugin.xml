@@ -42,10 +42,9 @@
 
         <podspec>
             <config>
-                <source url="https://github.com/CleverTap/clevertap-ios-sdk.git" />
-                <source url="https://github.com/CocoaPods/Specs.git"/>
+                <source url="https://cdn.cocoapods.org/"/>
             </config>
-            <pods>
+            <pods use-frameworks="true">
                 <pod name="CleverTap-iOS-SDK" spec="7.8.0" nospm="true" />
             </pods>
         </podspec>
