@@ -1,5 +1,34 @@
 # 👩‍💻 iOS Integration
 
+## Project setup
+
+Install the plugin with your CleverTap credentials:
+
+```sh
+cordova plugin add https://github.com/CleverTap/clevertap-cordova.git \
+  --variable CLEVERTAP_ACCOUNT_ID="YOUR_ACCOUNT_ID" \
+  --variable CLEVERTAP_TOKEN="YOUR_TOKEN"
+```
+
+This automatically injects `CleverTapAccountID` and `CleverTapToken` into your app's `Info.plist`. If your account uses a specific region, pass it as an additional variable:
+
+```sh
+  --variable CLEVERTAP_REGION="YOUR_REGION_CODE"
+```
+
+Refer to [CleverTap region codes](https://developer.clevertap.com/docs/idc) for valid values.
+
+## iOS dependency management
+
+The plugin supports two dependency managers depending on your cordova-ios version - no manual configuration is required:
+
+| cordova-ios | Dependency manager | iOS minimum | SDK version |
+|---|---|---|---|
+| 8.0+ | Swift Package Manager (SPM) | 13 | CleverTap iOS SDK 7.8.0 |
+| < 8.0 | CocoaPods | - | CleverTap iOS SDK 7.8.0 |
+
+Cordova's build toolchain picks the right path automatically. On cordova-ios 8+, the root `Package.swift` resolves the SDK via SPM. After your first build, Xcode locks the resolved versions in `Package.resolved` inside your generated Xcode project.
+
 ## Set up and register for push notifications and deep links
 
 - [Set up push notifications for your app](https://developer.apple.com/documentation/usernotifications/registering_your_app_with_apns).
