@@ -10,20 +10,14 @@ import {
   IonToolbar 
 } from '@ionic/react';
 import React from 'react';
+import { useParams } from 'react-router-dom';
 import ListUIItem from './ContentPageListItem';
-import { 
-  AppPage,
-  ListItem 
-} from '../../models/Page';
+import { AppPage, ListItem } from '../../models/Page';
 import AppPages from '../../data/Pages'
-interface PageProps {
-  match: {params:{
-    name: string;
-  }};
-}
-const Page: React.FC<PageProps> = (props:PageProps) => {
 
-  const page = AppPages.find(item => item.id === props.match.params.name) as AppPage;
+const Page: React.FC = () => {
+  const { name } = useParams<{ name: string }>();
+  const page = AppPages.find(item => item.id === name) as AppPage;
 
   return (
     <IonPage >
@@ -45,7 +39,7 @@ const Page: React.FC<PageProps> = (props:PageProps) => {
         <IonList >
         {page.items.map((pageitem:ListItem) => {
             return (
-              <IonItem >
+              <IonItem key={pageitem.title} >
                 <ListUIItem item={pageitem} ></ListUIItem >
               </IonItem>
             );

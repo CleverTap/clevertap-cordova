@@ -1,17 +1,9 @@
 import Menu from './views/leftnav/LeftNav';
 import Page from './views/content/ContentPage';
 import React, {Component} from 'react';
-import {CleverTap} from '@ionic-native/clevertap'
-import { 
-  IonApp, 
-  IonRouterOutlet, 
-  IonSplitPane 
-} from '@ionic/react';
+import { IonApp, IonRouterOutlet, IonSplitPane } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { 
-  Redirect, 
-  Route 
-} from 'react-router-dom';
+import { Redirect, Route } from 'react-router-dom';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -34,23 +26,11 @@ import './themes/app.css';
 type Props = {};
 export default class App extends Component<Props> {
 
-  componentWillMount() {
-    console.log('Component WILL MOUNT123!')
-  }
-
   componentDidMount() {
-    // optional: add listeners for CleverTap Events
-    
-
-    CleverTap.setDebugLevel(3);
-    // for iOS only: register for push notifications
-
-    // for iOS only; record a Screen View
-
-    //Create notification channel for Android O and above
-    CleverTap.createNotificationChannel("BRTesting", "BRTesting", "BRTesting", 5, true);
-    //initialize the App Inbox
-    CleverTap.initializeInbox();
+    const CT = (window as any).CleverTap;
+    CT?.setDebugLevel(3);
+    CT?.createNotificationChannel("BRTesting", "BRTesting", "BRTesting", 5, true);
+    CT?.initializeInbox();
     document.addEventListener('onCleverTapProfileDidInitialize', (e: any) => {
       console.log("onCleverTapProfileDidInitialize");
       console.log(e.CleverTapID);
@@ -101,7 +81,7 @@ componentWillUnmount() {
             <Menu />
             <IonRouterOutlet id="main">
               <Route path="/page/:name" component={Page} exact />
-              <Redirect from="/" to="/page/events" exact />
+              <Redirect exact from="/" to="/page/events" />
             </IonRouterOutlet>
           </IonSplitPane>
         </IonReactRouter>

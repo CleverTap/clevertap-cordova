@@ -1,12 +1,14 @@
 import {
   IonContent,
+  IonHeader,
   IonItem,
   IonLabel,
   IonList,
-  IonListHeader,
   IonMenu,
   IonMenuToggle,
   IonNote,
+  IonTitle,
+  IonToolbar,
 } from '@ionic/react';
 
 import React from 'react';
@@ -19,10 +21,14 @@ const Menu: React.FC = () => {
 
   return (
     <IonMenu contentId="main" type="overlay">
-      <IonContent >
+      <IonHeader>
+        <IonToolbar>
+          <IonTitle>CleverTap</IonTitle>
+        </IonToolbar>
+      </IonHeader>
+      <IonContent>
         <IonList id="inbox-list">
-          <IonListHeader>CleverTap</IonListHeader>
-          <IonNote>IonicStarter</IonNote>
+          <IonNote>CleverTap Sample</IonNote>
           {Pages.map((page, index) => {
             return (
               <IonMenuToggle key={index} autoHide={false}>
