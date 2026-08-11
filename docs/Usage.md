@@ -285,6 +285,18 @@ this.clevertap.pushInboxNotificationViewedEventForId('message_ID_1234');
 this.clevertap.pushInboxNotificationClickedEventForId('message_ID_1234');			
 ```
 
+#### Fetch Inbox
+
+Requests an on-demand refresh of the App Inbox. Throttled to one call every 5 minutes; the throttle is shared with the built-in pull-to-refresh gesture. The callback is optional.
+
+```javascript 
+this.clevertap.fetchInbox();
+
+this.clevertap.fetchInbox(success => {
+   console.log('Inbox fetch success: ' + success);
+});
+```
+
 
 ## Push Notifications
 
@@ -356,6 +368,14 @@ this.clevertap.discardInAppNotifications();
 this.clevertap.resumeInAppNotifications();
 ```
 
+#### Dismiss PIP InApp Notification
+
+Dismisses the currently visible Picture-in-Picture (PIP) InApp notification. No-op when no PIP InApp is visible; other InApp types are never affected. Dismissing frees the InApp display slot, so the next queued InApp may show immediately — pair with `suspendInAppNotifications()` / `resumeInAppNotifications()` to keep a screen free of all InApps.
+
+```javascript 
+this.clevertap.dismissPipInApp();
+```
+
 ## Native Display
 
 #### Get Display Unit for Id
@@ -372,6 +392,14 @@ this.clevertap.getDisplayUnitForId('Test Display Unit').then(r => {
 this.clevertap.getAllDisplayUnits('Test Display Unit').then(r => {
    console.log('getAllDisplayUnits: ' + r);
 });
+```
+
+#### Push Display Unit Element Clicked Event For Id
+
+Records a `Notification Clicked` event for a specific element within a Display Unit. Pass the `wzrk_element_id` taken from the clicked action's `metadata` to get per-element click analytics.
+
+```javascript 
+this.clevertap.pushDisplayUnitElementClickedEventForID('Test Display Unit', {'wzrk_element_id': 'cta_button_1'});
 ```
 
 ## Product Config 

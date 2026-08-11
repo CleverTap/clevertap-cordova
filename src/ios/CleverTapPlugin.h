@@ -119,6 +119,12 @@ Push Token Changes other than FCM
  */
 - (void)resumeInAppNotifications;
 
+/**
+ Dismisses the currently visible Picture-in-Picture (PIP) inApp notification, if any.
+ No-op when no PIP inApp is visible; other inApp types are never affected.
+ */
+- (void)dismissPipInApp:(CDVInvokedUrlCommand *)command;
+
 #pragma mark - CleverTapInAppNotificationDelegate
 
 /**
@@ -424,6 +430,11 @@ Push Token Changes other than FCM
  */
 - (void)pushInboxNotificationClickedEventForId:(CDVInvokedUrlCommand *)command;
 
+/**
+ This method requests an on-demand refresh of the App Inbox from the CleverTap servers
+ */
+- (void)fetchInbox:(CDVInvokedUrlCommand *)command;
+
 # pragma mark - Native Display
 
 /**
@@ -445,6 +456,11 @@ Push Token Changes other than FCM
  This method is called to record Click on Display Unit
  */
 - (void)pushDisplayUnitClickedEventForID:(CDVInvokedUrlCommand *)command;
+
+/**
+ This method is called to record Click on a specific element within a Display Unit
+ */
+- (void)pushDisplayUnitElementClickedEventForID:(CDVInvokedUrlCommand *)command;
 
 # pragma mark - Feature Flags & Product Config
 

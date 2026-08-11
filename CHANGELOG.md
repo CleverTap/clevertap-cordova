@@ -1,5 +1,44 @@
 Change Log
 ==========
+Version 5.1.0 *(August 11 2026)*
+-------------------------------------------
+**What's new**
+* **[Android Platform]**
+    * Supports [CleverTap Android SDK v8.4.1](https://github.com/CleverTap/clevertap-android-sdk/blob/master/docs/CTCORECHANGELOG.md#version-841-august-7-2026).
+    * Custom-HTML header and footer In-App notifications can now render when the host Activity is not a `FragmentActivity` (for example Unity or Unreal game engines). Opt in with the `CLEVERTAP_INAPP_FRAGMENTLESS_BANNERS` manifest flag; it is off by default, so existing integrations are unaffected.
+    * Adds the `androidx.swiperefreshlayout:swiperefreshlayout:1.1.0` dependency required by the built-in App Inbox pull-to-refresh gesture.
+
+* **[iOS Platform]**
+    * Supports [CleverTap iOS SDK v7.8.1](https://github.com/CleverTap/clevertap-ios-sdk/blob/master/CHANGELOG.md#version-781-august-7-2026).
+    * Push notifications can now be suppressed while your app is in the foreground by sending the `wzrk_sif: true` key-value pair in the push payload — the notification is delivered silently to the tray instead of appearing as a heads-up banner. This requires the `willPresent` method of `UNUserNotificationCenterDelegate` to be implemented in your app.
+
+* **[Android and iOS Platform]**
+    * Adds Spin-the-Wheel and Scratch Card gamified templates to Advanced InApp Builder In-App notifications. No host-app code change is required.
+    * Adds a pull-to-refresh gesture to the built-in App Inbox (`showInbox()`), and App Inbox messages now sync across a user's devices — reads and deletes on one device are reflected on the others. Manual fetches are throttled to once every 5 minutes.
+    * Adds per-element click attribution and a configurable swipe-to-dismiss gesture to In-App notifications, and improves accessibility across In-App notifications and the App Inbox (dynamic text scaling, screen-reader announcements, content descriptions and a larger dismiss-button tap area).
+
+**API changes**
+* **[Android and iOS Platform]**
+    * Adds new `fetchInbox(successCallback)` API to request an on-demand refresh of the App Inbox. The callback is optional and is invoked with `true` when messages were fetched, `false` when the fetch was throttled, disabled for the session or failed. Throttled to once every 5 minutes, shared with the built-in pull-to-refresh gesture.
+    * Adds new `dismissPipInApp()` API to dismiss the currently visible Picture-in-Picture (PIP) In-App notification. It is a no-op when no PIP In-App is visible and never affects other In-App types. Dismissing frees the In-App display slot, so the next queued In-App may show immediately — pair it with `suspendInAppNotifications()` and `resumeInAppNotifications()` to keep a screen free of all In-Apps.
+    * Adds new `pushDisplayUnitElementClickedEventForID(unitId, additionalProperties)` API to record a `Notification Clicked` event for a specific element within a Native Display unit. Pass the `wzrk_element_id` from the clicked action's `metadata` in `additionalProperties` for per-element click analytics.
+
+**Bug Fixes**
+* **[Android Platform]**
+    * Fixes an issue where App Inbox messages were never saved on Android 6.0 through Android 10 (API 23 – 29), leaving the inbox permanently empty on those devices. No host-app change is required; messages reappear automatically on the next inbox fetch.
+    * Fixes an `AbstractMethodError` crash when a Picture-in-Picture In-App notification played a video on Android 6.0 (API 23). Also protects In-App and App Inbox video playback on that version.
+
+* **[iOS Platform]**
+    * Fixes an issue where In-App notifications that were missed while the app was in the background were not shown when the app returned to the foreground.
+    * Fixes an issue where the app could freeze while an In-App notification was being shown in poor network conditions.
+    * Fixes an issue where the `Notification Clicked` event did not include deeplink properties for custom-HTML In-App notifications.
+    * Fixes an issue where full-screen cover In-App notifications did not respect the device safe area.
+    * Fixes an issue where server-side In-App notifications were not persisted when an empty list was received.
+    * Fixes potential crashes while saving product-variable values and during simultaneous variant updates, and a crash that could corrupt user defaults during In-App evaluation.
+
+* **[Android and iOS Platform]**
+    * Fixes an issue where the built-in App Inbox did not repaint the message list after a pull-to-refresh.
+
 Version 5.0.0 *(April 30 2026)*
 -------------------------------------------
 **What's new**

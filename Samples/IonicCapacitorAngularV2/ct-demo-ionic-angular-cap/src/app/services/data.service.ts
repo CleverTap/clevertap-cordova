@@ -24,8 +24,15 @@ export class DataService {
         "Open Inbox", "Show Total Counts", "Show Unread Counts", "Get All Inbox Messages",
         "Get Unread Messages", "Get InboxMessage by messageID", "Delete InboxMessage by messageID",
         "Mark as read by messageID",
-        "Notification Viewed event for Message", "Notification Clicked event for Message"
+        "Notification Viewed event for Message", "Notification Clicked event for Message",
+        "Fetch Inbox"
       ]
+      ],
+      ["IN-APP", [
+        "Dismiss PIP InApp"]
+      ],
+      ["NATIVE DISPLAY", [
+        "Notification Clicked event for Display Unit Element"]
       ],
       ["PUSH TEMPLATES", [
         "Basic Push",

@@ -503,6 +503,12 @@ static NSMutableDictionary *allVariables;
     [clevertap resumeInAppNotifications];
 }
 
+- (void)dismissPipInApp:(CDVInvokedUrlCommand *)command {
+    [self.commandDelegate runInBackground:^{
+        [clevertap dismissPipInApp];
+    }];
+}
+
 
 #pragma mark - Push Notification Delegate
 
@@ -1231,10 +1237,23 @@ static NSMutableDictionary *allVariables;
  Record Inbox Notification Clicked for MessageID
  */
 - (void)pushInboxNotificationClickedEventForId:(CDVInvokedUrlCommand *)command {
-    
+
     [self.commandDelegate runInBackground:^{
         NSString *messageId = [command argumentAtIndex:0];
         [clevertap recordInboxNotificationClickedEventForID: messageId];
+    }];
+}
+
+/**
+ Request an on-demand refresh of the App Inbox
+ */
+- (void)fetchInbox:(CDVInvokedUrlCommand *)command {
+
+    [self.commandDelegate runInBackground:^{
+        [clevertap fetchInboxWithCallback:^(BOOL success) {
+            CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:success];
+            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        }];
     }];
 }
 
@@ -1312,10 +1331,27 @@ static NSMutableDictionary *allVariables;
 }
 
 - (void)pushDisplayUnitClickedEventForID:(CDVInvokedUrlCommand *)command {
-    
+
     [self.commandDelegate runInBackground:^{
         NSString *unitID = [command argumentAtIndex:0];
         [clevertap recordDisplayUnitClickedEventForID:unitID];
+    }];
+}
+
+/**
+ Record Display Unit Element Clicked Event For ID
+ */
+- (void)pushDisplayUnitElementClickedEventForID:(CDVInvokedUrlCommand *)command {
+
+    [self.commandDelegate runInBackground:^{
+        NSString *unitID = [command argumentAtIndex:0];
+        NSDictionary *additionalProperties = [command argumentAtIndex:1];
+        if (additionalProperties == nil || ![additionalProperties isKindOfClass:[NSDictionary class]]) {
+            additionalProperties = @{};
+        }
+        if (unitID != nil && [unitID isKindOfClass:[NSString class]]) {
+            [clevertap recordDisplayUnitElementClickedEventForID:unitID additionalProperties:additionalProperties];
+        }
     }];
 }
 
@@ -1471,7 +1507,7 @@ static NSMutableDictionary *allVariables;
 
 - (void)setLibrary {
     NSString *libName = @"Cordova";
-    int libVersion = 50000;
+    int libVersion = 50100;
     [clevertap setLibrary:libName];
     [clevertap setCustomSdkVersion:libName version:libVersion];
 }

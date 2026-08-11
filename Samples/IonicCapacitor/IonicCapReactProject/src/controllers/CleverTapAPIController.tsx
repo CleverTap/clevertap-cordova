@@ -72,6 +72,29 @@ function handleUserAction(item: ListItem) {
         'MSG-push': false, // Disable push notifications
       };
       clevertap.profileSet(profileUpdate);
+      break;
+
+    // App Inbox
+    case UserActions.InboxFetch:
+      // @ts-ignore - fetchInbox is not in the @ionic-native/clevertap typings yet
+      (clevertap as any).fetchInbox((success: boolean) =>
+        console.log('Inbox fetch success: ' + success)
+      );
+      break;
+
+    // In-App
+    case UserActions.InAppDismissPip:
+      // @ts-ignore - dismissPipInApp is not in the @ionic-native/clevertap typings yet
+      (clevertap as any).dismissPipInApp();
+      break;
+
+    // Display Unit
+    case UserActions.DisplayUnitElementClicked:
+      // @ts-ignore - pushDisplayUnitElementClickedEventForID is not in the @ionic-native/clevertap typings yet
+      (clevertap as any).pushDisplayUnitElementClickedEventForID('unitId', {
+        wzrk_element_id: 'cta_button_1',
+      });
+      break;
   }
 }
 
