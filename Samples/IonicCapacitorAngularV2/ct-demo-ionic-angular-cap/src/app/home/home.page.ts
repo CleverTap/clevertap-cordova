@@ -170,6 +170,18 @@ export class HomePage {
       case "Notification Clicked event for Message":
         CleverTap.pushInboxNotificationClickedEventForId("your message Id");
         break;
+      case "Fetch Inbox":
+        // @ts-ignore - fetchInbox is not in the @awesome-cordova-plugins/clevertap typings yet
+        (CleverTap as any).fetchInbox().then((r: boolean) => this.presentCustomTextToast(`Inbox fetch success = ${r}`));
+        break;
+      case "Dismiss PIP InApp":
+        // @ts-ignore - dismissPipInApp is not in the @awesome-cordova-plugins/clevertap typings yet
+        (CleverTap as any).dismissPipInApp();
+        break;
+      case "Notification Clicked event for Display Unit Element":
+        // @ts-ignore - pushDisplayUnitElementClickedEventForID is not in the @awesome-cordova-plugins/clevertap typings yet
+        (CleverTap as any).pushDisplayUnitElementClickedEventForID("your unit Id", { wzrk_element_id: "cta_button_1" });
+        break;
       case "Basic Push":
         CleverTap.recordEventWithName("Send Basic Push");
         break;

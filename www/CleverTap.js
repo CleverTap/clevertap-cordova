@@ -549,6 +549,16 @@ CleverTap.prototype.pushInboxNotificationClickedEventForId = function (messageId
      cordova.exec(null, null, "CleverTapPlugin", "pushInboxNotificationClickedEventForId", [messageId]);
 }
 
+/**
+ Requests an on-demand refresh of the App Inbox from the CleverTap servers.
+ Throttled to one call every 5 minutes; the throttle is shared with the built-in pull-to-refresh gesture.
+ @param {function} successCallback - Optional. Called back with true if messages were fetched, false if the
+ fetch was throttled, disabled for the session or failed. Omit it for fire-and-forget.
+ */
+CleverTap.prototype.fetchInbox = function (successCallback) {
+    cordova.exec(successCallback, null, "CleverTapPlugin", "fetchInbox", []);
+}
+
 /*******************
  * In-App Controls
  ******************/
@@ -576,6 +586,17 @@ CleverTap.prototype.resumeInAppNotifications = function () {
     cordova.exec(null, null, "CleverTapPlugin", "resumeInAppNotifications", []);
 }
 
+/**
+ Dismisses the currently visible Picture-in-Picture (PIP) InApp notification.
+ No-op when no PIP InApp is visible; other InApp types are never affected.
+ Note: dismissing frees the InApp display slot, so the next queued InApp may show immediately.
+ To keep a screen free of all InApps, pair this with 'suspendInAppNotifications' on screen entry
+ and 'resumeInAppNotifications' on exit.
+ */
+CleverTap.prototype.dismissPipInApp = function () {
+    cordova.exec(null, null, "CleverTapPlugin", "dismissPipInApp", []);
+}
+
 /****************************
  * Native Display methods
  ****************************/
@@ -593,6 +614,16 @@ CleverTap.prototype.pushDisplayUnitViewedEventForID = function(unitId){
 
 CleverTap.prototype.pushDisplayUnitClickedEventForID = function(unitId){
 	cordova.exec(null, null, "CleverTapPlugin", "pushDisplayUnitClickedEventForID", [unitId]);
+}
+
+/**
+ Records a Notification Clicked event for a specific element within a Display Unit.
+ @param {string} unitId - the Display Unit ID
+ @param {object} additionalProperties - properties to merge into the event, e.g. the
+ 'wzrk_element_id' taken from the clicked action's metadata.
+ */
+CleverTap.prototype.pushDisplayUnitElementClickedEventForID = function(unitId, additionalProperties){
+	cordova.exec(null, null, "CleverTapPlugin", "pushDisplayUnitElementClickedEventForID", [unitId, additionalProperties]);
 }
 
 /****************************

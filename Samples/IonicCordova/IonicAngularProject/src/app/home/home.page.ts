@@ -435,6 +435,14 @@ export class HomePage {
         this.clevertap.pushInboxNotificationClickedEventForId('Insert message id');
     }
 
+    fetchInbox() {
+        console.log('fetchInbox');
+        // @ts-ignore - fetchInbox is not in the @ionic-native/clevertap typings yet
+        (this.clevertap as any).fetchInbox().then(r => {
+            this.presentToast('fetchInbox success: ' + r);
+        });
+    }
+
     suspendInAppNotifications() {
         console.log('suspendInAppNotifications');
         this.clevertap.suspendInAppNotifications();
@@ -448,6 +456,13 @@ export class HomePage {
     resumeInAppNotifications() {
         console.log('resumeInAppNotifications');
         this.clevertap.resumeInAppNotifications();
+    }
+
+    dismissPipInApp() {
+        console.log('dismissPipInApp');
+        // @ts-ignore - dismissPipInApp is not in the @ionic-native/clevertap typings yet
+        (this.clevertap as any).dismissPipInApp();
+        this.presentToast('dismissPipInApp');
     }
 
     getAllDisplayUnits() {
@@ -472,6 +487,13 @@ export class HomePage {
         console.log('pushDisplayUnitClickedEventForID');
         this.clevertap.pushDisplayUnitClickedEventForID('Test Display Unit');
         this.presentToast('pushDisplayUnitClickedEventForID');
+    }
+
+    pushDisplayUnitElementClickedEventForID() {
+        console.log('pushDisplayUnitElementClickedEventForID');
+        // @ts-ignore - pushDisplayUnitElementClickedEventForID is not in the @ionic-native/clevertap typings yet
+        (this.clevertap as any).pushDisplayUnitElementClickedEventForID('Test Display Unit', {wzrk_element_id: 'cta_button_1'});
+        this.presentToast('pushDisplayUnitElementClickedEventForID');
     }
 
     getFeatureFlag() {

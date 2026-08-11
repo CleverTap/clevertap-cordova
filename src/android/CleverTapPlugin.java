@@ -107,7 +107,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         cleverTap.registerPushPermissionNotificationResponseListener(this);
 
         String libName = "Cordova";
-        int libVersion = 50000;
+        int libVersion = 50100;
         cleverTap.setLibrary(libName);
         cleverTap.setCustomSdkVersion(libName, libVersion);
 
@@ -967,6 +967,11 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         });
     }
 
+    private void fetchInbox(CallbackContext callbackContext) {
+        cordova.getThreadPool().execute(() -> cleverTap.fetchInbox(
+                success -> sendPluginResult(callbackContext, Status.OK, success)));
+    }
+
     private void getAllDisplayUnits(CallbackContext callbackContext) {
         cordova.getThreadPool().execute(() -> {
             try {
@@ -1010,6 +1015,20 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
             cordova.getThreadPool().execute(() -> {
                 cleverTap.pushDisplayUnitClickedEventForID(unitId);
+                sendPluginResult(callbackContext, Status.NO_RESULT);
+            });
+        });
+    }
+
+    private void pushDisplayUnitElementClickedEventForId(JSONArray args, CallbackContext callbackContext) {
+        executeWithArgs(args, callbackContext, (arguments) -> {
+            final String unitId = arguments.getString(0);
+            final JSONObject jsonProps = arguments.optJSONObject(1);
+            final HashMap<String, Object> additionalProperties =
+                    jsonProps != null ? toMap(jsonProps) : new HashMap<>();
+
+            cordova.getThreadPool().execute(() -> {
+                cleverTap.pushDisplayUnitElementClickedEventForID(unitId, additionalProperties);
                 sendPluginResult(callbackContext, Status.NO_RESULT);
             });
         });
@@ -1151,6 +1170,13 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
     private void suspendInAppNotifications(CallbackContext callbackContext) {
         cordova.getThreadPool().execute(() -> {
             cleverTap.suspendInAppNotifications();
+            sendPluginResult(callbackContext, Status.NO_RESULT);
+        });
+    }
+
+    private void dismissPipInApp(CallbackContext callbackContext) {
+        cordova.getThreadPool().execute(() -> {
+            cleverTap.dismissPipInApp();
             sendPluginResult(callbackContext, Status.NO_RESULT);
         });
     }
@@ -1744,6 +1770,9 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             case PUSH_INBOX_NOTIFICATION_CLICKED_EVENT_FOR_ID:
                 pushInboxNotificationClickedEventForId(args, callbackContext);
                 return true;
+            case FETCH_INBOX:
+                fetchInbox(callbackContext);
+                return true;
             case GET_ALL_DISPLAY_UNITS:
                 getAllDisplayUnits(callbackContext);
                 return true;
@@ -1755,6 +1784,9 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 return true;
             case PUSH_DISPLAY_UNIT_CLICKED_EVENT_FOR_ID:
                 pushDisplayUnitClickedEventForId(args, callbackContext);
+                return true;
+            case PUSH_DISPLAY_UNIT_ELEMENT_CLICKED_EVENT_FOR_ID:
+                pushDisplayUnitElementClickedEventForId(args, callbackContext);
                 return true;
             case IS_FEATURE_FLAG_INITIALIZED:
                 isFeatureFlagInitialized(callbackContext);
@@ -1809,6 +1841,9 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 return true;
             case RESUME_IN_APP_NOTIFICATIONS:
                 resumeInAppNotifications(callbackContext);
+                return true;
+            case DISMISS_PIP_IN_APP:
+                dismissPipInApp(callbackContext);
                 return true;
             case PROMPT_PUSH_PRIMER:
                 promptPushPrimer(args, callbackContext);

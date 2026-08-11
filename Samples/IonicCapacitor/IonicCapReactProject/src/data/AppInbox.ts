@@ -16,6 +16,10 @@ const data = {
         {
             id:UserActions.EventRecordCharged,
             title:'Record Charged Event'
+        },
+        {
+            userAction:UserActions.InboxFetch,
+            title:'Fetch Inbox'
         }
 ]
 
