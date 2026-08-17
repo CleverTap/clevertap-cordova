@@ -6,19 +6,22 @@ const data = {
     title: 'App Inbox',
     items:[
         {
-            userAction:UserActions.EventRecord,
-            title:'Record Event'
+            userAction:UserActions.InboxShow,
+            title:'Show Inbox'
         },
         {
-            userAction:UserActions.EventRecordWithProp,
-            title:'Record Event With Properties'
+            userAction:UserActions.InboxGetMessageCount,
+            title:'Get Message Count'
         },
         {
-            id:UserActions.EventRecordCharged,
-            title:'Record Charged Event'
+            userAction:UserActions.InboxGetUnreadCount,
+            title:'Get Unread Message Count'
+        },
+        {
+            userAction:UserActions.InboxGetAllMessages,
+            title:'Get All Messages'
         }
-]
-
-}as AppPage;
+    ]
+} as AppPage;
 
 export default data;

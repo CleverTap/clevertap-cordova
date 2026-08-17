@@ -13,5 +13,16 @@ export enum UserActions{
     LoginReplaceMultiProp,
     LoginRemoveMultiProp,
     LoginProfileLocation,
-    LoginGetUserProfileProp
+    LoginGetUserProfileProp,
+
+    // app inbox
+    InboxShow,
+    InboxGetMessageCount,
+    InboxGetUnreadCount,
+    InboxGetAllMessages,
+
+    // in-app
+    InAppSuspend,
+    InAppDiscard,
+    InAppResume,
 }

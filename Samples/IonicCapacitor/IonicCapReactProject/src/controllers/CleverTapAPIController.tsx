@@ -63,15 +63,90 @@ function handleUserAction(item: ListItem) {
       break;
     case UserActions.LoginReplaceSingleProp:
       var profileUpdate = {
-        Name: 'Updated User Name', // String
-        Email: 'UpdatedUser@gmail.com', // Email address of the user
-        Gender: 'F', // Can be either M or F
-        Employed: 'N', // Can be either Y or N
-        Education: 'College', // Can be either Graduate, College or School
-        Married: 'N', // Can be either Y or N
-        'MSG-push': false, // Disable push notifications
+        Name: 'Updated User Name',
+        Email: 'UpdatedUser@gmail.com',
+        Gender: 'F',
+        Employed: 'N',
+        Education: 'College',
+        Married: 'N',
+        'MSG-push': false,
       };
       clevertap.profileSet(profileUpdate);
+      break;
+
+    case UserActions.LoginAddSingleProp:
+      clevertap.profileSet({
+        score: 100,
+        city: 'Mumbai',
+      });
+      break;
+
+    case UserActions.LoginRemoveSingleProp:
+      clevertap.profileRemoveValueForKey('score');
+      break;
+
+    case UserActions.LoginReplaceMultiProp:
+      clevertap.profileSetMultiValues('interests', ['sports', 'music', 'travel']);
+      break;
+
+    case UserActions.LoginRemoveMultiProp:
+      clevertap.profileRemoveMultiValue('interests', 'music');
+      break;
+
+    case UserActions.LoginProfileLocation:
+      clevertap.setLocation(19.076, 72.8777);
+      break;
+
+    case UserActions.LoginGetUserProfileProp:
+      clevertap.profileGetProperty('Name', (res: any) => {
+        console.log('profileGetProperty Name: ' + JSON.stringify(res));
+      });
+      break;
+
+    // app inbox
+    case UserActions.InboxShow:
+      clevertap.showInbox({
+        tabs: ['Offers', 'Promotions'],
+        navBarTitle: 'My Inbox',
+        navBarTitleColor: '#FF0000',
+        navBarColor: '#FFFFFF',
+        inboxBackgroundColor: '#AED6F1',
+        backButtonTitle: 'Back',
+        backButtonTitleColor: '#00FF00',
+        showFooter: true,
+      });
+      break;
+
+    case UserActions.InboxGetMessageCount:
+      clevertap.getInboxMessageCount((count: number) => {
+        console.log('Inbox message count: ' + count);
+      });
+      break;
+
+    case UserActions.InboxGetUnreadCount:
+      clevertap.getInboxMessageUnreadCount((count: number) => {
+        console.log('Inbox unread message count: ' + count);
+      });
+      break;
+
+    case UserActions.InboxGetAllMessages:
+      clevertap.getAllInboxMessages((messages: any) => {
+        console.log('All inbox messages: ' + JSON.stringify(messages));
+      });
+      break;
+
+    // in-app
+    case UserActions.InAppSuspend:
+      clevertap.suspendInAppNotifications();
+      break;
+
+    case UserActions.InAppDiscard:
+      clevertap.discardInAppNotifications(false);
+      break;
+
+    case UserActions.InAppResume:
+      clevertap.resumeInAppNotifications();
+      break;
   }
 }
 
