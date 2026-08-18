@@ -14,6 +14,8 @@ static NSString * const CTDidReceiveNotification = @"CTDidReceiveNotification";
 static NSString * const CTRemoteNotificationDidRegister = @"CTRemoteNotificationDidRegister";
 static NSString * const CTRemoteNotificationRegisterError = @"CTRemoteNotificationRegisterError";
 static NSString * const CTHandleOpenURLNotification = @"CTHandleOpenURLNotification";
+static NSString * const CTSceneNotificationResponse = @"CTSceneNotificationResponse";
+static NSString * const CTSceneLaunchDeepLink = @"CTSceneLaunchDeepLink";
 static NSString * const CTSendEvent = @"CTSendEvent";
 
 @interface CleverTapPlugin : CDVPlugin

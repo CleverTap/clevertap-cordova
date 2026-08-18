@@ -6,6 +6,19 @@
 
 - If you plan on using deep links, [please register your custom url scheme as described here](https://developer.apple.com/documentation/xcode/defining-a-custom-url-scheme-for-your-app).
 
+- **UIScene-based apps** (e.g. Capacitor 8.5+): on a cold start, iOS delivers the tapped notification / launch URL only to the scene delegate, so re-broadcast them from `scene(_:willConnectTo:options:)`:
+
+```swift
+if let response = connectionOptions.notificationResponse {
+    NotificationCenter.default.post(name: Notification.Name("CTSceneNotificationResponse"),
+                                    object: response.notification.request.content.userInfo)
+}
+if let urlContext = connectionOptions.urlContexts.first {
+    NotificationCenter.default.post(name: Notification.Name("CTSceneLaunchDeepLink"),
+                                    object: urlContext.url)
+}
+```
+
 - Call the following from your Javascript.
 
 ```javascript
