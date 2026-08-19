@@ -14,6 +14,24 @@
 
 #import "CleverTapPlugin.h"
 
+#if __has_include(<CleverTapSDK/CleverTap.h>)
+#import <CleverTapSDK/CleverTap.h>
+#import <CleverTapSDK/CleverTap+Inbox.h>
+#import <CleverTapSDK/CleverTapUTMDetail.h>
+#import <CleverTapSDK/CleverTapEventDetail.h>
+#import <CleverTapSDK/CleverTap+DisplayUnit.h>
+#import <CleverTapSDK/CleverTapSyncDelegate.h>
+#import <CleverTapSDK/CleverTap+FeatureFlags.h>
+#import <CleverTapSDK/CleverTap+ProductConfig.h>
+#import <CleverTapSDK/CleverTapPushNotificationDelegate.h>
+#import <CleverTapSDK/CleverTapInAppNotificationDelegate.h>
+#import <CleverTapSDK/CleverTap+InAppNotifications.h>
+#import <CleverTapSDK/CleverTap+CTVar.h>
+#import <CleverTapSDK/CTVar.h>
+#import <CleverTapSDK/CTLocalInApp.h>
+#import <CleverTapSDK/Clevertap+PushPermission.h>
+#import <CleverTapSDK/CTTemplateContext.h>
+#else
 #import "CleverTap.h"
 #import "CleverTap+Inbox.h"
 #import "CleverTapUTMDetail.h"
@@ -30,6 +48,7 @@
 #import "CTLocalInApp.h"
 #import "Clevertap+PushPermission.h"
 #import "CTTemplateContext.h"
+#endif
 
 #if __has_include(<CleverTapLocation/CTLocationManager.h>)
 #import <CleverTapLocation/CTLocationManager.h>

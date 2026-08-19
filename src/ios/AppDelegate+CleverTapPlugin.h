@@ -1,6 +1,6 @@
 
-#import "AppDelegate.h"
+#import <Cordova/CDVAppDelegate.h>
 
-@interface AppDelegate (CleverTapPlugin)
+@interface CDVAppDelegate (CleverTapPlugin)
 
 @end
