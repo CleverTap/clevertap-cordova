@@ -4,6 +4,7 @@ import UserLogin from './UserLogin'
 import FeatureFlag from './FeatureFlag'
 import AppInbox from './AppInbox'
 import DisplayUnit from './DisplayUnit'
+import InApp from './InApp'
 import ProductConfig from './ProductConfig'
 import WebView from './WebView'
 import Geofence from './Geofence'
@@ -12,6 +13,7 @@ const data :AppPage[] = [
     UserLogin,
     AppInbox,
     DisplayUnit,
+    InApp,
     FeatureFlag,
     ProductConfig,
     WebView,
