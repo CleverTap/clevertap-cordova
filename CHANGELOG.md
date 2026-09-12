@@ -1,5 +1,35 @@
 Change Log
 ==========
+Version 5.1.0 *(September 12 2026)*
+-------------------------------------------
+**What's new**
+* **[Android Platform]**
+    * Supports [CleverTap Android SDK v8.4.1](https://github.com/CleverTap/clevertap-android-sdk/blob/master/docs/CTCORECHANGELOG.md#version-841-august-7-2026).
+
+* **[iOS Platform]**
+    * Supports [CleverTap iOS SDK v7.8.2](https://github.com/CleverTap/clevertap-ios-sdk/blob/master/CHANGELOG.md#version-782-september-4-2026).
+    * Adds App Inbox cross-device sync: reading or deleting a message on one device is now automatically reflected on the user's other devices.
+    * Adds Spin-the-Wheel and Scratch Card gamified templates to the Advanced In-App Builder, configurable tap-outside/swipe-to-dismiss gestures for In-Apps, and accessibility improvements (VoiceOver labels, larger dismiss-button tap area) across In-App notifications and the App Inbox.
+    * Supports silent-in-foreground push notifications: a push containing `wzrk_sif:true` is delivered silently to the notification tray instead of as a heads-up alert while the app is in the foreground. Apps using manual push integration (without `autoIntegrate`) must call the new native `handleWillPresentNotification` method from their `UNUserNotificationCenterDelegate`'s `willPresent` callback; see [CleverTap iOS SDK docs](https://github.com/CleverTap/clevertap-ios-sdk/blob/master/CHANGELOG.md#version-771-june-04-2026) for native integration details.
+
+**API changes**
+* **[Android and iOS Platform]**
+    * Adds new `dismissPipInApp()` API to dismiss the currently visible Picture-in-Picture (PIP) In-App notification, if any. Safe to call from any thread; a no-op when no PIP is visible.
+    * Adds new `fetchInbox(successCallback)` API to trigger an on-demand App Inbox refresh from the server, throttled to once every 5 minutes. The optional callback receives a boolean indicating whether messages were fetched and applied.
+    * Adds new `pushDisplayUnitElementClickedEventForID(unitId, additionalProperties)` API to record a `Notification Clicked` event for a specific element within a Display Unit.
+
+**Bug Fixes**
+* **[Android Platform]**
+    * Fixes an issue where the built-in App Inbox did not repaint the message list after a pull-to-refresh; newly fetched messages only appeared after closing and reopening the inbox.
+    * Fixes a crash seen when a Picture-in-Picture (PIP) In-App notification played a video on Android 6.0.
+* **[iOS Platform]**
+    * Fixes an issue where In-App campaigns triggered by custom events could not match device and app properties.
+    * Fixes an issue where discarded event names were stored in preferences and re-sent to the server on every request.
+    * Fixes an issue where stored Client-Side and Server-Side In-App notifications were cleared when the delivery mode was missing.
+    * Fixes a potential crash while saving variable diffs, and a concurrency-related crash during simultaneous A/B experiment-variant updates.
+    * Fixes an issue where In-App notifications missed while the app was backgrounded did not show once the app returned to the foreground.
+    * Fixes an issue where the built-in App Inbox did not repaint the message list after a pull-to-refresh.
+
 Version 5.0.0 *(April 30 2026)*
 -------------------------------------------
 **What's new**

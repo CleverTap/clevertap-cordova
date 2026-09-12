@@ -150,6 +150,8 @@
         pushInboxNotificationViewedEventForId</ion-item>
     <ion-item (click)="pushInboxNotificationClickedEventForId()">
         pushInboxNotificationClickedEventForId</ion-item>
+    <ion-item (click)="fetchInbox()">
+        fetchInbox</ion-item>
 
     <ion-list-header>
      <ion-label>In-App notification controls</ion-label>
@@ -160,7 +162,9 @@
         discardInAppNotifications</ion-item>
     <ion-item (click)="resumeInAppNotifications()">
         resumeInAppNotifications</ion-item>
-    
+    <ion-item (click)="dismissPipInApp()">
+        dismissPipInApp</ion-item>
+
     <ion-list-header>
       <ion-label>Native Display</ion-label>
     </ion-list-header>
@@ -172,7 +176,9 @@
         pushDisplayUnitViewedEventForID</ion-item>
     <ion-item (click)="pushDisplayUnitClickedEventForID()">
         pushDisplayUnitClickedEventForID</ion-item>
-    
+    <ion-item (click)="pushDisplayUnitElementClickedEventForID()">
+        pushDisplayUnitElementClickedEventForID</ion-item>
+
     <ion-list-header>
       <ion-label>Feature Flag</ion-label>
     </ion-list-header>

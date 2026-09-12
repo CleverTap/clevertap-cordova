@@ -435,6 +435,11 @@ export class HomePage {
         this.clevertap.pushInboxNotificationClickedEventForId('Insert message id');
     }
 
+    fetchInbox() {
+        console.log('fetchInbox');
+        (this.clevertap as any).fetchInbox().then(r => this.presentToast('fetchInbox: ' + r));
+    }
+
     suspendInAppNotifications() {
         console.log('suspendInAppNotifications');
         this.clevertap.suspendInAppNotifications();
@@ -448,6 +453,11 @@ export class HomePage {
     resumeInAppNotifications() {
         console.log('resumeInAppNotifications');
         this.clevertap.resumeInAppNotifications();
+    }
+
+    dismissPipInApp() {
+        console.log('dismissPipInApp');
+        (this.clevertap as any).dismissPipInApp();
     }
 
     getAllDisplayUnits() {
@@ -472,6 +482,12 @@ export class HomePage {
         console.log('pushDisplayUnitClickedEventForID');
         this.clevertap.pushDisplayUnitClickedEventForID('Test Display Unit');
         this.presentToast('pushDisplayUnitClickedEventForID');
+    }
+
+    pushDisplayUnitElementClickedEventForID() {
+        console.log('pushDisplayUnitElementClickedEventForID');
+        (this.clevertap as any).pushDisplayUnitElementClickedEventForID('Test Display Unit', {'wzrk_element_id': 'element1'});
+        this.presentToast('pushDisplayUnitElementClickedEventForID');
     }
 
     getFeatureFlag() {

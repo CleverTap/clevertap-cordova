@@ -70,10 +70,12 @@ public enum CleverTapFunction {
     DISMISS_INBOX("dismissInbox"),
     PUSH_INBOX_NOTIFICATION_VIEWED_EVENT_FOR_ID("pushInboxNotificationViewedEventForId"),
     PUSH_INBOX_NOTIFICATION_CLICKED_EVENT_FOR_ID("pushInboxNotificationClickedEventForId"),
+    FETCH_INBOX("fetchInbox"),
     GET_ALL_DISPLAY_UNITS("getAllDisplayUnits"),
     GET_DISPLAY_UNIT_FOR_ID("getDisplayUnitForId"),
     PUSH_DISPLAY_UNIT_VIEWED_EVENT_FOR_ID("pushDisplayUnitViewedEventForID"),
     PUSH_DISPLAY_UNIT_CLICKED_EVENT_FOR_ID("pushDisplayUnitClickedEventForID"),
+    PUSH_DISPLAY_UNIT_ELEMENT_CLICKED_EVENT_FOR_ID("pushDisplayUnitElementClickedEventForID"),
     IS_FEATURE_FLAG_INITIALIZED("isFeatureFlagInitialized"),
     GET_FEATURE_FLAG("getFeatureFlag"),
     IS_PRODUCT_CONFIG_INITIALIZED("isProductConfigInitialized"),
@@ -126,6 +128,7 @@ public enum CleverTapFunction {
     CUSTOM_TEMPLATE_CONTEXT_TO_STRING("customTemplateContextToString"),
     VARIANTS("variants"),
     UNMUTE("unmute"),
+    DISMISS_PIP_IN_APP("dismissPipInApp"),
 
     CLEVERTAP_UNKNOWN("cleverTapUnknown");
 
