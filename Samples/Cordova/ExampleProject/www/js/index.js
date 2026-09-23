@@ -275,6 +275,7 @@ function setupButtons() {
         ["resume InApp Notifications", () => CleverTap.resumeInAppNotifications()],
         ["discard InApp Notifications", () => CleverTap.discardInAppNotifications()],
         ["discard InApp Notifications (dismiss visible)", () => CleverTap.discardInAppNotifications(true)],
+        ["dismiss Pip InApp", () => CleverTap.dismissPipInApp()],
 
         ["title","Notification Channel"],
         ["create notification channel GSTTesting", ()=> CleverTap.createNotificationChannel("GSTTesting", "GSTTesting", "", 5, true)],
@@ -302,6 +303,7 @@ function setupButtons() {
         ["push Inbox Notification Viewed Event For Id", () => CleverTap.pushInboxNotificationViewedEventForId("messageId")],
         ["push Inbox Notification Clicked Event For Id", () => CleverTap.pushInboxNotificationClickedEventForId("messageId")],
         ["dismiss Inbox", () => CleverTap.dismissInbox()],
+        ["fetch Inbox", () => CleverTap.fetchInbox(success => log("Inbox fetched: " + success))],
 
         ["title","User History"],
         ["event GetFirstTime - foo", () => CleverTap.getUserEventLog("foo", eventLog => log("foo event first time is " + eventLog.firstTime))],
@@ -341,6 +343,10 @@ function setupButtons() {
         ["Push Display Unit Viewed", () => {
             let unitId = prompt("Please enter the unitID")
             CleverTap.pushDisplayUnitViewedEventForID(unitId)
+        }],
+        ["Push Display Unit Element Clicked", () => {
+            let unitId = prompt("Please enter the unitID")
+            CleverTap.pushDisplayUnitElementClickedEventForID(unitId, {"wzrk_element_id": "element1"})
         }],
         ["set Debug Level", () => CleverTap.setDebugLevel(3)],
         ["notify Device Ready", () => CleverTap.notifyDeviceReady()],
