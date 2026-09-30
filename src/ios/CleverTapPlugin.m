@@ -460,8 +460,12 @@ static NSMutableDictionary *allVariables;
 }
 
 - (void)handleDeepLink:(NSURL *)url {
-    
-    NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onDeepLink', {'deeplink':'%@'});", url.description];
+
+    // Serialize the payload instead of inserting the URL into a quoted JS string: a custom
+    // scheme URL can carry a raw apostrophe in its query, which would end that string.
+    NSString *json = [self _dictToJson:@{@"deeplink": url.absoluteString ?: @""}];
+    if (!json) return;
+    NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onDeepLink', %@);", json];
     [self.commandDelegate evalJs:js];
 }
 
