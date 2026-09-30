@@ -56,6 +56,12 @@ static NSMutableDictionary *allVariables;
     // Listen for UIApplicationDidFinishLaunchingNotification to get a hold of launchOptions
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onDidFinishLaunchingNotification:) name:UIApplicationDidFinishLaunchingNotification object:nil];
     
+    // Listen to re-broadcast scene connection options from the app's SceneDelegate.
+    // Under the UIScene lifecycle, launchOptions no longer carry the notification /
+    // URL that launched the app, and only the scene delegate receives them.
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onSceneNotificationResponse:) name:CTSceneNotificationResponse object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onSceneLaunchDeepLink:) name:CTSceneLaunchDeepLink object:nil];
+    
     // Listen to re-broadcast events from Cordova's AppDelegate
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onDidFailToRegisterForRemoteNotificationsWithError:) name:CTRemoteNotificationRegisterError object:nil];
     
@@ -78,6 +84,29 @@ static NSMutableDictionary *allVariables;
     if (launchOptions[UIApplicationLaunchOptionsURLKey]) {
         launchDeepLink = launchOptions[UIApplicationLaunchOptionsURLKey];
     }
+}
+
+// UIScene counterparts of onDidFinishLaunchingNotification: fill the same launch
+// buffers, delivered to Javascript through the existing notifyDeviceReady path.
+
++ (void)onSceneNotificationResponse:(NSNotification *)notification {
+    
+    if (![notification.object isKindOfClass:[NSDictionary class]]) return;
+    
+    if (!clevertap) clevertap = [CleverTap sharedInstance];
+    NSDictionary *userInfo = notification.object;
+    [clevertap handleNotificationWithData:userInfo];
+    launchNotification = userInfo;
+}
+
++ (void)onSceneLaunchDeepLink:(NSNotification *)notification {
+    
+    if (![notification.object isKindOfClass:[NSURL class]]) return;
+    
+    if (!clevertap) clevertap = [CleverTap sharedInstance];
+    NSURL *url = notification.object;
+    [clevertap handleOpenURL:url sourceApplication:nil];
+    launchDeepLink = url;
 }
 
 + (void)onDidFailToRegisterForRemoteNotificationsWithError:(NSNotification *)notification {
@@ -431,8 +460,12 @@ static NSMutableDictionary *allVariables;
 }
 
 - (void)handleDeepLink:(NSURL *)url {
-    
-    NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onDeepLink', {'deeplink':'%@'});", url.description];
+
+    // Serialize the payload instead of inserting the URL into a quoted JS string: a custom
+    // scheme URL can carry a raw apostrophe in its query, which would end that string.
+    NSString *json = [self _dictToJson:@{@"deeplink": url.absoluteString ?: @""}];
+    if (!json) return;
+    NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onDeepLink', %@);", json];
     [self.commandDelegate evalJs:js];
 }
 
