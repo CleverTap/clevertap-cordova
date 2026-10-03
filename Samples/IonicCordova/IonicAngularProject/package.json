@@ -27,7 +27,7 @@
     "@ionic/angular": "^5.5.2",
     "cordova-android": "13.0.0",
     "rxjs": "~6.6.0",
-    "tslib": "^2.0.0",
+    "tslib": "^2.8.1",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
