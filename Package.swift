@@ -17,8 +17,7 @@ let package = Package(
             name: "clevertap-cordova",
             dependencies: [
                 .product(name: "Cordova", package: "cordova-ios"),
-                .product(name: "CleverTapSDK", package: "clevertap-ios-sdk"),
-                .product(name: "CleverTapLocation", package: "clevertap-ios-sdk")
+                .product(name: "CleverTapSDK", package: "clevertap-ios-sdk")
             ],
             path: "src/ios",
             publicHeadersPath: "."
