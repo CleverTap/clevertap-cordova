@@ -10,7 +10,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/apache/cordova-ios.git", from: "8.0.0"),
-        .package(url: "https://github.com/CleverTap/clevertap-ios-sdk.git", from: "7.8.0")
+        .package(url: "https://github.com/CleverTap/clevertap-ios-sdk.git", exact: "7.8.2")
     ],
     targets: [
         .target(

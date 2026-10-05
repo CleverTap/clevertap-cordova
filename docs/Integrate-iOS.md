@@ -13,6 +13,9 @@ cordova plugin add https://github.com/CleverTap/clevertap-cordova.git \
 This automatically injects `CleverTapAccountID` and `CleverTapToken` into your app's `Info.plist`. If your account uses a specific region, pass it as an additional variable:
 
 ```sh
+cordova plugin add https://github.com/CleverTap/clevertap-cordova.git \
+  --variable CLEVERTAP_ACCOUNT_ID="YOUR_ACCOUNT_ID" \
+  --variable CLEVERTAP_TOKEN="YOUR_TOKEN" \
   --variable CLEVERTAP_REGION="YOUR_REGION_CODE"
 ```
 
@@ -24,10 +27,43 @@ The plugin supports two dependency managers depending on your cordova-ios versio
 
 | cordova-ios | Dependency manager | iOS minimum | SDK version |
 |---|---|---|---|
-| 8.0+ | Swift Package Manager (SPM) | 13 | CleverTap iOS SDK 7.8.0 |
-| < 8.0 | CocoaPods | - | CleverTap iOS SDK 7.8.0 |
+| 8.0+ | Swift Package Manager (SPM) | 13 | CleverTap iOS SDK 7.8.2 |
+| < 8.0 | CocoaPods | - | CleverTap iOS SDK 7.8.2 |
 
 Cordova's build toolchain picks the right path automatically. On cordova-ios 8+, the root `Package.swift` resolves the SDK via SPM. After your first build, Xcode locks the resolved versions in `Package.resolved` inside your generated Xcode project.
+
+## Upgrading to cordova-ios 8 (SPM)
+
+When you upgrade to cordova-ios 8+, the plugin switches from CocoaPods to SPM automatically. The `nospm="true"` flag in plugin.xml tells cordova-ios 8+ to skip the CocoaPods pod and resolve the CleverTap iOS SDK via the root `Package.swift` instead. No manual dependency configuration is needed.
+
+To upgrade your iOS platform:
+
+```sh
+cordova platform update ios@8
+```
+
+For a clean install (recommended if the update fails):
+
+```sh
+cordova platform rm ios && cordova platform add ios@8
+```
+
+**Ionic + Cordova apps** follow the same upgrade path - Ionic uses cordova-ios under the hood, so the SPM transition is identical.
+
+**Capacitor apps** use a separate dependency path. Capacitor 6+ supports SPM as an option, and Capacitor 8 made SPM the default for iOS. Capacitor's SPM resolves dependencies through `capacitor-swift-pm` (not `cordova-ios`), so the root `Package.swift` in this repo does not apply to Capacitor projects. For Capacitor apps still using CocoaPods, the plugin's podspec in plugin.xml continues to work. For Capacitor apps using SPM, Capacitor auto-generates a `Package.swift` for Cordova plugins - but you cannot mix CocoaPods and SPM in the same Capacitor project.
+
+### Troubleshooting
+
+If SPM resolution fails after upgrading:
+
+1. Remove and re-add the iOS platform:
+   ```sh
+   cordova platform rm ios && cordova platform add ios@8
+   ```
+2. Delete Xcode derived data:
+   ```sh
+   rm -rf ~/Library/Developer/Xcode/DerivedData
+   ```
 
 ## Set up and register for push notifications and deep links
 
