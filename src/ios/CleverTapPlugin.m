@@ -180,10 +180,12 @@ static NSMutableDictionary *allVariables;
     // the SDK fire pushNotificationTappedWithCustomExtras: through the push delegate.
     [clevertap handleNotificationWithData:userInfo];
 
-    // Before notifyDeviceReady the JS listeners are not attached, so leave the stash
-    // for it to flush rather than firing the event into the void.
-    if (!jsReady) return;
-
+    // Warm tap: this instance only exists once the webview has loaded and listeners
+    // are attached, so deliver the arrival event now instead of waiting for
+    // notifyDeviceReady (matches onHandleNotification: and the pre-rewrite flow). A
+    // genuine cold-start tap arrives before this instance exists, so only the class
+    // observer runs and the stash survives for notifyDeviceReady to flush. Clear it
+    // here so that flush does not re-fire the same payload.
     launchNotification = nil;
     [self notifyPushNotification:userInfo];
 }
