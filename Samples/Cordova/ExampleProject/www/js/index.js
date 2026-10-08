@@ -657,6 +657,9 @@ document.addEventListener(
     'deviceready',
     param => {
         log("on device ready, received param:", param)
+        // Flushes a cold-start push tap / deep link to the onPushNotification and
+        // onDeepLink listeners, which are not attached when the tap arrives.
+        CleverTap.notifyDeviceReady()
         initLogging()
         setupButtons()
         updateUi()
