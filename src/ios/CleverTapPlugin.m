@@ -176,16 +176,18 @@ static NSMutableDictionary *allVariables;
     NSDictionary *userInfo = notification.object;
     if (![userInfo isKindOfClass:[NSDictionary class]]) return;
 
+    // Records the Notification Clicked event, opens any wzrk_dl deep link and makes
+    // the SDK fire pushNotificationTappedWithCustomExtras: through the push delegate.
     [clevertap handleNotificationWithData:userInfo];
 
-    // Only deliver to JS when listeners are attached. On a warm tap jsReady is
-    // already YES so this fires immediately. On a cold-start late arrival (UIKit
-    // delivered the response after pluginInitialize registered this observer)
-    // jsReady is still NO, so the stash survives for notifyDeviceReady to flush.
-    if (jsReady) {
-        launchNotification = nil;
-        [self notifyPushNotification:userInfo];
-    }
+    // Warm tap: this instance only exists once the webview has loaded and listeners
+    // are attached, so deliver the arrival event now instead of waiting for
+    // notifyDeviceReady (matches onHandleNotification: and the pre-rewrite flow). A
+    // genuine cold-start tap arrives before this instance exists, so only the class
+    // observer runs and the stash survives for notifyDeviceReady to flush. Clear it
+    // here so that flush does not re-fire the same payload.
+    launchNotification = nil;
+    [self notifyPushNotification:userInfo];
 }
 
 - (void)pluginInitialize {
