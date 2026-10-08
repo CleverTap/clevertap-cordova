@@ -56,6 +56,8 @@
 
 static CleverTap *clevertap;
 static NSURL *launchDeepLink;
+// Set once JS calls notifyDeviceReady; before that there are no document listeners.
+static BOOL jsReady;
 static NSDictionary *launchNotification;
 static NSDateFormatter *dateFormatter;
 static NSMutableDictionary *allVariables;
@@ -79,23 +81,29 @@ static NSMutableDictionary *allVariables;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onDidFailToRegisterForRemoteNotificationsWithError:) name:CTRemoteNotificationRegisterError object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onHandleRegisterForRemoteNotification:) name:CTRemoteNotificationDidRegister object:nil];
-    
+
+    // Registered at class level so a cold-start deep link still reaches the native
+    // SDK when no plugin instance exists yet. Cordova posts this from both its app
+    // delegate and its scene delegate.
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onHandleOpenURLNotification:) name:CDVPluginHandleOpenURLNotification object:nil];
+
+    // Same reason: a tap can launch the app, so the response arrives long before
+    // any plugin instance exists.
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onHandleNotificationResponse:) name:CTDidReceiveNotificationResponse object:nil];
 }
 
 + (void)onDidFinishLaunchingNotification:(NSNotification *)notification {
-    
+
     clevertap = [CleverTap sharedInstance];
-    
-    NSDictionary *launchOptions = notification.userInfo;
-    if (!launchOptions) return;
-    
-    if (launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]) {
-        [clevertap handleNotificationWithData:launchOptions];
-        launchNotification = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
-    }
-    
-    if (launchOptions[UIApplicationLaunchOptionsURLKey]) {
-        launchDeepLink = launchOptions[UIApplicationLaunchOptionsURLKey];
+
+    // Must happen during launch: when a tap launches the app, UIKit delivers the
+    // response moments after this notification and discards it if no delegate is
+    // set yet. registerPush also assigns it, but that comes from JS and is far too
+    // late. Only claim it if it is free, so a host app or another push plugin that
+    // already took ownership keeps it.
+    UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+    if (center.delegate == nil) {
+        center.delegate = (id<UNUserNotificationCenterDelegate>)[UIApplication sharedApplication].delegate;
     }
 }
 
@@ -110,16 +118,74 @@ static NSMutableDictionary *allVariables;
     [clevertap setPushTokenAsString:notification.object];
 }
 
-- (void)onHandleOpenURLNotification:(NSNotification *)notification {
-    
-    [clevertap handleOpenURL:notification.object sourceApplication:nil];
-    [self handleDeepLink:notification.object];
++ (void)onHandleOpenURLNotification:(NSNotification *)notification {
+
+    NSURL *url = notification.object;
+    if (![url isKindOfClass:[NSURL class]]) return;
+
+    if (!clevertap) {
+        clevertap = [CleverTap sharedInstance];
+    }
+
+    // CDVAppDelegate forwards UIKit's options dict verbatim; CDVSceneDelegate
+    // builds its own under the plain "sourceApplication" key.
+    id source = notification.userInfo[UIApplicationOpenURLOptionsSourceApplicationKey];
+    if (![source isKindOfClass:[NSString class]]) {
+        source = notification.userInfo[@"sourceApplication"];
+    }
+    NSString *sourceApplication = [source isKindOfClass:[NSString class]] ? source : nil;
+    [clevertap handleOpenURL:url sourceApplication:sourceApplication];
+
+    launchDeepLink = url;
+}
+
+// CDVPlugin subscribes every instance to CDVPluginHandleOpenURLNotification.
+- (void)handleOpenURL:(NSNotification *)notification {
+
+    NSURL *url = notification.object;
+    if (![url isKindOfClass:[NSURL class]]) return;
+
+    // Before notifyDeviceReady the JS listeners are not attached. The class
+    // observer has already stashed the URL, so let notifyDeviceReady flush it
+    // rather than firing the event into the void.
+    if (!jsReady) return;
+
+    launchDeepLink = nil;
+    [self handleDeepLink:url];
 }
 
 - (void)onHandleNotification:(NSNotification *)notification {
-    
+
     [clevertap handleNotificationWithData:notification.object];
     [self notifyPushNotification:notification.object];
+}
+
++ (void)onHandleNotificationResponse:(NSNotification *)notification {
+
+    NSDictionary *userInfo = notification.object;
+    if (![userInfo isKindOfClass:[NSDictionary class]]) return;
+
+    // Stash only. A tap that launches the app arrives before the SDK has finished
+    // starting up, and handing it the payload that early attributes the session but
+    // records no click and opens no deep link. pluginInitialize drains this.
+    launchNotification = userInfo;
+}
+
+- (void)onHandleNotificationResponse:(NSNotification *)notification {
+
+    NSDictionary *userInfo = notification.object;
+    if (![userInfo isKindOfClass:[NSDictionary class]]) return;
+
+    // Records the Notification Clicked event, opens any wzrk_dl deep link and makes
+    // the SDK fire pushNotificationTappedWithCustomExtras: through the push delegate.
+    [clevertap handleNotificationWithData:userInfo];
+
+    // Before notifyDeviceReady the JS listeners are not attached, so leave the stash
+    // for it to flush rather than firing the event into the void.
+    if (!jsReady) return;
+
+    launchNotification = nil;
+    [self notifyPushNotification:userInfo];
 }
 
 - (void)pluginInitialize {
@@ -127,8 +193,8 @@ static NSMutableDictionary *allVariables;
     [super pluginInitialize];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendEvent:) name:CTSendEvent object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onHandleOpenURLNotification:) name: CTHandleOpenURLNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onHandleNotification:) name:CTDidReceiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onHandleNotificationResponse:) name:CTDidReceiveNotificationResponse object:nil];
     
     [clevertap setSyncDelegate:self];
     [clevertap setDisplayUnitDelegate:self];
@@ -136,8 +202,14 @@ static NSMutableDictionary *allVariables;
     [[clevertap productConfig] setDelegate:self];
     [clevertap setPushNotificationDelegate:self];
     [clevertap setInAppNotificationDelegate:self];
-    [self setLibrary];    
-    
+    [self setLibrary];
+
+    // A tap that launched the app was stashed before the SDK was ready. Now that it
+    // is, and the push delegate is set, let it record the click and open wzrk_dl.
+    // notifyDeviceReady still owns the JS side, since JS is not listening yet.
+    if (launchNotification) {
+        [clevertap handleNotificationWithData:launchNotification];
+    }
 }
 
 - (NSDictionary*)_eventDetailToDict:(CleverTapEventDetail*)detail {
@@ -375,16 +447,16 @@ static NSMutableDictionary *allVariables;
 # pragma mark Launch
 
 - (void)notifyDeviceReady:(CDVInvokedUrlCommand *)command {
-    
+
+    jsReady = YES;
+
+    // Only the arrival event. pluginInitialize already handed this tap to the SDK,
+    // which fires the tapped event itself through the push delegate.
     if (launchNotification) {
         [self notifyPushNotification:[launchNotification copy]];
-        // notify push notification tapped with custom extras
-        NSMutableDictionary *mutableNotification = [NSMutableDictionary dictionaryWithDictionary:launchNotification];
-        [mutableNotification removeObjectForKey:@"aps"];
-        [self pushNotificationTappedWithCustomExtras:[mutableNotification copy]];
         launchNotification = nil;
     }
-    
+
     if (launchDeepLink) {
         [self handleDeepLink:[launchDeepLink copy]];
         launchDeepLink = nil;
@@ -450,9 +522,13 @@ static NSMutableDictionary *allVariables;
 }
 
 - (void)handleDeepLink:(NSURL *)url {
-    
-    NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onDeepLink', {'deeplink':'%@'});", url.description];
-    [self.commandDelegate evalJs:js];
+
+    if (![url isKindOfClass:[NSURL class]]) return;
+
+    NSString *json = [self _dictToJson:@{@"deeplink": url.absoluteString ?: @""}];
+    if (json == nil) return;
+
+    [self.commandDelegate evalJs:[NSString stringWithFormat:@"cordova.fireDocumentEvent('onDeepLink', %@);", json]];
 }
 
 - (void)createNotification:(CDVInvokedUrlCommand *)command {

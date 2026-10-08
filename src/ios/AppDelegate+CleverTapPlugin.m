@@ -53,39 +53,17 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
                       | UNNotificationPresentationOptionAlert
                       | UNNotificationPresentationOptionBadge);
 }
+
+// Without this, UIKit has nowhere to deliver a notification tap and answers the
+// system with "response-not-possible", silently dropping it. That is the only
+// callback for a tap from the background or a terminated state.
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center
+didReceiveNotificationResponse:(UNNotificationResponse *)response
+         withCompletionHandler:(void (^)(void))completionHandler {
+    [[NSNotificationCenter defaultCenter] postNotificationName:CTDidReceiveNotificationResponse
+                                                        object:response.notification.request.content.userInfo];
+    completionHandler();
+}
 #endif
-
-- (BOOL)application:(UIApplication*)application openURL:(NSURL*)url sourceApplication:(NSString*)sourceApplication annotation:(id)annotation {
-    
-    if (!url) {
-        return NO;
-    }
-    // FOR KILLED STATE, THIS NOTIFICATION GETS BROADCASTED BEFORE OBSERVERS ARE SET INSIDE THE CODROVA PLUGIN, HENCE A SLIGHT DELAY IS ADDED
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CTHandleOpenURLNotification object:url]];
-    });
-    return YES;
-}
-
-- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary *)options {
-    
-    if (!url) {
-        return NO;
-    }
-    // FOR KILLED STATE, THIS NOTIFICATION GETS BROADCASTED BEFORE OBSERVERS ARE SET INSIDE THE CODROVA PLUGIN, HENCE A SLIGHT DELAY IS ADDED
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CTHandleOpenURLNotification object:url]];
-    });
-    return YES;
-}
-
-- (void)openURL:(NSURL*)url options:(NSDictionary<NSString *, id> *)options completionHandler:(void (^ __nullable)(BOOL success))completion {
-    
-    // FOR KILLED STATE, THIS NOTIFICATION GETS BROADCASTED BEFORE OBSERVERS ARE SET INSIDE THE CODROVA PLUGIN, HENCE A SLIGHT DELAY IS ADDED
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CTHandleOpenURLNotification object:url]];
-    });
-}
-
 
 @end
