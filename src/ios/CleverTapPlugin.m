@@ -214,6 +214,12 @@ static NSMutableDictionary *allVariables;
     }
 }
 
+// A WebView reload or top-level navigation tears down the JS listeners. Wait for
+// the next notifyDeviceReady before firing deep-link or push events into JS again.
+- (void)onReset {
+    jsReady = NO;
+}
+
 - (NSDictionary*)_eventDetailToDict:(CleverTapEventDetail*)detail {
     
     NSMutableDictionary *_dict = [NSMutableDictionary new];
