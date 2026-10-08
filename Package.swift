@@ -20,7 +20,14 @@ let package = Package(
                 .product(name: "CleverTapSDK", package: "clevertap-ios-sdk")
             ],
             path: "src/ios",
-            publicHeadersPath: "."
+            publicHeadersPath: ".",
+            linkerSettings: [
+                // Categories like CDVAppDelegate(CleverTapPlugin) carry no
+                // referenced class symbol, so the linker drops them from the
+                // static lib without -ObjC and push/deep-link events never
+                // reach JS. CocoaPods sets this automatically; SPM does not.
+                .unsafeFlags(["-ObjC"])
+            ]
         )
     ]
 )
