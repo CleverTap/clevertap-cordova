@@ -549,6 +549,14 @@ CleverTap.prototype.pushInboxNotificationClickedEventForId = function (messageId
      cordova.exec(null, null, "CleverTapPlugin", "pushInboxNotificationClickedEventForId", [messageId]);
 }
 
+/**
+ Triggers an on-demand App Inbox refresh from the server (throttled to once every 5 minutes).
+ successCallback (optional) = callback function invoked with a boolean indicating whether messages were fetched and applied.
+ */
+CleverTap.prototype.fetchInbox = function (successCallback) {
+    cordova.exec(successCallback, null, "CleverTapPlugin", "fetchInbox", []);
+}
+
 /*******************
  * In-App Controls
  ******************/
@@ -576,6 +584,13 @@ CleverTap.prototype.resumeInAppNotifications = function () {
     cordova.exec(null, null, "CleverTapPlugin", "resumeInAppNotifications", []);
 }
 
+/**
+ Dismisses the currently visible Picture-in-Picture (PIP) In-App notification, if any. Safe to call from any thread; a no-op when no PIP is visible.
+ */
+CleverTap.prototype.dismissPipInApp = function () {
+    cordova.exec(null, null, "CleverTapPlugin", "dismissPipInApp", []);
+}
+
 /****************************
  * Native Display methods
  ****************************/
@@ -593,6 +608,10 @@ CleverTap.prototype.pushDisplayUnitViewedEventForID = function(unitId){
 
 CleverTap.prototype.pushDisplayUnitClickedEventForID = function(unitId){
 	cordova.exec(null, null, "CleverTapPlugin", "pushDisplayUnitClickedEventForID", [unitId]);
+}
+
+CleverTap.prototype.pushDisplayUnitElementClickedEventForID = function(unitId, additionalProperties){
+	cordova.exec(null, null, "CleverTapPlugin", "pushDisplayUnitElementClickedEventForID", [unitId, additionalProperties]);
 }
 
 /****************************

@@ -285,6 +285,14 @@ this.clevertap.pushInboxNotificationViewedEventForId('message_ID_1234');
 this.clevertap.pushInboxNotificationClickedEventForId('message_ID_1234');			
 ```
 
+#### Fetch Inbox
+
+```javascript 
+this.clevertap.fetchInbox(success => {
+   console.log('Inbox fetched: ' + success);
+});
+```
+
 
 ## Push Notifications
 
@@ -356,6 +364,12 @@ this.clevertap.discardInAppNotifications();
 this.clevertap.resumeInAppNotifications();
 ```
 
+#### Dismiss Pip InApp
+
+```javascript 
+this.clevertap.dismissPipInApp();
+```
+
 ## Native Display
 
 #### Get Display Unit for Id
@@ -372,6 +386,12 @@ this.clevertap.getDisplayUnitForId('Test Display Unit').then(r => {
 this.clevertap.getAllDisplayUnits('Test Display Unit').then(r => {
    console.log('getAllDisplayUnits: ' + r);
 });
+```
+
+#### Push Display Unit Element Clicked Event For Id
+
+```javascript 
+this.clevertap.pushDisplayUnitElementClickedEventForID('Test Display Unit', {'wzrk_element_id': 'element1'});
 ```
 
 ## Product Config 
