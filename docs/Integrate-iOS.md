@@ -34,7 +34,7 @@ Cordova's build toolchain picks the right path automatically. On cordova-ios 8+,
 
 ## Upgrading to cordova-ios 8 (SPM)
 
-When you upgrade to cordova-ios 8+, the plugin switches from CocoaPods to SPM automatically. The `nospm="true"` flag in plugin.xml tells cordova-ios 8+ to skip the CocoaPods pod and resolve the CleverTap iOS SDK via the root `Package.swift` instead. No manual dependency configuration is needed.
+When you upgrade to cordova-ios 8+, the plugin switches from CocoaPods to SPM automatically. No manual dependency configuration is needed.
 
 To upgrade your iOS platform:
 

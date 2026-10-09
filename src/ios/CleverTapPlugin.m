@@ -105,6 +105,16 @@ static NSMutableDictionary *allVariables;
     if (center.delegate == nil) {
         center.delegate = (id<UNUserNotificationCenterDelegate>)[UIApplication sharedApplication].delegate;
     }
+
+    // When the app is launched via a URL (e.g. a deep link), UIKit puts the URL
+    // in the launch options. Capture it so notifyDeviceReady can fire it into JS
+    // once the webview is ready.
+    if (!launchDeepLink) {
+        NSURL *url = notification.userInfo[UIApplicationLaunchOptionsURLKey];
+        if ([url isKindOfClass:[NSURL class]]) {
+            launchDeepLink = url;
+        }
+    }
 }
 
 + (void)onDidFailToRegisterForRemoteNotificationsWithError:(NSNotification *)notification {
