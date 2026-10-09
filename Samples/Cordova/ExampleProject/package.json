@@ -17,8 +17,7 @@
     "cordova-android": "^14.0.1",
     "cordova-android-support-gradle-release": "^3.0.1",
     "cordova-ios": "^7.1.1",
-    "cordova-plugin-x-toast": "^2.7.3",
-    "ios": "0.0.1"
+    "cordova-plugin-x-toast": "^2.7.3"
   },
   "cordova": {
     "plugins": {
