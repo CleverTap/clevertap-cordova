@@ -129,6 +129,8 @@ public enum CleverTapFunction {
     VARIANTS("variants"),
     UNMUTE("unmute"),
     DISMISS_PIP_IN_APP("dismissPipInApp"),
+    PUSH_DISPLAY_UNIT_ELEMENT_VIEWED_EVENT_FOR_ID("pushDisplayUnitElementViewedEventForID"),
+    FETCH_NATIVE_DISPLAY_META("fetchNativeDisplayMeta"),
 
     CLEVERTAP_UNKNOWN("cleverTapUnknown");
 

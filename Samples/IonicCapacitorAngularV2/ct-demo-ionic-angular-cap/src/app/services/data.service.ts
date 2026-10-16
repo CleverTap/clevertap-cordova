@@ -33,7 +33,9 @@ export class DataService {
       ]
       ],
       ["NATIVE DISPLAY", [
-        "Push Display Unit Element Clicked"
+        "Push Display Unit Element Clicked",
+        "Push Display Unit Element Viewed",
+        "Fetch Native Display Meta"
       ]
       ],
       ["PUSH TEMPLATES", [
