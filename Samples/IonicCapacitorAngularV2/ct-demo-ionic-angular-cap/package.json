@@ -23,7 +23,7 @@
     "@angular/router": "^19.0.0",
     "@awesome-cordova-plugins/clevertap": "^6.16.0",
     "@awesome-cordova-plugins/core": "^6.16.0",
-    "@capacitor/android": "^7.2.0",
+    "@capacitor/android": "^7.6.9",
     "@capacitor/app": "7.0.1",
     "@capacitor/core": "7.2.0",
     "@capacitor/haptics": "7.0.1",
