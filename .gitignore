@@ -1,4 +1,6 @@
 *.xcuserstate
+*.tgz
+.claude/
 # Cordova regenerates platforms/ from config.xml + plugins on every build; it is
 # build output and must not be tracked (the sync CI regenerates it, which would
 # otherwise flood every auto-PR with hundreds of generated files).
