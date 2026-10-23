@@ -19,8 +19,8 @@ To get started, sign up [here](https://clevertap.com/live-product-demo/).
 
 ## ✅ Supported Versions
 
-- [CleverTap Android SDK version 8.4.1](https://github.com/CleverTap/clevertap-android-sdk/releases/tag/corev8.4.1)
-- [CleverTap iOS SDK version 7.8.2](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/7.8.2)
+- [CleverTap Android SDK version 8.5.0](https://github.com/CleverTap/clevertap-android-sdk/releases/tag/corev8.5.0_ptv2.7.0)
+- [CleverTap iOS SDK version 7.9.0](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/7.9.0)
 
 ## 🚀 Installation and Quick Start
 
@@ -75,6 +75,8 @@ npm install @ionic-native/clevertap --save
 ```
 
 ## 🛠 Integration
+
+> **iOS note:** CocoaPods trunk becomes read-only on December 2, 2026. The plugin already points at CleverTap's own CocoaPods specs repo, so most apps need no action. If you maintain a custom `ios/Podfile`, see the [Technical Documentation for iOS](docs/Integrate-iOS.md) for the `source` lines to add. Existing installs are unaffected.
 
 See our [Technical Documentation for Android](docs/Integrate-Android.md) and [Technical Documentation for iOS](docs/Integrate-iOS.md) for instructions on integrating CleverTap into your app.
 

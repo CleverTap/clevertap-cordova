@@ -394,6 +394,18 @@ this.clevertap.getAllDisplayUnits('Test Display Unit').then(r => {
 this.clevertap.pushDisplayUnitElementClickedEventForID('Test Display Unit', {'wzrk_element_id': 'element1'});
 ```
 
+#### Push Display Unit Element Viewed Event For Id
+
+```javascript 
+this.clevertap.pushDisplayUnitElementViewedEventForID('Test Display Unit', {'wzrk_element_id': 'element1'});
+```
+
+#### Fetch Native Display Meta
+
+```javascript 
+this.clevertap.fetchNativeDisplayMeta();
+```
+
 ## Product Config 
 
 #### Set Product Configuration to default

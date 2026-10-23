@@ -20,6 +20,14 @@ const data = {
         {
             userAction:UserActions.DisplayUnitElementClicked,
             title:'Push Display Unit Element Clicked'
+        },
+        {
+            userAction:UserActions.DisplayUnitElementViewed,
+            title:'Push Display Unit Element Viewed'
+        },
+        {
+            userAction:UserActions.FetchNativeDisplayMeta,
+            title:'Fetch Native Display Meta'
         }
 ]
 

@@ -107,7 +107,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         cleverTap.registerPushPermissionNotificationResponseListener(this);
 
         String libName = "Cordova";
-        int libVersion = 50100;
+        int libVersion = 50200;
         cleverTap.setLibrary(libName);
         cleverTap.setCustomSdkVersion(libName, libVersion);
 
@@ -1034,6 +1034,26 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         });
     }
 
+    private void pushDisplayUnitElementViewedEventForId(JSONArray args, CallbackContext callbackContext) {
+        executeWithArgs(args, callbackContext, (arguments) -> {
+            final String unitId = arguments.getString(0);
+            final JSONObject jsonProps = arguments.getJSONObject(1);
+            final HashMap<String, Object> additionalProperties = toMap(jsonProps);
+
+            cordova.getThreadPool().execute(() -> {
+                cleverTap.pushDisplayUnitElementViewedEventForID(unitId, additionalProperties);
+                sendPluginResult(callbackContext, Status.NO_RESULT);
+            });
+        });
+    }
+
+    private void fetchNativeDisplayMeta(CallbackContext callbackContext) {
+        cordova.getThreadPool().execute(() -> {
+            cleverTap.fetchNativeDisplayMeta();
+            sendPluginResult(callbackContext, Status.NO_RESULT);
+        });
+    }
+
 
     private void isFeatureFlagInitialized(CallbackContext callbackContext) {
         cordova.getThreadPool().execute(() -> {
@@ -1787,6 +1807,12 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 return true;
             case PUSH_DISPLAY_UNIT_ELEMENT_CLICKED_EVENT_FOR_ID:
                 pushDisplayUnitElementClickedEventForId(args, callbackContext);
+                return true;
+            case PUSH_DISPLAY_UNIT_ELEMENT_VIEWED_EVENT_FOR_ID:
+                pushDisplayUnitElementViewedEventForId(args, callbackContext);
+                return true;
+            case FETCH_NATIVE_DISPLAY_META:
+                fetchNativeDisplayMeta(callbackContext);
                 return true;
             case IS_FEATURE_FLAG_INITIALIZED:
                 isFeatureFlagInitialized(callbackContext);
