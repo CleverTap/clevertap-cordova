@@ -40,9 +40,17 @@
             </feature>
         </config-file>
 
+        <!--
+            CocoaPods trunk becomes read-only on December 2, 2026. New CleverTap
+            iOS SDK versions are published to CleverTap's own specs repo instead
+            of trunk. The CleverTap specs repo source is added here to resolve
+            CleverTap-iOS-SDK from that repo. The existing trunk source is kept
+            unchanged so third-party dependencies (for example SDWebImage) keep
+            resolving. This is additive, not a one-for-one swap.
+        -->
         <podspec>
             <config>
-                <source url="https://github.com/CleverTap/clevertap-ios-sdk.git" />
+                <source url="https://github.com/CleverTap/podspecs.git" />
                 <source url="https://github.com/CocoaPods/Specs.git"/>
             </config>
             <pods>
