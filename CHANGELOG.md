@@ -20,6 +20,7 @@ Version 5.2.0 *(October 16 2026)*
 **API changes**
 * **[Android and iOS Platform]**
     * Adds new `pushDisplayUnitElementViewedEventForID(unitId, additionalProperties)` API to record a view on a specific element or carousel slide within a Display Unit.
+        * The element key must be named exactly `wzrk_element_id`. Any other key is recorded as a regular custom property and the event is not attributed to the element.
     * Adds new `fetchNativeDisplayMeta()` API to request fresh Native Display frequency-cap rules mid-session.
 
 **Bug Fixes**

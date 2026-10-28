@@ -446,8 +446,10 @@ function setupButtons() {
             CleverTap.resumeInAppNotifications()
             CleverTap.discardInAppNotifications()
             CleverTap.reset()
-            /* CleverTap.recordDisplayUnitViewedEventForID("unitID")
-              CleverTap.recordDisplayUnitClickedEventForID("unitID")*/
+            /* Needs a real unitID, so these are exercised from the
+               "Push Display Unit Viewed"/"Clicked" buttons instead.
+               CleverTap.pushDisplayUnitViewedEventForID("unitID")
+               CleverTap.pushDisplayUnitClickedEventForID("unitID") */
 
 
             //FOR NOTIFICATION INBOX

@@ -400,6 +400,8 @@ this.clevertap.pushDisplayUnitElementClickedEventForID('Test Display Unit', {'wz
 this.clevertap.pushDisplayUnitElementViewedEventForID('Test Display Unit', {'wzrk_element_id': 'element1'});
 ```
 
+For both APIs above, the element key must be named exactly `wzrk_element_id`. Any other name, such as `element_id` or `elementId`, is still sent but counts as a regular custom property, so the event is not attributed to the element.
+
 #### Fetch Native Display Meta
 
 ```javascript 
