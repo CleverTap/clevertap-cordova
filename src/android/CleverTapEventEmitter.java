@@ -33,11 +33,16 @@ public class CleverTapEventEmitter {
         }
 
         final String json = toJSONString(data);
+        // loadUrl() runs a javascript: URL, and the WebView percent-decodes a javascript: URL
+        // before it runs it. A "%22" inside a JSON string value would come back as a quote and
+        // end the string early, so escape every "%": the decoded script is then exactly this one.
+        final String js = ("cordova.fireDocumentEvent('" + event.getEventName() + "'," + json + ");")
+                .replace("%", "%25");
 
         Log.i(LOG_TAG, "Sending event " + event.getEventName());
         cordovaWebView
                 .getView()
-                .post(() -> cordovaWebView.loadUrl("javascript:cordova.fireDocumentEvent('" + event.getEventName() + "'," + json + ");"));
+                .post(() -> cordovaWebView.loadUrl("javascript:" + js));
     }
 
     public static String toJSONString(Map<String, Object> data) {

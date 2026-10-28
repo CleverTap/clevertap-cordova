@@ -142,39 +142,41 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 CleverTapEventEmitter.sendEvent(CleverTapEvent.ON_DEEP_LINK, result);
             }
         }
+
         // push notification
-        else {
-            Bundle extras = intent.getExtras();
-            boolean isPushNotification = (extras != null && extras.get("wzrk_pn") != null);
-            if (isPushNotification) {
-                JSONObject data = new JSONObject();
+        // Checked for ACTION_VIEW intents too: a push that carries a deep link (wzrk_dl) is
+        // opened as an ACTION_VIEW intent with the push extras attached, and it must still
+        // reach onPushNotification. Other ACTION_VIEW intents carry no wzrk_pn and are skipped.
+        Bundle extras = intent.getExtras();
+        boolean isPushNotification = (extras != null && extras.get("wzrk_pn") != null);
+        if (isPushNotification) {
+            JSONObject data = new JSONObject();
 
-                for (String key : extras.keySet()) {
-                    try {
-                        Object value = extras.get(key);
-                        if (value instanceof Map) {
-                            JSONObject jsonObject = new JSONObject((Map) value);
-                            data.put(key, jsonObject);
-                        } else if (value instanceof List) {
-                            JSONArray jsonArray = new JSONArray((List) value);
-                            data.put(key, jsonArray);
-                        } else {
-                            data.put(key, extras.get(key));
-                        }
-                    } catch (Throwable t) {
-                        // no-op
+            for (String key : extras.keySet()) {
+                try {
+                    Object value = extras.get(key);
+                    if (value instanceof Map) {
+                        JSONObject jsonObject = new JSONObject((Map) value);
+                        data.put(key, jsonObject);
+                    } else if (value instanceof List) {
+                        JSONArray jsonArray = new JSONArray((List) value);
+                        data.put(key, jsonArray);
+                    } else {
+                        data.put(key, extras.get(key));
                     }
+                } catch (Throwable t) {
+                    // no-op
                 }
+            }
 
-                Map<String, Object> result = new HashMap<>();
-                result.put("notification", data);
-                CleverTapEventEmitter.sendEvent(CleverTapEvent.ON_PUSH_NOTIFICATION, result);
+            Map<String, Object> result = new HashMap<>();
+            result.put("notification", data);
+            CleverTapEventEmitter.sendEvent(CleverTapEvent.ON_PUSH_NOTIFICATION, result);
 
-                if (!callbackDone) {
-                    Map<String, Object> callbackResult = new HashMap<>();
-                    callbackResult.put("customExtras", data);
-                    CleverTapEventEmitter.sendEvent(CleverTapEvent.ON_CLEVERTAP_PUSH_NOTIFICATION_TAPPED_WITH_CUSTOM_EXTRAS, callbackResult);
-                }
+            if (!callbackDone) {
+                Map<String, Object> callbackResult = new HashMap<>();
+                callbackResult.put("customExtras", data);
+                CleverTapEventEmitter.sendEvent(CleverTapEvent.ON_CLEVERTAP_PUSH_NOTIFICATION_TAPPED_WITH_CUSTOM_EXTRAS, callbackResult);
             }
         }
     }
