@@ -8,6 +8,8 @@
 
 - **UIScene-based apps** (e.g. Capacitor 8.5+): on a cold start, iOS delivers the tapped notification / launch URL only to the scene delegate, so re-broadcast them from `scene(_:willConnectTo:options:)`:
 
+**Swift**
+
 ```swift
 if let response = connectionOptions.notificationResponse {
     NotificationCenter.default.post(name: Notification.Name("CTSceneNotificationResponse"),
@@ -16,6 +18,21 @@ if let response = connectionOptions.notificationResponse {
 if let urlContext = connectionOptions.urlContexts.first {
     NotificationCenter.default.post(name: Notification.Name("CTSceneLaunchDeepLink"),
                                     object: urlContext.url)
+}
+```
+
+**Objective-C**
+
+```objc
+UNNotificationResponse *response = connectionOptions.notificationResponse;
+if (response) {
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"CTSceneNotificationResponse"
+                                                        object:response.notification.request.content.userInfo];
+}
+UIOpenURLContext *urlContext = connectionOptions.URLContexts.anyObject;
+if (urlContext) {
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"CTSceneLaunchDeepLink"
+                                                        object:urlContext.URL];
 }
 ```
 
