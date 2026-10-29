@@ -1356,6 +1356,31 @@ static NSMutableDictionary *allVariables;
     }];
 }
 
+/**
+ Record a View on a specific element within a Display Unit
+ */
+- (void)pushDisplayUnitElementViewedEventForID:(CDVInvokedUrlCommand *)command {
+
+    [self.commandDelegate runInBackground:^{
+        NSString *unitID = [command argumentAtIndex:0];
+        NSDictionary *additionalProperties = [command argumentAtIndex:1];
+        if (unitID != nil && [unitID isKindOfClass:[NSString class]]) {
+            NSDictionary *props = (additionalProperties != nil && [additionalProperties isKindOfClass:[NSDictionary class]]) ? additionalProperties : nil;
+            [clevertap recordDisplayUnitElementViewedEventForID:unitID additionalProperties:props];
+        }
+    }];
+}
+
+/**
+ Request fresh Native Display frequency cap rules
+ */
+- (void)fetchNativeDisplayMeta:(CDVInvokedUrlCommand *)command {
+
+    [self.commandDelegate runInBackground:^{
+        [clevertap fetchNativeDisplayMeta];
+    }];
+}
+
 - (void)displayUnitsUpdated:(NSArray<CleverTapDisplayUnit *>*_Nonnull)displayUnits {
     
     NSMutableDictionary *jsonDict = [NSMutableDictionary new];
@@ -1508,7 +1533,7 @@ static NSMutableDictionary *allVariables;
 
 - (void)setLibrary {
     NSString *libName = @"Cordova";
-    int libVersion = 50100;
+    int libVersion = 50200;
     [clevertap setLibrary:libName];
     [clevertap setCustomSdkVersion:libName version:libVersion];
 }

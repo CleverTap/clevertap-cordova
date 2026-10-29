@@ -461,6 +461,16 @@ Push Token Changes other than FCM
  */
 - (void)pushDisplayUnitElementClickedEventForID:(CDVInvokedUrlCommand *)command;
 
+/**
+ This method is called to record a View on a specific element within a Display Unit
+ */
+- (void)pushDisplayUnitElementViewedEventForID:(CDVInvokedUrlCommand *)command;
+
+/**
+ This method is called to request fresh Native Display frequency cap rules
+ */
+- (void)fetchNativeDisplayMeta:(CDVInvokedUrlCommand *)command;
+
 # pragma mark - Feature Flags & Product Config
 
 //Feature Flags

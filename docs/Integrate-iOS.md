@@ -1,5 +1,20 @@
 # 👩‍💻 iOS Integration
 
+## CocoaPods source (handled by the plugin)
+
+CleverTap's iOS SDK is delivered through CocoaPods. CocoaPods trunk becomes read-only on December 2, 2026. After that date new CleverTap versions are published to CleverTap's own CocoaPods specs repo instead of trunk.
+
+For most apps this needs no action. The plugin declares the required sources in its `plugin.xml`, so the Podfile that Cordova generates already resolves CleverTap from the specs repo (`https://github.com/CleverTap/podspecs.git`) and its third-party dependencies from `https://cdn.cocoapods.org/`.
+
+If you maintain a custom `ios/Podfile` instead of the Cordova-generated one, add both `source` lines at the top so CocoaPods can keep resolving CleverTap:
+
+```ruby
+source 'https://github.com/CleverTap/podspecs.git'
+source 'https://cdn.cocoapods.org/'
+```
+
+Keep the `cdn.cocoapods.org` line. It is still needed so other pods resolve. Both lines are required: once a Podfile declares any `source`, CocoaPods stops using the default CDN automatically. Existing installs keep working with no change.
+
 ## Set up and register for push notifications and deep links
 
 - [Set up push notifications for your app](https://developer.apple.com/documentation/usernotifications/registering_your_app_with_apns).

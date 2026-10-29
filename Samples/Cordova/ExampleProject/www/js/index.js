@@ -348,6 +348,11 @@ function setupButtons() {
             let unitId = prompt("Please enter the unitID")
             CleverTap.pushDisplayUnitElementClickedEventForID(unitId, {"wzrk_element_id": "element1"})
         }],
+        ["Push Display Unit Element Viewed", () => {
+            let unitId = prompt("Please enter the unitID")
+            CleverTap.pushDisplayUnitElementViewedEventForID(unitId, {"wzrk_element_id": "element1"})
+        }],
+        ["Fetch Native Display Meta", () => CleverTap.fetchNativeDisplayMeta()],
         ["set Debug Level", () => CleverTap.setDebugLevel(3)],
         ["notify Device Ready", () => CleverTap.notifyDeviceReady()],
         ["register Push", () => CleverTap.registerPush()],
@@ -441,8 +446,10 @@ function setupButtons() {
             CleverTap.resumeInAppNotifications()
             CleverTap.discardInAppNotifications()
             CleverTap.reset()
-            /* CleverTap.recordDisplayUnitViewedEventForID("unitID")
-              CleverTap.recordDisplayUnitClickedEventForID("unitID")*/
+            /* Needs a real unitID, so these are exercised from the
+               "Push Display Unit Viewed"/"Clicked" buttons instead.
+               CleverTap.pushDisplayUnitViewedEventForID("unitID")
+               CleverTap.pushDisplayUnitClickedEventForID("unitID") */
 
 
             //FOR NOTIFICATION INBOX
