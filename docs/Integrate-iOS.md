@@ -27,8 +27,10 @@ The plugin supports two dependency managers depending on your cordova-ios versio
 
 | cordova-ios | Dependency manager | iOS minimum | SDK version |
 |---|---|---|---|
-| 8.0+ | Swift Package Manager (SPM) | 13 | CleverTap iOS SDK 7.8.2 |
-| < 8.0 | CocoaPods | - | CleverTap iOS SDK 7.8.2 |
+| 8.0+ | Swift Package Manager (SPM) | 13 | CleverTap iOS SDK 7.9.0 |
+| < 8.0 | CocoaPods | 9 | CleverTap iOS SDK 7.8.2 |
+
+On the SPM path the minimum is set by `Package.swift`, which targets iOS 13 to match cordova-ios 8. On the CocoaPods path it comes from the CleverTap iOS SDK podspec, which supports iOS 9+. Note that cordova-ios 6 and 7 still generate projects targeting iOS 11 by default, so that is the floor you get unless you lower it yourself.
 
 Cordova's build toolchain picks the right path automatically. On cordova-ios 8+, the root `Package.swift` resolves the SDK via SPM. After your first build, Xcode locks the resolved versions in `Package.resolved` inside your generated Xcode project.
 
