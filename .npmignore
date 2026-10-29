@@ -1,1 +1,6 @@
 Samples/
+docs/
+.claude/
+CLAUDE.md
+.codebeatignore
+package-lock.json

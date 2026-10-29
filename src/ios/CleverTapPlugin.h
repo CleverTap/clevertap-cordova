@@ -11,8 +11,11 @@
 #import <Cordova/CDVPlugin.h>
 
 static NSString * const CTDidReceiveNotification = @"CTDidReceiveNotification";
+static NSString * const CTDidReceiveNotificationResponse = @"CTDidReceiveNotificationResponse";
 static NSString * const CTRemoteNotificationDidRegister = @"CTRemoteNotificationDidRegister";
 static NSString * const CTRemoteNotificationRegisterError = @"CTRemoteNotificationRegisterError";
+// Deprecated and no longer posted or observed. URL opens now flow through
+// Cordova's own CDVPluginHandleOpenURLNotification.
 static NSString * const CTHandleOpenURLNotification = @"CTHandleOpenURLNotification";
 static NSString * const CTSceneNotificationResponse = @"CTSceneNotificationResponse";
 static NSString * const CTSceneLaunchDeepLink = @"CTSceneLaunchDeepLink";
@@ -462,6 +465,16 @@ Push Token Changes other than FCM
  This method is called to record a Click on a specific element within a Display Unit
  */
 - (void)pushDisplayUnitElementClickedEventForID:(CDVInvokedUrlCommand *)command;
+
+/**
+ This method is called to record a View on a specific element within a Display Unit
+ */
+- (void)pushDisplayUnitElementViewedEventForID:(CDVInvokedUrlCommand *)command;
+
+/**
+ This method is called to request fresh Native Display frequency cap rules
+ */
+- (void)fetchNativeDisplayMeta:(CDVInvokedUrlCommand *)command;
 
 # pragma mark - Feature Flags & Product Config
 
