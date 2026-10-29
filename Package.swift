@@ -22,10 +22,6 @@ let package = Package(
             path: "src/ios",
             publicHeadersPath: ".",
             linkerSettings: [
-                // Categories like CDVAppDelegate(CleverTapPlugin) carry no
-                // referenced class symbol, so the linker drops them from the
-                // static lib without -ObjC and push/deep-link events never
-                // reach JS. CocoaPods sets this automatically; SPM does not.
                 .unsafeFlags(["-ObjC"])
             ]
         )
