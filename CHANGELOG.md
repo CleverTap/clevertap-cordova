@@ -1,5 +1,37 @@
 Change Log
 ==========
+Version 5.2.0 *(October 16 2026)*
+-------------------------------------------
+**What's new**
+* **[Android Platform]**
+    * Supports [CleverTap Android SDK v8.5.0](https://github.com/CleverTap/clevertap-android-sdk/blob/master/docs/CTCORECHANGELOG.md#version-850-october-15-2026).
+    * Adds frequency-cap support for Native Display (Display Units), covering session, daily, per-day / per-week and lifetime caps, tracked separately from In-App frequency caps.
+    * Adds per-element and per-slide (carousel) click and view attribution for Native Display units.
+    * `pushDisplayUnitViewedEventForID()` now counts toward Native Display frequency caps, so call it once per real impression rather than on every render or scroll.
+    * The App-Launch In-App can now wait up to 3 seconds for personalized (recommendations) content before it is shown.
+
+* **[iOS Platform]**
+    * Supports [CleverTap iOS SDK v7.9.0](https://github.com/CleverTap/clevertap-ios-sdk/blob/master/CHANGELOG.md#version-790-october-15-2026).
+    * Adds frequency-cap support for Native Display (Display Units). Campaign caps are evaluated on the device, and capped units are dropped before they reach your app.
+    * Adds per-element and per-slide (carousel) click and view attribution for Native Display units.
+    * `pushDisplayUnitViewedEventForID()` now counts toward Native Display frequency caps, so call it once per real impression rather than on every render or scroll.
+    * Adds support for In-App campaigns personalized with recommendations, ensuring only one In-App is shown on app launch. Native Display units from a recommendations response are now merged into the ones already delivered (matched by unit ID) instead of replacing them.
+
+**API changes**
+* **[Android and iOS Platform]**
+    * Adds new `pushDisplayUnitElementViewedEventForID(unitId, additionalProperties)` API to record a view on a specific element or carousel slide within a Display Unit.
+        * The element key must be named exactly `wzrk_element_id`. Any other key is recorded as a regular custom property and the event is not attributed to the element.
+    * Adds new `fetchNativeDisplayMeta()` API to request fresh Native Display frequency-cap rules mid-session.
+
+**Bug Fixes**
+* **[Android Platform]**
+    * Fixes App-Launch In-Apps personalized with recommendations sometimes showing twice, and Native Display units being lost after a recommendations fetch.
+    * Fixes App Inbox video not playing when switching to a tab that contains a video message.
+    * Fixes "N times in D days/weeks" In-App and Native Display caps resetting one period later than on iOS.
+
+* **[iOS Platform]**
+    * Fixes event name and property validation warnings building up and being replayed on later calls. Warnings are now collected per call, and the actual validation message is logged.
+
 Version 5.1.0 *(September 23 2026)*
 -------------------------------------------
 **What's new**

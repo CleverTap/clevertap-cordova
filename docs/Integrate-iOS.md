@@ -34,6 +34,21 @@ On the SPM path the minimum is set by `Package.swift`, which targets iOS 13 to m
 
 Cordova's build toolchain picks the right path automatically. On cordova-ios 8+, the root `Package.swift` resolves the SDK via SPM. After your first build, Xcode locks the resolved versions in `Package.resolved` inside your generated Xcode project.
 
+## CocoaPods source (handled by the plugin)
+
+CleverTap's iOS SDK is delivered through CocoaPods. CocoaPods trunk becomes read-only on December 2, 2026. After that date new CleverTap versions are published to CleverTap's own CocoaPods specs repo instead of trunk.
+
+For most apps this needs no action. The plugin declares the required sources in its `plugin.xml`, so the Podfile that Cordova generates already resolves CleverTap from the specs repo (`https://github.com/CleverTap/podspecs.git`) and its third-party dependencies from `https://cdn.cocoapods.org/`.
+
+If you maintain a custom `ios/Podfile` instead of the Cordova-generated one, add both `source` lines at the top so CocoaPods can keep resolving CleverTap:
+
+```ruby
+source 'https://github.com/CleverTap/podspecs.git'
+source 'https://cdn.cocoapods.org/'
+```
+
+Keep the `cdn.cocoapods.org` line. It is still needed so other pods resolve. Both lines are required: once a Podfile declares any `source`, CocoaPods stops using the default CDN automatically. Existing installs keep working with no change.
+
 ## Upgrading to cordova-ios 8 (SPM)
 
 When you upgrade to cordova-ios 8+, the plugin switches from CocoaPods to SPM automatically. No manual dependency configuration is needed.
