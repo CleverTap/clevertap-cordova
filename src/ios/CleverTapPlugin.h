@@ -11,8 +11,11 @@
 #import <Cordova/CDVPlugin.h>
 
 static NSString * const CTDidReceiveNotification = @"CTDidReceiveNotification";
+static NSString * const CTDidReceiveNotificationResponse = @"CTDidReceiveNotificationResponse";
 static NSString * const CTRemoteNotificationDidRegister = @"CTRemoteNotificationDidRegister";
 static NSString * const CTRemoteNotificationRegisterError = @"CTRemoteNotificationRegisterError";
+// Deprecated and no longer posted or observed. URL opens now flow through
+// Cordova's own CDVPluginHandleOpenURLNotification.
 static NSString * const CTHandleOpenURLNotification = @"CTHandleOpenURLNotification";
 static NSString * const CTSendEvent = @"CTSendEvent";
 
