@@ -19,8 +19,8 @@ To get started, sign up [here](https://clevertap.com/live-product-demo/).
 
 ## ✅ Supported Versions
 
-- [CleverTap Android SDK version 8.4.1](https://github.com/CleverTap/clevertap-android-sdk/releases/tag/corev8.4.1)
-- [CleverTap iOS SDK version 7.8.2](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/7.8.2)
+- [CleverTap Android SDK version 8.5.0](https://github.com/CleverTap/clevertap-android-sdk/releases/tag/corev8.5.0_ptv2.7.0)
+- [CleverTap iOS SDK version 7.9.0](https://github.com/CleverTap/clevertap-ios-sdk/releases/tag/7.9.0)
 
 ## 🚀 Installation and Quick Start
 
@@ -55,7 +55,7 @@ ionic cordova plugin add clevertap-cordova@latest --variable CLEVERTAP_ACCOUNT_I
 ```sh
 npm install @ionic-native/clevertap --save 
 ```
-- Be sure to [add CleverTap as a provider in your app module](/Samples/IonicCordova/IonicAngularProject/src/app/app.component.ts). 
+- Be sure to [add CleverTap as a provider in your app module](https://github.com/CleverTap/clevertap-cordova/blob/master/Samples/IonicCordova/IonicAngularProject/src/app/app.component.ts). 
 ```javascript
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, clevertap: CleverTap) {
     platform.ready().then(() => {
@@ -76,20 +76,22 @@ npm install @ionic-native/clevertap --save
 
 ## 🛠 Integration
 
-See our [Technical Documentation for Android](docs/Integrate-Android.md) and [Technical Documentation for iOS](docs/Integrate-iOS.md) for instructions on integrating CleverTap into your app.
+> **iOS note:** CocoaPods trunk becomes read-only on December 2, 2026. The plugin already points at CleverTap's own CocoaPods specs repo, so most apps need no action. If you maintain a custom `ios/Podfile`, see the [Technical Documentation for iOS](https://github.com/CleverTap/clevertap-cordova/blob/master/docs/Integrate-iOS.md) for the `source` lines to add. Existing installs are unaffected.
+
+See our [Technical Documentation for Android](https://github.com/CleverTap/clevertap-cordova/blob/master/docs/Integrate-Android.md) and [Technical Documentation for iOS](https://github.com/CleverTap/clevertap-cordova/blob/master/docs/Integrate-iOS.md) for instructions on integrating CleverTap into your app.
 
 
 ## 📑 Documentation & Example
 
-- [See our CleverTap Plugin Usage Documentation](docs/Usage.md)
+- [See our CleverTap Plugin Usage Documentation](https://github.com/CleverTap/clevertap-cordova/blob/master/docs/Usage.md)
 
-- [See the included Example Cordova project for usage](/Samples/Cordova/ExampleProject/www/js/index.js).  
+- [See the included Example Cordova project for usage](https://github.com/CleverTap/clevertap-cordova/blob/master/Samples/Cordova/ExampleProject/www/js/index.js).  
 
-- [See the included Ionic Example project for usage](/Samples/IonicCordova/IonicAngularProject/src/app/app.component.ts).
+- [See the included Ionic Example project for usage](https://github.com/CleverTap/clevertap-cordova/blob/master/Samples/IonicCordova/IonicAngularProject/src/app/app.component.ts).
 
 
 ## ⁉️ Questions? #
 
  If you have questions or concerns, you can reach out to the CleverTap support team from the CleverTap Dashboard. 
  
-**TroubleShooting Guide:** Please refer [here](docs/Troubleshooting-Guide.md) if you are facing common integration issues.
+**TroubleShooting Guide:** Please refer [here](https://github.com/CleverTap/clevertap-cordova/blob/master/docs/Troubleshooting-Guide.md) if you are facing common integration issues.

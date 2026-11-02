@@ -107,7 +107,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         cleverTap.registerPushPermissionNotificationResponseListener(this);
 
         String libName = "Cordova";
-        int libVersion = 50100;
+        int libVersion = 50200;
         cleverTap.setLibrary(libName);
         cleverTap.setCustomSdkVersion(libName, libVersion);
 
@@ -142,39 +142,41 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 CleverTapEventEmitter.sendEvent(CleverTapEvent.ON_DEEP_LINK, result);
             }
         }
+
         // push notification
-        else {
-            Bundle extras = intent.getExtras();
-            boolean isPushNotification = (extras != null && extras.get("wzrk_pn") != null);
-            if (isPushNotification) {
-                JSONObject data = new JSONObject();
+        // Checked for ACTION_VIEW intents too: a push that carries a deep link (wzrk_dl) is
+        // opened as an ACTION_VIEW intent with the push extras attached, and it must still
+        // reach onPushNotification. Other ACTION_VIEW intents carry no wzrk_pn and are skipped.
+        Bundle extras = intent.getExtras();
+        boolean isPushNotification = (extras != null && extras.get("wzrk_pn") != null);
+        if (isPushNotification) {
+            JSONObject data = new JSONObject();
 
-                for (String key : extras.keySet()) {
-                    try {
-                        Object value = extras.get(key);
-                        if (value instanceof Map) {
-                            JSONObject jsonObject = new JSONObject((Map) value);
-                            data.put(key, jsonObject);
-                        } else if (value instanceof List) {
-                            JSONArray jsonArray = new JSONArray((List) value);
-                            data.put(key, jsonArray);
-                        } else {
-                            data.put(key, extras.get(key));
-                        }
-                    } catch (Throwable t) {
-                        // no-op
+            for (String key : extras.keySet()) {
+                try {
+                    Object value = extras.get(key);
+                    if (value instanceof Map) {
+                        JSONObject jsonObject = new JSONObject((Map) value);
+                        data.put(key, jsonObject);
+                    } else if (value instanceof List) {
+                        JSONArray jsonArray = new JSONArray((List) value);
+                        data.put(key, jsonArray);
+                    } else {
+                        data.put(key, extras.get(key));
                     }
+                } catch (Throwable t) {
+                    // no-op
                 }
+            }
 
-                Map<String, Object> result = new HashMap<>();
-                result.put("notification", data);
-                CleverTapEventEmitter.sendEvent(CleverTapEvent.ON_PUSH_NOTIFICATION, result);
+            Map<String, Object> result = new HashMap<>();
+            result.put("notification", data);
+            CleverTapEventEmitter.sendEvent(CleverTapEvent.ON_PUSH_NOTIFICATION, result);
 
-                if (!callbackDone) {
-                    Map<String, Object> callbackResult = new HashMap<>();
-                    callbackResult.put("customExtras", data);
-                    CleverTapEventEmitter.sendEvent(CleverTapEvent.ON_CLEVERTAP_PUSH_NOTIFICATION_TAPPED_WITH_CUSTOM_EXTRAS, callbackResult);
-                }
+            if (!callbackDone) {
+                Map<String, Object> callbackResult = new HashMap<>();
+                callbackResult.put("customExtras", data);
+                CleverTapEventEmitter.sendEvent(CleverTapEvent.ON_CLEVERTAP_PUSH_NOTIFICATION_TAPPED_WITH_CUSTOM_EXTRAS, callbackResult);
             }
         }
     }
@@ -1034,6 +1036,26 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         });
     }
 
+    private void pushDisplayUnitElementViewedEventForId(JSONArray args, CallbackContext callbackContext) {
+        executeWithArgs(args, callbackContext, (arguments) -> {
+            final String unitId = arguments.getString(0);
+            final JSONObject jsonProps = arguments.getJSONObject(1);
+            final HashMap<String, Object> additionalProperties = toMap(jsonProps);
+
+            cordova.getThreadPool().execute(() -> {
+                cleverTap.pushDisplayUnitElementViewedEventForID(unitId, additionalProperties);
+                sendPluginResult(callbackContext, Status.NO_RESULT);
+            });
+        });
+    }
+
+    private void fetchNativeDisplayMeta(CallbackContext callbackContext) {
+        cordova.getThreadPool().execute(() -> {
+            cleverTap.fetchNativeDisplayMeta();
+            sendPluginResult(callbackContext, Status.NO_RESULT);
+        });
+    }
+
 
     private void isFeatureFlagInitialized(CallbackContext callbackContext) {
         cordova.getThreadPool().execute(() -> {
@@ -1787,6 +1809,12 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 return true;
             case PUSH_DISPLAY_UNIT_ELEMENT_CLICKED_EVENT_FOR_ID:
                 pushDisplayUnitElementClickedEventForId(args, callbackContext);
+                return true;
+            case PUSH_DISPLAY_UNIT_ELEMENT_VIEWED_EVENT_FOR_ID:
+                pushDisplayUnitElementViewedEventForId(args, callbackContext);
+                return true;
+            case FETCH_NATIVE_DISPLAY_META:
+                fetchNativeDisplayMeta(callbackContext);
                 return true;
             case IS_FEATURE_FLAG_INITIALIZED:
                 isFeatureFlagInitialized(callbackContext);

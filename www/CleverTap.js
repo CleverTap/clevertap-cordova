@@ -614,6 +614,14 @@ CleverTap.prototype.pushDisplayUnitElementClickedEventForID = function(unitId, a
 	cordova.exec(null, null, "CleverTapPlugin", "pushDisplayUnitElementClickedEventForID", [unitId, additionalProperties]);
 }
 
+CleverTap.prototype.pushDisplayUnitElementViewedEventForID = function(unitId, additionalProperties){
+	cordova.exec(null, null, "CleverTapPlugin", "pushDisplayUnitElementViewedEventForID", [unitId, additionalProperties]);
+}
+
+CleverTap.prototype.fetchNativeDisplayMeta = function(){
+	cordova.exec(null, null, "CleverTapPlugin", "fetchNativeDisplayMeta", []);
+}
+
 /****************************
  * Feature Flag methods
  ****************************/

@@ -22,5 +22,7 @@ export enum UserActions{
     InAppDismissPip,
 
     // display unit
-    DisplayUnitElementClicked
+    DisplayUnitElementClicked,
+    DisplayUnitElementViewed,
+    FetchNativeDisplayMeta
 }
