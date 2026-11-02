@@ -60,6 +60,9 @@ static NSURL *launchDeepLink;
 static BOOL jsReady;
 static NSDictionary *launchNotification;
 static NSDictionary *pendingTappedExtras;
+// Set only while pluginInitialize hands the launch tap to the SDK, which calls
+// back synchronously before JS can have listeners.
+static BOOL deliveringLaunchTap;
 static NSDateFormatter *dateFormatter;
 static NSMutableDictionary *allVariables;
 
@@ -258,7 +261,9 @@ static NSMutableDictionary *allVariables;
     // The stash only ever holds a launch tap, but by the time it drains the app is
     // already active, and the plain call drops wzrk_dl whenever the app is active.
     if (launchNotification) {
+        deliveringLaunchTap = YES;
         [clevertap handleNotificationWithData:launchNotification openDeepLinksInForeground:YES];
+        deliveringLaunchTap = NO;
     }
 }
 
@@ -674,9 +679,11 @@ static NSMutableDictionary *allVariables;
 - (void)pushNotificationTappedWithCustomExtras:(NSDictionary *)customExtras {
 
     // On cold start pluginInitialize hands the launch tap to the SDK, which calls
-    // straight back here while the page still has no listeners. Hold it until
-    // notifyDeviceReady instead of firing it into the void.
-    if (!jsReady) {
+    // straight back here while the page still has no listeners. Hold that one until
+    // notifyDeviceReady instead of firing it into the void. Every other tap is
+    // delivered right away, so a host that never calls notifyDeviceReady again after
+    // a WebView reload does not lose the event.
+    if (deliveringLaunchTap) {
         pendingTappedExtras = customExtras;
         return;
     }
