@@ -8,6 +8,7 @@
     "src/",
     "www/",
     "scripts/",
+    "docs/",
     "README.md",
     "LICENSE",
     "CHANGELOG.md"
