@@ -47,7 +47,7 @@ source 'https://github.com/CleverTap/podspecs.git'
 source 'https://cdn.cocoapods.org/'
 ```
 
-Keep the `cdn.cocoapods.org` line. It is still needed so other pods resolve. Both lines are required: once a Podfile declares any `source`, CocoaPods stops using the default CDN automatically. Existing installs keep working with no change.
+Keep the `cdn.cocoapods.org` line. It is still needed so other pods resolve. Both lines are required: once a Podfile declares any `source`, CocoaPods stops using the default CDN automatically. Existing installs need no change to these source lines.
 
 ## Upgrading to cordova-ios 8 (SPM)
 
@@ -103,7 +103,7 @@ if let response = connectionOptions.notificationResponse {
     NotificationCenter.default.post(name: Notification.Name("CTSceneNotificationResponse"),
                                     object: response.notification.request.content.userInfo)
 }
-if let urlContext = connectionOptions.urlContexts.first {
+for urlContext in connectionOptions.urlContexts {
     NotificationCenter.default.post(name: Notification.Name("CTSceneLaunchDeepLink"),
                                     object: urlContext.url)
 }
@@ -117,8 +117,7 @@ if (response) {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"CTSceneNotificationResponse"
                                                         object:response.notification.request.content.userInfo];
 }
-UIOpenURLContext *urlContext = connectionOptions.URLContexts.anyObject;
-if (urlContext) {
+for (UIOpenURLContext *urlContext in connectionOptions.URLContexts) {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"CTSceneLaunchDeepLink"
                                                         object:urlContext.URL];
 }
