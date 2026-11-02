@@ -134,6 +134,24 @@ for (UIOpenURLContext *urlContext in connectionOptions.URLContexts) {
 | `userNotificationCenter(_:didReceive:withCompletionHandler:)` | `CTSceneNotificationResponse` | `response.notification.request.content.userInfo` |
 | `scene(_:openURLContexts:)` | `CTSceneLaunchDeepLink` | the `URLContexts` URL |
 
+### Device token and incoming pushes
+
+These are not scene callbacks, but the plugin forwards them from the same `CDVAppDelegate` category, so they are lost on these hosts too. Post them from your own `AppDelegate`:
+
+| Callback | Notification to post | Object |
+|---|---|---|
+| `application(_:didRegisterForRemoteNotificationsWithDeviceToken:)` | `CTRemoteNotificationDidRegister` | the token as a lowercase hex `String`, not `Data` |
+| `application(_:didReceiveRemoteNotification:fetchCompletionHandler:)` | `CTDidReceiveNotification` | `userInfo` |
+
+Without the first one CleverTap never receives a push token and the device cannot be reached at all.
+
+```swift
+func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+    let token = deviceToken.map { String(format: "%02x", $0) }.joined()
+    NotificationCenter.default.post(name: Notification.Name("CTRemoteNotificationDidRegister"), object: token)
+}
+```
+
 - Call the following from your Javascript.
 
 ```javascript

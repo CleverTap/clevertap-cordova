@@ -59,11 +59,14 @@ static NSURL *launchDeepLink;
 // Set once JS calls notifyDeviceReady; before that there are no document listeners.
 static BOOL jsReady;
 static NSDictionary *launchNotification;
+static NSDictionary *pendingTappedExtras;
 static NSDateFormatter *dateFormatter;
 static NSMutableDictionary *allVariables;
 
 @interface CleverTapPlugin () <CleverTapSyncDelegate, CleverTapInAppNotificationDelegate, CleverTapDisplayUnitDelegate, CleverTapFeatureFlagsDelegate, CleverTapProductConfigDelegate, CleverTapPushNotificationDelegate> {
 }
+
+- (void)firePushNotificationTappedWithCustomExtras:(NSDictionary *)customExtras;
 
 @end
 
@@ -510,6 +513,11 @@ static NSMutableDictionary *allVariables;
         launchNotification = nil;
     }
 
+    if (pendingTappedExtras) {
+        [self firePushNotificationTappedWithCustomExtras:[pendingTappedExtras copy]];
+        pendingTappedExtras = nil;
+    }
+
     if (launchDeepLink) {
         [self handleDeepLink:[launchDeepLink copy]];
         launchDeepLink = nil;
@@ -664,15 +672,28 @@ static NSMutableDictionary *allVariables;
 #pragma mark - Push Notification Delegate
 
 - (void)pushNotificationTappedWithCustomExtras:(NSDictionary *)customExtras {
-    
+
+    // On cold start pluginInitialize hands the launch tap to the SDK, which calls
+    // straight back here while the page still has no listeners. Hold it until
+    // notifyDeviceReady instead of firing it into the void.
+    if (!jsReady) {
+        pendingTappedExtras = customExtras;
+        return;
+    }
+
+    [self firePushNotificationTappedWithCustomExtras:customExtras];
+}
+
+- (void)firePushNotificationTappedWithCustomExtras:(NSDictionary *)customExtras {
+
     NSMutableDictionary *jsonDict = [NSMutableDictionary new];
-    
+
     if (customExtras != nil) {
         jsonDict[@"customExtras"] = customExtras;
     }
-    
+
     NSString *jsonString = [self _dictToJson:jsonDict];
-    
+
     if (jsonString != nil) {
         NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onCleverTapPushNotificationTappedWithCustomExtras', %@);", jsonString];
         [self.commandDelegate evalJs:js];
