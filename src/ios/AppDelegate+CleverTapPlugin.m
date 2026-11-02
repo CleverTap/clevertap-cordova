@@ -6,6 +6,8 @@
 @import UserNotifications;
 #endif
 
+#if __has_include(<Cordova/CDVAppDelegate.h>)
+
 #if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
 @interface CDVAppDelegate () <UNUserNotificationCenterDelegate>
 @end
@@ -67,3 +69,5 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
 #endif
 
 @end
+
+#endif
