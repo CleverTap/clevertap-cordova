@@ -239,8 +239,10 @@ static NSMutableDictionary *allVariables;
     // A tap that launched the app was stashed before the SDK was ready. Now that it
     // is, and the push delegate is set, let it record the click and open wzrk_dl.
     // notifyDeviceReady still owns the JS side, since JS is not listening yet.
+    // The stash only ever holds a launch tap, but by the time it drains the app is
+    // already active, and the plain call drops wzrk_dl whenever the app is active.
     if (launchNotification) {
-        [clevertap handleNotificationWithData:launchNotification];
+        [clevertap handleNotificationWithData:launchNotification openDeepLinksInForeground:YES];
     }
 }
 
