@@ -12,6 +12,7 @@ Version 5.2.0 *(October 16 2026)*
 
 * **[iOS Platform]**
     * Supports [CleverTap iOS SDK v7.9.0](https://github.com/CleverTap/clevertap-ios-sdk/blob/master/CHANGELOG.md#version-790-october-15-2026).
+    * Adds Swift Package Manager (SPM) support for `cordova-ios 8.0.0` and above. Cordova picks the dependency manager automatically, so apps on cordova-ios 8+ resolve the CleverTap iOS SDK through the plugin's `Package.swift` (minimum iOS 13), while apps below cordova-ios 8 keep using CocoaPods. No manual dependency configuration is needed. Refer to [Integrate-iOS.md](docs/Integrate-iOS.md#ios-dependency-management) for the upgrade steps and troubleshooting.
     * Adds frequency-cap support for Native Display (Display Units). Campaign caps are evaluated on the device, and capped units are dropped before they reach your app.
     * Adds per-element and per-slide (carousel) click and view attribution for Native Display units.
     * `pushDisplayUnitViewedEventForID()` now counts toward Native Display frequency caps, so call it once per real impression rather than on every render or scroll.
