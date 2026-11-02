@@ -88,7 +88,13 @@ If SPM resolution fails after upgrading:
 
 - If you plan on using deep links, [please register your custom url scheme as described here](https://developer.apple.com/documentation/xcode/defining-a-custom-url-scheme-for-your-app).
 
-- **UIScene-based apps** (e.g. Capacitor 8.5+): on a cold start, iOS delivers the tapped notification / launch URL only to the scene delegate, so re-broadcast them from `scene(_:willConnectTo:options:)`:
+- **Hosts that replace Cordova's app and scene delegates** (for example Capacitor): iOS delivers a tapped notification and a launch URL to the scene delegate. `CDVSceneDelegate` and the plugin's `CDVAppDelegate` category are what normally forward these to the plugin, so if your host supplies its own delegates you need to re-broadcast them yourself.
+
+  Stock cordova-ios 8 apps are also UIScene-based but need none of this - Cordova's own delegates already forward both. Do not add the code below to a stock Cordova app. The cold start block would be ignored, but the warm callbacks would deliver every tap and deep link twice.
+
+### Cold start
+
+Post from `scene(_:willConnectTo:options:)`, which is where iOS hands over the launch payload:
 
 **Swift**
 
@@ -117,6 +123,15 @@ if (urlContext) {
                                                         object:urlContext.URL];
 }
 ```
+
+### Already running or backgrounded
+
+`connectionOptions` is only populated at cold start, so post the same two notifications from your regular callbacks as well. Without these, a tap on a backgrounded app delivers nothing.
+
+| Callback | Notification to post | Object |
+|---|---|---|
+| `userNotificationCenter(_:didReceive:withCompletionHandler:)` | `CTSceneNotificationResponse` | `response.notification.request.content.userInfo` |
+| `scene(_:openURLContexts:)` | `CTSceneLaunchDeepLink` | the `URLContexts` URL |
 
 - Call the following from your Javascript.
 
