@@ -490,6 +490,18 @@ export class HomePage {
         this.presentToast('pushDisplayUnitElementClickedEventForID');
     }
 
+    pushDisplayUnitElementViewedEventForID() {
+        console.log('pushDisplayUnitElementViewedEventForID');
+        (this.clevertap as any).pushDisplayUnitElementViewedEventForID('Test Display Unit', {'wzrk_element_id': 'element1'});
+        this.presentToast('pushDisplayUnitElementViewedEventForID');
+    }
+
+    fetchNativeDisplayMeta() {
+        console.log('fetchNativeDisplayMeta');
+        (this.clevertap as any).fetchNativeDisplayMeta();
+        this.presentToast('fetchNativeDisplayMeta');
+    }
+
     getFeatureFlag() {
         console.log('getFeatureFlag');
         this.clevertap.getFeatureFlag('key_string', 'defaultString')

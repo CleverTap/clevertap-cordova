@@ -179,6 +179,12 @@ export class HomePage {
       case "Push Display Unit Element Clicked":
         (CleverTap as any).pushDisplayUnitElementClickedEventForID("Test Display Unit", { wzrk_element_id: "element1" });
         break;
+      case "Push Display Unit Element Viewed":
+        (CleverTap as any).pushDisplayUnitElementViewedEventForID("Test Display Unit", { wzrk_element_id: "element1" });
+        break;
+      case "Fetch Native Display Meta":
+        (CleverTap as any).fetchNativeDisplayMeta();
+        break;
       case "Basic Push":
         CleverTap.recordEventWithName("Send Basic Push");
         break;

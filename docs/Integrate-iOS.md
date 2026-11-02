@@ -1,10 +1,156 @@
 # 👩‍💻 iOS Integration
 
+## Project setup
+
+Install the plugin with your CleverTap credentials:
+
+```sh
+cordova plugin add https://github.com/CleverTap/clevertap-cordova.git \
+  --variable CLEVERTAP_ACCOUNT_ID="YOUR_ACCOUNT_ID" \
+  --variable CLEVERTAP_TOKEN="YOUR_TOKEN"
+```
+
+This automatically injects `CleverTapAccountID` and `CleverTapToken` into your app's `Info.plist`. If your account uses a specific region, pass it as an additional variable:
+
+```sh
+cordova plugin add https://github.com/CleverTap/clevertap-cordova.git \
+  --variable CLEVERTAP_ACCOUNT_ID="YOUR_ACCOUNT_ID" \
+  --variable CLEVERTAP_TOKEN="YOUR_TOKEN" \
+  --variable CLEVERTAP_REGION="YOUR_REGION_CODE"
+```
+
+Refer to [CleverTap region codes](https://developer.clevertap.com/docs/idc) for valid values.
+
+## iOS dependency management
+
+The plugin supports two dependency managers depending on your cordova-ios version - no manual configuration is required:
+
+| cordova-ios | Dependency manager | iOS minimum | SDK version |
+|---|---|---|---|
+| 8.0+ | Swift Package Manager (SPM) | 13 | CleverTap iOS SDK 7.9.0 |
+| < 8.0 | CocoaPods | 9 | CleverTap iOS SDK 7.9.0 |
+
+On the SPM path the minimum is set by `Package.swift`, which targets iOS 13 to match cordova-ios 8. On the CocoaPods path it comes from the CleverTap iOS SDK podspec, which supports iOS 9+. Note that cordova-ios 6 and 7 still generate projects targeting iOS 11 by default, so that is the floor you get unless you lower it yourself.
+
+Cordova's build toolchain picks the right path automatically. On cordova-ios 8+, the root `Package.swift` resolves the SDK via SPM. After your first build, Xcode locks the resolved versions in `Package.resolved` inside your generated Xcode project.
+
+## CocoaPods source (handled by the plugin)
+
+CleverTap's iOS SDK is delivered through CocoaPods. CocoaPods trunk becomes read-only on December 2, 2026. After that date new CleverTap versions are published to CleverTap's own CocoaPods specs repo instead of trunk.
+
+For most apps this needs no action. The plugin declares the required sources in its `plugin.xml`, so the Podfile that Cordova generates already resolves CleverTap from the specs repo (`https://github.com/CleverTap/podspecs.git`) and its third-party dependencies from `https://cdn.cocoapods.org/`.
+
+If you maintain a custom `ios/Podfile` instead of the Cordova-generated one, add both `source` lines at the top so CocoaPods can keep resolving CleverTap:
+
+```ruby
+source 'https://github.com/CleverTap/podspecs.git'
+source 'https://cdn.cocoapods.org/'
+```
+
+Keep the `cdn.cocoapods.org` line. It is still needed so other pods resolve. Both lines are required: once a Podfile declares any `source`, CocoaPods stops using the default CDN automatically. Existing installs need no change to these source lines.
+
+The plugin also sets `use-frameworks` in its `plugin.xml`, so CleverTap and every other pod in the app target build as dynamic frameworks. If another pod in your project exposes non-modular public headers, that pod will fail to build with `include of non-modular header inside framework module`. Fixing it means making that pod modular or dropping it, not changing this setting.
+
+## Upgrading to cordova-ios 8 (SPM)
+
+When you upgrade to cordova-ios 8+, the plugin switches from CocoaPods to SPM automatically. No manual dependency configuration is needed.
+
+To upgrade your iOS platform:
+
+```sh
+cordova platform update ios@8
+```
+
+For a clean install (recommended if the update fails):
+
+```sh
+cordova platform rm ios && cordova platform add ios@8
+```
+
+**Ionic + Cordova apps** follow the same upgrade path - Ionic uses cordova-ios under the hood, so the SPM transition is identical.
+
+**Capacitor apps** use a separate dependency path. Capacitor 6+ supports SPM as an option, and Capacitor 8 made SPM the default for iOS. Capacitor's SPM resolves dependencies through `capacitor-swift-pm` (not `cordova-ios`), so the root `Package.swift` in this repo does not apply to Capacitor projects. For Capacitor apps still using CocoaPods, the plugin's podspec in plugin.xml continues to work. For Capacitor apps using SPM, Capacitor auto-generates a `Package.swift` for Cordova plugins - but you cannot mix CocoaPods and SPM in the same Capacitor project.
+
+### Troubleshooting
+
+If SPM resolution fails after upgrading:
+
+1. Remove and re-add the iOS platform:
+   ```sh
+   cordova platform rm ios && cordova platform add ios@8
+   ```
+2. Delete Xcode derived data:
+   ```sh
+   rm -rf ~/Library/Developer/Xcode/DerivedData
+   ```
+
 ## Set up and register for push notifications and deep links
 
 - [Set up push notifications for your app](https://developer.apple.com/documentation/usernotifications/registering_your_app_with_apns).
 
 - If you plan on using deep links, [please register your custom url scheme as described here](https://developer.apple.com/documentation/xcode/defining-a-custom-url-scheme-for-your-app).
+
+- **Hosts that replace Cordova's app and scene delegates** (for example Capacitor): iOS delivers a tapped notification and a launch URL to the scene delegate. `CDVSceneDelegate` and the plugin's `CDVAppDelegate` category are what normally forward these to the plugin, so if your host supplies its own delegates you need to re-broadcast them yourself.
+
+  Stock cordova-ios 8 apps are also UIScene-based but need none of this - Cordova's own delegates already forward both. Do not add the code below to a stock Cordova app. The cold start block would be ignored, but the warm callbacks would deliver every tap and deep link twice.
+
+### Cold start
+
+Post from `scene(_:willConnectTo:options:)`, which is where iOS hands over the launch payload:
+
+**Swift**
+
+```swift
+if let response = connectionOptions.notificationResponse {
+    NotificationCenter.default.post(name: Notification.Name("CTSceneNotificationResponse"),
+                                    object: response.notification.request.content.userInfo)
+}
+for urlContext in connectionOptions.urlContexts {
+    NotificationCenter.default.post(name: Notification.Name("CTSceneLaunchDeepLink"),
+                                    object: urlContext.url)
+}
+```
+
+**Objective-C**
+
+```objc
+UNNotificationResponse *response = connectionOptions.notificationResponse;
+if (response) {
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"CTSceneNotificationResponse"
+                                                        object:response.notification.request.content.userInfo];
+}
+for (UIOpenURLContext *urlContext in connectionOptions.URLContexts) {
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"CTSceneLaunchDeepLink"
+                                                        object:urlContext.URL];
+}
+```
+
+### Already running or backgrounded
+
+`connectionOptions` is only populated at cold start, so post the same two notifications from your regular callbacks as well. Without these, a tap on a backgrounded app delivers nothing.
+
+| Callback | Notification to post | Object |
+|---|---|---|
+| `userNotificationCenter(_:didReceive:withCompletionHandler:)` | `CTSceneNotificationResponse` | `response.notification.request.content.userInfo` |
+| `scene(_:openURLContexts:)` | `CTSceneLaunchDeepLink` | the `URLContexts` URL |
+
+### Device token and incoming pushes
+
+These are not scene callbacks, but the plugin forwards them from the same `CDVAppDelegate` category, so they are lost on these hosts too. Post them from your own `AppDelegate`:
+
+| Callback | Notification to post | Object |
+|---|---|---|
+| `application(_:didRegisterForRemoteNotificationsWithDeviceToken:)` | `CTRemoteNotificationDidRegister` | the token as a lowercase hex `String`, not `Data` |
+| `application(_:didReceiveRemoteNotification:fetchCompletionHandler:)` | `CTDidReceiveNotification` | `userInfo` |
+
+Without the first one CleverTap never receives a push token and the device cannot be reached at all.
+
+```swift
+func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+    let token = deviceToken.map { String(format: "%02x", $0) }.joined()
+    NotificationCenter.default.post(name: Notification.Name("CTRemoteNotificationDidRegister"), object: token)
+}
+```
 
 - Call the following from your Javascript.
 

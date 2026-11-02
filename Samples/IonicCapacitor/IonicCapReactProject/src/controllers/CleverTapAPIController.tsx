@@ -90,6 +90,14 @@ function handleUserAction(item: ListItem) {
         wzrk_element_id: 'element1',
       });
       break;
+    case UserActions.DisplayUnitElementViewed:
+      (clevertap as any).pushDisplayUnitElementViewedEventForID('Test Display Unit', {
+        wzrk_element_id: 'element1',
+      });
+      break;
+    case UserActions.FetchNativeDisplayMeta:
+      (clevertap as any).fetchNativeDisplayMeta();
+      break;
   }
 }
 
