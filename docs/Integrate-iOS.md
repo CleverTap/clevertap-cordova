@@ -49,6 +49,8 @@ source 'https://cdn.cocoapods.org/'
 
 Keep the `cdn.cocoapods.org` line. It is still needed so other pods resolve. Both lines are required: once a Podfile declares any `source`, CocoaPods stops using the default CDN automatically. Existing installs need no change to these source lines.
 
+The plugin also sets `use-frameworks` in its `plugin.xml`, so CleverTap and every other pod in the app target build as dynamic frameworks. If another pod in your project exposes non-modular public headers, that pod will fail to build with `include of non-modular header inside framework module`. Fixing it means making that pod modular or dropping it, not changing this setting.
+
 ## Upgrading to cordova-ios 8 (SPM)
 
 When you upgrade to cordova-ios 8+, the plugin switches from CocoaPods to SPM automatically. No manual dependency configuration is needed.

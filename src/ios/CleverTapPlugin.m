@@ -112,6 +112,19 @@ static NSMutableDictionary *allVariables;
         center.delegate = (id<UNUserNotificationCenterDelegate>)[UIApplication sharedApplication].delegate;
     }
 
+    // Fallback for a tap that launched the app. The response path above is the
+    // primary source, but a host app or another push plugin that already owns the
+    // UNUserNotificationCenter delegate may never forward the response, leaving the
+    // stash empty and JS without an arrival event. launchOptions carries the same
+    // payload and always arrives first, so claim the slot only while it is free and
+    // let the response overwrite it with an identical dictionary if it does come.
+    if (!launchNotification) {
+        NSDictionary *userInfo = notification.userInfo[UIApplicationLaunchOptionsRemoteNotificationKey];
+        if ([userInfo isKindOfClass:[NSDictionary class]]) {
+            launchNotification = userInfo;
+        }
+    }
+
     // When the app is launched via a URL (e.g. a deep link), UIKit puts the URL
     // in the launch options. Capture it so notifyDeviceReady can fire it into JS
     // once the webview is ready.
