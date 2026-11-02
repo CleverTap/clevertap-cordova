@@ -17,6 +17,8 @@ static NSString * const CTRemoteNotificationRegisterError = @"CTRemoteNotificati
 // Deprecated and no longer posted or observed. URL opens now flow through
 // Cordova's own CDVPluginHandleOpenURLNotification.
 static NSString * const CTHandleOpenURLNotification = @"CTHandleOpenURLNotification";
+static NSString * const CTSceneNotificationResponse = @"CTSceneNotificationResponse";
+static NSString * const CTSceneLaunchDeepLink = @"CTSceneLaunchDeepLink";
 static NSString * const CTSendEvent = @"CTSendEvent";
 
 @interface CleverTapPlugin : CDVPlugin

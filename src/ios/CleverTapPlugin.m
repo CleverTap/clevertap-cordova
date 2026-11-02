@@ -90,6 +90,12 @@ static NSMutableDictionary *allVariables;
     // Same reason: a tap can launch the app, so the response arrives long before
     // any plugin instance exists.
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onHandleNotificationResponse:) name:CTDidReceiveNotificationResponse object:nil];
+
+    // Hosts that supply their own app and scene delegates instead of CDVAppDelegate /
+    // CDVSceneDelegate (for example Capacitor) re-broadcast taps and URL opens under these
+    // names. They feed the same handlers, so a duplicate post is harmless.
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onHandleNotificationResponse:) name:CTSceneNotificationResponse object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onHandleOpenURLNotification:) name:CTSceneLaunchDeepLink object:nil];
 }
 
 + (void)onDidFinishLaunchingNotification:(NSNotification *)notification {
@@ -132,6 +138,11 @@ static NSMutableDictionary *allVariables;
 
     NSURL *url = notification.object;
     if (![url isKindOfClass:[NSURL class]]) return;
+
+    // A host that re-broadcasts CTSceneLaunchDeepLink while also running on
+    // CDVSceneDelegate posts the same launch URL twice. The stash is only cleared
+    // once notifyDeviceReady drains it, so an unflushed match is a duplicate.
+    if ([url isEqual:launchDeepLink]) return;
 
     if (!clevertap) {
         clevertap = [CleverTap sharedInstance];
@@ -190,12 +201,15 @@ static NSMutableDictionary *allVariables;
     // the SDK fire pushNotificationTappedWithCustomExtras: through the push delegate.
     [clevertap handleNotificationWithData:userInfo];
 
-    // Warm tap: this instance only exists once the webview has loaded and listeners
-    // are attached, so deliver the arrival event now instead of waiting for
-    // notifyDeviceReady (matches onHandleNotification: and the pre-rewrite flow). A
-    // genuine cold-start tap arrives before this instance exists, so only the class
-    // observer runs and the stash survives for notifyDeviceReady to flush. Clear it
-    // here so that flush does not re-fire the same payload.
+    // A host posting the scene alias can reach this instance before JS has attached
+    // its listeners, so the arrival event would be evaluated into a page that cannot
+    // hear it. The class observer has already stashed the payload; leave it for
+    // notifyDeviceReady to flush.
+    if (!jsReady) return;
+
+    // Warm tap: listeners are attached, so deliver now instead of waiting for
+    // notifyDeviceReady (matches onHandleNotification: and the pre-rewrite flow).
+    // Clear the stash so that flush does not re-fire the same payload.
     launchNotification = nil;
     [self notifyPushNotification:userInfo];
 }
@@ -207,7 +221,13 @@ static NSMutableDictionary *allVariables;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendEvent:) name:CTSendEvent object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onHandleNotification:) name:CTDidReceiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onHandleNotificationResponse:) name:CTDidReceiveNotificationResponse object:nil];
-    
+
+    // The scene aliases need an instance observer too, otherwise a host that posts
+    // them while the app is already running only reaches the stash-only class
+    // handler and nothing drains it until the next notifyDeviceReady.
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onHandleNotificationResponse:) name:CTSceneNotificationResponse object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleOpenURL:) name:CTSceneLaunchDeepLink object:nil];
+
     [clevertap setSyncDelegate:self];
     [clevertap setDisplayUnitDelegate:self];
     [[clevertap featureFlags] setDelegate:self];
