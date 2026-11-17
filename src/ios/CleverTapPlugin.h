@@ -112,17 +112,17 @@ Push Token Changes other than FCM
  Suspends and saves inApp notifications until 'resumeInAppNotifications' is called for current session.
  Automatically resumes InApp notifications display on CleverTap shared instance creation. Pending inApp notifications are displayed only for current session.
  */
-- (void)suspendInAppNotifications;
+- (void)suspendInAppNotifications:(CDVInvokedUrlCommand *)command;
 
 /**
  Discards inApp notifications until 'resumeInAppNotifications' is called for current session.
  Automatically resumes InApp notifications display on CleverTap shared instance creation. Pending inApp notifications are not displayed. */
-- (void)discardInAppNotifications;
+- (void)discardInAppNotifications:(CDVInvokedUrlCommand *)command;
 
 /**
  Resumes displaying inApps notifications and shows pending inApp notifications if any.
  */
-- (void)resumeInAppNotifications;
+- (void)resumeInAppNotifications:(CDVInvokedUrlCommand *)command;
 
 /**
  Dismisses the currently visible Picture-in-Picture (PIP) In-App notification, if any. Safe to call from any thread; a no-op when no PIP is visible.
@@ -614,7 +614,7 @@ Called when the file variable changes.
 /**
  This method resets the product Config stored locally
  */
-- (void)reset;
+- (void)reset:(CDVInvokedUrlCommand *)command;
 
 #pragma mark - InApp Controls
 
