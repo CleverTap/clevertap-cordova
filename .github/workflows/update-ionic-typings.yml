@@ -4,7 +4,8 @@ name: update-ionic-typings
 # (ionic-native) so Ionic/Angular apps can call the latest Cordova plugin
 # methods. Routes to the reusable workflow in clevertap-wrapper-tooling, which
 # edits the typings repo and opens PR #1 there. The upstream PR (typings fork ->
-# danielsogl/awesome-cordova-plugins) is raised by a human afterwards.
+# danielsogl/awesome-cordova-plugins) is raised by a human afterwards. The
+# next-steps job prints those manual steps in the run log and summary.
 #
 # Required repo secrets: CLEVERTAP_WRAPPER_SYNC_APP_ID,
 # CLEVERTAP_WRAPPER_SYNC_PRIVATE_KEY, ANTHROPIC_API_KEY. SLACK_WEBHOOK_URL is
@@ -51,3 +52,38 @@ jobs:
       app_private_key:   ${{ secrets.CLEVERTAP_WRAPPER_SYNC_PRIVATE_KEY }}
       anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
       slack_webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+  # A job that calls a reusable workflow can't have its own steps, so the
+  # manual follow-up is printed from this separate job once the PR is raised.
+  next-steps:
+    needs: update-typings
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print the manual follow-up steps
+        shell: bash
+        env:
+          GH_TOKEN:     ${{ github.token }}
+          TYPINGS_REPO: ${{ inputs.typings_repo }}
+          TYPINGS_BASE: ${{ inputs.typings_base }}
+          RELEASE_NAME: ${{ inputs.release_name }}
+        run: |
+          # Same branch name the reusable workflow builds.
+          name="$RELEASE_NAME"
+          [ -z "$name" ] && name=$(date -u +%Y-%m-%d)
+          branch="task/clevertap-typings-${name}"
+          owner="${TYPINGS_REPO%%/*}"
+          upstream="danielsogl/awesome-cordova-plugins"
+
+          pr_url=$(gh pr list --repo "$TYPINGS_REPO" --head "$branch" --state all --json url --jq '.[0].url' 2>/dev/null || true)
+          if [ -z "$pr_url" ]; then
+            echo "::warning::No typings PR found for $branch in $TYPINGS_REPO. If update-typings said there were no typings changes, there is nothing to do."
+            pr_url="https://github.com/${TYPINGS_REPO}/pulls"
+          fi
+
+          {
+            echo "## Next steps"
+            echo ""
+            echo "1. Review and merge the typings PR into the fork's \`${TYPINGS_BASE}\`: ${pr_url}"
+            echo "2. Open a PR from \`${owner}:${TYPINGS_BASE}\` into \`${upstream}\` \`main\`: https://github.com/${upstream}/compare/main...${owner}:${TYPINGS_BASE}"
+            echo "   Check the fork is in sync with upstream \`main\` first, so the PR only carries the CleverTap typings change. This is how ${upstream}#4938 was raised."
+          } | tee -a "$GITHUB_STEP_SUMMARY"
