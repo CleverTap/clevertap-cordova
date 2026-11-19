@@ -5,7 +5,7 @@ Version 5.2.1 *(November 19 2026)*
 **What's new**
 * **[Android Platform]**
     * Supports [CleverTap Android SDK v8.6.0](https://github.com/CleverTap/clevertap-android-sdk/blob/master/docs/CTCORECHANGELOG.md#version-860-november-10-2026).
-    * Send Test previews (In-App, App Inbox, Display Unit) are now shown only when the preview push actually reached the SDK. Apps that render push themselves must keep calling `pushNotificationViewedEvent(extras)` after showing the notification.
+    * Send Test previews (In-App, App Inbox, Display Unit) are now shown only when the preview push actually reached the SDK. Apps that render push notifications themselves in native Android code must keep calling the native Android SDK's `CleverTapAPI.pushNotificationViewedEvent(extras)` after showing the notification. This call is not exposed to JavaScript.
     * If the queue of In-Apps waiting to be shown grows too large, the SDK now drops it instead of crashing with an `OutOfMemoryError`.
 
 **Bug Fixes**
