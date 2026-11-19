@@ -16,6 +16,9 @@ Version 5.3.0 *(November 19 2026)*
     * Fixes SSL pinning (`CLEVERTAP_SSL_PINNING`) silently falling back to normal HTTPS. If you use a custom proxy or handshake domain, its certificate must chain to an Amazon Trust Services root.
     * Adds compatibility with WorkManager 2.9.1 through 2.10.2.
 
+* **[iOS Platform]**
+    * Fixes `suspendInAppNotifications()`, `resumeInAppNotifications()` and `reset()` having no effect. The calls never reached the CleverTap iOS SDK on Cordova or Capacitor apps, so In-Apps were not suspended, a `discardInAppNotifications()` call could not be lifted until the app was restarted, and product config was not reset.
+
 Version 5.2.0 *(November 2 2026)*
 -------------------------------------------
 **What's new**
