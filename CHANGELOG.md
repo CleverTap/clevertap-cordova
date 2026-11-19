@@ -1,6 +1,6 @@
 Change Log
 ==========
-Version 5.2.1 *(November 19 2026)*
+Version 5.3.0 *(November 19 2026)*
 -------------------------------------------
 **What's new**
 * **[Android Platform]**
