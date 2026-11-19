@@ -1,6 +1,6 @@
 {
   "name": "clevertap-cordova",
-  "version": "5.2.0",
+  "version": "5.2.1",
   "description": "CleverTap Plugin for Cordova/PhoneGap",
   "files": [
     "plugin.xml",
