@@ -29,6 +29,6 @@
     <preference name="AndroidXEnabled" value="true" />
     <preference name="android-targetSdkVersion" value="35" />
     <preference name="android-maxSdkVersion" value="35"/>
-    <preference name="android-minSdkVersion" value="21"/>
+    <preference name="android-minSdkVersion" value="23"/>
     <preference name="GradlePluginGoogleServicesEnabled" value="true" />
 </widget>
