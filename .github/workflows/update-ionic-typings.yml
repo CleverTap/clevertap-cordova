@@ -7,24 +7,25 @@ name: update-ionic-typings
 # danielsogl/awesome-cordova-plugins) is raised by a human afterwards.
 #
 # Required repo secrets: CLEVERTAP_WRAPPER_SYNC_APP_ID,
-# CLEVERTAP_WRAPPER_SYNC_PRIVATE_KEY, ANTHROPIC_API_KEY, SLACK_WEBHOOK_URL.
+# CLEVERTAP_WRAPPER_SYNC_PRIVATE_KEY, ANTHROPIC_API_KEY. SLACK_WEBHOOK_URL is
+# optional (failure pings are skipped without it).
 # The clevertap-wrapper-sync App must be installed on the typings_repo.
 
 on:
   workflow_dispatch:
     inputs:
       typings_repo:
-        description: 'Typings repo to edit / open PR #1 into (App must be installed there).'
+        description: 'Typings repo to edit / open PR #1 into, as owner/name and not a URL (e.g. CleverTap/ionic-native). The App must be installed there.'
         type: string
-        default: 'piyush-kukadiya/ionic-native'
+        default: 'CleverTap/ionic-native'
       typings_base:
         description: 'Base branch in the typings repo.'
         type: string
         default: 'master'
       cordova_ref:
-        description: 'Ref in THIS repo to read www/CleverTap.js + the ionic-native-typings skill from.'
+        description: 'Branch or release tag in THIS repo to read www/CleverTap.js + the ionic-native-typings skill from. A release tag (e.g. 5.3.0) gives a clearer PR title.'
         type: string
-        default: 'task/setup-sync-automation'
+        default: 'master'
       release_name:
         description: 'Optional branch suffix (defaults to today YYYY-MM-DD).'
         type: string
