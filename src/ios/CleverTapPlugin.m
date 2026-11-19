@@ -634,7 +634,7 @@ static NSMutableDictionary *allVariables;
 
 #pragma mark - InApp Notification Controls
 
-- (void)suspendInAppNotifications {
+- (void)suspendInAppNotifications:(CDVInvokedUrlCommand *)command {
     [clevertap suspendInAppNotifications];
 }
 
@@ -655,7 +655,7 @@ static NSMutableDictionary *allVariables;
     }];
 }
 
-- (void)resumeInAppNotifications {
+- (void)resumeInAppNotifications:(CDVInvokedUrlCommand *)command {
     [clevertap resumeInAppNotifications];
 }
 
@@ -1693,7 +1693,7 @@ static NSMutableDictionary *allVariables;
     }];
 }
 
-- (void)reset {
+- (void)reset:(CDVInvokedUrlCommand *)command {
     
     [self.commandDelegate runInBackground:^{
         [[clevertap productConfig] reset];
@@ -1702,7 +1702,7 @@ static NSMutableDictionary *allVariables;
 
 - (void)setLibrary {
     NSString *libName = @"Cordova";
-    int libVersion = 50200;
+    int libVersion = 50300;
     [clevertap setLibrary:libName];
     [clevertap setCustomSdkVersion:libName version:libVersion];
 }

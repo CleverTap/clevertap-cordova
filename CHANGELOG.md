@@ -1,5 +1,24 @@
 Change Log
 ==========
+Version 5.3.0 *(November 19 2026)*
+-------------------------------------------
+**What's new**
+* **[Android Platform]**
+    * Supports [CleverTap Android SDK v8.6.0](https://github.com/CleverTap/clevertap-android-sdk/blob/master/docs/CTCORECHANGELOG.md#version-860-november-10-2026).
+    * Send Test previews (In-App, App Inbox, Display Unit) are now shown only when the preview push actually reached the SDK. Apps that render push themselves must keep calling `pushNotificationViewedEvent(extras)` after showing the notification.
+    * If the queue of In-Apps waiting to be shown grows too large, the SDK now drops it instead of crashing with an `OutOfMemoryError`.
+
+**Bug Fixes**
+* **[Android Platform]**
+    * Fixes an app crash (`TransactionTooLargeException`) when a full-screen custom HTML In-App with a very large payload is shown.
+    * Fixes a full-screen In-App not being shown again after Android kills the app while it is on screen.
+    * Fixes an app start crash in minified release builds made with AGP 9 (`NoSuchMethodException: androidx.work.impl.WorkDatabase_Impl.<init>`).
+    * Fixes SSL pinning (`CLEVERTAP_SSL_PINNING`) silently falling back to normal HTTPS. If you use a custom proxy or handshake domain, its certificate must chain to an Amazon Trust Services root.
+    * Adds compatibility with WorkManager 2.9.1 through 2.10.2.
+
+* **[iOS Platform]**
+    * Fixes `suspendInAppNotifications()`, `resumeInAppNotifications()` and `reset()` having no effect. The calls never reached the CleverTap iOS SDK on Cordova or Capacitor apps, so In-Apps were not suspended, a `discardInAppNotifications()` call could not be lifted until the app was restarted, and product config was not reset.
+
 Version 5.2.0 *(November 2 2026)*
 -------------------------------------------
 **What's new**
