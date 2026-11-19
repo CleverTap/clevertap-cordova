@@ -40,7 +40,7 @@ on:
         type: string
         default: ''
       base_ref:
-        description: 'Wrapper branch to sync from / open PR against (default develop; use task/setup-sync-automation for fork testing)'
+        description: 'Wrapper branch to sync from / open PR against (default develop)'
         type: string
         default: 'develop'
       model:
