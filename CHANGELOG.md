@@ -15,9 +15,18 @@ Version 5.3.0 *(November 19 2026)*
     * Fixes an app start crash in minified release builds made with AGP 9 (`NoSuchMethodException: androidx.work.impl.WorkDatabase_Impl.<init>`).
     * Fixes SSL pinning (`CLEVERTAP_SSL_PINNING`) silently falling back to normal HTTPS. If you use a custom proxy or handshake domain, its certificate must chain to an Amazon Trust Services root.
     * Adds compatibility with WorkManager 2.9.1 through 2.10.2.
+    * Fixes `customTemplateGetStringArg()`, `customTemplateGetNumberArg()`, `customTemplateGetBooleanArg()`, `customTemplateGetFileArg()` and `customTemplateGetObjectArg()` always rejecting with "Argument not found".
+    * Fixes numbers that do not fit in an int or a float losing digits on the way to JS. `getLastFetchTimeStampInMillis()` and `getLong()` returned wrapped values, `eventGetFirstTime()`, `eventGetLastTime()` and `getUserLastVisitTs()` could be off by up to a minute, and `getDouble()`, `getVariable()` and `customTemplateGetNumberArg()` lost decimal places.
+    * Fixes the plugin install hook adding a second `android:name` to `AndroidManifest.xml` when the app already has its own `Application` class, which broke the build. The hook now leaves that class in place and prints what to do instead.
 
 * **[iOS Platform]**
     * Fixes `suspendInAppNotifications()`, `resumeInAppNotifications()` and `reset()` having no effect. The calls never reached the CleverTap iOS SDK on Cordova or Capacitor apps, so In-Apps were not suspended, a `discardInAppNotifications()` call could not be lifted until the app was restarted, and product config was not reset.
+    * Fixes the `CleverTapCustomTemplateClose` and `CleverTapCustomFunctionPresent` events arriving without the template `name`, so the template could not be dismissed and later In-Apps stayed blocked.
+    * Fixes `onCleverTapInboxItemClick` and `onCleverTapPushPermissionResponseReceived` never firing.
+    * Fixes the `onVariablesChanged()`, `onValueChanged()`, `onVariablesChangedAndNoDownloadsPending()` and `onFileValueChanged()` callbacks firing only once.
+    * Fixes an app crash when an `onFileValueChanged()` callback is registered and the file variable has no value, for example when its override is removed on the dashboard.
+    * Fixes `getFeatureFlag(name, false)` returning `true` for a missing flag, and `promptPushPrimer()` treating `followDeviceOrientation: false` and `fallbackToSettings: false` as `true`.
+    * Fixes background (silent) push notifications never telling iOS they were handled.
 
 Version 5.2.0 *(November 2 2026)*
 -------------------------------------------
