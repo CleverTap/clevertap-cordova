@@ -63,6 +63,16 @@ static NSDictionary *pendingTappedExtras;
 static NSDateFormatter *dateFormatter;
 static NSMutableDictionary *allVariables;
 
+// JSON booleans arrive as NSNumber objects. Assigning the object itself to a BOOL turns any
+// non-nil value, @NO included, into YES, so read it with boolValue. NSNull and other types
+// fall back to the given default.
+static BOOL CTBoolFromArgument(id value, BOOL fallback) {
+    if ([value isKindOfClass:[NSNumber class]] || [value isKindOfClass:[NSString class]]) {
+        return [value boolValue];
+    }
+    return fallback;
+}
+
 @interface CleverTapPlugin () <CleverTapSyncDelegate, CleverTapInAppNotificationDelegate, CleverTapDisplayUnitDelegate, CleverTapFeatureFlagsDelegate, CleverTapProductConfigDelegate, CleverTapPushNotificationDelegate, CleverTapPushPermissionDelegate> {
 }
 
@@ -1582,7 +1592,7 @@ static NSMutableDictionary *allVariables;
     
     [self.commandDelegate runInBackground:^{
         NSString *varName = [command argumentAtIndex:0];
-        BOOL defaultValue = [command argumentAtIndex:1];
+        BOOL defaultValue = CTBoolFromArgument([command argumentAtIndex:1], NO);
         BOOL flagValue = [[clevertap featureFlags] get:varName withDefaultValue:defaultValue];
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:flagValue];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
@@ -1913,9 +1923,10 @@ static NSMutableDictionary *allVariables;
     CTLocalInApp *inAppBuilder;
     CTLocalInAppType inAppType = HALF_INTERSTITIAL;
     //Required parameters
-    NSString *titleText = nil, *messageText = nil, *followDeviceOrientation = nil, *positiveBtnText = nil, *negativeBtnText = nil;
+    NSString *titleText = nil, *messageText = nil, *positiveBtnText = nil, *negativeBtnText = nil;
+    BOOL followDeviceOrientation = CTBoolFromArgument(json[@"followDeviceOrientation"], NO);
     //Additional parameters
-    NSString *fallbackToSettings = nil, *backgroundColor = nil, *btnBorderColor = nil, *titleTextColor = nil, *messageTextColor = nil, *btnTextColor = nil, *imageUrl = nil, *btnBackgroundColor = nil, *btnBorderRadius = nil, *altText = nil;
+    NSString *backgroundColor = nil, *btnBorderColor = nil, *titleTextColor = nil, *messageTextColor = nil, *btnTextColor = nil, *imageUrl = nil, *btnBackgroundColor = nil, *btnBorderRadius = nil, *altText = nil;
     
     if ([json[@"inAppType"]  isEqual: @"half-interstitial"]){
         inAppType = HALF_INTERSTITIAL;
@@ -1928,9 +1939,6 @@ static NSMutableDictionary *allVariables;
     }
     if (json[@"messageText"]) {
         messageText = [json valueForKey:@"messageText"];
-    }
-    if (json[@"followDeviceOrientation"]) {
-        followDeviceOrientation = [json valueForKey:@"followDeviceOrientation"];
     }
     if (json[@"positiveBtnText"]) {
         positiveBtnText = [json valueForKey:@"positiveBtnText"];
@@ -1952,8 +1960,7 @@ static NSMutableDictionary *allVariables;
     
     //adds optional parameters to the builder instance
     if (json[@"fallbackToSettings"]) {
-        fallbackToSettings = [json valueForKey:@"fallbackToSettings"];
-        [inAppBuilder setFallbackToSettings:fallbackToSettings];
+        [inAppBuilder setFallbackToSettings:CTBoolFromArgument(json[@"fallbackToSettings"], NO)];
     }
     if (json[@"backgroundColor"]) {
         backgroundColor = [json valueForKey:@"backgroundColor"];
