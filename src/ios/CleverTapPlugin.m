@@ -2355,7 +2355,7 @@ static BOOL CTBoolFromArgument(id value, BOOL fallback) {
 
 - (BOOL)isBoolNumber:(NSNumber *)number {
     CFTypeID boolID = CFBooleanGetTypeID();
-    CFTypeID numID = CFGetTypeID(CFBridgingRetain(number));
+    CFTypeID numID = CFGetTypeID((__bridge CFTypeRef)number);
     return (numID == boolID);
 }
 
