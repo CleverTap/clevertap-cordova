@@ -93,6 +93,14 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
         CleverTapEventEmitter.setCordovaWebView(webView);
         cleverTap = CleverTapAPI.getDefaultInstance(cordova.getActivity().getApplicationContext());
+        if (cleverTap == null) {
+            // getDefaultInstance returns null when the account ID or token is missing. Every
+            // action then fails cleanly in execute() instead of the app crashing here.
+            CLEVERTAP_API_ERROR = "CleverTapAPI.getDefaultInstance returned null. Check CLEVERTAP_ACCOUNT_ID and CLEVERTAP_TOKEN.";
+            Log.e(LOG_TAG, CLEVERTAP_API_ERROR);
+            onNewIntent(cordova.getActivity().getIntent());
+            return;
+        }
         cleverTap.setSyncListener(this);
         cleverTap.setInAppNotificationListener(this);
         cleverTap.setCTNotificationInboxListener(this);
