@@ -1064,7 +1064,8 @@ static BOOL CTBoolFromArgument(id value, BOOL fallback) {
                     
                 }
                 else {
-                    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:[prop intValue]];
+                    // intValue wraps anything past 32 bits, so 5000000000 came back as 705032704.
+                    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsNSInteger:[prop integerValue]];
                 };
             }
             
