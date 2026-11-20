@@ -222,6 +222,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             PushType pushType = pushTypeFromJSON(jsonPushType);
             if (pushType == null) {
                 sendPluginResult(callbackContext, Status.ERROR, "Invalid push type");
+                return;
             }
 
             cordova.getThreadPool().execute(() -> {
