@@ -7,7 +7,7 @@
 @implementation CleverTapPluginAppFunctionPresenter
 
 - (void)onPresent:(nonnull CTTemplateContext *)context {
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CTSendEvent object:@"CleverTapCustomFunctionPresent" userInfo:@{@"result": context.templateName}]];
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CTSendEvent object:@"CleverTapCustomFunctionPresent" userInfo:@{@"result": @{@"name": context.templateName}}]];
 }
 
 - (void)onCloseClicked:(nonnull CTTemplateContext *)context {
