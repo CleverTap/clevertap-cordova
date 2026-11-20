@@ -151,20 +151,15 @@ CleverTap.prototype.recordEventWithName = function (eventName) {
 // eventName = string
 // eventProps = object
 CleverTap.prototype.recordEventWithNameAndProps = function (eventName, eventProps) {
-    convertDateToEpochInProperties(eventProps)
-    cordova.exec(null, null, "CleverTapPlugin", "recordEventWithNameAndProps", [eventName, eventProps]);
+    cordova.exec(null, null, "CleverTapPlugin", "recordEventWithNameAndProps", [eventName, convertDateToEpochInProperties(eventProps)]);
 }
                
 // Record Charged Event with Details and Items
 // details = object with transaction details
 // items = array of items purchased
 CleverTap.prototype.recordChargedEventWithDetailsAndItems = function (details, items) {
-    convertDateToEpochInProperties(details)
-    // iterate over the array & convert the date items to CleverTap's server supported $D String
-    for (var i = 0; i < items.length; i++) {
-        convertDateToEpochInProperties(items[i])
-    }
-    cordova.exec(null, null, "CleverTapPlugin", "recordChargedEventWithDetailsAndItems", [details, items]);
+    cordova.exec(null, null, "CleverTapPlugin", "recordChargedEventWithDetailsAndItems",
+        [convertDateToEpochInProperties(details), convertDateToEpochInProperties(items)]);
 }
 
 /**
@@ -322,15 +317,13 @@ CleverTap.prototype.setLocation = function (lat, lon) {
  profile = object
  */
 CleverTap.prototype.onUserLogin = function (profile) {
-    convertDateToEpochInProperties(profile)
-    cordova.exec(null, null, "CleverTapPlugin", "onUserLogin", [profile]);
+    cordova.exec(null, null, "CleverTapPlugin", "onUserLogin", [convertDateToEpochInProperties(profile)]);
 }
                
 // Set profile attributes
 // profile = object
 CleverTap.prototype.profileSet = function (profile) {
-    convertDateToEpochInProperties(profile)
-    cordova.exec(null, null, "CleverTapPlugin", "profileSet", [profile]);
+    cordova.exec(null, null, "CleverTapPlugin", "profileSet", [convertDateToEpochInProperties(profile)]);
 }
 
 // Get User Profile Property
@@ -1067,28 +1060,26 @@ CleverTap.prototype.fetchInApps = function(successCallback){
 }
 
 
-function convertDateToEpochInProperties(items) {
+function convertDateToEpochInProperties(value) {
     /**
-     * Conversion of date object in suitable CleverTap format(Epoch)
-     * Recursively handles nested objects and arrays
+     * Returns a copy of value with every Date, at any depth, turned into CleverTap's "$D_<epoch seconds>"
+     * string. The caller's own objects are left unchanged.
      */
-    if (items) {
-        for (let [key, value] of Object.entries(items)) {
-            if (Object.prototype.toString.call(value) === '[object Date]') {
-                items[key] = "$D_" + Math.floor(value.getTime() / 1000);
-            } else if (value !== null && typeof value === 'object' && !Array.isArray(value)) {
-                convertDateToEpochInProperties(value);
-            } else if (Array.isArray(value)) {
-                value.forEach((item, index) => {
-                    if (Object.prototype.toString.call(item) === '[object Date]') {
-                        value[index] = "$D_" + Math.floor(item.getTime() / 1000);
-                    } else if (item !== null && typeof item === 'object') {
-                        convertDateToEpochInProperties(item);
-                    }
-                });
-            }
-        }
+    if (Object.prototype.toString.call(value) === '[object Date]') {
+        return "$D_" + Math.floor(value.getTime() / 1000);
     }
+    if (Array.isArray(value)) {
+        return value.map((item) => convertDateToEpochInProperties(item));
+    }
+    if (value !== null && typeof value === 'object' && typeof value.toJSON !== 'function') {
+        const copy = {};
+        Object.keys(value).forEach((key) => {
+            copy[key] = convertDateToEpochInProperties(value[key]);
+        });
+        return copy;
+    }
+    // Primitives, and objects that serialize themselves through toJSON, go to native as they are.
+    return value;
 }
 
 module.exports = new CleverTap();
