@@ -397,7 +397,13 @@ static BOOL CTBoolFromArgument(id value, BOOL fallback) {
     } else if ([notification isKindOfClass:[NSDictionary class]]) {
         _notification = notification;
     }
-    
+
+    // NSJSONSerialization throws, rather than returning an error, on nil or on values such as
+    // NSDate that a local notification's userInfo can hold.
+    if (!_notification || ![NSJSONSerialization isValidJSONObject:_notification]) {
+        return;
+    }
+
     NSError *err;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:_notification options:0 error:&err];
     
