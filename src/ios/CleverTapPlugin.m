@@ -63,7 +63,41 @@ static NSDictionary *pendingTappedExtras;
 static NSDateFormatter *dateFormatter;
 static NSMutableDictionary *allVariables;
 
-@interface CleverTapPlugin () <CleverTapSyncDelegate, CleverTapInAppNotificationDelegate, CleverTapDisplayUnitDelegate, CleverTapFeatureFlagsDelegate, CleverTapProductConfigDelegate, CleverTapPushNotificationDelegate> {
+// allVariables is read and written from runInBackground blocks, which run on a concurrent
+// queue, so every access goes through these and is synchronized on the dictionary.
+static NSMutableDictionary *CTAllVariables(void) {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        allVariables = [NSMutableDictionary new];
+    });
+    return allVariables;
+}
+
+static CTVar *CTVariableNamed(NSString *name) {
+    NSMutableDictionary *variables = CTAllVariables();
+    @synchronized (variables) {
+        return name ? variables[name] : nil;
+    }
+}
+
+static void CTStoreVariable(NSString *name, CTVar *var) {
+    NSMutableDictionary *variables = CTAllVariables();
+    @synchronized (variables) {
+        variables[name] = var;
+    }
+}
+
+// JSON booleans arrive as NSNumber objects. Assigning the object itself to a BOOL turns any
+// non-nil value, @NO included, into YES, so read it with boolValue. NSNull and other types
+// fall back to the given default.
+static BOOL CTBoolFromArgument(id value, BOOL fallback) {
+    if ([value isKindOfClass:[NSNumber class]] || [value isKindOfClass:[NSString class]]) {
+        return [value boolValue];
+    }
+    return fallback;
+}
+
+@interface CleverTapPlugin () <CleverTapSyncDelegate, CleverTapInAppNotificationDelegate, CleverTapDisplayUnitDelegate, CleverTapFeatureFlagsDelegate, CleverTapProductConfigDelegate, CleverTapPushNotificationDelegate, CleverTapPushPermissionDelegate> {
 }
 
 - (void)firePushNotificationTappedWithCustomExtras:(NSDictionary *)customExtras;
@@ -250,6 +284,7 @@ static NSMutableDictionary *allVariables;
     [[clevertap productConfig] setDelegate:self];
     [clevertap setPushNotificationDelegate:self];
     [clevertap setInAppNotificationDelegate:self];
+    [clevertap setPushPermissionDelegate:self];
     [self setLibrary];
 
     // A tap that launched the app was stashed before the SDK was ready. Now that it
@@ -352,6 +387,10 @@ static NSMutableDictionary *allVariables;
                 
                 if(!dateFormatter) {
                     dateFormatter = [[NSDateFormatter alloc] init];
+                    // A fixed format must not follow the device's calendar. On a device set to the
+                    // Buddhist calendar, "1990-01-01" would otherwise be read as Buddhist year 1990.
+                    [dateFormatter setLocale:[NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"]];
+                    [dateFormatter setCalendar:[[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian]];
                     [dateFormatter setDateFormat:@"yyyy-MM-dd"];
                 }
                 
@@ -382,7 +421,13 @@ static NSMutableDictionary *allVariables;
     } else if ([notification isKindOfClass:[NSDictionary class]]) {
         _notification = notification;
     }
-    
+
+    // NSJSONSerialization throws, rather than returning an error, on nil or on values such as
+    // NSDate that a local notification's userInfo can hold.
+    if (!_notification || ![NSJSONSerialization isValidJSONObject:_notification]) {
+        return;
+    }
+
     NSError *err;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:_notification options:0 error:&err];
     
@@ -1019,7 +1064,8 @@ static NSMutableDictionary *allVariables;
                     
                 }
                 else {
-                    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsInt:[prop intValue]];
+                    // intValue wraps anything past 32 bits, so 5000000000 came back as 705032704.
+                    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsNSInteger:[prop integerValue]];
                 };
             }
             
@@ -1456,9 +1502,11 @@ static NSMutableDictionary *allVariables;
     }
     jsonObject[@"contentPageIndex"] = @(index);
     jsonObject[@"buttonIndex"] = @(buttonIndex);
-    
-    if (jsonObject != nil) {
-        NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onCleverTapInboxItemClick', %@);", jsonObject];
+
+    // %@ on a dictionary prints its plist-style description, which is not valid JS.
+    NSString *jsonString = [self _dictToJson:jsonObject];
+    if (jsonString != nil) {
+        NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onCleverTapInboxItemClick', %@);", jsonString];
         [self.commandDelegate evalJs:js];
     }
 }
@@ -1579,7 +1627,7 @@ static NSMutableDictionary *allVariables;
     
     [self.commandDelegate runInBackground:^{
         NSString *varName = [command argumentAtIndex:0];
-        BOOL defaultValue = [command argumentAtIndex:1];
+        BOOL defaultValue = CTBoolFromArgument([command argumentAtIndex:1], NO);
         BOOL flagValue = [[clevertap featureFlags] get:varName withDefaultValue:defaultValue];
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:flagValue];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
@@ -1764,9 +1812,6 @@ static NSMutableDictionary *allVariables;
     
     [self.commandDelegate runInBackground:^{
         NSDictionary *variables = [command argumentAtIndex:0];
-        if (!allVariables){
-            allVariables = [NSMutableDictionary new];
-        }
 
         if(variables == nil){
             return;
@@ -1775,7 +1820,7 @@ static NSMutableDictionary *allVariables;
             CTVar *var = [self createVarForName:key andValue:value];
 
             if (var) {
-                allVariables[key] = var;
+                CTStoreVariable(key, var);
             }
         }];
     }];
@@ -1785,7 +1830,7 @@ static NSMutableDictionary *allVariables;
     
     [self.commandDelegate runInBackground:^{
         NSString *name = [command argumentAtIndex:0];
-        CTVar *var = allVariables[name];
+        CTVar *var = CTVariableNamed(name);
 
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:var.value];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
@@ -1808,6 +1853,8 @@ static NSMutableDictionary *allVariables;
             [clevertap onVariablesChanged:^{
                 NSMutableDictionary *varValues = [self getVariableValues];
                 CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:varValues];
+                // Fires on every fetch, so JS must keep the callback after the first result.
+                [pluginResult setKeepCallbackAsBool:YES];
                 [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
             }];
         }];
@@ -1830,6 +1877,7 @@ static NSMutableDictionary *allVariables;
         [clevertap onVariablesChangedAndNoDownloadsPending:^{
             NSMutableDictionary *varValues = [self getVariableValues];
             CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:varValues];
+            [pluginResult setKeepCallbackAsBool:YES];
             [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
         }];
     }];
@@ -1850,10 +1898,11 @@ static NSMutableDictionary *allVariables;
     
         [self.commandDelegate runInBackground:^{
             NSString *name = [command argumentAtIndex:0];
-            CTVar *var = allVariables[name];
+            CTVar *var = CTVariableNamed(name);
             if (var) {
                 [var onValueChanged:^{
                     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:var.value];
+                    [pluginResult setKeepCallbackAsBool:YES];
                     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
                 }];
             }
@@ -1864,13 +1913,16 @@ static NSMutableDictionary *allVariables;
     
         [self.commandDelegate runInBackground:^{
             NSString *name = [command argumentAtIndex:0];
-            CTVar *var = allVariables[name];
+            CTVar *var = CTVariableNamed(name);
             if (var) {
                 [var onFileIsReady:^{
+                    // The SDK also calls this when the server override is removed and the value
+                    // goes back to nil. A nil value in a dictionary literal throws and crashes the app.
                     NSDictionary *varFileResult = @{
-                        var.name: var.value
+                        var.name: var.value ?: [NSNull null]
                     };
                     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:varFileResult];
+                    [pluginResult setKeepCallbackAsBool:YES];
                     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
                 }];
             }
@@ -1881,16 +1933,13 @@ static NSMutableDictionary *allVariables;
     
     [self.commandDelegate runInBackground:^{
         NSString *fileVariable = [command argumentAtIndex:0];
-        if (!allVariables){
-            allVariables = [NSMutableDictionary new];
-        }
 
         if(fileVariable == nil){
             return;
         }
         CTVar *fileVar = [clevertap defineFileVar:fileVariable];
         if (fileVar) {
-            allVariables[fileVariable] = fileVar;
+            CTStoreVariable(fileVariable, fileVar);
         }
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
@@ -1903,9 +1952,10 @@ static NSMutableDictionary *allVariables;
     CTLocalInApp *inAppBuilder;
     CTLocalInAppType inAppType = HALF_INTERSTITIAL;
     //Required parameters
-    NSString *titleText = nil, *messageText = nil, *followDeviceOrientation = nil, *positiveBtnText = nil, *negativeBtnText = nil;
+    NSString *titleText = nil, *messageText = nil, *positiveBtnText = nil, *negativeBtnText = nil;
+    BOOL followDeviceOrientation = CTBoolFromArgument(json[@"followDeviceOrientation"], NO);
     //Additional parameters
-    NSString *fallbackToSettings = nil, *backgroundColor = nil, *btnBorderColor = nil, *titleTextColor = nil, *messageTextColor = nil, *btnTextColor = nil, *imageUrl = nil, *btnBackgroundColor = nil, *btnBorderRadius = nil, *altText = nil;
+    NSString *backgroundColor = nil, *btnBorderColor = nil, *titleTextColor = nil, *messageTextColor = nil, *btnTextColor = nil, *imageUrl = nil, *btnBackgroundColor = nil, *btnBorderRadius = nil, *altText = nil;
     
     if ([json[@"inAppType"]  isEqual: @"half-interstitial"]){
         inAppType = HALF_INTERSTITIAL;
@@ -1918,9 +1968,6 @@ static NSMutableDictionary *allVariables;
     }
     if (json[@"messageText"]) {
         messageText = [json valueForKey:@"messageText"];
-    }
-    if (json[@"followDeviceOrientation"]) {
-        followDeviceOrientation = [json valueForKey:@"followDeviceOrientation"];
     }
     if (json[@"positiveBtnText"]) {
         positiveBtnText = [json valueForKey:@"positiveBtnText"];
@@ -1942,8 +1989,7 @@ static NSMutableDictionary *allVariables;
     
     //adds optional parameters to the builder instance
     if (json[@"fallbackToSettings"]) {
-        fallbackToSettings = [json valueForKey:@"fallbackToSettings"];
-        [inAppBuilder setFallbackToSettings:fallbackToSettings];
+        [inAppBuilder setFallbackToSettings:CTBoolFromArgument(json[@"fallbackToSettings"], NO)];
     }
     if (json[@"backgroundColor"]) {
         backgroundColor = [json valueForKey:@"backgroundColor"];
@@ -2021,11 +2067,11 @@ static NSMutableDictionary *allVariables;
 
 - (void)onPushPermissionResponse:(BOOL)accepted {
 
-    NSMutableDictionary *json = [NSMutableDictionary new];
-    json[@"accepted"] = [NSNumber numberWithBool:accepted];
-
-    NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onCleverTapPushPermissionResponseReceived', %@);", json];
-    [self.commandDelegate evalJs:js]; 
+    NSString *jsonString = [self _dictToJson:@{@"accepted": @(accepted)}];
+    if (jsonString != nil) {
+        NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onCleverTapPushPermissionResponseReceived', %@);", jsonString];
+        [self.commandDelegate evalJs:js];
+    }
 }
 
 #pragma mark - Locale methods
@@ -2066,6 +2112,8 @@ static NSMutableDictionary *allVariables;
 - (void)clearFileResources:(CDVInvokedUrlCommand *)command {
     [self.commandDelegate runInBackground:^{
         BOOL expiredOnly = [[command argumentAtIndex:0] boolValue];
+        // In iOS SDK 7.9.0 in-apps, custom templates and variables share one file downloader, and
+        // clearInAppResources: clears that downloader's files, so this covers all three.
         [clevertap clearInAppResources:expiredOnly];
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
@@ -2307,15 +2355,18 @@ static NSMutableDictionary *allVariables;
 
 - (BOOL)isBoolNumber:(NSNumber *)number {
     CFTypeID boolID = CFBooleanGetTypeID();
-    CFTypeID numID = CFGetTypeID(CFBridgingRetain(number));
+    CFTypeID numID = CFGetTypeID((__bridge CFTypeRef)number);
     return (numID == boolID);
 }
 
 - (NSMutableDictionary *)getVariableValues {
     NSMutableDictionary *varValues = [NSMutableDictionary dictionary];
-    [allVariables enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, CTVar*  _Nonnull var, BOOL * _Nonnull stop) {
-        varValues[key] = var.value;
-    }];
+    NSMutableDictionary *variables = CTAllVariables();
+    @synchronized (variables) {
+        [variables enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, CTVar*  _Nonnull var, BOOL * _Nonnull stop) {
+            varValues[key] = var.value;
+        }];
+    }
     return varValues;
 }
 

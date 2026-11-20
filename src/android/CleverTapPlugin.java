@@ -30,8 +30,6 @@ import com.clevertap.android.sdk.variables.Var;
 import com.clevertap.android.sdk.variables.callbacks.VariableCallback;
 import com.clevertap.android.sdk.variables.callbacks.VariablesChangedCallback;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaWebView;
 import org.apache.cordova.CordovaPlugin;
@@ -49,6 +47,8 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.ArrayList;
+import java.util.Locale;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.clevertap.android.sdk.ActivityLifecycleCallback;
 import com.clevertap.android.sdk.CTFeatureFlagsListener;
@@ -79,7 +79,8 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
     private static String CLEVERTAP_API_ERROR;
     private static CleverTapAPI cleverTap;
     private boolean callbackDone = false;
-    public static Map<String, Object> variables = new HashMap<>();
+    // Written and read from Cordova's thread pool, so it must be safe to use from several threads.
+    public static Map<String, Object> variables = new ConcurrentHashMap<>();
 
     @Override
     public void onDestroy() {
@@ -93,6 +94,14 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
         CleverTapEventEmitter.setCordovaWebView(webView);
         cleverTap = CleverTapAPI.getDefaultInstance(cordova.getActivity().getApplicationContext());
+        if (cleverTap == null) {
+            // getDefaultInstance returns null when the account ID or token is missing. Every
+            // action then fails cleanly in execute() instead of the app crashing here.
+            CLEVERTAP_API_ERROR = "CleverTapAPI.getDefaultInstance returned null. Check CLEVERTAP_ACCOUNT_ID and CLEVERTAP_TOKEN.";
+            Log.e(LOG_TAG, CLEVERTAP_API_ERROR);
+            onNewIntent(cordova.getActivity().getIntent());
+            return;
+        }
         cleverTap.setSyncListener(this);
         cleverTap.setInAppNotificationListener(this);
         cleverTap.setCTNotificationInboxListener(this);
@@ -222,6 +231,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             PushType pushType = pushTypeFromJSON(jsonPushType);
             if (pushType == null) {
                 sendPluginResult(callbackContext, Status.ERROR, "Invalid push type");
+                return;
             }
 
             cordova.getThreadPool().execute(() -> {
@@ -465,7 +475,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             String eventName = arguments.getString(0);
             cordova.getThreadPool().execute(() -> {
                 double firstTime = cleverTap.getFirstTime(eventName);
-                sendPluginResult(callbackContext, Status.OK, (float) firstTime);
+                sendPluginResult(callbackContext, Status.OK, firstTime);
             });
         });
     }
@@ -475,7 +485,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             String eventName = arguments.getString(0);
             cordova.getThreadPool().execute(() -> {
                 double lastTime = cleverTap.getLastTime(eventName);
-                sendPluginResult(callbackContext, Status.OK, (float) lastTime);
+                sendPluginResult(callbackContext, Status.OK, lastTime);
             });
         });
     }
@@ -1176,7 +1186,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         executeWithArgs(args, callbackContext, (arguments) -> {
             String key = arguments.getString(0);
             cordova.getThreadPool().execute(() -> {
-                float value = cleverTap.productConfig().getDouble(key).floatValue();
+                Double value = cleverTap.productConfig().getDouble(key);
                 sendPluginResult(callbackContext, Status.OK, value);
             });
         });
@@ -1307,7 +1317,12 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
             cordova.getThreadPool().execute(() -> {
                 for (Map.Entry<String, Object> entry : variablesMap.entrySet()) {
-                    variables.put(entry.getKey(), cleverTap.defineVariable(entry.getKey(), entry.getValue()));
+                    // The SDK returns null for an invalid name or a null default value.
+                    // ConcurrentHashMap rejects null values.
+                    Var<Object> variable = cleverTap.defineVariable(entry.getKey(), entry.getValue());
+                    if (variable != null) {
+                        variables.put(entry.getKey(), variable);
+                    }
                 }
                 sendPluginResult(callbackContext, Status.NO_RESULT);
             });
@@ -1319,7 +1334,10 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             String fileVariable = arguments.getString(0);
 
             cordova.getThreadPool().execute(() -> {
-                variables.put(fileVariable, cleverTap.defineFileVariable(fileVariable));
+                Var<String> variable = cleverTap.defineFileVariable(fileVariable);
+                if (variable != null) {
+                    variables.put(fileVariable, variable);
+                }
                 sendPluginResult(callbackContext, Status.NO_RESULT);
             });
         });
@@ -1352,7 +1370,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             @Override
             public void variablesChanged() {
                 JSONObject jsonVariables = getVariablesAsJson();
-                sendPluginResult(callbackContext, Status.OK,jsonVariables);
+                sendListenerResult(callbackContext, jsonVariables);
             }
         }));
     }
@@ -1379,7 +1397,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                             @Override
                             public void onValueChanged(final Var<Object> variable) {
                                 Object value = getVariableValue(variableName);
-                                sendPluginResult(callbackContext, Status.OK, value);
+                                sendListenerResult(callbackContext, value);
                             }
                         });
                     }
@@ -1402,7 +1420,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                             @Override
                             public void onValueChanged(final Var<Object> variable) {
                                 Object value = getVariableValue(variableName);
-                                sendPluginResult(callbackContext, Status.OK, value);
+                                sendListenerResult(callbackContext, value);
                             }
                         });
                     }
@@ -1418,7 +1436,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             @Override
             public void variablesChanged() {
                 JSONObject jsonVariables = getVariablesAsJson();
-                sendPluginResult(callbackContext, Status.OK, jsonVariables);
+                sendListenerResult(callbackContext, jsonVariables);
             }
         }));
     }
@@ -1950,23 +1968,23 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 customTemplateRunAction(args, callbackContext);
                 return true;
             case CUSTOM_TEMPLATE_GET_STRING_ARG: {
-                executeCustomTemplateGetArg(callbackContext, args, "string");
+                executeCustomTemplateGetArg(callbackContext, args, "String");
                 return true;
             }
             case CUSTOM_TEMPLATE_GET_NUMBER_ARG: {
-                executeCustomTemplateGetArg(callbackContext, args, "number");
+                executeCustomTemplateGetArg(callbackContext, args, "Number");
                 return true;
             }
             case CUSTOM_TEMPLATE_GET_BOOLEAN_ARG: {
-                executeCustomTemplateGetArg(callbackContext, args, "boolean");
+                executeCustomTemplateGetArg(callbackContext, args, "Boolean");
                 return true;
             }
             case CUSTOM_TEMPLATE_GET_FILE_ARG: {
-                executeCustomTemplateGetArg(callbackContext, args, "file");
+                executeCustomTemplateGetArg(callbackContext, args, "File");
                 return true;
             }
             case CUSTOM_TEMPLATE_GET_OBJECT_ARG: {
-                executeCustomTemplateGetArg(callbackContext, args, "object");
+                executeCustomTemplateGetArg(callbackContext, args, "Object");
                 return true;
             }
             case CUSTOM_TEMPLATE_CONTEXT_TO_STRING: {
@@ -2015,14 +2033,12 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             result = new PluginResult(status, (String) null);
         } else if (value instanceof Boolean) {
             result  = new PluginResult(status, (Boolean) value);
-        } else if (value instanceof Double) {
-            result  = new PluginResult(status, ((Double) value).floatValue());
+        } else if (value instanceof Double || value instanceof Long) {
+            result  = new ExactNumberPluginResult(status, (Number) value);
         } else if (value instanceof Float) {
             result  = new PluginResult(status, (Float) value);
         } else if (value instanceof Integer) {
             result  = new PluginResult(status, (Integer) value);
-        } else if (value instanceof Long) {
-            result  = new PluginResult(status, ((Long) value).intValue());
         } else if (value instanceof String) {
             result  = new PluginResult(status, (String) value);
         } else if (value instanceof JSONObject) {
@@ -2419,12 +2435,17 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         return json;
     }
 
+    // The link only reaches JS as a JSON string, so its characters cannot break out of the event
+    // script. What stays dangerous is app code navigating to a link that runs script, so those
+    // schemes are dropped. The WebView's URL parser skips leading spaces and control characters,
+    // and tabs or newlines anywhere ("java\tscript:" still runs), so they are removed first.
     private boolean isDeepLinkValid(Uri data) {
-        String link = Uri.decode(data.toString());
-        String patternString = "[{}\\[\\]()\"';]|javascript";
-        Pattern pattern = Pattern.compile(patternString);
-        Matcher matcher = pattern.matcher(link);
-        return !matcher.find();
+        String scheme = data.getScheme();
+        if (scheme == null) {
+            return true;
+        }
+        scheme = scheme.replaceAll("[\\x00-\\x20]", "").toLowerCase(Locale.ROOT);
+        return !scheme.equals("javascript") && !scheme.equals("vbscript") && !scheme.equals("data");
     }
 
     private JSONObject processPushPrimerArgument(JSONObject jsonObject) {
@@ -2613,14 +2634,22 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         }
     }
 
+    // One result per call. Without keepCallback, cordova.js frees the JS callback once the result
+    // arrives. A NO_RESULT that keeps its callback is never sent to JS at all, so the callback
+    // would never be freed.
     private void sendPluginResult(CallbackContext callbackContext, PluginResult.Status status) {
         PluginResult pluginResult = new PluginResult(status);
-        pluginResult.setKeepCallback(true);
         callbackContext.sendPluginResult(pluginResult);
     }
 
     private void sendPluginResult(CallbackContext callbackContext, PluginResult.Status status, Object result) {
         PluginResult pluginResult = getPluginResult(status, result);
+        callbackContext.sendPluginResult(pluginResult);
+    }
+
+    // For listeners that fire every time something changes, so JS must keep the callback.
+    private void sendListenerResult(CallbackContext callbackContext, Object result) {
+        PluginResult pluginResult = getPluginResult(Status.OK, result);
         pluginResult.setKeepCallback(true);
         callbackContext.sendPluginResult(pluginResult);
     }
@@ -2628,5 +2657,30 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
     @FunctionalInterface
     private interface TemplateContextAction {
         Object execute(CustomTemplateContext context);
+    }
+
+    /**
+     * Cordova's PluginResult only has int and float number constructors, so a long or a double
+     * sent through them loses digits (a millisecond timestamp wraps around, an epoch in seconds
+     * moves by up to a minute). This result still reports itself as a number, but hands the bridge
+     * the exact decimal text, which the JS side parses into a full double.
+     */
+    static final class ExactNumberPluginResult extends PluginResult {
+        private final String number;
+
+        ExactNumberPluginResult(Status status, Number value) {
+            super(status, (String) null);
+            this.number = value.toString();
+        }
+
+        @Override
+        public int getMessageType() {
+            return MESSAGE_TYPE_NUMBER;
+        }
+
+        @Override
+        public String getMessage() {
+            return number;
+        }
     }
 }

@@ -87,7 +87,7 @@
 
 		<config-file target="AndroidManifest.xml" parent="/manifest/application">
             <service
-                android:exported="true"
+                android:exported="false"
                 android:name="com.clevertap.android.sdk.pushnotification.fcm.FcmMessageListenerService">
                 <intent-filter>
                     <action android:name="com.google.firebase.MESSAGING_EVENT"/>
@@ -113,7 +113,6 @@
             </receiver>
 		</config-file>
 
-        <source-file src="src/android/google-services.json" target-dir="." />
         <source-file src="src/android/CleverTapPlugin.java" target-dir="src/com/clevertap/cordova/" />
         <source-file src="src/android/CleverTapEventEmitter.java" target-dir="src/com/clevertap/cordova/" />
         <source-file src="src/android/CleverTapCustomTemplates.java" target-dir="src/com/clevertap/cordova/" />

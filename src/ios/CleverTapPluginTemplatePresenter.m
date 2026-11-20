@@ -11,7 +11,7 @@
 }
 
 - (void)onCloseClicked:(nonnull CTTemplateContext *)context {
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CTSendEvent  object:@"CleverTapCustomTemplateClose" userInfo:@{@"result": context.templateName}]];
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CTSendEvent  object:@"CleverTapCustomTemplateClose" userInfo:@{@"result": @{@"name": context.templateName}}]];
 }
 
 @end
