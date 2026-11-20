@@ -1353,7 +1353,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             @Override
             public void variablesChanged() {
                 JSONObject jsonVariables = getVariablesAsJson();
-                sendPluginResult(callbackContext, Status.OK,jsonVariables);
+                sendListenerResult(callbackContext, jsonVariables);
             }
         }));
     }
@@ -1380,7 +1380,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                             @Override
                             public void onValueChanged(final Var<Object> variable) {
                                 Object value = getVariableValue(variableName);
-                                sendPluginResult(callbackContext, Status.OK, value);
+                                sendListenerResult(callbackContext, value);
                             }
                         });
                     }
@@ -1403,7 +1403,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                             @Override
                             public void onValueChanged(final Var<Object> variable) {
                                 Object value = getVariableValue(variableName);
-                                sendPluginResult(callbackContext, Status.OK, value);
+                                sendListenerResult(callbackContext, value);
                             }
                         });
                     }
@@ -1419,7 +1419,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             @Override
             public void variablesChanged() {
                 JSONObject jsonVariables = getVariablesAsJson();
-                sendPluginResult(callbackContext, Status.OK, jsonVariables);
+                sendListenerResult(callbackContext, jsonVariables);
             }
         }));
     }
@@ -2612,14 +2612,22 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         }
     }
 
+    // One result per call. Without keepCallback, cordova.js frees the JS callback once the result
+    // arrives. A NO_RESULT that keeps its callback is never sent to JS at all, so the callback
+    // would never be freed.
     private void sendPluginResult(CallbackContext callbackContext, PluginResult.Status status) {
         PluginResult pluginResult = new PluginResult(status);
-        pluginResult.setKeepCallback(true);
         callbackContext.sendPluginResult(pluginResult);
     }
 
     private void sendPluginResult(CallbackContext callbackContext, PluginResult.Status status, Object result) {
         PluginResult pluginResult = getPluginResult(status, result);
+        callbackContext.sendPluginResult(pluginResult);
+    }
+
+    // For listeners that fire every time something changes, so JS must keep the callback.
+    private void sendListenerResult(CallbackContext callbackContext, Object result) {
+        PluginResult pluginResult = getPluginResult(Status.OK, result);
         pluginResult.setKeepCallback(true);
         callbackContext.sendPluginResult(pluginResult);
     }
