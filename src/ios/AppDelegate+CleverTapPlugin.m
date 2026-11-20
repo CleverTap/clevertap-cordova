@@ -43,8 +43,14 @@
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
-    
+
     [[NSNotificationCenter defaultCenter] postNotificationName:CTDidReceiveNotification object:userInfo];
+
+    // Observers run synchronously, so the payload has been handled by now. iOS expects this
+    // handler to be called for every background push; nothing is downloaded here.
+    if (completionHandler) {
+        completionHandler(UIBackgroundFetchResultNoData);
+    }
 }
 
 #if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
