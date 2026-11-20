@@ -1874,8 +1874,10 @@ static NSMutableDictionary *allVariables;
             CTVar *var = allVariables[name];
             if (var) {
                 [var onFileIsReady:^{
+                    // The SDK also calls this when the server override is removed and the value
+                    // goes back to nil. A nil value in a dictionary literal throws and crashes the app.
                     NSDictionary *varFileResult = @{
-                        var.name: var.value
+                        var.name: var.value ?: [NSNull null]
                     };
                     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:varFileResult];
                     [pluginResult setKeepCallbackAsBool:YES];
