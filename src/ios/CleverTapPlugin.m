@@ -1811,6 +1811,8 @@ static NSMutableDictionary *allVariables;
             [clevertap onVariablesChanged:^{
                 NSMutableDictionary *varValues = [self getVariableValues];
                 CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:varValues];
+                // Fires on every fetch, so JS must keep the callback after the first result.
+                [pluginResult setKeepCallbackAsBool:YES];
                 [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
             }];
         }];
@@ -1833,6 +1835,7 @@ static NSMutableDictionary *allVariables;
         [clevertap onVariablesChangedAndNoDownloadsPending:^{
             NSMutableDictionary *varValues = [self getVariableValues];
             CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:varValues];
+            [pluginResult setKeepCallbackAsBool:YES];
             [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
         }];
     }];
@@ -1857,6 +1860,7 @@ static NSMutableDictionary *allVariables;
             if (var) {
                 [var onValueChanged:^{
                     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:var.value];
+                    [pluginResult setKeepCallbackAsBool:YES];
                     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
                 }];
             }
@@ -1874,6 +1878,7 @@ static NSMutableDictionary *allVariables;
                         var.name: var.value
                     };
                     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:varFileResult];
+                    [pluginResult setKeepCallbackAsBool:YES];
                     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
                 }];
             }
