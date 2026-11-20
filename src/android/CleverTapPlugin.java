@@ -30,8 +30,6 @@ import com.clevertap.android.sdk.variables.Var;
 import com.clevertap.android.sdk.variables.callbacks.VariableCallback;
 import com.clevertap.android.sdk.variables.callbacks.VariablesChangedCallback;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaWebView;
 import org.apache.cordova.CordovaPlugin;
@@ -49,6 +47,7 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import com.clevertap.android.sdk.ActivityLifecycleCallback;
 import com.clevertap.android.sdk.CTFeatureFlagsListener;
@@ -2426,12 +2425,17 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         return json;
     }
 
+    // The link only reaches JS as a JSON string, so its characters cannot break out of the event
+    // script. What stays dangerous is app code navigating to a link that runs script, so those
+    // schemes are dropped. The WebView's URL parser skips leading spaces and control characters,
+    // and tabs or newlines anywhere ("java\tscript:" still runs), so they are removed first.
     private boolean isDeepLinkValid(Uri data) {
-        String link = Uri.decode(data.toString());
-        String patternString = "[{}\\[\\]()\"';]|javascript";
-        Pattern pattern = Pattern.compile(patternString);
-        Matcher matcher = pattern.matcher(link);
-        return !matcher.find();
+        String scheme = data.getScheme();
+        if (scheme == null) {
+            return true;
+        }
+        scheme = scheme.replaceAll("[\\x00-\\x20]", "").toLowerCase(Locale.ROOT);
+        return !scheme.equals("javascript") && !scheme.equals("vbscript") && !scheme.equals("data");
     }
 
     private JSONObject processPushPrimerArgument(JSONObject jsonObject) {
