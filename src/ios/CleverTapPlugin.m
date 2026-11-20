@@ -1456,9 +1456,11 @@ static NSMutableDictionary *allVariables;
     }
     jsonObject[@"contentPageIndex"] = @(index);
     jsonObject[@"buttonIndex"] = @(buttonIndex);
-    
-    if (jsonObject != nil) {
-        NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onCleverTapInboxItemClick', %@);", jsonObject];
+
+    // %@ on a dictionary prints its plist-style description, which is not valid JS.
+    NSString *jsonString = [self _dictToJson:jsonObject];
+    if (jsonString != nil) {
+        NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onCleverTapInboxItemClick', %@);", jsonString];
         [self.commandDelegate evalJs:js];
     }
 }
