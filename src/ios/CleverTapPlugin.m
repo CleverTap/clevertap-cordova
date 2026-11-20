@@ -363,6 +363,10 @@ static BOOL CTBoolFromArgument(id value, BOOL fallback) {
                 
                 if(!dateFormatter) {
                     dateFormatter = [[NSDateFormatter alloc] init];
+                    // A fixed format must not follow the device's calendar. On a device set to the
+                    // Buddhist calendar, "1990-01-01" would otherwise be read as Buddhist year 1990.
+                    [dateFormatter setLocale:[NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"]];
+                    [dateFormatter setCalendar:[[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian]];
                     [dateFormatter setDateFormat:@"yyyy-MM-dd"];
                 }
                 
