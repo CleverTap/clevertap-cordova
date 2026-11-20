@@ -465,7 +465,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             String eventName = arguments.getString(0);
             cordova.getThreadPool().execute(() -> {
                 double firstTime = cleverTap.getFirstTime(eventName);
-                sendPluginResult(callbackContext, Status.OK, (float) firstTime);
+                sendPluginResult(callbackContext, Status.OK, firstTime);
             });
         });
     }
@@ -475,7 +475,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             String eventName = arguments.getString(0);
             cordova.getThreadPool().execute(() -> {
                 double lastTime = cleverTap.getLastTime(eventName);
-                sendPluginResult(callbackContext, Status.OK, (float) lastTime);
+                sendPluginResult(callbackContext, Status.OK, lastTime);
             });
         });
     }
@@ -1176,7 +1176,7 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
         executeWithArgs(args, callbackContext, (arguments) -> {
             String key = arguments.getString(0);
             cordova.getThreadPool().execute(() -> {
-                float value = cleverTap.productConfig().getDouble(key).floatValue();
+                Double value = cleverTap.productConfig().getDouble(key);
                 sendPluginResult(callbackContext, Status.OK, value);
             });
         });
@@ -2015,14 +2015,12 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             result = new PluginResult(status, (String) null);
         } else if (value instanceof Boolean) {
             result  = new PluginResult(status, (Boolean) value);
-        } else if (value instanceof Double) {
-            result  = new PluginResult(status, ((Double) value).floatValue());
+        } else if (value instanceof Double || value instanceof Long) {
+            result  = new ExactNumberPluginResult(status, (Number) value);
         } else if (value instanceof Float) {
             result  = new PluginResult(status, (Float) value);
         } else if (value instanceof Integer) {
             result  = new PluginResult(status, (Integer) value);
-        } else if (value instanceof Long) {
-            result  = new PluginResult(status, ((Long) value).intValue());
         } else if (value instanceof String) {
             result  = new PluginResult(status, (String) value);
         } else if (value instanceof JSONObject) {
@@ -2628,5 +2626,30 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
     @FunctionalInterface
     private interface TemplateContextAction {
         Object execute(CustomTemplateContext context);
+    }
+
+    /**
+     * Cordova's PluginResult only has int and float number constructors, so a long or a double
+     * sent through them loses digits (a millisecond timestamp wraps around, an epoch in seconds
+     * moves by up to a minute). This result still reports itself as a number, but hands the bridge
+     * the exact decimal text, which the JS side parses into a full double.
+     */
+    static final class ExactNumberPluginResult extends PluginResult {
+        private final String number;
+
+        ExactNumberPluginResult(Status status, Number value) {
+            super(status, (String) null);
+            this.number = value.toString();
+        }
+
+        @Override
+        public int getMessageType() {
+            return MESSAGE_TYPE_NUMBER;
+        }
+
+        @Override
+        public String getMessage() {
+            return number;
+        }
     }
 }
