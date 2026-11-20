@@ -63,7 +63,7 @@ static NSDictionary *pendingTappedExtras;
 static NSDateFormatter *dateFormatter;
 static NSMutableDictionary *allVariables;
 
-@interface CleverTapPlugin () <CleverTapSyncDelegate, CleverTapInAppNotificationDelegate, CleverTapDisplayUnitDelegate, CleverTapFeatureFlagsDelegate, CleverTapProductConfigDelegate, CleverTapPushNotificationDelegate> {
+@interface CleverTapPlugin () <CleverTapSyncDelegate, CleverTapInAppNotificationDelegate, CleverTapDisplayUnitDelegate, CleverTapFeatureFlagsDelegate, CleverTapProductConfigDelegate, CleverTapPushNotificationDelegate, CleverTapPushPermissionDelegate> {
 }
 
 - (void)firePushNotificationTappedWithCustomExtras:(NSDictionary *)customExtras;
@@ -250,6 +250,7 @@ static NSMutableDictionary *allVariables;
     [[clevertap productConfig] setDelegate:self];
     [clevertap setPushNotificationDelegate:self];
     [clevertap setInAppNotificationDelegate:self];
+    [clevertap setPushPermissionDelegate:self];
     [self setLibrary];
 
     // A tap that launched the app was stashed before the SDK was ready. Now that it
@@ -2023,11 +2024,11 @@ static NSMutableDictionary *allVariables;
 
 - (void)onPushPermissionResponse:(BOOL)accepted {
 
-    NSMutableDictionary *json = [NSMutableDictionary new];
-    json[@"accepted"] = [NSNumber numberWithBool:accepted];
-
-    NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onCleverTapPushPermissionResponseReceived', %@);", json];
-    [self.commandDelegate evalJs:js]; 
+    NSString *jsonString = [self _dictToJson:@{@"accepted": @(accepted)}];
+    if (jsonString != nil) {
+        NSString *js = [NSString stringWithFormat:@"cordova.fireDocumentEvent('onCleverTapPushPermissionResponseReceived', %@);", jsonString];
+        [self.commandDelegate evalJs:js];
+    }
 }
 
 #pragma mark - Locale methods
