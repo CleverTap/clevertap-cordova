@@ -63,6 +63,30 @@ static NSDictionary *pendingTappedExtras;
 static NSDateFormatter *dateFormatter;
 static NSMutableDictionary *allVariables;
 
+// allVariables is read and written from runInBackground blocks, which run on a concurrent
+// queue, so every access goes through these and is synchronized on the dictionary.
+static NSMutableDictionary *CTAllVariables(void) {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        allVariables = [NSMutableDictionary new];
+    });
+    return allVariables;
+}
+
+static CTVar *CTVariableNamed(NSString *name) {
+    NSMutableDictionary *variables = CTAllVariables();
+    @synchronized (variables) {
+        return name ? variables[name] : nil;
+    }
+}
+
+static void CTStoreVariable(NSString *name, CTVar *var) {
+    NSMutableDictionary *variables = CTAllVariables();
+    @synchronized (variables) {
+        variables[name] = var;
+    }
+}
+
 // JSON booleans arrive as NSNumber objects. Assigning the object itself to a BOOL turns any
 // non-nil value, @NO included, into YES, so read it with boolValue. NSNull and other types
 // fall back to the given default.
@@ -1787,9 +1811,6 @@ static BOOL CTBoolFromArgument(id value, BOOL fallback) {
     
     [self.commandDelegate runInBackground:^{
         NSDictionary *variables = [command argumentAtIndex:0];
-        if (!allVariables){
-            allVariables = [NSMutableDictionary new];
-        }
 
         if(variables == nil){
             return;
@@ -1798,7 +1819,7 @@ static BOOL CTBoolFromArgument(id value, BOOL fallback) {
             CTVar *var = [self createVarForName:key andValue:value];
 
             if (var) {
-                allVariables[key] = var;
+                CTStoreVariable(key, var);
             }
         }];
     }];
@@ -1808,7 +1829,7 @@ static BOOL CTBoolFromArgument(id value, BOOL fallback) {
     
     [self.commandDelegate runInBackground:^{
         NSString *name = [command argumentAtIndex:0];
-        CTVar *var = allVariables[name];
+        CTVar *var = CTVariableNamed(name);
 
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:var.value];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
@@ -1876,7 +1897,7 @@ static BOOL CTBoolFromArgument(id value, BOOL fallback) {
     
         [self.commandDelegate runInBackground:^{
             NSString *name = [command argumentAtIndex:0];
-            CTVar *var = allVariables[name];
+            CTVar *var = CTVariableNamed(name);
             if (var) {
                 [var onValueChanged:^{
                     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:var.value];
@@ -1891,7 +1912,7 @@ static BOOL CTBoolFromArgument(id value, BOOL fallback) {
     
         [self.commandDelegate runInBackground:^{
             NSString *name = [command argumentAtIndex:0];
-            CTVar *var = allVariables[name];
+            CTVar *var = CTVariableNamed(name);
             if (var) {
                 [var onFileIsReady:^{
                     // The SDK also calls this when the server override is removed and the value
@@ -1911,16 +1932,13 @@ static BOOL CTBoolFromArgument(id value, BOOL fallback) {
     
     [self.commandDelegate runInBackground:^{
         NSString *fileVariable = [command argumentAtIndex:0];
-        if (!allVariables){
-            allVariables = [NSMutableDictionary new];
-        }
 
         if(fileVariable == nil){
             return;
         }
         CTVar *fileVar = [clevertap defineFileVar:fileVariable];
         if (fileVar) {
-            allVariables[fileVariable] = fileVar;
+            CTStoreVariable(fileVariable, fileVar);
         }
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
@@ -2340,9 +2358,12 @@ static BOOL CTBoolFromArgument(id value, BOOL fallback) {
 
 - (NSMutableDictionary *)getVariableValues {
     NSMutableDictionary *varValues = [NSMutableDictionary dictionary];
-    [allVariables enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, CTVar*  _Nonnull var, BOOL * _Nonnull stop) {
-        varValues[key] = var.value;
-    }];
+    NSMutableDictionary *variables = CTAllVariables();
+    @synchronized (variables) {
+        [variables enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, CTVar*  _Nonnull var, BOOL * _Nonnull stop) {
+            varValues[key] = var.value;
+        }];
+    }
     return varValues;
 }
 

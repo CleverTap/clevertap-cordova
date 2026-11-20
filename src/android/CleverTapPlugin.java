@@ -48,6 +48,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.clevertap.android.sdk.ActivityLifecycleCallback;
 import com.clevertap.android.sdk.CTFeatureFlagsListener;
@@ -78,7 +79,8 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
     private static String CLEVERTAP_API_ERROR;
     private static CleverTapAPI cleverTap;
     private boolean callbackDone = false;
-    public static Map<String, Object> variables = new HashMap<>();
+    // Written and read from Cordova's thread pool, so it must be safe to use from several threads.
+    public static Map<String, Object> variables = new ConcurrentHashMap<>();
 
     @Override
     public void onDestroy() {
@@ -1315,7 +1317,12 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
 
             cordova.getThreadPool().execute(() -> {
                 for (Map.Entry<String, Object> entry : variablesMap.entrySet()) {
-                    variables.put(entry.getKey(), cleverTap.defineVariable(entry.getKey(), entry.getValue()));
+                    // The SDK returns null for an invalid name or a null default value.
+                    // ConcurrentHashMap rejects null values.
+                    Var<Object> variable = cleverTap.defineVariable(entry.getKey(), entry.getValue());
+                    if (variable != null) {
+                        variables.put(entry.getKey(), variable);
+                    }
                 }
                 sendPluginResult(callbackContext, Status.NO_RESULT);
             });
@@ -1327,7 +1334,10 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
             String fileVariable = arguments.getString(0);
 
             cordova.getThreadPool().execute(() -> {
-                variables.put(fileVariable, cleverTap.defineFileVariable(fileVariable));
+                Var<String> variable = cleverTap.defineFileVariable(fileVariable);
+                if (variable != null) {
+                    variables.put(fileVariable, variable);
+                }
                 sendPluginResult(callbackContext, Status.NO_RESULT);
             });
         });
