@@ -17,12 +17,14 @@
 
 - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken {
     
-    const unsigned *tokenBytes = [deviceToken bytes];
-    NSString *token = [NSString stringWithFormat:@"%08x%08x%08x%08x%08x%08x%08x%08x",
-                       ntohl(tokenBytes[0]), ntohl(tokenBytes[1]), ntohl(tokenBytes[2]),
-                       ntohl(tokenBytes[3]), ntohl(tokenBytes[4]), ntohl(tokenBytes[5]),
-                       ntohl(tokenBytes[6]), ntohl(tokenBytes[7])];
-    NSString *deviceTokenString = [NSString stringWithFormat:@"%@", token];
+    // Encode however many bytes the token has. Reading a fixed eight 32-bit words overreads a
+    // shorter token and cuts off a longer one.
+    const unsigned char *tokenBytes = [deviceToken bytes];
+    NSMutableString *token = [NSMutableString stringWithCapacity:deviceToken.length * 2];
+    for (NSUInteger i = 0; i < deviceToken.length; i++) {
+        [token appendFormat:@"%02x", tokenBytes[i]];
+    }
+    NSString *deviceTokenString = [token copy];
     [[NSNotificationCenter defaultCenter] postNotificationName:CTRemoteNotificationDidRegister object:deviceTokenString];
 }
 
