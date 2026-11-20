@@ -2111,6 +2111,8 @@ static BOOL CTBoolFromArgument(id value, BOOL fallback) {
 - (void)clearFileResources:(CDVInvokedUrlCommand *)command {
     [self.commandDelegate runInBackground:^{
         BOOL expiredOnly = [[command argumentAtIndex:0] boolValue];
+        // In iOS SDK 7.9.0 in-apps, custom templates and variables share one file downloader, and
+        // clearInAppResources: clears that downloader's files, so this covers all three.
         [clevertap clearInAppResources:expiredOnly];
         CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
