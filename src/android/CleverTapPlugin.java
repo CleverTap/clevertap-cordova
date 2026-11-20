@@ -1950,23 +1950,23 @@ public class CleverTapPlugin extends CordovaPlugin implements SyncListener, InAp
                 customTemplateRunAction(args, callbackContext);
                 return true;
             case CUSTOM_TEMPLATE_GET_STRING_ARG: {
-                executeCustomTemplateGetArg(callbackContext, args, "string");
+                executeCustomTemplateGetArg(callbackContext, args, "String");
                 return true;
             }
             case CUSTOM_TEMPLATE_GET_NUMBER_ARG: {
-                executeCustomTemplateGetArg(callbackContext, args, "number");
+                executeCustomTemplateGetArg(callbackContext, args, "Number");
                 return true;
             }
             case CUSTOM_TEMPLATE_GET_BOOLEAN_ARG: {
-                executeCustomTemplateGetArg(callbackContext, args, "boolean");
+                executeCustomTemplateGetArg(callbackContext, args, "Boolean");
                 return true;
             }
             case CUSTOM_TEMPLATE_GET_FILE_ARG: {
-                executeCustomTemplateGetArg(callbackContext, args, "file");
+                executeCustomTemplateGetArg(callbackContext, args, "File");
                 return true;
             }
             case CUSTOM_TEMPLATE_GET_OBJECT_ARG: {
-                executeCustomTemplateGetArg(callbackContext, args, "object");
+                executeCustomTemplateGetArg(callbackContext, args, "Object");
                 return true;
             }
             case CUSTOM_TEMPLATE_CONTEXT_TO_STRING: {
