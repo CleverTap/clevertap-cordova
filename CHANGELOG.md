@@ -18,6 +18,12 @@ Version 5.3.0 *(November 19 2026)*
     * Fixes `customTemplateGetStringArg()`, `customTemplateGetNumberArg()`, `customTemplateGetBooleanArg()`, `customTemplateGetFileArg()` and `customTemplateGetObjectArg()` always rejecting with "Argument not found".
     * Fixes numbers that do not fit in an int or a float losing digits on the way to JS. `getLastFetchTimeStampInMillis()` and `getLong()` returned wrapped values, `eventGetFirstTime()`, `eventGetLastTime()` and `getUserLastVisitTs()` could be off by up to a minute, and `getDouble()`, `getVariable()` and `customTemplateGetNumberArg()` lost decimal places.
     * Fixes the plugin install hook adding a second `android:name` to `AndroidManifest.xml` when the app already has its own `Application` class, which broke the build. The hook now leaves that class in place and prints what to do instead.
+    * The CleverTap FCM service (`FcmMessageListenerService`) is no longer exported, so other apps cannot start it. Firebase hands pushes to it from inside the app, so push delivery is unchanged.
+    * Fixes `registerPushToken()` still passing an unknown push type to the SDK after reporting it as invalid.
+    * Fixes the JS callbacks of one-time calls, such as getters, never being released, so memory grew in apps that call them often.
+    * Fixes an app crash on start when the CleverTap account ID or token is missing. Plugin calls now fail with "CleverTap API not initialized" instead.
+    * Fixes valid deep links that contain quotes, brackets, braces, parentheses or semicolons never reaching `onDeepLink`. Links with a `javascript:`, `vbscript:` or `data:` scheme are now dropped whatever their letter case.
+    * The plugin no longer installs an empty `google-services.json` into `app/src/main`. Installing failed with "already exists" when the app had its own file there, and uninstalling deleted it.
 
 * **[iOS Platform]**
     * Fixes `suspendInAppNotifications()`, `resumeInAppNotifications()` and `reset()` having no effect. The calls never reached the CleverTap iOS SDK on Cordova or Capacitor apps, so In-Apps were not suspended, a `discardInAppNotifications()` call could not be lifted until the app was restarted, and product config was not reset.
@@ -27,6 +33,15 @@ Version 5.3.0 *(November 19 2026)*
     * Fixes an app crash when an `onFileValueChanged()` callback is registered and the file variable has no value, for example when its override is removed on the dashboard.
     * Fixes `getFeatureFlag(name, false)` returning `true` for a missing flag, and `promptPushPrimer()` treating `followDeviceOrientation: false` and `fallbackToSettings: false` as `true`.
     * Fixes background (silent) push notifications never telling iOS they were handled.
+    * Fixes `profileSet()` and `onUserLogin()` saving the wrong year for a `DOB` given as a `yyyy-MM-dd` string when the device uses a non-Gregorian calendar, such as Buddhist.
+    * Fixes an app crash when a notification arrives with no payload, or with values that cannot be turned into JSON, such as a date in a local notification's `userInfo`.
+    * Fixes the push token being cut off, or read past its end, when the APNs device token is not exactly 32 bytes long.
+    * Fixes `profileGetProperty()` returning wrong values for whole numbers above 2147483647, for example ones synced from the server.
+    * Fixes a small memory leak each time a number variable is defined.
+
+* **[Android and iOS Platform]**
+    * Fixes a possible crash when variables are defined while `getVariables()` or a variables callback is reading them.
+    * Fixes `profileSet()`, `onUserLogin()`, `recordEventWithNameAndProps()` and `recordChargedEventWithDetailsAndItems()` replacing the `Date` values in the app's own objects with `$D_` strings.
 
 Version 5.2.0 *(November 2 2026)*
 -------------------------------------------
