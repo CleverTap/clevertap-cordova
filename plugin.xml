@@ -113,7 +113,6 @@
             </receiver>
 		</config-file>
 
-        <source-file src="src/android/google-services.json" target-dir="." />
         <source-file src="src/android/CleverTapPlugin.java" target-dir="src/com/clevertap/cordova/" />
         <source-file src="src/android/CleverTapEventEmitter.java" target-dir="src/com/clevertap/cordova/" />
         <source-file src="src/android/CleverTapCustomTemplates.java" target-dir="src/com/clevertap/cordova/" />
